@@ -119,6 +119,11 @@
   --c-text-faint: #6B665B;   /* 5,2:1 sobre bg · 4,6:1 sobre surface-2 */
   --c-accent:     #1E3350;   /* tinta azul · 11:1 sobre bg */
   --c-accent-ink: #FAF8F4;
+  /* Segundo acento, cálido: rótulos de categoría, numerales y años. La tinta
+     azul sigue siendo la de los enlaces y los botones; este no compite, da
+     temperatura. */
+  --c-accent-warm:      #9A4526;   /* 6,1:1 sobre bg */
+  --c-accent-warm-soft: #F2E7DE;
   --c-border:        #E3DDD1;
   --c-border-strong: #CBC3B3;
 

@@ -73,6 +73,7 @@ get_template_part( 'parts/evento/hero' );
 <?php /* Lo que creemos. El párrafo es el primero del documento, verbatim: no se
 	   escribe un resumen ni una bajada propia (regla 7 de CLAUDE.md). */ ?>
 <?php if ( ! empty( $asp_af['introduccion'] ) ) : ?>
+	<div class="asp-banda">
 	<section class="asp-container asp-editorial asp-section--rule" aria-labelledby="home-creemos">
 		<div class="asp-editorial__cab">
 			<h2 id="home-creemos" class="asp-label"><?php esc_html_e( 'Lo que creemos', 'asp' ); ?></h2>
@@ -87,6 +88,7 @@ get_template_part( 'parts/evento/hero' );
 			<p class="asp-prose"><?php echo esc_html( $asp_af['introduccion'][0] ); ?></p>
 		</div>
 	</section>
+	</div>
 <?php endif; ?>
 
 <?php if ( ! empty( $asp_iniciativas ) ) : ?>
@@ -173,6 +175,7 @@ get_template_part( 'parts/evento/hero' );
 	   sección es solo el enlace al formulario, que sí existe. No inventar
 	   acá qué se le ofrece a una iglesia que quiere sumarse. */ ?>
 <?php if ( $asp_contacto || $asp_sumarse ) : ?>
+	<div class="asp-banda">
 	<section class="asp-container asp-editorial asp-section--rule" aria-labelledby="home-sumarse">
 		<h2 id="home-sumarse" class="asp-label"><?php esc_html_e( 'Sumarse', 'asp' ); ?></h2>
 		<div class="asp-editorial__cuerpo">
@@ -184,6 +187,7 @@ get_template_part( 'parts/evento/hero' );
 			<?php endif; ?>
 		</div>
 	</section>
+	</div>
 <?php endif; ?>
 <?php
 get_footer();

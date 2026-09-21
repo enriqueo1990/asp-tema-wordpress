@@ -31,6 +31,18 @@
   background: var(--c-surface-2);
 }
 
+/* Banda a sangre: envuelve una sección para darle fondo propio y cortar el
+   hueso continuo. El contenedor sigue adentro, así que no hay truco de 100vw
+   ni riesgo de scroll horizontal. */
+.asp-banda {
+  background: var(--c-surface);
+  border-block: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-banda > .asp-section--rule {
+  border-top: 0;
+}
+
 .asp-section__inner {
   display: flex;
   flex-direction: column;

@@ -46,10 +46,10 @@
   display: inline-block;
   font-family: var(--font-ui);
   font-size: var(--fs-xs);
-  font-weight: var(--fw-medium);
+  font-weight: var(--fw-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--c-text-muted);
+  color: var(--c-accent-warm);
   line-height: 1.4;
 }
 
@@ -413,6 +413,7 @@
   font-family: var(--font-numeral);
   font-size: var(--fs-lg);
   font-weight: var(--fw-semibold);
+  color: var(--c-accent-warm);
   line-height: 1;
 }
 
@@ -1807,7 +1808,7 @@
   font-family: var(--font-numeral);
   font-size: var(--fs-xl);
   font-weight: var(--fw-regular);
-  color: var(--c-text-faint);
+  color: var(--c-accent-warm);
   line-height: 1;
 }
 
