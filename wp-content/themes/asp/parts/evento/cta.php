@@ -1,8 +1,9 @@
 <?php
 /**
- * Botón según estado. Args: post_id, con_plataforma (bool), bloque (bool).
+ * Acción según estado. Args: post_id, con_plataforma (bool), bloque (bool).
  * - abierta con URL: botón activo y nota "Se abre en Eventbrite".
- * - cerrada / agotado: botón apagado con el motivo.
+ * - cerrada / agotado: una línea con el motivo. Sin botón: no hay nada que
+ *   tocar, y el badge del evento ya dice el estado.
  * - reserva / en_curso / realizado: nada; el badge ocupa ese lugar.
  *
  * @package asp
@@ -15,6 +16,7 @@ $asp_estado   = asp_evento_estado( $asp_id );
 $asp_bloque   = ! empty( $args['bloque'] );
 $asp_con_plat = ! empty( $args['con_plataforma'] );
 $asp_clase    = 'asp-btn' . ( $asp_bloque ? ' asp-btn--block' : '' );
+$asp_motivo   = asp_evento_motivo( $asp_estado );
 
 if ( asp_evento_tiene_boton( $asp_id ) ) :
 	$asp_url  = asp_evento_url_registro( $asp_id );
@@ -29,9 +31,6 @@ if ( asp_evento_tiene_boton( $asp_id ) ) :
 			?></span>
 		<?php endif; ?>
 	</div>
-<?php elseif ( in_array( $asp_estado, [ 'cerrada', 'agotado' ], true ) ) : ?>
-	<div class="asp-stack asp-stack--2">
-		<div class="<?php echo esc_attr( $asp_clase ); ?> asp-btn--apagado" aria-disabled="true"><?php echo esc_html( asp_evento_estado_etiqueta( 'cerrada' ) ); ?></div>
-		<span class="asp-cta__motivo"><?php echo esc_html( asp_evento_motivo( $asp_estado ) ); ?></span>
-	</div>
+<?php elseif ( '' !== $asp_motivo ) : ?>
+	<p class="asp-cta__cerrado"><?php echo esc_html( $asp_motivo ); ?></p>
 <?php endif;

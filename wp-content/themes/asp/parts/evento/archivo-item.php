@@ -26,5 +26,8 @@ $asp_extra    = array_filter(
 		<?php endif; ?>
 	</span>
 	<?php get_template_part( 'parts/evento/lugar', null, [ 'post_id' => $asp_id ] ); ?>
-	<?php get_template_part( 'parts/evento/badge', null, [ 'post_id' => $asp_id ] ); ?>
+	<?php /* En el archivo todo está realizado y el badge sería ruido; en la búsqueda, donde puede aparecer un evento próximo, el estado sí importa. */ ?>
+	<?php if ( 'realizado' !== asp_evento_estado( $asp_id ) ) : ?>
+		<?php get_template_part( 'parts/evento/badge', null, [ 'post_id' => $asp_id ] ); ?>
+	<?php endif; ?>
 </a>

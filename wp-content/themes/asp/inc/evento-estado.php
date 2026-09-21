@@ -53,7 +53,7 @@ function asp_evento_estado_etiqueta( string $estado ): string {
 }
 
 /**
- * Motivo que acompaña al botón apagado.
+ * Motivo que acompaña al estado cerrado o agotado.
  *
  * @param string $estado Estado efectivo.
  * @return string

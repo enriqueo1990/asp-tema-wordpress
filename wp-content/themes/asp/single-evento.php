@@ -64,14 +64,14 @@ while ( have_posts() ) :
 					<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id, 'variante' => 'xl' ] ); ?>
 					<?php get_template_part( 'parts/evento/lugar', null, [ 'post_id' => $asp_id ] ); ?>
 				<?php endif; ?>
-				<?php if ( $asp_sede ) : ?>
-					<div class="asp-bloque"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id ] ); ?></div>
-				<?php endif; ?>
 				<?php if ( $asp_hay_cta ) : ?>
 					<div class="asp-bloque"><?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_id, 'con_plataforma' => true, 'bloque' => true ] ); ?></div>
 				<?php endif; ?>
 				<?php if ( $asp_precio ) : ?>
 					<div class="asp-bloque"><span class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></span><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
+				<?php endif; ?>
+				<?php if ( $asp_sede ) : ?>
+					<div class="asp-bloque"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id ] ); ?></div>
 				<?php endif; ?>
 			</div>
 
@@ -114,6 +114,12 @@ while ( have_posts() ) :
 					<?php get_template_part( 'parts/evento/programa', null, [ 'post_id' => $asp_id ] ); ?>
 					<?php get_template_part( 'parts/evento/oradores', null, [ 'post_id' => $asp_id, 'grid' => true ] ); ?>
 					<?php get_template_part( 'parts/evento/aliados', null, [ 'post_id' => $asp_id ] ); ?>
+					<?php /* La ficha es larga en móvil y el botón queda arriba de todo: se repite al final. En escritorio la columna lateral es pegajosa y no hace falta. */ ?>
+					<?php if ( asp_evento_tiene_boton( $asp_id ) && ! $asp_izq_vacia ) : ?>
+						<div class="asp-solo-movil asp-bloque">
+							<?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_id, 'con_plataforma' => true, 'bloque' => true ] ); ?>
+						</div>
+					<?php endif; ?>
 					<?php if ( 'realizado' === $asp_estado && $asp_anio ) : ?>
 						<a class="asp-link-archivo" href="<?php echo esc_url( asp_url_eventos() . '#archivo-' . $asp_anio ); ?>"><?php
 							/* translators: %d: año */

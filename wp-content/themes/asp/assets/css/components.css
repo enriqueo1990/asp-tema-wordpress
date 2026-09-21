@@ -125,11 +125,11 @@
   width: 100%;
 }
 
-.asp-btn--apagado {
-  border: var(--border-hairline) solid var(--c-border-strong);
-  background: var(--c-state-cerrada-bg);
-  color: var(--c-state-cerrada-fg);
-  cursor: default;
+.asp-cta__cerrado {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+  margin: 0;
 }
 
 .asp-btn--secundario {
