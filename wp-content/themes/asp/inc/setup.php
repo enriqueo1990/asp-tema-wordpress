@@ -61,6 +61,10 @@ function asp_setup(): void {
 	add_image_size( 'asp-flyer', 1200, 9999, false );
 	add_image_size( 'asp-flyer-card', 800, 9999, false );
 	add_image_size( 'asp-persona', 480, 480, true );
+	/* Artículos y predicaciones: 16:9 recortado, que es la proporción de las
+	   miniaturas de YouTube y la que mejor convive con la tipografía. */
+	add_image_size( 'asp-tarjeta', 800, 450, true );
+	add_image_size( 'asp-apertura', 1600, 900, true );
 }
 add_action( 'after_setup_theme', 'asp_setup' );
 

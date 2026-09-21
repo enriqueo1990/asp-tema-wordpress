@@ -12,8 +12,11 @@ $asp_serie = asp_serie_de_articulo( $asp_id );
 $asp_cat   = get_the_category( $asp_id );
 $asp_chip  = $asp_serie ? $asp_serie->name : ( ( ! empty( $asp_cat ) && 'uncategorized' !== $asp_cat[0]->slug ) ? $asp_cat[0]->name : __( 'Artículo', 'asp' ) );
 $asp_autor = asp_autor_articulo( $asp_id );
+$asp_img   = asp_imagen_destacada( $asp_id, 'asp-tarjeta', 'asp-imagen asp-imagen--tarjeta' );
 ?>
-<a class="asp-articulo-item" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>">
+<a class="asp-articulo-item<?php echo $asp_img ? ' asp-articulo-item--con-imagen' : ''; ?>" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>">
+	<?php echo $asp_img; // phpcs:ignore WordPress.Security.EscapeOutput ?>
+	<span class="asp-articulo-item__texto">
 	<span class="asp-row">
 		<span class="asp-chip"><?php echo esc_html( $asp_chip ); ?></span>
 		<span class="asp-articulo-item__fecha"><?php echo esc_html( asp_fecha_articulo( $asp_id ) ); ?></span>
@@ -22,4 +25,5 @@ $asp_autor = asp_autor_articulo( $asp_id );
 	<?php if ( $asp_autor['nombre'] ) : ?>
 		<span class="asp-row"><span class="asp-label"><?php esc_html_e( 'Autor', 'asp' ); ?></span><span class="asp-muted"><?php echo esc_html( $asp_autor['nombre'] ); ?></span></span>
 	<?php endif; ?>
+	</span>
 </a>

@@ -43,6 +43,11 @@ while ( have_posts() ) :
 					<?php endif; ?>
 					<div><span class="asp-label"><?php esc_html_e( 'Fecha', 'asp' ); ?></span><time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( asp_fecha_articulo( $asp_id ) ); ?></time></div>
 				</div>
+				<?php
+				/* Apertura: la foto del artículo antes del cuerpo. Sin foto, el
+				   artículo arranca en el texto y no queda ningún hueco. */
+				echo asp_imagen_destacada( $asp_id, 'asp-apertura', 'asp-imagen asp-imagen--apertura' ); // phpcs:ignore WordPress.Security.EscapeOutput
+				?>
 				<div class="asp-prose"><?php the_content(); ?></div>
 			</article>
 

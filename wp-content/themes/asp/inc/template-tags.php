@@ -244,6 +244,26 @@ function asp_autor_articulo( int $post_id ): array {
 }
 
 /**
+ * Imagen destacada de un artículo o predicación, lista para imprimir.
+ * Cadena vacía si no tiene: ninguna vista dibuja un hueco gris.
+ *
+ * @param int    $post_id ID del post.
+ * @param string $tamano  Tamaño registrado.
+ * @param string $clase   Clase del contenedor.
+ * @return string
+ */
+function asp_imagen_destacada( int $post_id, string $tamano = 'asp-tarjeta', string $clase = 'asp-imagen' ): string {
+	if ( ! has_post_thumbnail( $post_id ) ) {
+		return '';
+	}
+	$img = get_the_post_thumbnail( $post_id, $tamano, [ 'loading' => 'lazy', 'alt' => '' ] );
+	if ( ! $img ) {
+		return '';
+	}
+	return '<span class="' . esc_attr( $clase ) . '">' . $img . '</span>';
+}
+
+/**
  * Fecha de un artículo en castellano: "3 de marzo de 2025".
  *
  * @param int $post_id ID del artículo.
