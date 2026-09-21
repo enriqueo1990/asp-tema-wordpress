@@ -77,6 +77,17 @@ function asp_customizer( WP_Customize_Manager $wp_customize ): void {
 		]
 	);
 
+	$wp_customize->add_setting( 'asp_sumarse_texto', [ 'sanitize_callback' => 'sanitize_textarea_field', 'default' => '' ] );
+	$wp_customize->add_control(
+		'asp_sumarse_texto',
+		[
+			'label'       => __( 'Sumarse', 'asp' ),
+			'description' => __( 'Qué le decimos a una iglesia o a un pastor que quiere acercarse. Aparece al final del inicio, arriba del enlace al formulario. Vacío = solo se muestra el enlace.', 'asp' ),
+			'section'     => 'asp_sitio',
+			'type'        => 'textarea',
+		]
+	);
+
 	$wp_customize->add_setting( 'asp_email', [ 'sanitize_callback' => 'sanitize_email', 'default' => '' ] );
 	$wp_customize->add_control(
 		'asp_email',
