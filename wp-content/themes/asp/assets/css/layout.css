@@ -1,0 +1,553 @@
+/* layout.css — Grillas y contenedores.
+   Sin valores literales de color, tipografía ni espaciado: solo var(--…) de tokens.css. */
+
+.asp-container {
+  width: 100%;
+  max-width: var(--w-page);
+  margin-inline: auto;
+  padding-inline: var(--w-gutter);
+}
+
+.asp-column {
+  width: 100%;
+  max-width: var(--w-column);
+  margin-inline: auto;
+}
+
+/* Secciones de página: aire vertical y filete superior opcional */
+.asp-section {
+  padding-block: var(--sp-7) var(--sp-8);
+}
+
+.asp-section--tight {
+  padding-block: var(--sp-6);
+}
+
+.asp-section--rule {
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-section--surface {
+  background: var(--c-surface-2);
+}
+
+.asp-section__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.asp-section__inner--loose {
+  gap: var(--sp-7);
+}
+
+/* Pilas genéricas */
+.asp-stack   { display: flex; flex-direction: column; gap: var(--sp-4); }
+.asp-stack--2 { gap: var(--sp-2); }
+.asp-stack--3 { gap: var(--sp-3); }
+.asp-stack--5 { gap: var(--sp-5); }
+.asp-stack--6 { gap: var(--sp-6); }
+
+.asp-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+/* Cabecera del sitio */
+.asp-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  min-height: var(--header-h);
+  background: var(--c-bg);
+  border-bottom: var(--border-hairline) solid var(--c-border);
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.asp-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  min-height: var(--header-h);
+}
+
+.asp-header__logo {
+  display: block;
+  flex: none;
+}
+
+.asp-header__logo img {
+  height: var(--logo-h);
+  width: auto;
+  transition: filter var(--dur) var(--ease);
+}
+
+.asp-header__derecha {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+}
+
+.asp-header__cta {
+  display: none;
+}
+
+/* Menú móvil: panel a pantalla completa bajo la cabecera */
+.asp-nav {
+  display: none;
+}
+
+.asp-nav.is-open {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  inset: var(--header-h) 0 0 0;
+  z-index: 19;
+  padding: var(--sp-6) var(--w-gutter) var(--sp-7);
+  background: var(--c-bg);
+  overflow: auto;
+}
+
+.asp-menu-abierto,
+.asp-menu-abierto body {
+  overflow: hidden;
+}
+
+.asp-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.asp-nav li a {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+  padding: var(--sp-4) 0;
+  border-top: var(--border-hairline) solid var(--c-border);
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-display);
+  color: var(--c-text);
+}
+
+.asp-nav li:last-child a {
+  border-bottom: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-nav li.current-menu-item > a,
+.asp-nav li.current-menu-ancestor > a,
+.asp-nav li.is-current > a {
+  color: var(--c-accent);
+}
+
+.asp-nav__proximo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin-top: var(--sp-7);
+  color: var(--c-text);
+}
+
+.asp-nav__proximo-titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+}
+
+.asp-nav__proximo-fecha {
+  font-family: var(--font-numeral);
+  font-style: italic;
+  color: var(--c-text-muted);
+}
+
+/* Botón Menú / Cerrar */
+.asp-header__toggle-cerrar {
+  display: none;
+}
+
+.asp-header.is-menu-open .asp-header__toggle-abrir {
+  display: none;
+}
+
+.asp-header.is-menu-open .asp-header__toggle-cerrar {
+  display: inline;
+}
+
+/* Portada con fotografía: cabecera transparente hasta que se hace scroll */
+.asp-con-portada .asp-header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  background: transparent;
+  border-bottom-color: transparent;
+  color: var(--c-photo-text);
+}
+
+.asp-con-portada .asp-header:not(.is-scrolled):not(.is-menu-open) .asp-header__logo img {
+  filter: invert(1) brightness(1.4);
+}
+
+.asp-con-portada .asp-header:not(.is-scrolled):not(.is-menu-open) .asp-header__toggle,
+.asp-con-portada .asp-header:not(.is-scrolled):not(.is-menu-open) .asp-nav li a,
+.asp-con-portada .asp-header:not(.is-scrolled):not(.is-menu-open) .asp-header__cta {
+  color: var(--c-photo-text);
+}
+
+.asp-con-portada .asp-header.is-scrolled,
+.asp-con-portada .asp-header.is-menu-open {
+  background: var(--c-bg);
+  border-bottom-color: var(--c-border);
+  color: var(--c-text);
+}
+
+.asp-con-portada .asp-portada__velo {
+  padding-top: var(--header-h);
+}
+
+@media (min-width: 1024px) {
+  .asp-header,
+  .asp-header__inner {
+    min-height: var(--header-h-desktop);
+  }
+
+  .asp-header__logo img {
+    height: var(--logo-h-desktop);
+  }
+
+  .asp-header__toggle {
+    display: none;
+  }
+
+  .asp-nav,
+  .asp-nav.is-open {
+    display: block;
+    position: static;
+    padding: 0;
+    background: transparent;
+    overflow: visible;
+  }
+
+  .asp-nav ul {
+    flex-direction: row;
+    gap: var(--sp-6);
+  }
+
+  .asp-nav li a,
+  .asp-nav li:last-child a {
+    padding: var(--sp-1) 0;
+    border: 0;
+    font-family: var(--font-ui);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    line-height: 1.4;
+    color: var(--c-text-muted);
+    box-shadow: inset 0 -1px 0 transparent;
+    transition: color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+
+  .asp-nav li a:hover {
+    color: var(--c-text);
+  }
+
+  .asp-nav li.current-menu-item > a,
+  .asp-nav li.current-menu-ancestor > a,
+  .asp-nav li.is-current > a {
+    color: var(--c-text);
+    box-shadow: inset 0 -1px 0 var(--c-accent);
+  }
+
+  .asp-nav__proximo {
+    display: none;
+  }
+
+  .asp-header__cta {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-3);
+    padding-left: var(--sp-5);
+    border-left: var(--border-hairline) solid var(--c-border-strong);
+    color: var(--c-text);
+    white-space: nowrap;
+  }
+
+  .asp-header__cta-label {
+    font-family: var(--font-ui);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .asp-header__cta-fecha {
+    font-family: var(--font-numeral);
+    font-style: italic;
+    font-size: var(--fs-md);
+    color: var(--c-text-muted);
+  }
+
+  .asp-header__cta:hover .asp-header__cta-label {
+    color: var(--c-accent);
+  }
+
+  .asp-con-portada .asp-header:not(.is-scrolled) .asp-nav li a,
+  .asp-con-portada .asp-header:not(.is-scrolled) .asp-header__cta,
+  .asp-con-portada .asp-header:not(.is-scrolled) .asp-header__cta-fecha {
+    color: var(--c-photo-text);
+  }
+
+  .asp-con-portada .asp-header:not(.is-scrolled) .asp-nav li.is-current > a,
+  .asp-con-portada .asp-header:not(.is-scrolled) .asp-nav li.current-menu-item > a {
+    box-shadow: inset 0 -1px 0 var(--c-photo-text);
+  }
+
+  .asp-con-portada .asp-header:not(.is-scrolled) .asp-header__cta {
+    border-left-color: var(--c-photo-rule);
+  }
+
+  .asp-con-portada .asp-portada__velo {
+    padding-top: var(--header-h-desktop);
+  }
+}
+
+/* Pie */
+.asp-footer {
+  background: var(--c-dark-bg);
+  color: var(--c-dark-fg);
+}
+
+.asp-footer a {
+  color: var(--c-dark-fg);
+}
+
+.asp-footer a:hover {
+  color: var(--c-dark-muted);
+}
+
+.asp-footer .asp-label {
+  color: var(--c-dark-muted);
+}
+
+.asp-footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-7);
+  padding-block: var(--sp-8);
+}
+
+.asp-footer__logo img {
+  height: var(--logo-h-footer);
+  width: auto;
+}
+
+.asp-footer nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+}
+
+.asp-footer nav a {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-dark-fg);
+}
+
+.asp-footer nav .asp-label {
+  display: block;
+  margin-bottom: var(--sp-3);
+}
+
+.asp-footer__redes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+}
+
+/* Grillas de dos columnas que colapsan en móvil */
+.asp-grid-2,
+.asp-grid-ficha,
+.asp-grid-listado,
+.asp-grid-articulo,
+.asp-grid-home-media {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-7);
+}
+
+.asp-grid-consejo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-4);
+}
+
+.asp-grid-galeria {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-4);
+}
+
+.asp-grid-galeria > :first-child {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 1024px) {
+  .asp-grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-8);
+  }
+
+  .asp-grid-ficha {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  }
+
+  .asp-grid-listado {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: start;
+  }
+
+  .asp-grid-articulo {
+    grid-template-columns: minmax(0, 1fr) var(--w-aside);
+    gap: var(--sp-8);
+  }
+
+  .asp-grid-home-media {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--sp-8);
+  }
+
+  .asp-grid-consejo {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .asp-sticky {
+    position: sticky;
+    top: var(--sp-5);
+    align-self: start;
+  }
+}
+
+.asp-section--rule-bottom {
+  border-bottom: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-grid-ficha--rule {
+  padding-top: var(--sp-5);
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+/* Secciones editoriales de la home: rótulo a la izquierda, cuerpo a la derecha */
+.asp-editorial {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  padding-block: var(--sp-8);
+}
+
+.asp-editorial__cab {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+.asp-editorial__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .asp-editorial {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    gap: var(--sp-8);
+    padding-block: var(--sp-9);
+  }
+
+  .asp-editorial > .asp-label,
+  .asp-editorial__cab {
+    grid-column: 1;
+    align-self: start;
+  }
+
+  .asp-editorial__cab {
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .asp-editorial__cuerpo,
+  .asp-lista-numerada,
+  .asp-retratos {
+    grid-column: 2;
+  }
+
+  .asp-editorial__cuerpo {
+    max-width: var(--w-column);
+  }
+
+  .asp-editorial__cuerpo--ancho {
+    max-width: none;
+  }
+
+  .asp-footer__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 3fr) minmax(0, 3fr);
+    gap: var(--sp-8);
+    padding-block: var(--sp-9);
+  }
+
+  .asp-footer nav ul {
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+}
+
+/* Ficha sin cuerpo a la izquierda: la columna lateral ocupa el ancho de lectura */
+@media (min-width: 1024px) {
+  .asp-grid-ficha--solo-aside {
+    grid-template-columns: minmax(0, 480px);
+  }
+  .asp-grid-ficha--solo-aside > :first-child {
+    display: none;
+  }
+}
+
+/* Columna de lectura alineada a la izquierda (cabeceras de listados) */
+.asp-column--izq {
+  margin-inline: 0;
+}
+
+/* Secciones editoriales dentro de una página que ya tiene aire propio */
+.asp-editorial--sin-aire {
+  padding-block: var(--sp-6) 0;
+}
+
+@media (min-width: 1024px) {
+  .asp-editorial--sin-aire {
+    padding-block: var(--sp-7) 0;
+  }
+}
+
+/* Cabecera de sección con filtros: rótulo arriba, filtros debajo, en móvil */
+.asp-editorial__cab:has(.asp-filtros) {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-3);
+}

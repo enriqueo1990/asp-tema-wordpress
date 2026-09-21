@@ -1,0 +1,29 @@
+<?php
+/**
+ * Último artículo, en grande. Args: post_id.
+ *
+ * @package asp
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+$asp_id    = (int) ( $args['post_id'] ?? get_the_ID() );
+$asp_serie = asp_serie_de_articulo( $asp_id );
+$asp_cat   = get_the_category( $asp_id );
+$asp_chip  = $asp_serie ? $asp_serie->name : ( ( ! empty( $asp_cat ) && 'uncategorized' !== $asp_cat[0]->slug ) ? $asp_cat[0]->name : __( 'Artículo', 'asp' ) );
+$asp_autor = asp_autor_articulo( $asp_id );
+$asp_res   = wp_trim_words( wp_strip_all_tags( preg_replace( '#</(p|h[1-6]|li|blockquote|div)>#i', ' ', (string) get_post_field( 'post_content', $asp_id ) ) ), 42, '…' );
+?>
+<article class="asp-articulo-destacado">
+	<div class="asp-row">
+		<span class="asp-label"><?php esc_html_e( 'Último artículo', 'asp' ); ?></span>
+		<span class="asp-chip"><?php echo esc_html( $asp_chip ); ?></span>
+	</div>
+	<h3 class="asp-articulo-destacado__titulo"><a class="asp-link-titulo" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>"><?php echo esc_html( get_the_title( $asp_id ) ); ?></a></h3>
+	<?php if ( $asp_res ) : ?><p class="asp-articulo-destacado__resumen"><?php echo esc_html( $asp_res ); ?></p><?php endif; ?>
+	<div class="asp-row asp-articulo-destacado__meta">
+		<?php if ( $asp_autor['nombre'] ) : ?><span><?php echo esc_html( $asp_autor['nombre'] ); ?></span><span class="asp-lugar__sep" aria-hidden="true"></span><?php endif; ?>
+		<span class="asp-articulo-item__fecha"><?php echo esc_html( asp_fecha_articulo( $asp_id ) ); ?></span>
+	</div>
+	<a class="asp-cta-link" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>"><?php esc_html_e( 'Leer', 'asp' ); ?></a>
+</article>

@@ -1,0 +1,10 @@
+# Mapa de 301 desde blog.antesupalabra.com. Una fila por URL: origen,destino.
+# Los artículos individuales se completan en la sesión 9, con el WXR exportado.
+# La regla genérica (/slug/ → /recursos/slug/) cubre los que conserven el slug.
+origen,destino
+/,/recursos/
+/inicio/,/recursos/
+/category/pastorado/,/recursos/categoria/pastorado/
+/category/devocional/,/recursos/categoria/devocional/
+/category/vida-cristiana/,/recursos/categoria/vida-cristiana/
+/nosotros/,/nosotros/

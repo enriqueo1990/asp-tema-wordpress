@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+._*
+
+# WordPress: solo versionamos el tema, nunca el core ni uploads
+wp-content/uploads/
+wp-content/plugins/
+wp-content/upgrade/
+wp-content/debug.log
+wp-config.php
+
+# Registros y temporales
+*.log
+*.sql
+*.sql.gz
+*.tmp

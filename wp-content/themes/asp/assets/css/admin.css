@@ -1,0 +1,157 @@
+/* admin.css — Formulario partido del panel: obligatorio arriba, resto plegado.
+   Usa las variables del propio panel de WordPress, no los tokens del front. */
+
+.asp-campo__intro {
+  margin: 0 0 12px;
+  color: #50575e;
+}
+
+.asp-grid-campos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px 24px;
+}
+
+.asp-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.asp-grid-campos .asp-campo {
+  margin: 0;
+}
+
+.asp-campo__etiqueta {
+  font-weight: 600;
+}
+
+.asp-campo__req {
+  color: #d63638;
+  margin-left: 2px;
+}
+
+.asp-campo__ayuda {
+  margin: 0;
+  color: #646970;
+  font-size: 12px;
+}
+
+.asp-campo input[type="text"],
+.asp-campo input[type="url"],
+.asp-campo input[type="date"],
+.asp-campo select,
+.asp-campo textarea {
+  max-width: 100%;
+  width: 100%;
+  min-height: 34px;
+}
+
+.asp-radios,
+.asp-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.asp-checks {
+  padding: 8px 12px;
+  border: 1px solid #dcdcde;
+  border-radius: 4px;
+  background: #fff;
+  max-height: 180px;
+  overflow: auto;
+}
+
+.asp-imagen__marco img {
+  max-width: 220px;
+  height: auto;
+  border: 1px solid #dcdcde;
+  border-radius: 4px;
+}
+
+.asp-imagen__botones {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 8px 0 0;
+}
+
+.asp-repetidor__cabecera,
+.asp-repetidor__fila {
+  display: grid;
+  grid-template-columns: 150px 90px minmax(0, 2fr) minmax(0, 1fr) 32px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.asp-repetidor__cabecera {
+  font-size: 12px;
+  color: #646970;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.asp-repetidor__fila input {
+  width: 100%;
+  min-height: 32px;
+}
+
+.asp-repetidor__fila .button-link-delete {
+  font-size: 18px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+@media (max-width: 782px) {
+  .asp-repetidor__cabecera {
+    display: none;
+  }
+  .asp-repetidor__fila {
+    grid-template-columns: 1fr 1fr;
+    padding: 8px 0;
+    border-top: 1px solid #dcdcde;
+  }
+}
+
+#asp_evento_obligatorio .postbox-header {
+  border-left: 4px solid #4b33c4;
+}
+
+.asp-aviso ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+.asp-ayuda {
+  max-width: 760px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.asp-ayuda h2 {
+  margin-top: 28px;
+}
+
+.asp-ayuda ol li {
+  margin-bottom: 8px;
+}
+
+.asp-columna-estado {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #dcdcde;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.asp-columna-estado--abierta,
+.asp-columna-estado--en_curso {
+  background: #4b33c4;
+  border-color: #4b33c4;
+  color: #fff;
+}

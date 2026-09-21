@@ -1,0 +1,172 @@
+/* =========================================================================
+   Ante Su Palabra — design tokens
+   Único archivo con valores literales. Ningún color, tamaño de fuente ni
+   espaciado se escribe fuera de acá.
+
+   Dirección editorial (11-9-2026, revisión posterior al canvas):
+   Newsreader para display, cuerpo y numerales; Archivo para rótulos e
+   interfaz. Hueso, casi negro y tinta azul como único acento. Sin esquinas
+   redondeadas: filetes en vez de cajas.
+   ========================================================================= */
+
+:root {
+
+  /* --- Escala de espaciado (base 4) --------------------------------- */
+  --sp-1:  0.25rem;
+  --sp-2:  0.5rem;
+  --sp-3:  0.75rem;
+  --sp-4:  1rem;
+  --sp-5:  1.5rem;
+  --sp-6:  2rem;
+  --sp-7:  3rem;
+  --sp-8:  4rem;
+  --sp-9:  6rem;
+  --sp-10: 8rem;
+
+  /* --- Escala tipográfica (fluida) ---------------------------------- */
+  --fs-xs:   0.75rem;
+  --fs-sm:   0.875rem;
+  --fs-base: 1rem;
+  --fs-md:   clamp(1.0625rem, 0.3vw + 1rem,   1.1875rem);
+  --fs-lg:   clamp(1.25rem,   0.6vw + 1.1rem, 1.5rem);
+  --fs-xl:   clamp(1.5rem,    1.2vw + 1.2rem, 2rem);
+  --fs-2xl:  clamp(2rem,      2.4vw + 1.4rem, 3.25rem);
+  --fs-3xl:  clamp(2.5rem,    4.6vw + 1.4rem, 4.75rem);
+  --fs-4xl:  clamp(3.75rem,   8vw + 1.5rem,   8rem);
+
+  --lh-tight:   1.02;
+  --lh-heading: 1.12;
+  --lh-body:    1.6;
+
+  /* --- Tipografía --------------------------------------------------- */
+  --font-display: "Newsreader", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --font-body:    "Newsreader", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --font-ui:      "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-numeral: "Newsreader", "Iowan Old Style", Georgia, "Times New Roman", serif;
+
+  --tracking-display: -0.015em;
+  --tracking-label:    0.14em;
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold: 600;
+
+  /* --- Anchos y contenedores ---------------------------------------- */
+  --w-prose: 68ch;
+  --w-page:  1280px;
+  --w-column: 720px;          /* columna de lectura de Nosotros */
+  --w-flyer-column: 420px;    /* banda del flyer en columna angosta */
+  --w-aside: 300px;           /* columna lateral del artículo */
+  --w-gutter: var(--sp-5);
+  --w-gutter-desktop: var(--sp-7);
+
+  /* --- Radios, bordes ----------------------------------------------- */
+  --radius-0: 0;
+  --radius-1: 2px;
+  --radius-2: 3px;
+  --radius-3: 2px;      /* botones, chips, flyer */
+  --radius-4: 2px;      /* tarjetas, banda del flyer, columna lateral */
+  --radius-pill: 999px; /* badges de estado */
+  --border-hairline: 1px;
+
+  /* --- Breakpoints (referencia; usar en media queries a mano) -------- */
+  /* sm 480px · md 768px · lg 1024px · xl 1280px */
+
+  /* --- Alturas de control (mínimo táctil 44px) ---------------------- */
+  --control-h: 44px;
+  --control-px: var(--sp-5);
+
+  /* --- Medidas de componentes --------------------------------------- */
+  --logo-h: 22px;
+  --logo-h-desktop: 28px;
+  --header-h: 64px;
+  --header-h-desktop: 80px;
+  --logo-h-footer: 18px;
+  --avatar-sm: 44px;
+  --avatar-md: 48px;
+  --avatar-lg: 96px;
+  --avatar-xl: 120px;
+  --play-sm: 44px;
+  --play-md: 64px;
+  --hero-min-h: 520px;
+  --hero-min-h-desktop: 620px;
+  --hero-nosotros-min-h: 480px;
+  --icon-loc: 15px;
+  --icon-loc-lg: 17px;
+  --rule-short: 24px;
+  --sep-h: 14px;
+  --sep-h-lg: 22px;
+
+  /* --- Proporción de la banda del flyer ----------------------------- */
+  /* Nunca 16:9. Un flyer 4:5 al 84% de la altura de una banda 1:1 de
+     390 px mide 262 px de ancho; en la banda 16:9 mediría 153 px. */
+  --band-ratio-mobile: 1 / 1;
+  --band-ratio-desktop: 4 / 3;
+  --band-flyer-h: 84%;
+  --band-flyer-h-desktop: 88%;
+
+  /* --- Transiciones ------------------------------------------------- */
+  --ease: cubic-bezier(0.2, 0, 0.13, 1);
+  --dur: 180ms;
+
+  /* --- Color -------------------------------------------------------- */
+  /* Hueso y tinta. Un solo acento, sobrio. */
+  --c-bg:         #FAF8F4;
+  --c-surface:    #F5F2EB;
+  --c-surface-2:  #EFEBE2;
+  --c-text:       #15130F;
+  --c-text-muted: #5A554B;   /* 6,6:1 sobre bg */
+  --c-text-faint: #6B665B;   /* 5,2:1 sobre bg · 4,6:1 sobre surface-2 */
+  --c-accent:     #1E3350;   /* tinta azul · 11:1 sobre bg */
+  --c-accent-ink: #FAF8F4;
+  --c-border:        #E3DDD1;
+  --c-border-strong: #CBC3B3;
+
+  --c-state-reserva-bg:   transparent;
+  --c-state-reserva-fg:   #3D3931;
+  --c-state-abierta-bg:   #1E3350;
+  --c-state-abierta-fg:   #FAF8F4;
+  --c-state-cerrada-bg:   #EFEBE2;
+  --c-state-cerrada-fg:   #5A554B;   /* 5,9:1 sobre cerrada-bg */
+  --c-state-realizado-bg: transparent;
+  --c-state-realizado-fg: #5A554B;
+
+  /* Banda tonal sobre la que se apoya el flyer sin recortarse */
+  --c-flyer-band:     #EFEBE2;
+  --c-flyer-band-ink: #5A554B;
+
+  /* Dato faltante, solo para revisión interna y avisos del panel */
+  --c-todo-fg: #1E3350;
+  --c-todo-bg: #E6EAF0;
+
+  /* Texto sobre fotografía documental: velo solo abajo, en degradado */
+  --c-photo-scrim: rgba(21, 19, 15, 0.55);
+  --c-photo-scrim-strong: rgba(21, 19, 15, 0.86);
+  --c-photo-scrim-none: rgba(21, 19, 15, 0);
+  --c-photo-text:  #FAF8F4;
+  --c-photo-placeholder-a: #26221C;
+  --c-photo-placeholder-b: #1B1814;
+  --c-photo-rule: rgba(250, 248, 244, 0.30);
+
+  /* Bloque oscuro (pie): tinta sobre hueso invertido */
+  --c-dark-bg:    #15130F;
+  --c-dark-fg:    #FAF8F4;
+  --c-dark-muted: #B8B1A3;   /* 8,7:1 sobre dark-bg */
+  --c-dark-rule:  rgba(250, 248, 244, 0.18);
+
+  /* Franja "Próximo evento" (se conserva para otras vistas) */
+  --c-franja-bg:          #1E3350;
+  --c-franja-fg:          #FAF8F4;
+  --c-franja-rule:        rgba(250, 248, 244, 0.35);
+  --c-franja-rule-strong: rgba(250, 248, 244, 0.45);
+  --c-btn-invertido-bg:   #FAF8F4;
+  --c-btn-invertido-fg:   #1E3350;
+
+  --c-focus-ring: #1E3350;
+  --c-logo-plate: #FAF8F4;
+
+  /* Placeholder rayado de foto de persona sin cargar */
+  --c-avatar-stripe-a: #EFEBE2;
+  --c-avatar-stripe-b: #FAF8F4;
+  --avatar-stripe: 5px;
+}

@@ -1,0 +1,2176 @@
+/* components.css — Componentes: tarjetas, badges, botones, formularios.
+   Sin valores literales de color, tipografía ni espaciado: solo var(--…) de tokens.css. */
+
+/* ---------------------------------------------------------------------
+   Badges de estado del evento
+   --------------------------------------------------------------------- */
+.asp-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  line-height: 1.2;
+  padding: var(--sp-1) 0;
+}
+
+.asp-badge::before {
+  content: "";
+  width: var(--sp-3);
+  height: 1px;
+  background: currentColor;
+}
+
+.asp-badge--abierta,
+.asp-badge--en_curso {
+  color: var(--c-accent);
+  font-weight: var(--fw-semibold);
+}
+
+.asp-badge--reserva {
+  color: var(--c-state-reserva-fg);
+}
+
+.asp-badge--cerrada,
+.asp-badge--agotado,
+.asp-badge--realizado {
+  color: var(--c-state-realizado-fg);
+}
+
+/* Chip de tipo (Artículo, Serie, Conferencia, PDF) */
+.asp-chip {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  line-height: 1.4;
+}
+
+.asp-chip--accent {
+  color: var(--c-accent);
+  font-weight: var(--fw-semibold);
+}
+
+/* Filtros de Recursos: píldoras de 44 px */
+.asp-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.asp-filtros {
+  gap: var(--sp-5);
+}
+
+.asp-filtros a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h);
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  box-shadow: inset 0 -1px 0 transparent;
+}
+
+.asp-filtros .is-active a,
+.asp-filtros a:hover {
+  color: var(--c-text);
+  box-shadow: inset 0 -1px 0 var(--c-accent);
+}
+
+/* ---------------------------------------------------------------------
+   Botones y enlaces de acción
+   --------------------------------------------------------------------- */
+.asp-btn {
+  height: var(--control-h);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: 0 var(--control-px);
+  border-radius: var(--radius-3);
+  background: var(--c-accent);
+  color: var(--c-accent-ink);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  text-align: center;
+  border: 0;
+  cursor: pointer;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.asp-btn:hover {
+  color: var(--c-accent-ink);
+  background: var(--c-text);
+}
+
+.asp-btn--block {
+  display: flex;
+  width: 100%;
+}
+
+.asp-btn--apagado {
+  border: var(--border-hairline) solid var(--c-border-strong);
+  background: var(--c-state-cerrada-bg);
+  color: var(--c-state-cerrada-fg);
+  cursor: default;
+}
+
+.asp-btn--secundario {
+  border: var(--border-hairline) solid var(--c-border-strong);
+  background: transparent;
+  color: var(--c-accent);
+  font-size: var(--fs-xs);
+}
+
+.asp-btn--secundario:hover {
+  background: var(--c-surface-2);
+  color: var(--c-accent);
+}
+
+.asp-cta-link {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h);
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-accent);
+  box-shadow: inset 0 -1px 0 var(--c-accent);
+}
+
+.asp-link-archivo {
+  align-self: flex-start;
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.04em;
+  color: var(--c-accent);
+  border-bottom: var(--border-hairline) solid var(--c-accent);
+}
+
+.asp-link-titulo {
+  color: var(--c-text);
+}
+
+.asp-cta__nota {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  color: var(--c-text-faint);
+}
+
+.asp-cta__motivo {
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+/* ---------------------------------------------------------------------
+   Banda del flyer: contenido, nunca recortado
+   --------------------------------------------------------------------- */
+.asp-flyer {
+  display: grid;
+  place-items: center;
+  aspect-ratio: var(--band-ratio-mobile);
+  background: var(--c-flyer-band);
+  border-radius: var(--radius-4);
+  overflow: hidden;
+}
+
+.asp-flyer img {
+  max-width: 100%;
+  max-height: var(--band-flyer-h);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius-3);
+}
+
+.asp-flyer--desktop-wide {
+  /* En columnas anchas de escritorio la banda pasa a 4:3 */
+}
+
+.asp-flyer--column {
+  max-width: var(--w-flyer-column);
+}
+
+@media (min-width: 1024px) {
+  .asp-flyer--desktop-wide {
+    aspect-ratio: var(--band-ratio-desktop);
+  }
+  .asp-flyer--desktop-wide img {
+    max-height: var(--band-flyer-h-desktop);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Ciudad y país: tratamiento tipográfico, sin banderas
+   --------------------------------------------------------------------- */
+.asp-lugar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+.asp-lugar--md {
+  font-size: var(--fs-md);
+}
+
+.asp-lugar__icono {
+  display: block;
+  flex: none;
+  width: var(--icon-loc);
+  height: var(--icon-loc);
+}
+
+.asp-lugar__sep {
+  width: 1px;
+  height: var(--sep-h);
+  background: var(--c-border-strong);
+}
+
+.asp-lugar__pais {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+}
+
+/* Variante grande, apilada: ciudad en display y país bajo un filete corto */
+.asp-lugar-grande {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.asp-lugar-grande__ciudad {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+}
+
+.asp-lugar-grande__ciudad .asp-lugar__icono {
+  width: var(--icon-loc-lg);
+  height: var(--icon-loc-lg);
+  color: var(--c-text-muted);
+}
+
+.asp-lugar-grande__pais {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.asp-lugar-grande__pais::before {
+  content: "";
+  width: var(--rule-short);
+  height: 1px;
+  background: var(--c-border-strong);
+}
+
+/* ---------------------------------------------------------------------
+   Fecha
+   --------------------------------------------------------------------- */
+.asp-fecha {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+  font-weight: var(--fw-medium);
+}
+
+.asp-fecha--xl {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-regular);
+}
+
+/* Fecha grande entre filetes: ocupa el lugar del flyer en la ficha vacía y en el hero */
+.asp-fecha-grande {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-5) 0;
+  border-top: var(--border-hairline) solid var(--c-border);
+  border-bottom: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-fecha-grande__dias {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-3xl);
+  line-height: var(--lh-tight);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-display);
+}
+
+.asp-fecha-grande__mes {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+  color: var(--c-text-muted);
+}
+
+/* ---------------------------------------------------------------------
+   Tarjeta de evento (listado, home)
+   --------------------------------------------------------------------- */
+.asp-card-evento {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  padding-top: var(--sp-5);
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-card-evento__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.asp-card-evento__titulo {
+  font-size: var(--fs-xl);
+  line-height: var(--lh-heading);
+}
+
+.asp-card-evento__titulo a {
+  color: var(--c-text);
+}
+
+.asp-card-evento__sede {
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+}
+
+@media (min-width: 1024px) {
+  .asp-card-evento--ancha {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--sp-7);
+    align-items: start;
+    border: 0;
+    border-top: var(--border-hairline) solid var(--c-border);
+    border-radius: 0;
+    padding-top: var(--sp-5);
+    overflow: visible;
+  }
+
+  .asp-card-evento--ancha.asp-card-evento--sin-flyer {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .asp-card-evento--ancha .asp-card-evento__cuerpo {
+    padding: 0;
+    align-items: flex-start;
+    max-width: var(--w-column);
+  }
+
+  .asp-card-evento--ancha .asp-card-evento__titulo {
+    font-size: var(--fs-2xl);
+    line-height: var(--lh-tight);
+  }
+
+  .asp-card-evento--ancha .asp-fecha {
+    font-size: var(--fs-xl);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Fila del archivo por año
+   --------------------------------------------------------------------- */
+.asp-anio {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.asp-anio__num {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+}
+
+.asp-anio::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--c-border);
+}
+
+.asp-archivo-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-4) 0;
+  border-top: var(--border-hairline) solid var(--c-border);
+  color: var(--c-text);
+}
+
+.asp-archivo-item:hover {
+  color: var(--c-text);
+}
+
+.asp-archivo-item__principal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+.asp-archivo-item__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+}
+
+.asp-archivo-item__fecha {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-md);
+  line-height: var(--lh-heading);
+  color: var(--c-text-muted);
+}
+
+.asp-archivo-item__extra {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+@media (min-width: 1024px) {
+  .asp-anio__num {
+    font-size: var(--fs-xl);
+  }
+
+  .asp-archivo-item--ancho {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr) 260px 160px;
+    gap: var(--sp-5);
+    align-items: center;
+    padding: var(--sp-5) 0;
+  }
+
+  .asp-archivo-item__titulo {
+    font-size: var(--fs-lg);
+  }
+}
+
+/* Fila compacta de evento en la home */
+.asp-evento-fila {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-5) 0;
+  border-top: var(--border-hairline) solid var(--c-border);
+  color: var(--c-text);
+}
+
+.asp-evento-fila:hover {
+  color: var(--c-text);
+}
+
+.asp-evento-fila__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.asp-evento-fila__fecha {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+.asp-evento-fila__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+}
+
+/* ---------------------------------------------------------------------
+   Ficha de evento
+   --------------------------------------------------------------------- */
+.asp-ficha {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  padding-block: var(--sp-6) var(--sp-8);
+}
+
+.asp-ficha--vacia {
+  gap: var(--sp-6);
+  padding-block: var(--sp-7) var(--sp-9);
+}
+
+.asp-ficha__titulo {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+}
+
+.asp-ficha__titulo--compacto {
+  font-size: var(--fs-xl);
+  line-height: var(--lh-heading);
+}
+
+.asp-ficha__cabecera {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.asp-bloque {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding-top: var(--sp-5);
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-bloque--sin-filete {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.asp-bloque__valor {
+  font-size: var(--fs-md);
+  line-height: var(--lh-heading);
+}
+
+.asp-bloque__detalle {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+}
+
+.asp-sede__nombre {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+}
+
+/* Columna lateral de la ficha en escritorio */
+.asp-ficha-aside {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .asp-ficha {
+    padding-block: var(--sp-7) var(--sp-8);
+  }
+
+  .asp-ficha__titulo,
+  .asp-ficha__titulo--compacto {
+    font-size: var(--fs-3xl);
+    line-height: var(--lh-tight);
+  }
+
+  .asp-ficha__linea {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-4);
+    font-family: var(--font-numeral);
+    font-size: var(--fs-xl);
+  }
+
+  .asp-ficha__linea .asp-lugar__sep {
+    height: var(--sep-h-lg);
+  }
+
+  .asp-ficha-aside {
+    display: flex;
+    flex-direction: column;
+    border-top: var(--border-hairline) solid var(--c-border);
+    background: var(--c-bg);
+  }
+
+  .asp-ficha-aside__cta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    padding: var(--sp-5) 0;
+  }
+
+  .asp-ficha-aside__precio {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+  }
+
+  .asp-ficha-aside__bloque {
+    display: flex;
+    gap: var(--sp-3);
+    padding: var(--sp-5) 0;
+    border-top: var(--border-hairline) solid var(--c-border);
+  }
+
+  .asp-ficha-aside__bloque > .asp-lugar__icono {
+    color: var(--c-text-muted);
+    margin-top: 3px;
+  }
+
+  .asp-ficha-aside__bloque .asp-stack {
+    gap: var(--sp-1);
+    min-width: 0;
+  }
+
+  .asp-ficha-aside .asp-lugar-grande__pais {
+    margin-top: var(--sp-1);
+  }
+
+  /* En escritorio, los bloques móviles duplicados en la columna lateral se ocultan */
+  .asp-solo-movil {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1023.98px) {
+  .asp-solo-escritorio {
+    display: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Oradores: lista densa con bio desplegable
+   --------------------------------------------------------------------- */
+.asp-oradores {
+  display: flex;
+  flex-direction: column;
+}
+
+.asp-orador {
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-orador:first-child {
+  border-top: 0;
+}
+
+.asp-orador__fila {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-3) 0;
+}
+
+.asp-orador summary.asp-orador__fila {
+  cursor: pointer;
+}
+
+.asp-orador__foto {
+  flex: none;
+  width: var(--avatar-sm);
+  height: var(--avatar-sm);
+  border-radius: 0;
+  object-fit: cover;
+  filter: grayscale(1);
+  background: repeating-linear-gradient(135deg, var(--c-avatar-stripe-a) 0 var(--avatar-stripe), var(--c-avatar-stripe-b) var(--avatar-stripe) calc(var(--avatar-stripe) * 2));
+}
+
+.asp-orador__nombre {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.asp-orador__nombre strong {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+}
+
+.asp-orador__nombre span {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+  color: var(--c-text-muted);
+}
+
+.asp-orador__toggle {
+  flex: none;
+  width: var(--control-h);
+  height: var(--control-h);
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: none;
+  font-family: var(--font-ui);
+  font-size: var(--fs-lg);
+  line-height: 1;
+  color: var(--c-accent);
+}
+
+.asp-orador__toggle::before {
+  content: "+";
+}
+
+.asp-orador[open] .asp-orador__toggle::before {
+  content: "–";
+}
+
+.asp-orador__bio {
+  margin: 0 0 var(--sp-4) calc(var(--avatar-sm) + var(--sp-4));
+  padding: 0;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+}
+
+.asp-orador__bio a {
+  box-shadow: inset 0 -1px 0 var(--c-accent);
+}
+
+@media (min-width: 1024px) {
+  .asp-oradores--grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--sp-6);
+  }
+
+  .asp-oradores--grid .asp-orador:nth-child(2) {
+    border-top: 0;
+  }
+
+  .asp-oradores--grid .asp-orador__foto {
+    width: var(--avatar-md);
+    height: var(--avatar-md);
+  }
+
+  .asp-oradores--grid .asp-orador__bio {
+    margin-left: calc(var(--avatar-md) + var(--sp-4));
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Programa
+   --------------------------------------------------------------------- */
+.asp-programa {
+  display: flex;
+  flex-direction: column;
+}
+
+.asp-programa__fila {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  gap: var(--sp-2) var(--sp-4);
+  align-items: baseline;
+  padding: var(--sp-3) 0;
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-programa__fila:first-child {
+  border-top: 0;
+}
+
+.asp-programa__hora {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-md);
+}
+
+.asp-programa__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  line-height: var(--lh-heading);
+}
+
+.asp-programa__orador {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+}
+
+.asp-programa__dia {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+}
+
+/* Aliados: texto separado por puntos medios, o logos si existen */
+.asp-aliados {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4);
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+}
+
+.asp-aliados img {
+  height: var(--sp-6);
+  width: auto;
+}
+
+/* ---------------------------------------------------------------------
+   Hero: fotografía documental con velo
+   --------------------------------------------------------------------- */
+.asp-hero {
+  position: relative;
+  background: var(--c-photo-placeholder-b);
+  color: var(--c-photo-text);
+  overflow: hidden;
+}
+
+.asp-hero__foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.asp-hero__velo {
+  position: relative;
+  min-height: var(--hero-min-h);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--sp-5);
+  padding-block: var(--sp-8) var(--sp-7);
+  background: linear-gradient(to top, var(--c-photo-scrim-strong) 0%, var(--c-photo-scrim) 55%, var(--c-photo-scrim-none) 100%);
+}
+
+.asp-hero__velo--centrado {
+  align-items: stretch;
+}
+
+.asp-hero--nosotros .asp-hero__velo {
+  min-height: var(--hero-nosotros-min-h);
+}
+
+.asp-hero__titulo {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+  max-width: 22ch;
+}
+
+.asp-hero__cita {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+  font-weight: var(--fw-regular);
+}
+
+.asp-hero__texto {
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  max-width: 38ch;
+}
+
+.asp-hero__texto--ancho {
+  max-width: 60ch;
+}
+
+.asp-hero .asp-label {
+  color: var(--c-photo-text);
+}
+
+.asp-hero__filete {
+  height: 1px;
+  background: var(--c-photo-rule);
+}
+
+.asp-hero__ultimo {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  color: var(--c-photo-text);
+}
+
+.asp-hero__ultimo:hover {
+  color: var(--c-photo-text);
+}
+
+.asp-hero__ultimo-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+}
+
+.asp-hero__sep {
+  width: 1px;
+  height: 12px;
+  background: var(--c-photo-rule);
+}
+
+@media (min-width: 1024px) {
+  .asp-hero__velo {
+    min-height: var(--hero-min-h-desktop);
+    padding-block: var(--sp-9) var(--sp-8);
+  }
+
+  .asp-hero__titulo {
+    font-size: var(--fs-3xl);
+  }
+
+  .asp-hero__texto {
+    font-size: var(--fs-lg);
+  }
+}
+
+/* Hero con evento destacado (sin fotografía): columna de texto */
+.asp-hero-evento {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  padding-block: var(--sp-7) var(--sp-8);
+}
+
+.asp-hero-evento__titulo {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+}
+
+/* Misión sobre fotografía */
+.asp-mision .asp-hero__velo {
+  min-height: 0;
+  justify-content: flex-start;
+  padding-block: var(--sp-8);
+}
+
+@media (min-width: 1024px) {
+  .asp-mision .asp-hero__velo {
+    padding-block: var(--sp-9);
+  }
+}
+
+/* Galería de la home */
+.asp-galeria__item {
+  position: relative;
+  border-radius: var(--radius-4);
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+}
+
+.asp-grid-galeria > :first-child.asp-galeria__item {
+  aspect-ratio: 3 / 2;
+}
+
+.asp-galeria__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------------------------------------------------------------------
+   Personas: consejo pastoral y tarjeta de persona
+   --------------------------------------------------------------------- */
+.asp-persona-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  text-align: left;
+  color: var(--c-text);
+}
+
+.asp-persona-box:hover {
+  color: var(--c-accent);
+}
+
+.asp-persona-box__foto {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+  margin-bottom: var(--sp-2);
+  background: repeating-linear-gradient(135deg, var(--c-avatar-stripe-a) 0 var(--avatar-stripe), var(--c-avatar-stripe-b) var(--avatar-stripe) calc(var(--avatar-stripe) * 2));
+}
+
+.asp-persona-box__nombre {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+}
+
+.asp-persona-box__iglesia {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+}
+
+.asp-persona-box__lugar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  color: var(--c-text-muted);
+}
+
+.asp-persona-box:hover .asp-persona-box__foto {
+  filter: none;
+}
+
+/* Cita destacada en caja */
+.asp-cita {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding: var(--sp-5);
+  background: var(--c-surface-2);
+  border-radius: var(--radius-4);
+}
+
+.asp-cita blockquote {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+  font-weight: var(--fw-regular);
+  font-style: italic;
+  letter-spacing: var(--tracking-display);
+  text-wrap: pretty;
+}
+
+@media (min-width: 1024px) {
+  .asp-cita {
+    padding: var(--sp-6);
+  }
+  .asp-cita blockquote {
+    font-size: var(--fs-xl);
+  }
+}
+
+/* Caja con borde (Sobre este documento, serie) */
+.asp-caja {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-5) 0;
+  border-top: var(--border-hairline) solid var(--c-border);
+  border-bottom: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-caja--surface,
+.asp-caja--suave {
+  padding: var(--sp-5);
+  background: var(--c-surface);
+  border: 0;
+}
+
+/* ---------------------------------------------------------------------
+   Afirmaciones y Negaciones
+   --------------------------------------------------------------------- */
+.asp-indice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.asp-indice a,
+.asp-indice span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--control-h);
+  min-height: var(--control-h);
+  padding: 0 var(--sp-2);
+  border-bottom: var(--border-hairline) solid var(--c-border-strong);
+  font-family: var(--font-numeral);
+  font-size: var(--fs-md);
+  color: var(--c-text);
+}
+
+.asp-indice a:hover {
+  color: var(--c-accent);
+  border-bottom-color: var(--c-accent);
+}
+
+.asp-indice span {
+  color: var(--c-text-faint);
+}
+
+.asp-articulo-af {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  padding-top: var(--sp-6);
+  border-top: var(--border-hairline) solid var(--c-border);
+  scroll-margin-top: var(--sp-6);
+}
+
+.asp-articulo-af__num {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+}
+
+.asp-articulo-af__num strong {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-display);
+  color: var(--c-text-faint);
+  line-height: 1;
+}
+
+.asp-articulo-af__parte {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.asp-articulo-af__parte p {
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  text-wrap: pretty;
+}
+
+.asp-articulo-af__parte--niega p {
+  color: var(--c-text-muted);
+}
+
+.asp-articulos-af {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-7);
+}
+
+@media (min-width: 1024px) {
+  .asp-articulo-af__num strong {
+    font-size: var(--fs-3xl);
+  }
+}
+
+@media print {
+  .asp-header, .asp-footer, .asp-indice, .asp-franja, .asp-section--proximo {
+    display: none !important;
+  }
+  .asp-articulo-af {
+    break-inside: avoid;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Artículos (Recursos)
+   --------------------------------------------------------------------- */
+.asp-articulo-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-5) 0;
+  border-top: var(--border-hairline) solid var(--c-border);
+  color: var(--c-text);
+}
+
+.asp-articulo-item:hover {
+  color: var(--c-text);
+}
+
+.asp-articulo-item__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+}
+
+.asp-articulo-item__fecha {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-xs);
+  color: var(--c-text-muted);
+}
+
+.asp-serie-lista {
+  display: flex;
+  flex-direction: column;
+}
+
+.asp-serie-lista__fila {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-3) 0;
+  border-top: var(--border-hairline) solid var(--c-border);
+  color: var(--c-text);
+}
+
+.asp-serie-lista__fila:first-child {
+  border-top: 0;
+}
+
+.asp-serie-lista__fila.is-current {
+  color: var(--c-accent);
+}
+
+.asp-serie-lista__num {
+  flex: none;
+  width: 26px;
+  font-family: var(--font-numeral);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--c-text-faint);
+}
+
+.asp-serie-lista__fila.is-current .asp-serie-lista__num {
+  color: var(--c-accent);
+}
+
+.asp-articulo__cabecera {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.asp-articulo__titulo {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+}
+
+.asp-articulo__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-5);
+  padding-bottom: var(--sp-5);
+  border-bottom: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-articulo__meta > div {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.asp-articulo__meta a {
+  color: var(--c-text);
+  box-shadow: inset 0 -1px 0 var(--c-border-strong);
+}
+
+.asp-aside-caja {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  padding-top: var(--sp-5);
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+/* Paginación nativa */
+.asp-paginacion .nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding-top: var(--sp-5);
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-paginacion .page-numbers {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--control-h);
+  min-height: var(--control-h);
+  padding: 0 var(--sp-2);
+  font-family: var(--font-numeral);
+  font-size: var(--fs-md);
+  color: var(--c-text-muted);
+}
+
+.asp-paginacion .page-numbers.current {
+  color: var(--c-text);
+  box-shadow: inset 0 -1px 0 var(--c-accent);
+}
+
+/* ---------------------------------------------------------------------
+   Iniciativas
+   --------------------------------------------------------------------- */
+.asp-iniciativa-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-5) 0;
+  border-top: var(--border-hairline) solid var(--c-border);
+  color: var(--c-text);
+}
+
+.asp-iniciativa-card:hover {
+  color: var(--c-accent);
+}
+
+.asp-iniciativa-card__titulo {
+  font-size: var(--fs-lg);
+}
+
+.asp-iniciativa-card__bajada {
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+}
+
+/* ---------------------------------------------------------------------
+   Formularios (búsqueda, contacto)
+   --------------------------------------------------------------------- */
+.asp-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.asp-form label {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+}
+
+.asp-form input[type="text"],
+.asp-form input[type="search"],
+.asp-form input[type="email"],
+.asp-form textarea {
+  width: 100%;
+  min-height: var(--control-h);
+  padding: var(--sp-2) var(--sp-4);
+  border: var(--border-hairline) solid var(--c-border-strong);
+  border-radius: var(--radius-3);
+  background: var(--c-bg);
+  color: var(--c-text);
+  font: inherit;
+}
+
+.asp-buscador {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.asp-buscador input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Página genérica y 404 */
+.asp-pagina__titulo {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+}
+
+@media (min-width: 1024px) {
+  .asp-pagina__titulo {
+    font-size: var(--fs-3xl);
+  }
+}
+
+/* Botón del menú móvil */
+.asp-header__toggle {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h);
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-text);
+  cursor: pointer;
+}
+
+.asp-btn--inline {
+  align-self: flex-start;
+}
+
+/* Lugar: la ciudad no se parte del ícono; el país no se parte en dos */
+.asp-lugar {
+  flex-wrap: wrap;
+}
+
+.asp-lugar > span:not(.asp-lugar__sep) {
+  white-space: nowrap;
+}
+
+.asp-lugar--md {
+  font-size: var(--fs-sm);
+}
+
+@media (min-width: 1024px) {
+  .asp-lugar--md {
+    font-size: var(--fs-md);
+  }
+}
+
+/* Archivo: título y datos extra apilados también en móvil */
+.asp-archivo-item__principal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .asp-header__toggle {
+    display: none;
+  }
+}
+
+/* Ficha sin columna izquierda: la lateral ocupa el ancho de lectura */
+@media (min-width: 1024px) {
+  .asp-grid-ficha--solo-aside {
+    grid-template-columns: minmax(0, 520px);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Franja "Próximo evento": bloque a sangre de color pleno bajo el hero.
+   Único fondo saturado de la página. Texto a opacidad completa.
+   --------------------------------------------------------------------- */
+.asp-franja {
+  background: var(--c-franja-bg);
+  color: var(--c-franja-fg);
+}
+
+.asp-franja a {
+  color: var(--c-franja-fg);
+}
+
+.asp-franja a:hover {
+  color: var(--c-franja-fg);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.asp-franja__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  padding-block: var(--sp-7);
+}
+
+.asp-franja__cabecera {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.asp-franja__cabecera .asp-label {
+  color: var(--c-franja-fg);
+  font-weight: var(--fw-medium);
+}
+
+.asp-franja__sep {
+  width: 1px;
+  height: var(--sep-h);
+  background: var(--c-franja-rule-strong);
+}
+
+.asp-franja__fecha {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.asp-franja__dias {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-display);
+}
+
+.asp-franja__mes {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+}
+
+.asp-franja__datos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+
+.asp-franja__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tracking-display);
+  text-wrap: pretty;
+}
+
+.asp-franja__titulo a {
+  display: inline-block;
+  min-height: var(--control-h);
+}
+
+.asp-franja .asp-lugar,
+.asp-franja .asp-lugar__pais {
+  color: var(--c-franja-fg);
+}
+
+.asp-franja .asp-lugar__sep {
+  background: var(--c-franja-rule);
+}
+
+.asp-franja__estado {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.asp-btn--invertido {
+  background: var(--c-btn-invertido-bg);
+  color: var(--c-btn-invertido-fg);
+}
+
+.asp-btn--invertido:hover {
+  background: var(--c-btn-invertido-bg);
+  color: var(--c-btn-invertido-fg);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.asp-franja__btn-largo {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .asp-franja__inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--sp-8);
+  }
+
+  .asp-franja__datos {
+    gap: var(--sp-4);
+    padding-left: var(--sp-8);
+    border-left: var(--border-hairline) solid var(--c-franja-rule);
+  }
+
+  .asp-franja__titulo {
+    font-size: var(--fs-2xl);
+  }
+
+  .asp-franja .asp-btn--block {
+    display: inline-flex;
+    width: auto;
+  }
+
+  .asp-franja__btn-corto {
+    display: none;
+  }
+
+  .asp-franja__btn-largo {
+    display: inline;
+  }
+}
+
+/* Franja en móvil: etiqueta y estado primero, después la fecha, el título,
+   el lugar y el botón. Los hijos de "datos" pasan al nivel del contenedor. */
+@media (max-width: 768px) {
+  .asp-franja__datos {
+    display: contents;
+  }
+  .asp-franja__cabecera { order: 1; }
+  .asp-franja__fecha    { order: 2; }
+  .asp-franja__titulo   { order: 3; }
+  .asp-franja .asp-lugar { order: 4; }
+  .asp-franja .asp-btn  { order: 5; }
+}
+
+/* El botón invertido gana a la regla genérica de enlaces de la franja */
+.asp-franja .asp-btn--invertido,
+.asp-franja .asp-btn--invertido:hover {
+  color: var(--c-btn-invertido-fg);
+}
+
+/* ---------------------------------------------------------------------
+   Portada: el evento sobre la fotografía a sangre. Velo en degradado, solo
+   abajo, para que la foto se vea.
+   --------------------------------------------------------------------- */
+.asp-portada {
+  position: relative;
+  background: var(--c-photo-placeholder-b);
+  color: var(--c-photo-text);
+  overflow: hidden;
+}
+
+.asp-portada__foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.asp-portada__velo {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: flex-end;
+  /* Velo abajo para el texto del evento y un velo corto arriba para la cabecera transparente */
+  background:
+    linear-gradient(to bottom, var(--c-photo-scrim) 0, var(--c-photo-scrim-none) var(--header-h-desktop)),
+    linear-gradient(to top, var(--c-photo-scrim-strong) 0%, var(--c-photo-scrim) 45%, var(--c-photo-scrim-none) 100%);
+}
+
+.asp-portada__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding-block: var(--sp-9) var(--sp-8);
+}
+
+.asp-portada .asp-label,
+.asp-portada .asp-lugar,
+.asp-portada .asp-lugar__pais {
+  color: var(--c-photo-text);
+}
+
+.asp-portada .asp-lugar__sep {
+  background: var(--c-photo-rule);
+}
+
+.asp-portada__cab {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.asp-portada__sep {
+  width: 1px;
+  height: var(--sep-h);
+  background: var(--c-photo-rule);
+}
+
+.asp-portada__fecha {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.asp-portada__dias {
+  display: block;
+  font-family: var(--font-numeral);
+  font-size: var(--fs-4xl);
+  font-weight: var(--fw-medium);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+.asp-portada__mes {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-lg);
+  font-style: italic;
+  line-height: var(--lh-heading);
+}
+
+.asp-portada__titulo {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+  max-width: 18ch;
+}
+
+.asp-portada__titulo a {
+  color: var(--c-photo-text);
+}
+
+.asp-portada__titulo a:hover {
+  color: var(--c-photo-text);
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+.asp-portada__pie {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  margin-top: var(--sp-2);
+}
+
+.asp-portada__cita {
+  font-size: var(--fs-2xl);
+  font-style: italic;
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-heading);
+  max-width: 24ch;
+}
+
+@media (min-width: 1024px) {
+  .asp-portada__velo {
+    min-height: 88vh;
+  }
+
+  .asp-portada__inner {
+    padding-block: var(--sp-10) var(--sp-9);
+  }
+
+  .asp-portada__titulo {
+    font-size: var(--fs-3xl);
+  }
+
+  .asp-portada__pie {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .asp-portada__cita {
+    font-size: var(--fs-3xl);
+  }
+}
+
+/* Quiénes somos: texto grande en serif y cita en itálica */
+.asp-editorial__texto {
+  font-size: var(--fs-xl);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tracking-display);
+  text-wrap: pretty;
+}
+
+.asp-editorial__cita {
+  font-style: italic;
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+  text-wrap: pretty;
+}
+
+.asp-editorial__cita .asp-label {
+  font-style: normal;
+  margin-left: var(--sp-2);
+}
+
+/* Lista numerada con filetes (iniciativas) */
+.asp-lista-numerada {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-lista-numerada__item {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: var(--sp-4);
+  align-items: baseline;
+  padding: var(--sp-5) 0;
+  border-bottom: var(--border-hairline) solid var(--c-border);
+  color: var(--c-text);
+}
+
+.asp-lista-numerada__item:hover {
+  color: var(--c-accent);
+}
+
+.asp-lista-numerada__num {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-regular);
+  color: var(--c-text-faint);
+  line-height: 1;
+}
+
+.asp-lista-numerada__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.asp-lista-numerada__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+}
+
+.asp-lista-numerada__bajada {
+  font-size: var(--fs-md);
+  color: var(--c-text-muted);
+}
+
+@media (min-width: 1024px) {
+  .asp-lista-numerada__item {
+    grid-template-columns: 5rem minmax(0, 1fr);
+    padding: var(--sp-6) 0;
+  }
+  .asp-lista-numerada__titulo {
+    font-size: var(--fs-xl);
+  }
+}
+
+/* Fotografía: una a sangre y una tira de tres */
+.asp-fotos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding-bottom: var(--sp-8);
+}
+
+.asp-fotos__principal {
+  aspect-ratio: 16 / 10;
+  background: var(--c-surface-2);
+  overflow: hidden;
+}
+
+.asp-fotos__principal img,
+.asp-fotos__tira img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.asp-fotos__tira {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-3);
+}
+
+.asp-fotos__tira figure {
+  aspect-ratio: 4 / 3;
+  background: var(--c-surface-2);
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .asp-fotos__principal {
+    aspect-ratio: 21 / 9;
+  }
+  .asp-fotos__tira {
+    gap: var(--sp-4);
+  }
+}
+
+/* Retratos del consejo: cuadrados 4:5, sin círculos */
+.asp-retratos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-5) var(--sp-4);
+}
+
+.asp-retrato {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  color: var(--c-text);
+}
+
+.asp-retrato:hover {
+  color: var(--c-accent);
+}
+
+.asp-retrato__foto {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: repeating-linear-gradient(135deg, var(--c-avatar-stripe-a) 0 var(--avatar-stripe), var(--c-avatar-stripe-b) var(--avatar-stripe) calc(var(--avatar-stripe) * 2));
+  filter: grayscale(1) contrast(1.05);
+  transition: filter var(--dur) var(--ease);
+}
+
+.asp-retrato:hover .asp-retrato__foto {
+  filter: none;
+}
+
+.asp-retrato__nombre {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  line-height: var(--lh-heading);
+  margin-top: var(--sp-1);
+}
+
+.asp-retrato__iglesia {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+}
+
+@media (min-width: 768px) {
+  .asp-retratos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .asp-retratos {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* Pie oscuro */
+.asp-footer__marca {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.asp-footer__logo img {
+  filter: invert(1) brightness(1.2);
+}
+
+.asp-footer__mision {
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--c-dark-muted);
+  max-width: 44ch;
+}
+
+.asp-footer__contacto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+}
+
+.asp-footer__redes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+}
+
+@media (min-width: 1024px) {
+  .asp-footer__redes {
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+}
+
+/* Retrato en la ficha de persona */
+.asp-persona-ficha__foto {
+  display: block;
+  width: 100%;
+  max-width: 260px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: repeating-linear-gradient(135deg, var(--c-avatar-stripe-a) 0 var(--avatar-stripe), var(--c-avatar-stripe-b) var(--avatar-stripe) calc(var(--avatar-stripe) * 2));
+}
+
+/* ---------------------------------------------------------------------
+   Recursos: cabecera, saltos y último artículo en grande
+   --------------------------------------------------------------------- */
+.asp-recursos__cab {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  padding-block: var(--sp-7) var(--sp-6);
+}
+
+.asp-recursos__bajada {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+  color: var(--c-text-muted);
+  max-width: 34ch;
+}
+
+.asp-recursos__saltos {
+  display: flex;
+  gap: var(--sp-6);
+}
+
+.asp-recursos__saltos a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h);
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-text);
+  box-shadow: inset 0 -1px 0 var(--c-border-strong);
+}
+
+.asp-recursos__saltos a:hover {
+  box-shadow: inset 0 -1px 0 var(--c-accent);
+}
+
+.asp-filtros--columna {
+  gap: var(--sp-2) var(--sp-5);
+}
+
+.asp-articulo-destacado {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding-bottom: var(--sp-6);
+  border-bottom: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-articulo-destacado__titulo {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+  max-width: 22ch;
+}
+
+.asp-articulo-destacado__resumen {
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+  max-width: 60ch;
+}
+
+.asp-articulo-destacado__meta {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+@media (min-width: 1024px) {
+  .asp-recursos__cab {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-block: var(--sp-8) var(--sp-7);
+  }
+
+  .asp-filtros--columna {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .asp-filtros--columna a {
+    min-height: var(--sp-6);
+  }
+
+  .asp-articulo-destacado__titulo {
+    font-size: var(--fs-3xl);
+  }
+
+  .asp-articulo-destacado__resumen {
+    font-size: var(--fs-lg);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Predicaciones: filas y reproductor
+   --------------------------------------------------------------------- */
+.asp-predicacion-fila {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: var(--sp-2) var(--sp-4);
+  padding: var(--sp-4) 0;
+  border-top: var(--border-hairline) solid var(--c-border);
+  color: var(--c-text);
+}
+
+.asp-predicacion-fila:hover .asp-predicacion-fila__titulo {
+  color: var(--c-accent);
+}
+
+.asp-predicacion-fila__tipo {
+  padding-top: 0.35em;
+}
+
+.asp-predicacion-fila__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+.asp-predicacion-fila__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+}
+
+.asp-predicacion-fila__meta {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+.asp-predicacion-fila__evento {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-md);
+  color: var(--c-text-muted);
+}
+
+.asp-predicacion-fila__fecha {
+  grid-column: 2;
+  font-family: var(--font-numeral);
+  font-size: var(--fs-sm);
+  color: var(--c-text-faint);
+}
+
+@media (min-width: 1024px) {
+  .asp-predicacion-fila {
+    grid-template-columns: 5rem minmax(0, 1fr) 12rem;
+    align-items: start;
+  }
+  .asp-predicacion-fila__fecha {
+    grid-column: 3;
+    text-align: right;
+    padding-top: 0.35em;
+  }
+}
+
+.asp-reproductor {
+  margin-block: var(--sp-2) var(--sp-4);
+}
+
+.asp-reproductor--video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--c-photo-placeholder-b);
+}
+
+.asp-reproductor--video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.asp-reproductor--audio audio {
+  display: block;
+  width: 100%;
+}
