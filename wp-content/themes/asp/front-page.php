@@ -2,8 +2,10 @@
 /**
  * Inicio, dirección editorial: el evento como hero sobre fotografía a
  * sangre; quiénes somos; iniciativas como lista con numerales; fotografía
- * con pie; eventos; consejo pastoral; recursos cuando haya. Todo consulta el
- * mismo CPT. Una sección sin contenido no se imprime.
+ * con pie; eventos; recursos cuando haya. Todo consulta el mismo CPT. Una
+ * sección sin contenido no se imprime.
+ *
+ * El consejo pastoral se sacó de la home el 21-9-2026: vive en Nosotros.
  *
  * @package asp
  */
@@ -28,7 +30,6 @@ $asp_fotos       = array_values(
 		]
 	)
 );
-$asp_consejo     = asp_personas_por_rol( 'consejo' );
 $asp_articulos   = get_posts( [ 'post_type' => 'post', 'post_status' => 'publish', 'posts_per_page' => 3 ] );
 $asp_hay_evento  = null !== asp_evento_destacado();
 
@@ -96,20 +97,6 @@ get_template_part( 'parts/evento/hero' );
 		<div class="asp-editorial__cuerpo asp-editorial__cuerpo--ancho">
 			<?php foreach ( $asp_eventos as $asp_post ) : ?>
 				<?php get_template_part( 'parts/evento/fila', null, [ 'post_id' => $asp_post->ID ] ); ?>
-			<?php endforeach; ?>
-		</div>
-	</section>
-<?php endif; ?>
-
-<?php if ( ! empty( $asp_consejo ) ) : ?>
-	<section class="asp-container asp-editorial asp-section--rule" aria-labelledby="home-consejo">
-		<div class="asp-editorial__cab">
-			<h2 id="home-consejo" class="asp-label"><?php esc_html_e( 'Consejo pastoral', 'asp' ); ?></h2>
-			<?php if ( $asp_nosotros ) : ?><a class="asp-cta-link" href="<?php echo esc_url( $asp_nosotros ); ?>"><?php esc_html_e( 'Nosotros', 'asp' ); ?></a><?php endif; ?>
-		</div>
-		<div class="asp-retratos">
-			<?php foreach ( $asp_consejo as $asp_persona ) : ?>
-				<?php get_template_part( 'parts/persona/retrato', null, [ 'post_id' => $asp_persona->ID ] ); ?>
 			<?php endforeach; ?>
 		</div>
 	</section>
