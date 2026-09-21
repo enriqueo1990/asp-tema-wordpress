@@ -83,7 +83,8 @@ wp-content/themes/asp/
 │                          estados, consultas, panel, redirects, contacto
 ├── parts/                 fragmentos por tipo de contenido
 ├── templates/             plantillas de página
-└── assets/css/            tokens → base → layout → components
+├── assets/css/            fuentes → tokens → base → layout → components
+└── assets/fonts/          Newsreader y Archivo autoalojadas (OFL 1.1)
 docs/                      relevamiento, modelo de datos, mapa de plantillas
 tools/                     scripts de carga y mantenimiento del sitio local
 ```
@@ -125,7 +126,6 @@ Pendiente, y depende del ministerio más que del código:
 - El WXR del blog viejo, para importar los artículos y completar `redirects.csv`.
 - La URL de inscripción de la próxima edición de "El cuidado de las almas".
 - Fotos, email de contacto y logo vectorial (hoy solo existe un PNG de 2018).
-- Autoalojar las fuentes: siguen cargando desde Google Fonts.
 - Recorrido final con contenido real en 390 px de ancho.
 
 Fuera del alcance de esta fase: sitio bilingüe, donaciones, inscripción propia

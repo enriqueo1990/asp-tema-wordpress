@@ -45,24 +45,13 @@ function asp_asset_url( string $relative_path ): string {
 }
 
 /**
- * URL de Google Fonts con las dos familias del sistema.
- *
- * TODO: pasar a fuentes autoalojadas en assets/fonts/ antes del lanzamiento
- * (privacidad y rendimiento). Mientras tanto se cargan desde Google.
- *
- * @return string
- */
-function asp_fonts_url(): string {
-	return 'https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Archivo:wght@400;500;600&display=swap';
-}
-
-/**
  * Hojas de estilo del tema, en el orden en que se cargan.
  *
  * @return array<string, string> handle => ruta relativa.
  */
 function asp_stylesheets(): array {
 	return [
+		'asp-fuentes'    => 'assets/css/fuentes.css',
 		'asp-tokens'     => 'assets/css/tokens.css',
 		'asp-base'       => 'assets/css/base.css',
 		'asp-layout'     => 'assets/css/layout.css',
@@ -76,9 +65,7 @@ function asp_stylesheets(): array {
  * @return void
  */
 function asp_enqueue_assets(): void {
-	wp_enqueue_style( 'asp-fonts', asp_fonts_url(), [], null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-
-	$previous = [ 'asp-fonts' ];
+	$previous = [];
 	foreach ( asp_stylesheets() as $handle => $path ) {
 		wp_enqueue_style(
 			$handle,
@@ -100,16 +87,18 @@ function asp_enqueue_assets(): void {
 add_action( 'wp_enqueue_scripts', 'asp_enqueue_assets' );
 
 /**
- * Preconexión a Google Fonts.
+ * Precarga las dos fuentes que aparecen en la primera pantalla de cualquier
+ * vista: la serif de lectura y la sans de los rótulos, ambas en latin. Las
+ * demás caras (itálica, latin-ext) se piden solo si hacen falta.
  *
- * @param array<int, array<string, string>> $urls  URLs.
- * @param string                            $relation_type Tipo.
- * @return array<int, array<string, string>>
+ * @return void
  */
-function asp_resource_hints( array $urls, string $relation_type ): array {
-	if ( 'preconnect' === $relation_type ) {
-		$urls[] = [ 'href' => 'https://fonts.gstatic.com', 'crossorigin' => 'anonymous' ];
+function asp_precargar_fuentes(): void {
+	foreach ( [ 'newsreader-latin.woff2', 'archivo-latin.woff2' ] as $asp_fuente ) {
+		printf(
+			'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+			esc_url( asp_asset_url( 'assets/fonts/' . $asp_fuente ) )
+		);
 	}
-	return $urls;
 }
-add_filter( 'wp_resource_hints', 'asp_resource_hints', 10, 2 );
+add_action( 'wp_head', 'asp_precargar_fuentes', 1 );
