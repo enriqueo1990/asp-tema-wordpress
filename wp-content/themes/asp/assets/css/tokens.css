@@ -110,68 +110,70 @@
   --dur: 180ms;
 
   /* --- Color -------------------------------------------------------- */
-  /* Hueso y tinta. Un solo acento, sobrio. */
-  --c-bg:         #FAF8F4;
-  --c-surface:    #F5F2EB;
-  --c-surface-2:  #EFEBE2;
-  --c-text:       #15130F;
-  --c-text-muted: #5A554B;   /* 6,6:1 sobre bg */
-  --c-text-faint: #6B665B;   /* 5,2:1 sobre bg · 4,6:1 sobre surface-2 */
-  --c-accent:     #1E3350;   /* tinta azul · 11:1 sobre bg */
-  --c-accent-ink: #FAF8F4;
-  /* Segundo acento, cálido: rótulos de categoría, numerales y años. La tinta
-     azul sigue siendo la de los enlaces y los botones; este no compite, da
-     temperatura. */
-  --c-accent-warm:      #9A4526;   /* 6,1:1 sobre bg */
-  --c-accent-warm-soft: #F2E7DE;
-  --c-border:        #E3DDD1;
-  --c-border-strong: #CBC3B3;
+  /* Blanco, azul y violeta. El fondo no tiñe: el color lo ponen la
+     fotografía, el azul de los enlaces y el violeta de los rótulos.
+     Todos los pares están verificados AA; ver tools/contraste.php. */
+  --c-bg:         #FFFFFF;
+  --c-surface:    #F5F6FA;
+  --c-surface-2:  #EAEDF5;
+  --c-text:       #14161C;
+  --c-text-muted: #545A68;   /* 7,2:1 sobre bg */
+  --c-text-faint: #646A78;   /* 5,6:1 sobre bg */
+  --c-accent:     #1E3A6E;   /* azul · enlaces, botones y estado abierto */
+  --c-accent-ink: #FFFFFF;
+  /* Segundo acento, violeta: rótulos de categoría y serie, numerales de las
+     iniciativas y años del archivo. Nunca en un enlace ni en un botón, para
+     que no compita con el azul. */
+  --c-accent-alt:      #5B3E9E;
+  --c-accent-alt-soft: #EFEAFA;
+  --c-border:        #E2E5EE;
+  --c-border-strong: #C2C7D6;
 
   --c-state-reserva-bg:   transparent;
-  --c-state-reserva-fg:   #3D3931;
-  --c-state-abierta-bg:   #1E3350;
-  --c-state-abierta-fg:   #FAF8F4;
-  --c-state-cerrada-bg:   #EFEBE2;
-  --c-state-cerrada-fg:   #5A554B;   /* 5,9:1 sobre cerrada-bg */
+  --c-state-reserva-fg:   #3A3F4B;
+  --c-state-abierta-bg:   #1E3A6E;
+  --c-state-abierta-fg:   #FFFFFF;
+  --c-state-cerrada-bg:   #EAEDF5;
+  --c-state-cerrada-fg:   #4F5564;
   --c-state-realizado-bg: transparent;
-  --c-state-realizado-fg: #5A554B;
+  --c-state-realizado-fg: #545A68;
 
   /* Banda tonal sobre la que se apoya el flyer sin recortarse */
-  --c-flyer-band:     #EFEBE2;
-  --c-flyer-band-ink: #5A554B;
+  --c-flyer-band:     #EAEDF5;
+  --c-flyer-band-ink: #4F5564;
 
   /* Dato faltante, solo para revisión interna y avisos del panel */
-  --c-todo-fg: #1E3350;
-  --c-todo-bg: #E6EAF0;
+  --c-todo-fg: #1E3A6E;
+  --c-todo-bg: #E6ECF7;
 
   /* Texto sobre fotografía documental: velo solo abajo, en degradado */
-  --c-photo-scrim: rgba(21, 19, 15, 0.55);
-  --c-photo-scrim-strong: rgba(21, 19, 15, 0.86);
-  --c-photo-scrim-none: rgba(21, 19, 15, 0);
-  --c-photo-text:  #FAF8F4;
-  --c-photo-placeholder-a: #26221C;
-  --c-photo-placeholder-b: #1B1814;
-  --c-photo-rule: rgba(250, 248, 244, 0.30);
+  --c-photo-scrim: rgba(10, 12, 18, 0.55);
+  --c-photo-scrim-strong: rgba(10, 12, 18, 0.86);
+  --c-photo-scrim-none: rgba(10, 12, 18, 0);
+  --c-photo-text:  #FFFFFF;
+  --c-photo-placeholder-a: #1D2230;
+  --c-photo-placeholder-b: #141821;
+  --c-photo-rule: rgba(255, 255, 255, 0.30);
 
-  /* Bloque oscuro (pie): tinta sobre hueso invertido */
-  --c-dark-bg:    #15130F;
-  --c-dark-fg:    #FAF8F4;
-  --c-dark-muted: #B8B1A3;   /* 8,7:1 sobre dark-bg */
-  --c-dark-rule:  rgba(250, 248, 244, 0.18);
+  /* Bloque oscuro (pie): azul muy oscuro, no negro */
+  --c-dark-bg:    #12172A;
+  --c-dark-fg:    #FFFFFF;
+  --c-dark-muted: #AEB5C6;
+  --c-dark-rule:  rgba(255, 255, 255, 0.18);
 
-  /* Franja "Próximo evento" (se conserva para otras vistas) */
-  --c-franja-bg:          #1E3350;
-  --c-franja-fg:          #FAF8F4;
-  --c-franja-rule:        rgba(250, 248, 244, 0.35);
-  --c-franja-rule-strong: rgba(250, 248, 244, 0.45);
-  --c-btn-invertido-bg:   #FAF8F4;
-  --c-btn-invertido-fg:   #1E3350;
+  /* Franja "Próximo evento" */
+  --c-franja-bg:          #1E3A6E;
+  --c-franja-fg:          #FFFFFF;
+  --c-franja-rule:        rgba(255, 255, 255, 0.35);
+  --c-franja-rule-strong: rgba(255, 255, 255, 0.45);
+  --c-btn-invertido-bg:   #FFFFFF;
+  --c-btn-invertido-fg:   #1E3A6E;
 
-  --c-focus-ring: #1E3350;
-  --c-logo-plate: #FAF8F4;
+  --c-focus-ring: #1E3A6E;
+  --c-logo-plate: #FFFFFF;
 
   /* Placeholder rayado de foto de persona sin cargar */
-  --c-avatar-stripe-a: #EFEBE2;
-  --c-avatar-stripe-b: #FAF8F4;
+  --c-avatar-stripe-a: #EAEDF5;
+  --c-avatar-stripe-b: #FFFFFF;
   --avatar-stripe: 5px;
 }

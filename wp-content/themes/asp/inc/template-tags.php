@@ -244,6 +244,23 @@ function asp_autor_articulo( int $post_id ): array {
 }
 
 /**
+ * Resumen de un artículo: el extracto cargado a mano y, si no hay, las
+ * primeras palabras del cuerpo. Los artículos migrados del blog traen su
+ * propio extracto, así que no se les inventa una bajada.
+ *
+ * @param int $post_id  ID del artículo.
+ * @param int $palabras Máximo de palabras.
+ * @return string
+ */
+function asp_resumen_articulo( int $post_id, int $palabras = 28 ): string {
+	$extracto = (string) get_post_field( 'post_excerpt', $post_id );
+	if ( '' === trim( $extracto ) ) {
+		$extracto = preg_replace( '#</(p|h[1-6]|li|blockquote|div)>#i', ' ', (string) get_post_field( 'post_content', $post_id ) );
+	}
+	return wp_trim_words( wp_strip_all_tags( (string) $extracto ), $palabras, '…' );
+}
+
+/**
  * Imagen destacada de un artículo o predicación, lista para imprimir.
  * Cadena vacía si no tiene: ninguna vista dibuja un hueco gris.
  *

@@ -49,7 +49,7 @@
   font-weight: var(--fw-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--c-accent-warm);
+  color: var(--c-accent-alt);
   line-height: 1.4;
 }
 
@@ -413,7 +413,7 @@
   font-family: var(--font-numeral);
   font-size: var(--fs-lg);
   font-weight: var(--fw-semibold);
-  color: var(--c-accent-warm);
+  color: var(--c-accent-alt);
   line-height: 1;
 }
 
@@ -1808,7 +1808,7 @@
   font-family: var(--font-numeral);
   font-size: var(--fs-xl);
   font-weight: var(--fw-regular);
-  color: var(--c-accent-warm);
+  color: var(--c-accent-alt);
   line-height: 1;
 }
 
@@ -2275,4 +2275,11 @@ a:hover .asp-imagen img {
   .asp-predicacion-fila--con-imagen {
     grid-template-columns: 11rem minmax(0, 1fr) auto;
   }
+}
+
+.asp-articulo-item__resumen {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+  max-width: 62ch;
 }
