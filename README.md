@@ -123,7 +123,6 @@ panel recorrido como `editor_eventos`, no como administrador.
 
 Pendiente, y depende del ministerio más que del código:
 
-- El WXR del blog viejo, para importar los artículos y completar `redirects.csv`.
 - La URL de inscripción de la próxima edición de "El cuidado de las almas".
 - Fotos, email de contacto y logo vectorial (hoy solo existe un PNG de 2018).
 - Recorrido final con contenido real en 390 px de ancho.

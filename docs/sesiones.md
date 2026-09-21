@@ -147,7 +147,7 @@ sitio local `asp-newsite.local`. Contra el plan de arriba:
 | 6 Listado y archivo | Hecha, en una sola vista `/eventos/` |
 | 7 Home | Hecha según el canvas |
 | 8 Iniciativas y personas | Hecha en versión básica; Nosotros completa |
-| 9 Recursos y migración | Plantillas y `inc/redirects.php` hechos, con `redirects.csv` en el tema. **Falta el WXR del blog** para importar los artículos y completar el CSV |
+| 9 Recursos y migración | Hecha. Los 11 artículos del blog viejo se importaron el 21-9-2026 desde su API REST con `tools/importar-blog.php`, sin WXR y sin plugin; `redirects.csv` completo, incluidas las URLs de autor |
 | 10 Afirmaciones | Texto migrado verbatim desde el sitio vivo; PDF pendiente |
 | 11 Panel | Hecha: rol `editor_eventos` (ve Eventos y Artículos), columnas Fecha/País/Estado/Inicio, «Duplicar edición anterior», página de ayuda. Probada logueado como ese rol |
 | 12 Cierre | schema.org y formulario de contacto propio hechos. Pendiente: fuentes autoalojadas, recorrido final con contenido real |

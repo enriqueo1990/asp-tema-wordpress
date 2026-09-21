@@ -1,6 +1,7 @@
 # Mapa de 301 desde blog.antesupalabra.com. Una fila por URL: origen,destino.
-# Los artículos individuales se completan en la sesión 9, con el WXR exportado.
-# La regla genérica (/slug/ → /recursos/slug/) cubre los que conserven el slug.
+# Los 11 artículos se trajeron el 21-9-2026 desde la API REST del blog viejo
+# (tools/importar-blog.php) conservando el slug. Van explícitos igual: si
+# alguno cambia de slug en el futuro, la regla genérica dejaría de cubrirlo.
 origen,destino
 /,/recursos/
 /inicio/,/recursos/
@@ -8,3 +9,17 @@ origen,destino
 /category/devocional/,/recursos/categoria/devocional/
 /category/vida-cristiana/,/recursos/categoria/vida-cristiana/
 /nosotros/,/nosotros/
+/dudas-de-tu-llamado-pastoral/,/recursos/dudas-de-tu-llamado-pastoral/
+/puedo-tomar-mate-los-lunes/,/recursos/puedo-tomar-mate-los-lunes/
+/la-clave-para-un-ministerio-perdurable/,/recursos/la-clave-para-un-ministerio-perdurable/
+/la-importancia-de-buscar-a-dios-mas-alla-de-la-actividad-ministerial/,/recursos/la-importancia-de-buscar-a-dios-mas-alla-de-la-actividad-ministerial/
+/apto-para-ensenar/,/recursos/apto-para-ensenar/
+/capacitados-para-cualquier-situacion/,/recursos/capacitados-para-cualquier-situacion/
+/te-han-dicho-que-en-tu-iglesia-no-hay-amor/,/recursos/te-han-dicho-que-en-tu-iglesia-no-hay-amor/
+/el-pastor-frente-a-los-falsos-maestros-1/,/recursos/el-pastor-frente-a-los-falsos-maestros-1/
+/dando-gracias-por-pastores-fieles/,/recursos/dando-gracias-por-pastores-fieles/
+/el-pastor-frente-a-los-falsos-maestros-2/,/recursos/el-pastor-frente-a-los-falsos-maestros-2/
+/el-pastor-frente-a-los-falsos-maestros-3/,/recursos/el-pastor-frente-a-los-falsos-maestros-3/
+/author/ricardo/,/personas/ricardo-daglio/
+/author/joselo/,/personas/joselo-mercado/
+/author/enrique_oriolo/,/recursos/

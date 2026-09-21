@@ -24,8 +24,9 @@ Documentos de referencia en `docs/`:
 - PHP 8.2+, plantillas propias.
 - **Sin plugins.** Los campos son meta boxes propios en `inc/`, guardados en post
   meta con `register_post_meta`. Ninguna dependencia de terceros ni licencia.
-  Única excepción: el importador de WordPress se usa **una vez** para migrar el
-  blog y se borra el mismo día.
+  Ni una sola, tampoco de un día: el blog viejo se migró el 21-9-2026 leyendo
+  su propia API REST (`tools/importar-blog.php`), así que el importador de
+  WordPress —la única excepción que estaba contemplada— nunca se instaló.
 - CSS propio con custom properties. Sin framework CSS.
 - JavaScript mínimo, vanilla, sin build step ni framework.
 
