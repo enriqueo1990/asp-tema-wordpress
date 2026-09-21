@@ -270,7 +270,7 @@ Que puedan publicar el día que se define la fecha y completar el resto después
 - Etiquetas en castellano llano, con textos de ayuda. Nada de "meta", "slug" ni "taxonomía".
 - Rol de usuario propio, **"Editor de eventos"**, con el panel podado a lo indispensable: Eventos, Artículos, nada más. Quince menús a alguien que entra dos veces al año paraliza.
 
-### Riesgo específico de que cargue alguien de redes
+### El modo de carga que rompe el sitio
 
 Que suba el flyer y deje los campos vacíos, porque "toda la info ya está en el flyer". Es lo natural para quien viene de Instagram, y es lo que rompe el sitio: el texto dentro de una imagen no lo lee Google, no lo lee un lector de pantalla, y no sirve para armar el listado ni el archivo.
 

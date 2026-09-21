@@ -6,17 +6,18 @@
  * Solo datos que están en docs/proyecto.md. Donde falta un dato, queda
  * vacío y la plantilla no lo muestra. Nada inventado.
  *
- * Uso (PHP de Local, con el php.ini del sitio para el socket de MySQL):
+ * Uso (PHP de Local, con el php.ini del sitio para el socket de MySQL;
+ * <sitio> es el id de la carpeta en Local/run/):
  *   LS="$HOME/Library/Application Support/Local"
  *   "$LS/lightning-services/php-8.2.29+0/bin/darwin-arm64/bin/php" \
- *     -c "$LS/run/s_-1CZLPB/conf/php/php.ini" tools/seed-local.php
+ *     -c "$LS/run/<sitio>/conf/php/php.ini" tools/seed-local.php
+ *
+ * La ruta de WordPress se configura con ASP_WP_PATH (ver arranque.php).
  */
 
 declare(strict_types=1);
 
-define( 'WP_USE_THEMES', false );
-$_SERVER['HTTP_HOST'] = 'asp-newsite.local';
-require '/Users/ibg/Local Sites/asp-newsite/app/public/wp-load.php';
+require __DIR__ . '/arranque.php';
 
 $log = static function ( string $m ): void {
 	echo $m, "\n";

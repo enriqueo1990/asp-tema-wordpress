@@ -1,9 +1,7 @@
 <?php
 /** Borra todo el contenido creado por seed-demo.php (meta _asp_demo). */
 declare(strict_types=1);
-define( 'WP_USE_THEMES', false );
-$_SERVER['HTTP_HOST'] = 'asp-newsite.local';
-require '/Users/ibg/Local Sites/asp-newsite/app/public/wp-load.php';
+require __DIR__ . '/arranque.php';
 $ids = get_posts( [ 'post_type' => 'any', 'post_status' => 'any', 'posts_per_page' => -1, 'fields' => 'ids', 'meta_key' => '_asp_demo', 'meta_value' => '1' ] );
 $adj = get_posts( [ 'post_type' => 'attachment', 'post_status' => 'any', 'posts_per_page' => -1, 'fields' => 'ids', 'meta_key' => '_asp_demo', 'meta_value' => '1' ] );
 foreach ( array_unique( array_merge( $ids, $adj ) ) as $id ) {

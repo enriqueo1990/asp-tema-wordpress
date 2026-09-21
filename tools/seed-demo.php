@@ -11,9 +11,7 @@
 
 declare(strict_types=1);
 
-define( 'WP_USE_THEMES', false );
-$_SERVER['HTTP_HOST'] = 'asp-newsite.local';
-require '/Users/ibg/Local Sites/asp-newsite/app/public/wp-load.php';
+require __DIR__ . '/arranque.php';
 require_once ABSPATH . 'wp-admin/includes/file.php';
 require_once ABSPATH . 'wp-admin/includes/media.php';
 require_once ABSPATH . 'wp-admin/includes/image.php';
