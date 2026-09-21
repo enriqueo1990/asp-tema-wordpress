@@ -23,6 +23,20 @@ $log = static function ( string $m ): void {
 	echo $m, "\n";
 };
 
+/* El sitio es en castellano: sin esto el core (y todo el panel, que usa
+   alguien del área de redes) queda en inglés. */
+if ( 'es_AR' !== get_option( 'WPLANG' ) ) {
+	require_once ABSPATH . 'wp-admin/includes/translation-install.php';
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	$asp_pack = wp_download_language_pack( 'es_AR' );
+	if ( is_wp_error( $asp_pack ) ) {
+		$log( '! no se pudo bajar el paquete es_AR: ' . $asp_pack->get_error_message() );
+	} else {
+		update_option( 'WPLANG', 'es_AR' );
+		$log( '+ idioma del sitio: es_AR' );
+	}
+}
+
 /** Busca un post por tipo y título; si no existe lo crea. */
 $asegurar_post = static function ( string $tipo, string $titulo, array $extra = [] ) use ( $log ): int {
 	$existente = get_posts( [ 'post_type' => $tipo, 'title' => $titulo, 'post_status' => 'any', 'posts_per_page' => 1 ] );
