@@ -47,6 +47,8 @@ while ( have_posts() ) :
 				<?php if ( $asp_texto ) : ?>
 					<div class="asp-prose"><?php the_content(); ?></div>
 				<?php endif; ?>
+				<?php /* Sin esto la predicación es un callejón: la mayoría no tiene evento cargado y la columna «Del mismo evento» no aparece. */ ?>
+				<a class="asp-link-archivo" href="<?php echo esc_url( (string) get_post_type_archive_link( 'predicacion' ) ); ?>"><?php esc_html_e( 'Todas las predicaciones', 'asp' ); ?></a>
 			</article>
 
 			<?php if ( ! empty( $asp_otras ) ) : ?>

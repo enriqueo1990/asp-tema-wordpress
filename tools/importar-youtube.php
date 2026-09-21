@@ -34,7 +34,8 @@ $personas = get_posts( [ 'post_type' => 'persona', 'post_status' => 'publish', '
 $duracion = static function ( string $d ): string {
 	$p = array_map( 'intval', explode( ':', $d ) );
 	if ( 3 === count( $p ) ) {
-		return sprintf( '%d h %d min', $p[0], $p[1] );
+		/* Una hora justa se dice "1 h", no "1 h 0 min". */
+		return 0 === $p[1] ? sprintf( '%d h', $p[0] ) : sprintf( '%d h %d min', $p[0], $p[1] );
 	}
 	if ( 2 === count( $p ) ) {
 		return sprintf( '%d min', $p[0] );

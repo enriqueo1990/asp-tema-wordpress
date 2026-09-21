@@ -460,10 +460,21 @@
 }
 
 .asp-editorial__cab {
+  /* En el teléfono el rótulo y el enlace no entran en la misma línea:
+     "Todas las predicaciones" se partía en dos y quedaba desalineado. */
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--sp-4);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-3);
+}
+
+@media (min-width: 768px) {
+  .asp-editorial__cab {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+  }
 }
 
 .asp-editorial__cuerpo {

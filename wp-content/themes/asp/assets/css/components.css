@@ -2010,7 +2010,10 @@
 
 .asp-recursos__saltos {
   display: flex;
-  gap: var(--sp-6);
+  /* Tres rótulos en mayúsculas no entran en 375 px: bajan de línea en vez
+     de desbordar la página. */
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-6);
 }
 
 .asp-recursos__saltos a {
