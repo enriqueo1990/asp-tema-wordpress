@@ -45,7 +45,7 @@
 .asp-chip {
   display: inline-block;
   font-family: var(--font-ui);
-  font-size: var(--fs-xs);
+  font-size: var(--fs-label);
   font-weight: var(--fw-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
@@ -155,7 +155,9 @@
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--c-accent);
-  box-shadow: inset 0 -1px 0 var(--c-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.5em;
 }
 
 .asp-link-archivo {
@@ -189,9 +191,13 @@
 /* ---------------------------------------------------------------------
    Banda del flyer: contenido, nunca recortado
    --------------------------------------------------------------------- */
+/* La imagen va absoluta dentro de la banda y con object-fit: contain, así
+   entra entera siempre (regla 5). Antes usaba max-height en porcentaje dentro
+   de una grilla: el porcentaje no se resolvía, la imagen tomaba su alto
+   natural y el overflow: hidden le cortaba el pie. */
 .asp-flyer {
-  display: grid;
-  place-items: center;
+  position: relative;
+  display: block;
   aspect-ratio: var(--band-ratio-mobile);
   background: var(--c-flyer-band);
   border-radius: var(--radius-4);
@@ -199,12 +205,12 @@
 }
 
 .asp-flyer img {
-  max-width: 100%;
-  max-height: var(--band-flyer-h);
-  width: auto;
-  height: auto;
+  position: absolute;
+  top: calc((100% - var(--band-flyer-h)) / 2);
+  left: calc((100% - var(--band-flyer-h)) / 2);
+  width: var(--band-flyer-h);
+  height: var(--band-flyer-h);
   object-fit: contain;
-  border-radius: var(--radius-3);
 }
 
 .asp-flyer--desktop-wide {
@@ -220,7 +226,10 @@
     aspect-ratio: var(--band-ratio-desktop);
   }
   .asp-flyer--desktop-wide img {
-    max-height: var(--band-flyer-h-desktop);
+    top: calc((100% - var(--band-flyer-h-desktop)) / 2);
+    left: calc((100% - var(--band-flyer-h-desktop)) / 2);
+    width: var(--band-flyer-h-desktop);
+    height: var(--band-flyer-h-desktop);
   }
 }
 
@@ -413,7 +422,7 @@
   font-family: var(--font-numeral);
   font-size: var(--fs-lg);
   font-weight: var(--fw-semibold);
-  color: var(--c-accent-alt);
+  color: var(--c-accent);
   line-height: 1;
 }
 
@@ -1808,7 +1817,7 @@
   font-family: var(--font-numeral);
   font-size: var(--fs-xl);
   font-weight: var(--fw-regular);
-  color: var(--c-accent-alt);
+  color: var(--c-accent);
   line-height: 1;
 }
 
@@ -2247,21 +2256,28 @@ a:hover .asp-imagen img {
   display: block;
 }
 
+/* Play en la esquina inferior: en el centro tapaba el texto que las
+   miniaturas de YouTube suelen llevar ("El llamado"). */
 .asp-play {
   position: absolute;
-  inset: 0;
+  left: var(--sp-2);
+  bottom: var(--sp-2);
   display: grid;
   place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--c-photo-scrim-strong);
 }
 
 .asp-play::before {
   content: "";
   width: 0;
   height: 0;
+  margin-left: 0.125rem;
   border-style: solid;
-  border-width: 0.45rem 0 0.45rem 0.75rem;
+  border-width: 0.3rem 0 0.3rem 0.5rem;
   border-color: transparent transparent transparent var(--c-accent-ink);
-  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.45));
 }
 
 @media (min-width: 768px) {
@@ -2297,12 +2313,12 @@ a:hover .asp-imagen img {
 }
 
 .asp-indice-anios a {
-  color: var(--c-accent-alt);
+  color: var(--c-accent);
   box-shadow: inset 0 -1px 0 var(--c-border-strong);
 }
 
 .asp-indice-anios a:hover {
-  box-shadow: inset 0 -1px 0 var(--c-accent-alt);
+  box-shadow: inset 0 -1px 0 var(--c-accent);
 }
 
 .asp-anio__num--grilla {
@@ -2405,8 +2421,8 @@ a:hover .asp-imagen img {
   content: "";
   width: 0.5rem;
   height: 0.5rem;
-  border-right: 1.5px solid var(--c-accent-alt);
-  border-bottom: 1.5px solid var(--c-accent-alt);
+  border-right: 1.5px solid var(--c-accent);
+  border-bottom: 1.5px solid var(--c-accent);
   transform: rotate(45deg) translateY(-0.15rem);
   transition: transform var(--dur) var(--ease);
 }
@@ -2447,60 +2463,6 @@ a:hover .asp-imagen img {
   }
 }
 
-/* Iniciativas en cajas */
-.asp-grilla-iniciativas {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--sp-3);
-}
-
-.asp-caja-iniciativa {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-2);
-  padding: var(--sp-4);
-  min-height: 8.5rem;
-  border: var(--border-hairline) solid var(--c-border);
-  border-radius: var(--radius-4);
-  background: var(--c-bg);
-  color: var(--c-text);
-  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
-}
-
-.asp-caja-iniciativa:hover {
-  border-color: var(--c-accent-alt);
-  background: var(--c-surface);
-  color: var(--c-text);
-}
-
-.asp-caja-iniciativa__num {
-  font-family: var(--font-numeral);
-  font-size: var(--fs-sm);
-  color: var(--c-accent-alt);
-  line-height: 1;
-}
-
-.asp-caja-iniciativa__titulo {
-  font-family: var(--font-display);
-  font-size: var(--fs-base);
-  font-weight: var(--fw-medium);
-  line-height: var(--lh-heading);
-}
-
-.asp-caja-iniciativa__bajada {
-  font-family: var(--font-ui);
-  font-size: var(--fs-xs);
-  line-height: var(--lh-body);
-  color: var(--c-text-muted);
-}
-
-/* Eventos: las fichas con su flyer, no una lista */
-.asp-grilla-eventos {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--sp-6);
-}
-
 /* Predicaciones sobre banda oscura: es el bloque con más color del inicio */
 .asp-banda-oscura {
   background: var(--c-dark-bg);
@@ -2523,56 +2485,16 @@ a:hover .asp-imagen img {
 
 .asp-banda-oscura .asp-cta-link {
   color: var(--c-dark-fg);
-  box-shadow: inset 0 -1px 0 var(--c-dark-rule);
+  text-decoration-color: var(--c-dark-rule);
 }
 
 .asp-banda-oscura .asp-cta-link:hover {
-  box-shadow: inset 0 -1px 0 var(--c-dark-fg);
+  text-decoration-color: var(--c-dark-fg);
 }
 
 .asp-banda-oscura .asp-imagen,
 .asp-banda-oscura .asp-predicacion-tarjeta__sinfoto {
   background: rgba(255, 255, 255, 0.08);
-}
-
-/* Artículos: uno de portada y los demás al costado */
-.asp-portada-articulos {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--sp-6);
-}
-
-.asp-portada-articulos__resto {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-5);
-}
-
-@media (min-width: 768px) {
-  .asp-grilla-iniciativas {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--sp-4);
-  }
-
-  .asp-grilla-eventos {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--sp-6) var(--sp-5);
-  }
-
-  .asp-portada-articulos {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    gap: var(--sp-6);
-  }
-
-  /* Al costado del destacado, las tarjetas van en fila compacta */
-  .asp-portada-articulos__resto .asp-articulo-item--con-imagen {
-    grid-template-columns: 9rem minmax(0, 1fr);
-    gap: var(--sp-4);
-  }
-
-  .asp-portada-articulos__resto .asp-articulo-item__resumen {
-    display: none;
-  }
 }
 
 /* Eventos en tamaño chico (inicio). En el teléfono: flyer a la izquierda,
@@ -2596,29 +2518,41 @@ a:hover .asp-imagen img {
   color: var(--c-accent);
 }
 
+/* Un solo formato para los tres casos (flyer 4:5, flyer cuadrado, sin
+   flyer): la misma caja con el mismo fondo neutro. El flyer va absoluto y
+   con object-fit: contain, así nunca empuja la caja ni se recorta (regla 5).
+   Antes la imagen desbordaba la caja y overflow: hidden le cortaba el pie. */
 .asp-evento-mini__visual {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 4 / 5;
-  padding: var(--sp-1);
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
   background: var(--c-flyer-band);
   border-radius: var(--radius-4);
   overflow: hidden;
 }
 
-.asp-evento-mini__visual img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
+.asp-evento-mini__flyer {
+  position: absolute;
+  inset: var(--sp-2);
+  display: block;
+}
+
+.asp-evento-mini__flyer img {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
-.asp-evento-mini__visual--fecha {
-  align-content: center;
+/* Sin flyer: la fecha sobre el mismo fondo, en azul. Mismo peso que un flyer,
+   no un bloque de color que parezca otra cosa. */
+.asp-evento-mini__fecha {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
   gap: var(--sp-1);
-  background: var(--c-accent);
-  color: var(--c-accent-ink);
+  color: var(--c-accent);
   text-align: center;
 }
 
@@ -2667,7 +2601,14 @@ a:hover .asp-imagen img {
 
   .asp-evento-mini__visual {
     aspect-ratio: 4 / 3;
-    padding: var(--sp-3);
+  }
+
+  .asp-evento-mini__flyer {
+    inset: var(--sp-3);
+  }
+
+  .asp-evento-mini__dias {
+    font-size: var(--fs-2xl);
   }
 }
 
@@ -2681,11 +2622,16 @@ a:hover .asp-imagen img {
   gap: var(--sp-3);
 }
 
+/* Numeral arriba, nombre y próximo encuentro abajo. Sin proporción fija: con
+   4:5 eran bloques altos y vacíos que parecían placeholders, y cuando un
+   nombre ocupaba tres líneas los numerales quedaban desalineados. */
 .asp-tile {
   position: relative;
   display: flex;
-  align-items: flex-end;
-  aspect-ratio: 4 / 5;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  min-height: 10rem;
   padding: var(--sp-4);
   overflow: hidden;
   border-radius: var(--radius-4);
@@ -2874,7 +2820,7 @@ a:hover .asp-imagen img {
   }
 
   .asp-tile {
-    aspect-ratio: 3 / 4;
+    min-height: 13rem;
     padding: var(--sp-5);
   }
 
@@ -2901,10 +2847,124 @@ a:hover .asp-imagen img {
   }
 }
 
-/* Entre el teléfono y las cuatro columnas, las tarjetas de iniciativa siguen
-   en dos columnas pero ya son anchas: en 4:5 medían 352 × 440 px. Apaisadas. */
-@media (min-width: 560px) and (max-width: 767.98px) {
-  .asp-tile {
-    aspect-ratio: 4 / 3;
+
+/* ---------------------------------------------------------------------
+   Ajustes de la revisión de diseño del 23-9-2026
+   --------------------------------------------------------------------- */
+
+/* Cabecera de sección: rótulo y enlace sobre la misma línea. Solo en fila:
+   en el teléfono van apilados y "center" los centraba en horizontal. */
+@media (min-width: 768px) {
+  .asp-cab-suelto {
+    align-items: center;
+  }
+}
+
+.asp-cab-suelto .asp-cta-link {
+  font-size: var(--fs-label);
+}
+
+/* Un solo ritmo vertical entre los bloques del inicio */
+.asp-home-bloque,
+.asp-editorial.asp-home-bloque {
+  padding-block: var(--sp-home);
+}
+
+/* Hero: manda el nombre del evento, no la fecha */
+.asp-portada__dias {
+  font-size: var(--fs-xl);
+}
+
+.asp-portada__titulo {
+  font-size: var(--fs-2xl);
+}
+
+/* En el inicio el hero ya es el próximo evento: el aviso de la cabecera
+   repetía exactamente lo mismo. */
+.home .asp-header__cta,
+.home .asp-nav__proximo {
+  display: none;
+}
+
+/* Quiénes somos: la referencia va debajo de la cita, alineada con el texto */
+.asp-editorial__cita .asp-label {
+  display: block;
+  margin-left: 0;
+  margin-top: var(--sp-2);
+}
+
+/* Iniciativas */
+.asp-tile__dato {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-tile-ink);
+}
+
+/* Metadatos de tarjeta legibles a tamaño real */
+.asp-predicacion-tarjeta__meta,
+.asp-articulo-tarjeta__meta {
+  font-size: var(--fs-sm);
+}
+
+/* Filete entre secciones: del ancho del contenido, no del contenedor con
+   sus márgenes. Antes el borde iba sobre la caja con padding y sobresalía. */
+.asp-container.asp-section--rule {
+  border-top: 0;
+  background-image: linear-gradient(var(--c-border), var(--c-border));
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: calc(100% - 2 * var(--w-gutter)) var(--border-hairline);
+}
+
+.asp-banda > .asp-section--rule {
+  background-image: none;
+}
+
+/* Pie */
+.asp-footer__inner {
+  padding-block: var(--sp-7) var(--sp-6);
+}
+
+.asp-footer__redes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: var(--sp-3) var(--sp-5);
+}
+
+/* Redes con el mismo tratamiento que la columna "Sitio" */
+.asp-footer__redes a {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.asp-footer__legal {
+  padding-block: var(--sp-5);
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  color: var(--c-dark-muted);
+  background-image: linear-gradient(var(--c-dark-rule), var(--c-dark-rule));
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: calc(100% - 2 * var(--w-gutter)) var(--border-hairline);
+}
+
+@media (min-width: 768px) {
+  .asp-portada__pie {
+    justify-content: flex-start;
+    gap: var(--sp-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .asp-portada__dias {
+    font-size: var(--fs-2xl);
+  }
+
+  .asp-portada__titulo {
+    font-size: var(--fs-3xl);
+    max-width: 16ch;
   }
 }

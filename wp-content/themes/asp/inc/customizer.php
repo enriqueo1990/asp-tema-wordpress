@@ -101,7 +101,7 @@ function asp_customizer( WP_Customize_Manager $wp_customize ): void {
 
 	$redes = [
 		'asp_red_facebook'  => [ 'Facebook', 'https://www.facebook.com/ConferenciaAnteSuPalabra/' ],
-		'asp_red_twitter'   => [ 'Twitter', 'https://twitter.com/antesupalabra' ],
+		'asp_red_twitter'   => [ 'X', 'https://x.com/antesupalabra' ],
 		'asp_red_youtube'   => [ 'YouTube', 'https://www.youtube.com/channel/UCzBclEQZPuu7qy7rQRpUdaA' ],
 		'asp_red_instagram' => [ 'Instagram', 'https://www.instagram.com/antesupalabra/' ],
 	];

@@ -9,11 +9,11 @@ defined( 'ABSPATH' ) || exit;
 
 $asp_id     = (int) ( $args['post_id'] ?? get_the_ID() );
 $asp_tipo   = asp_predicacion_tipo( $asp_id );
-$asp_orador = asp_predicacion_orador( $asp_id );
+$asp_partes = asp_predicacion_titulo_partes( $asp_id );
 $asp_evento = empty( $args['sin_evento'] ) ? asp_predicacion_evento( $asp_id ) : null;
 $asp_pasaje = (string) get_post_meta( $asp_id, 'predicacion_pasaje', true );
-$asp_dur    = (string) get_post_meta( $asp_id, 'predicacion_duracion', true );
-$asp_meta   = array_filter( [ $asp_orador ? get_the_title( $asp_orador ) : '', $asp_pasaje, $asp_dur ] );
+$asp_dur    = asp_duracion_legible( (string) get_post_meta( $asp_id, 'predicacion_duracion', true ) );
+$asp_meta   = array_filter( [ $asp_partes['orador'], $asp_pasaje, $asp_dur ] );
 /* Con miniatura, ella ocupa la columna de la izquierda y el formato pasa a
    la línea de datos. Sin miniatura (audio o texto), sigue el rótulo. */
 $asp_img    = asp_imagen_destacada( $asp_id, 'asp-tarjeta', 'asp-imagen asp-imagen--miniatura' );
@@ -25,7 +25,7 @@ $asp_img    = asp_imagen_destacada( $asp_id, 'asp-tarjeta', 'asp-imagen asp-imag
 		<span class="asp-predicacion-fila__tipo asp-label"><?php echo esc_html( asp_predicacion_tipo_etiqueta( $asp_tipo ) ); ?></span>
 	<?php endif; ?>
 	<span class="asp-predicacion-fila__cuerpo">
-		<span class="asp-predicacion-fila__titulo"><?php echo esc_html( get_the_title( $asp_id ) ); ?></span>
+		<span class="asp-predicacion-fila__titulo"><?php echo esc_html( $asp_partes['titulo'] ); ?></span>
 		<?php
 		$asp_datos = $asp_img ? array_merge( [ asp_predicacion_tipo_etiqueta( $asp_tipo ) ], $asp_meta ) : $asp_meta;
 		?>

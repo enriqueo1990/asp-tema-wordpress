@@ -19,12 +19,14 @@
   --sp-5:  1.5rem;
   --sp-6:  2rem;
   --sp-7:  3rem;
+  --sp-home: clamp(3rem, 3vw + 2rem, 5rem);   /* aire entre bloques del inicio: uno solo para todos */
   --sp-8:  4rem;
   --sp-9:  6rem;
   --sp-10: 8rem;
 
   /* --- Escala tipográfica (fluida) ---------------------------------- */
   --fs-xs:   0.75rem;
+  --fs-label: 0.8125rem;   /* rótulos en mayúscula: a 12 px con tracking quedaban al límite */
   --fs-sm:   0.875rem;
   --fs-base: 1rem;
   --fs-md:   clamp(1.0625rem, 0.3vw + 1rem,   1.1875rem);
@@ -121,15 +123,15 @@
   --c-text-faint: #646A78;   /* 5,6:1 sobre bg */
   --c-accent:     #1E3A6E;   /* azul · enlaces, botones y estado abierto */
   --c-accent-ink: #FFFFFF;
-  /* Segundo acento, violeta: rótulos de categoría y serie, numerales de las
-     iniciativas y años del archivo. Nunca en un enlace ni en un botón, para
-     que no compita con el azul. */
+  /* Segundo acento, violeta, con un solo significado: la categoría o la
+     serie de un contenido. Nada más lo usa, así se lee como un código y no
+     como un adorno. Nunca en un enlace ni en un botón. */
   --c-accent-alt:      #5B3E9E;
   --c-accent-alt-soft: #EFEAFA;
   /* Tarjetas de iniciativa sin foto: cuatro tonos de la misma familia, con
      texto blanco encima. */
   --c-tile-1: #1E3A6E;   /* azul */
-  --c-tile-2: #5B3E9E;   /* violeta */
+  --c-tile-2: #2A4A85;   /* azul medio */
   --c-tile-3: #2F3D86;   /* índigo */
   --c-tile-4: #12172A;   /* azul noche */
   --c-tile-ink: #FFFFFF;

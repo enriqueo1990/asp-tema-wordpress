@@ -40,26 +40,18 @@ $asp_eventos   = $asp_proximos ?: $asp_pasados;
 $asp_son_prox  = ! empty( $asp_proximos );
 
 $asp_predic    = asp_predicaciones( [], 4 );
-$asp_articulos = get_posts( [ 'post_type' => 'post', 'post_status' => 'publish', 'posts_per_page' => 3 ] );
+$asp_articulos = asp_articulos_portada( 3 );
 $asp_sumarse   = (string) get_theme_mod( 'asp_sumarse_texto', '' );
-/* La galería cierra la página: la primera foto es el fondo de "Sumarse" y
-   las demás van en una tira justo antes. */
+/* La galería cierra la página: su primera foto es el fondo de "Sumate". La
+   tira de tres fotos que iba antes se sacó el 23-9-2026: pegada a las
+   tarjetas de artículos se leía como una fila de artículos rota. */
 $asp_foto_cierre = asp_imagen_mod( 'asp_galeria_1', 'asp-cierre__foto', 'full' );
-$asp_tira        = array_values(
-	array_filter(
-		[
-			asp_imagen_mod( 'asp_galeria_2', '', 'medium_large' ),
-			asp_imagen_mod( 'asp_galeria_3', '', 'medium_large' ),
-			asp_imagen_mod( 'asp_galeria_4', '', 'medium_large' ) ?: asp_imagen_mod( 'asp_mision_imagen', '', 'medium_large' ),
-		]
-	)
-);
 
 get_template_part( 'parts/evento/hero' );
 ?>
 
 <?php if ( $asp_mision ) : ?>
-	<section class="asp-container asp-editorial" aria-labelledby="home-somos">
+	<section class="asp-container asp-editorial asp-home-bloque" aria-labelledby="home-somos">
 		<h2 id="home-somos" class="asp-label"><?php esc_html_e( 'Quiénes somos', 'asp' ); ?></h2>
 		<div class="asp-editorial__cuerpo">
 			<p class="asp-editorial__texto"><?php echo esc_html( $asp_mision ); ?></p>
@@ -82,7 +74,7 @@ get_template_part( 'parts/evento/hero' );
 <?php endif; ?>
 
 <?php if ( ! empty( $asp_iniciativas ) ) : ?>
-	<section class="asp-container asp-section--rule asp-section--tight" aria-labelledby="home-iniciativas">
+	<section class="asp-container asp-home-bloque" aria-labelledby="home-iniciativas">
 		<div class="asp-editorial__cab asp-cab-suelto">
 			<h2 id="home-iniciativas" class="asp-label"><?php esc_html_e( 'Iniciativas', 'asp' ); ?></h2>
 			<a class="asp-cta-link" href="<?php echo esc_url( (string) get_post_type_archive_link( 'iniciativa' ) ); ?>"><?php esc_html_e( 'Todas las iniciativas', 'asp' ); ?></a>
@@ -96,7 +88,7 @@ get_template_part( 'parts/evento/hero' );
 <?php endif; ?>
 
 <?php if ( ! empty( $asp_eventos ) ) : ?>
-	<section class="asp-container asp-section--tight" aria-labelledby="home-eventos">
+	<section class="asp-container asp-home-bloque" aria-labelledby="home-eventos">
 		<div class="asp-editorial__cab asp-cab-suelto">
 			<h2 id="home-eventos" class="asp-label"><?php echo esc_html( $asp_son_prox ? __( 'Próximos eventos', 'asp' ) : __( 'Últimos eventos', 'asp' ) ); ?></h2>
 			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_eventos() ); ?>"><?php echo esc_html( $asp_son_prox ? __( 'Todos los eventos', 'asp' ) : __( 'Ver el archivo', 'asp' ) ); ?></a>
@@ -111,7 +103,7 @@ get_template_part( 'parts/evento/hero' );
 
 <?php if ( ! empty( $asp_predic ) ) : ?>
 	<div class="asp-banda-oscura">
-		<section class="asp-container asp-section--tight" aria-labelledby="home-predicaciones">
+		<section class="asp-container asp-home-bloque" aria-labelledby="home-predicaciones">
 			<div class="asp-editorial__cab asp-cab-suelto">
 				<h2 id="home-predicaciones" class="asp-label"><?php esc_html_e( 'Predicaciones', 'asp' ); ?></h2>
 				<a class="asp-cta-link" href="<?php echo esc_url( (string) get_post_type_archive_link( 'predicacion' ) ); ?>"><?php esc_html_e( 'Todas las predicaciones', 'asp' ); ?></a>
@@ -126,7 +118,7 @@ get_template_part( 'parts/evento/hero' );
 <?php endif; ?>
 
 <?php if ( ! empty( $asp_articulos ) ) : ?>
-	<section class="asp-container asp-section--tight" aria-labelledby="home-articulos">
+	<section class="asp-container asp-home-bloque" aria-labelledby="home-articulos">
 		<div class="asp-editorial__cab asp-cab-suelto">
 			<h2 id="home-articulos" class="asp-label"><?php esc_html_e( 'Artículos', 'asp' ); ?></h2>
 			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_recursos() ); ?>"><?php esc_html_e( 'Todos los artículos', 'asp' ); ?></a>
@@ -137,14 +129,6 @@ get_template_part( 'parts/evento/hero' );
 			<?php endforeach; ?>
 		</div>
 	</section>
-<?php endif; ?>
-
-<?php if ( ! empty( $asp_tira ) ) : ?>
-	<div class="asp-container asp-fotos__tira asp-fotos__tira--cierre" aria-label="<?php esc_attr_e( 'Fotografías', 'asp' ); ?>">
-		<?php foreach ( $asp_tira as $asp_img ) : ?>
-			<figure><?php echo $asp_img; // phpcs:ignore WordPress.Security.EscapeOutput ?></figure>
-		<?php endforeach; ?>
-	</div>
 <?php endif; ?>
 
 <?php /* TODO: el ministerio tiene que escribir la invitación real en

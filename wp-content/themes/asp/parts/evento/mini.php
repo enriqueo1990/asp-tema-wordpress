@@ -2,8 +2,9 @@
 /**
  * Evento en tamaño chico, para el inicio. Args: post_id.
  *
- * El flyer entra contenido en una banda tonal, sin recortarse (regla 5).
- * Sin flyer, la fecha ocupa ese lugar en grande. Toda la tarjeta lleva a la
+ * Una sola caja cuadrada sobre la banda tonal para todos: el flyer entra
+ * contenido, sin recortarse (regla 5), sea 4:5 o cuadrado. Sin flyer, la
+ * misma caja lleva la fecha, con el mismo peso. Toda la tarjeta lleva a la
  * ficha: el botón de inscripción vive ahí y en el hero, no se repite acá.
  *
  * @package asp
@@ -20,12 +21,14 @@ $asp_lugar  = implode( ', ', array_filter( [ $asp_ciudad, $asp_pais ] ) );
 $asp_img    = $asp_flyer ? wp_get_attachment_image( $asp_flyer, 'asp-flyer-card', false, [ 'loading' => 'lazy', 'alt' => '' ] ) : '';
 ?>
 <a class="asp-evento-mini" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>">
-	<span class="asp-evento-mini__visual<?php echo $asp_img ? '' : ' asp-evento-mini__visual--fecha'; ?>" aria-hidden="true">
+	<span class="asp-evento-mini__visual" aria-hidden="true">
 		<?php if ( $asp_img ) : ?>
-			<?php echo $asp_img; // phpcs:ignore WordPress.Security.EscapeOutput ?>
+			<span class="asp-evento-mini__flyer"><?php echo $asp_img; // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
 		<?php elseif ( ! empty( $asp_fecha['dias'] ) ) : ?>
-			<span class="asp-evento-mini__dias"><?php echo esc_html( str_replace( ' · ', '–', $asp_fecha['dias'] ) ); ?></span>
-			<span class="asp-evento-mini__mes"><?php echo esc_html( $asp_fecha['mes'] ); ?></span>
+			<span class="asp-evento-mini__fecha">
+				<span class="asp-evento-mini__dias"><?php echo esc_html( str_replace( ' · ', '–', $asp_fecha['dias'] ) ); ?></span>
+				<span class="asp-evento-mini__mes"><?php echo esc_html( $asp_fecha['mes'] ); ?></span>
+			</span>
 		<?php endif; ?>
 	</span>
 	<span class="asp-evento-mini__texto">

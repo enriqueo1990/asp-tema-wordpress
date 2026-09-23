@@ -26,7 +26,12 @@ $asp_foto    = asp_imagen_mod( 'asp_hero_imagen', 'asp-portada__foto', 'full', '
 				<div class="asp-portada__cab">
 					<span class="asp-label"><?php esc_html_e( 'Próximo evento', 'asp' ); ?></span>
 					<span class="asp-portada__sep" aria-hidden="true"></span>
-					<span class="asp-label asp-label--strong"><?php echo esc_html( asp_evento_estado_etiqueta( $asp_estado ) ); ?></span>
+					<?php
+					/* A dos semanas o menos, "Reservá la fecha" ya no corresponde: se
+					   dice cuánto falta. Con inscripción abierta, manda el estado. */
+					$asp_cerca = 'reserva' === $asp_estado ? asp_evento_rotulo_cercania( $asp_id ) : '';
+					?>
+					<span class="asp-label asp-label--strong"><?php echo esc_html( $asp_cerca ?: asp_evento_estado_etiqueta( $asp_estado ) ); ?></span>
 				</div>
 				<?php if ( $asp_fecha['dias'] ) : ?>
 					<p class="asp-portada__fecha">

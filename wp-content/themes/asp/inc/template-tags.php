@@ -183,7 +183,7 @@ function asp_menu( string $ubicacion ): void {
 function asp_redes(): array {
 	$redes = [
 		'Facebook'  => (string) get_theme_mod( 'asp_red_facebook', 'https://www.facebook.com/ConferenciaAnteSuPalabra/' ),
-		'Twitter'   => (string) get_theme_mod( 'asp_red_twitter', 'https://twitter.com/antesupalabra' ),
+		'X'         => (string) get_theme_mod( 'asp_red_twitter', 'https://x.com/antesupalabra' ),
 		'YouTube'   => (string) get_theme_mod( 'asp_red_youtube', 'https://www.youtube.com/channel/UCzBclEQZPuu7qy7rQRpUdaA' ),
 		'Instagram' => (string) get_theme_mod( 'asp_red_instagram', 'https://www.instagram.com/antesupalabra/' ),
 	];
@@ -258,6 +258,184 @@ function asp_iniciativa_resumen( int $post_id, int $palabras = 18 ): string {
 		$bajada = (string) get_post_meta( $post_id, 'iniciativa_descripcion', true );
 	}
 	return wp_trim_words( wp_strip_all_tags( $bajada ), $palabras, '…' );
+}
+
+/**
+ * Días que faltan para que empiece un evento, o null si no tiene fecha o ya
+ * empezó. Hoy es 0.
+ *
+ * @param int $post_id ID del evento.
+ * @return int|null
+ */
+function asp_evento_dias_para_inicio( int $post_id ): ?int {
+	$ymd = preg_replace( '/\D/', '', (string) get_post_meta( $post_id, 'evento_fecha_inicio', true ) );
+	if ( 8 !== strlen( (string) $ymd ) ) {
+		return null;
+	}
+	$zona   = wp_timezone();
+	$inicio = DateTimeImmutable::createFromFormat( '!Ymd', (string) $ymd, $zona );
+	$hoy    = new DateTimeImmutable( 'today', $zona );
+	if ( ! $inicio || $inicio < $hoy ) {
+		return null;
+	}
+	return (int) $hoy->diff( $inicio )->days;
+}
+
+/**
+ * Rótulo de cercanía para el hero: con el evento a dos semanas o menos,
+ * "Reservá la fecha" ya no corresponde. Solo cambia el texto; el estado
+ * calculado del evento sigue igual.
+ *
+ * @param int $post_id ID del evento.
+ * @return string Cadena vacía si falta más de dos semanas.
+ */
+function asp_evento_rotulo_cercania( int $post_id ): string {
+	$dias = asp_evento_dias_para_inicio( $post_id );
+	if ( null === $dias || $dias > 14 ) {
+		return '';
+	}
+	if ( 0 === $dias ) {
+		return __( 'Hoy', 'asp' );
+	}
+	if ( 1 === $dias ) {
+		return __( 'Mañana', 'asp' );
+	}
+	if ( $dias <= 7 ) {
+		return __( 'Esta semana', 'asp' );
+	}
+	/* translators: %d: días que faltan */
+	return sprintf( __( 'Faltan %d días', 'asp' ), $dias );
+}
+
+/**
+ * Título de una predicación partido en título y orador, para las tarjetas.
+ *
+ * Los títulos vienen de YouTube con el orador pegado ("La Iglesia y la
+ * Palabra - Ricardo Daglio"). Se saca el tramo que es un nombre de persona y
+ * se devuelve aparte; nada se inventa: si no hay un tramo que parezca un
+ * nombre, el título queda entero. El título guardado no se toca.
+ *
+ * @param int $post_id ID de la predicación.
+ * @return array{titulo:string,orador:string}
+ */
+function asp_predicacion_titulo_partes( int $post_id ): array {
+	/* El título crudo: get_the_title() convierte guiones y comillas en
+	   entidades y el corte no los encontraría. */
+	$titulo = html_entity_decode( (string) get_post_field( 'post_title', $post_id ), ENT_QUOTES, 'UTF-8' );
+	$vinc   = asp_predicacion_orador( $post_id );
+	$orador = $vinc ? (string) get_post_field( 'post_title', $vinc->ID ) : '';
+
+	$tramos = [];
+	foreach ( preg_split( '/\s+[-–|]\s*|\s*[-–|]\s+/u', $titulo ) ?: [ $titulo ] as $tramo ) {
+		/* «"Título" Pr. Nombre»: el título entre comillas y el orador pegado. */
+		if ( preg_match( '/^\s*["“«]([^"”»]+)["”»]\s+(.+)$/u', $tramo, $m ) ) {
+			$tramos[] = $m[1];
+			$tramos[] = $m[2];
+		} else {
+			$tramos[] = $tramo;
+		}
+	}
+	$tramos = array_values( array_filter( array_map( static fn( $t ) => trim( (string) preg_replace( '/\s+/u', ' ', trim( $t, " \"“”«»" ) ) ), $tramos ) ) );
+	if ( count( $tramos ) < 2 ) {
+		return [ 'titulo' => $titulo, 'orador' => $orador ];
+	}
+
+	/* Un tramo que solo nombra la conferencia no aporta en la tarjeta. */
+	$es_evento = static fn( string $t ): bool => (bool) preg_match( '/^(conferencia(\s+20\d\d)?|(conferencia\s+)?(ante su palabra|asp|cambios profundos|simeon trust)(\s+20\d\d)?)$/iu', $t );
+	$sin_honor = static fn( string $t ): string => trim( (string) preg_replace( '/^(pastor(a)?|pr\.?|dr\.?)\s+/iu', '', $t ) );
+	$es_nombre = static function ( string $t ) use ( $sin_honor ): bool {
+		$t    = $sin_honor( $t );
+		$pals = preg_split( '/\s+/u', $t ) ?: [];
+		return count( $pals ) >= 2 && count( $pals ) <= 4
+			&& ! preg_match( '/[\d:¿?¡!]/u', $t )
+			&& ! preg_match( '/ante su palabra|conferencia|asp|sesi[oó]n|parte|panel|preguntas|d[ií]a|iglesia|evangelio|palabra|cristo|dios/iu', $t )
+			&& count( array_filter( $pals, static fn( $w ) => mb_strtoupper( mb_substr( $w, 0, 1 ) ) === mb_substr( $w, 0, 1 ) ) ) === count( $pals );
+	};
+
+	$tramos = array_values( array_filter( $tramos, static fn( $t ) => ! $es_evento( $t ) ) );
+
+	$indice = null;
+	if ( '' !== $orador ) {
+		foreach ( $tramos as $i => $t ) {
+			if ( 0 === strcasecmp( $sin_honor( $t ), $orador ) ) {
+				$indice = $i;
+			}
+		}
+	} else {
+		/* El orador casi siempre va después del título: se busca fuera del
+		   primer tramo, y el primero solo vale si no queda otra. */
+		for ( $i = count( $tramos ) - 1; $i >= 1; $i-- ) {
+			if ( $es_nombre( $tramos[ $i ] ) ) {
+				$indice = $i;
+				break;
+			}
+		}
+		if ( null === $indice && count( $tramos ) > 1 && $es_nombre( $tramos[0] ) && ! $es_nombre( $tramos[1] ) ) {
+			$indice = 0;
+		}
+		if ( null !== $indice ) {
+			$nombre = $sin_honor( $tramos[ $indice ] );
+			$orador = mb_strtoupper( $nombre ) === $nombre ? mb_convert_case( mb_strtolower( $nombre ), MB_CASE_TITLE ) : $nombre;
+		}
+	}
+	if ( null !== $indice ) {
+		unset( $tramos[ $indice ] );
+	}
+	$resto = implode( ' · ', $tramos );
+	return [ 'titulo' => '' !== $resto ? $resto : $titulo, 'orador' => $orador ];
+}
+
+/**
+ * Duración con un solo formato: "46 min" debajo de la hora y "1 h 05 min"
+ * desde la hora, siempre con los minutos, así no conviven "1 h" y "46 min".
+ *
+ * @param string $texto Duración guardada ("46 min", "1 h", "1 h 20 min").
+ * @return string
+ */
+function asp_duracion_legible( string $texto ): string {
+	if ( ! preg_match( '/^(?:(\d+)\s*h)?\s*(?:(\d+)\s*min)?$/u', trim( $texto ), $m ) || ( '' === ( $m[1] ?? '' ) && '' === ( $m[2] ?? '' ) ) ) {
+		return $texto;
+	}
+	$h   = (int) ( $m[1] ?? 0 );
+	$min = (int) ( $m[2] ?? 0 );
+	return $h ? sprintf( '%d h %02d min', $h, $min ) : sprintf( '%d min', $min );
+}
+
+/**
+ * Artículos para el inicio: los más recientes, uno por serie. Dos partes de
+ * la misma serie seguidas repiten la foto y parecen un error.
+ *
+ * @param int $cantidad Cuántos.
+ * @return WP_Post[]
+ */
+function asp_articulos_portada( int $cantidad = 3 ): array {
+	$elegidos = [];
+	$series   = [];
+	foreach ( get_posts( [ 'post_type' => 'post', 'post_status' => 'publish', 'posts_per_page' => 20 ] ) as $p ) {
+		$serie = asp_serie_de_articulo( $p->ID );
+		if ( $serie && in_array( $serie->term_id, $series, true ) ) {
+			continue;
+		}
+		if ( $serie ) {
+			$series[] = $serie->term_id;
+		}
+		$elegidos[] = $p;
+		if ( count( $elegidos ) >= $cantidad ) {
+			break;
+		}
+	}
+	return $elegidos;
+}
+
+/**
+ * Próximo evento de una iniciativa, o null.
+ *
+ * @param int $iniciativa_id ID de la iniciativa.
+ * @return WP_Post|null
+ */
+function asp_iniciativa_proximo( int $iniciativa_id ): ?WP_Post {
+	$prox = asp_eventos_de_iniciativa( $iniciativa_id, true );
+	return $prox[0] ?? null;
 }
 
 /**
