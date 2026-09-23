@@ -2423,3 +2423,154 @@ a:hover .asp-imagen img {
   outline: 2px solid var(--c-focus-ring);
   outline-offset: 3px;
 }
+
+/* ---------------------------------------------------------------------
+   Inicio: cada bloque con su forma
+   --------------------------------------------------------------------- */
+
+/* Dos enlaces al pie de un texto */
+.asp-row--enlaces {
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-5);
+}
+
+/* Encabezado de sección fuera de la grilla editorial */
+.asp-cab-suelto {
+  margin-bottom: var(--sp-5);
+}
+
+@media (min-width: 768px) {
+  .asp-cab-suelto {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+}
+
+/* Iniciativas en cajas */
+.asp-grilla-iniciativas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3);
+}
+
+.asp-caja-iniciativa {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+  min-height: 8.5rem;
+  border: var(--border-hairline) solid var(--c-border);
+  border-radius: var(--radius-4);
+  background: var(--c-bg);
+  color: var(--c-text);
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+
+.asp-caja-iniciativa:hover {
+  border-color: var(--c-accent-alt);
+  background: var(--c-surface);
+  color: var(--c-text);
+}
+
+.asp-caja-iniciativa__num {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-sm);
+  color: var(--c-accent-alt);
+  line-height: 1;
+}
+
+.asp-caja-iniciativa__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+}
+
+.asp-caja-iniciativa__bajada {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+}
+
+/* Eventos: las fichas con su flyer, no una lista */
+.asp-grilla-eventos {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-6);
+}
+
+/* Predicaciones sobre banda oscura: es el bloque con más color del inicio */
+.asp-banda-oscura {
+  background: var(--c-dark-bg);
+  color: var(--c-dark-fg);
+}
+
+.asp-banda-oscura .asp-label,
+.asp-banda-oscura .asp-predicacion-tarjeta,
+.asp-banda-oscura .asp-predicacion-tarjeta__titulo {
+  color: var(--c-dark-fg);
+}
+
+.asp-banda-oscura .asp-predicacion-tarjeta__meta {
+  color: var(--c-dark-muted);
+}
+
+.asp-banda-oscura .asp-predicacion-tarjeta:hover .asp-predicacion-tarjeta__titulo {
+  color: var(--c-dark-muted);
+}
+
+.asp-banda-oscura .asp-cta-link {
+  color: var(--c-dark-fg);
+  box-shadow: inset 0 -1px 0 var(--c-dark-rule);
+}
+
+.asp-banda-oscura .asp-cta-link:hover {
+  box-shadow: inset 0 -1px 0 var(--c-dark-fg);
+}
+
+.asp-banda-oscura .asp-imagen,
+.asp-banda-oscura .asp-predicacion-tarjeta__sinfoto {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Artículos: uno de portada y los demás al costado */
+.asp-portada-articulos {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-6);
+}
+
+.asp-portada-articulos__resto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+@media (min-width: 768px) {
+  .asp-grilla-iniciativas {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--sp-4);
+  }
+
+  .asp-grilla-eventos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-6) var(--sp-5);
+  }
+
+  .asp-portada-articulos {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: var(--sp-6);
+  }
+
+  /* Al costado del destacado, las tarjetas van en fila compacta */
+  .asp-portada-articulos__resto .asp-articulo-item--con-imagen {
+    grid-template-columns: 9rem minmax(0, 1fr);
+    gap: var(--sp-4);
+  }
+
+  .asp-portada-articulos__resto .asp-articulo-item__resumen {
+    display: none;
+  }
+}
