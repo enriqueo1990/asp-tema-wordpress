@@ -22,20 +22,40 @@ $asp_por_anio = asp_predicaciones_por_anio();
 			<a href="<?php echo esc_url( asp_url_recursos() ); ?>"><?php esc_html_e( 'Artículos', 'asp' ); ?></a>
 			<a href="<?php echo esc_url( asp_url_eventos() ); ?>"><?php esc_html_e( 'Eventos', 'asp' ); ?></a>
 		</nav>
+		<?php if ( count( $asp_por_anio ) > 1 ) : ?>
+			<nav class="asp-indice-anios" aria-label="<?php esc_attr_e( 'Ir a un año', 'asp' ); ?>">
+				<?php foreach ( array_keys( $asp_por_anio ) as $asp_a ) : ?>
+					<a href="#anio-<?php echo esc_attr( (string) $asp_a ); ?>"><?php echo esc_html( $asp_a ? (string) $asp_a : __( 'Sin fecha', 'asp' ) ); ?></a>
+				<?php endforeach; ?>
+			</nav>
+		<?php endif; ?>
 	</header>
 </div>
 <?php if ( ! empty( $asp_por_anio ) ) : ?>
+	<?php
+	/* Diez años de conferencias no entran en una sola pantalla larga: cada año
+	   se pliega y el último viene abierto. Es <details> del navegador, sin
+	   JavaScript, y el contenido queda en el HTML para los buscadores. */
+	$asp_primero = true;
+	?>
 	<?php foreach ( $asp_por_anio as $asp_anio => $asp_items ) : ?>
-		<section class="asp-container asp-editorial asp-editorial--sin-aire asp-section--rule" aria-label="<?php echo esc_attr( (string) $asp_anio ); ?>">
-			<h2 class="asp-anio__num"><?php echo esc_html( $asp_anio ? (string) $asp_anio : __( 'Sin fecha', 'asp' ) ); ?></h2>
-			<div class="asp-editorial__cuerpo asp-editorial__cuerpo--ancho">
-				<div>
+		<section class="asp-container asp-section--rule asp-section--tight" id="anio-<?php echo esc_attr( (string) $asp_anio ); ?>" aria-label="<?php echo esc_attr( (string) $asp_anio ); ?>">
+			<details class="asp-anio-plegable"<?php echo $asp_primero ? ' open' : ''; ?>>
+				<summary class="asp-anio__num asp-anio__num--grilla">
+					<span><?php echo esc_html( $asp_anio ? (string) $asp_anio : __( 'Sin fecha', 'asp' ) ); ?></span>
+					<span class="asp-anio__cuenta"><?php
+						/* translators: %d: cantidad de predicaciones del año */
+						echo esc_html( sprintf( _n( '%d predicación', '%d predicaciones', count( $asp_items ), 'asp' ), count( $asp_items ) ) );
+					?></span>
+				</summary>
+				<div class="asp-grilla-predicaciones">
 					<?php foreach ( $asp_items as $asp_p ) : ?>
-						<?php get_template_part( 'parts/predicacion/fila', null, [ 'post_id' => $asp_p->ID ] ); ?>
+						<?php get_template_part( 'parts/predicacion/tarjeta', null, [ 'post_id' => $asp_p->ID ] ); ?>
 					<?php endforeach; ?>
 				</div>
-			</div>
+			</details>
 		</section>
+		<?php $asp_primero = false; ?>
 	<?php endforeach; ?>
 <?php else : ?>
 	<div class="asp-container asp-section"><p class="asp-muted"><?php esc_html_e( 'Todavía no hay predicaciones publicadas.', 'asp' ); ?></p></div>

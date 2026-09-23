@@ -2283,3 +2283,143 @@ a:hover .asp-imagen img {
   color: var(--c-text-muted);
   max-width: 62ch;
 }
+
+/* ---------------------------------------------------------------------
+   Archivo de predicaciones: grilla en vez de una fila abajo de la otra.
+   Con más de cien sesiones, la lista vertical era kilométrica.
+   --------------------------------------------------------------------- */
+.asp-indice-anios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+  font-family: var(--font-numeral);
+  font-size: var(--fs-sm);
+}
+
+.asp-indice-anios a {
+  color: var(--c-accent-alt);
+  box-shadow: inset 0 -1px 0 var(--c-border-strong);
+}
+
+.asp-indice-anios a:hover {
+  box-shadow: inset 0 -1px 0 var(--c-accent-alt);
+}
+
+.asp-anio__num--grilla {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+
+.asp-anio__cuenta {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+.asp-grilla-predicaciones {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-5) var(--sp-4);
+}
+
+.asp-predicacion-tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 0;
+  color: var(--c-text);
+}
+
+.asp-predicacion-tarjeta:hover .asp-predicacion-tarjeta__titulo {
+  color: var(--c-accent);
+}
+
+.asp-predicacion-tarjeta__foto {
+  position: relative;
+  display: block;
+}
+
+.asp-predicacion-tarjeta__sinfoto {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  background: var(--c-surface-2);
+  border-radius: var(--radius-4);
+  color: var(--c-text-muted);
+}
+
+.asp-predicacion-tarjeta__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+}
+
+.asp-predicacion-tarjeta__meta {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  color: var(--c-text-muted);
+}
+
+@media (min-width: 768px) {
+  .asp-grilla-predicaciones {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-6) var(--sp-5);
+  }
+}
+
+@media (min-width: 1024px) {
+  .asp-grilla-predicaciones {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .asp-predicacion-tarjeta__titulo {
+    font-size: var(--fs-md);
+  }
+}
+
+/* El encabezado del sitio es pegajoso: el ancla del año no puede quedar
+   debajo de él. */
+[id^="anio-"] {
+  scroll-margin-top: calc(var(--header-h) + var(--sp-4));
+}
+
+/* Año plegable del archivo de predicaciones */
+.asp-anio-plegable > summary {
+  cursor: pointer;
+  list-style: none;
+  padding-block: var(--sp-2);
+}
+
+.asp-anio-plegable > summary::-webkit-details-marker {
+  display: none;
+}
+
+.asp-anio-plegable > summary::after {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 1.5px solid var(--c-accent-alt);
+  border-bottom: 1.5px solid var(--c-accent-alt);
+  transform: rotate(45deg) translateY(-0.15rem);
+  transition: transform var(--dur) var(--ease);
+}
+
+.asp-anio-plegable[open] > summary::after {
+  transform: rotate(-135deg) translateY(-0.15rem);
+}
+
+.asp-anio-plegable > summary:hover span:first-child {
+  color: var(--c-accent);
+}
+
+.asp-anio-plegable > summary:focus-visible {
+  outline: 2px solid var(--c-focus-ring);
+  outline-offset: 3px;
+}
