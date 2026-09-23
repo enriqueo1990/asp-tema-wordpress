@@ -2574,3 +2574,337 @@ a:hover .asp-imagen img {
     display: none;
   }
 }
+
+/* Eventos en tamaño chico (inicio). En el teléfono: flyer a la izquierda,
+   datos a la derecha. Desde 768 px: tres columnas. El flyer siempre entero
+   sobre la banda tonal, nunca recortado (regla 5). */
+.asp-grilla-eventos-mini {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-4);
+}
+
+.asp-evento-mini {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: var(--sp-4);
+  align-items: start;
+  color: var(--c-text);
+}
+
+.asp-evento-mini:hover .asp-evento-mini__titulo {
+  color: var(--c-accent);
+}
+
+.asp-evento-mini__visual {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
+  padding: var(--sp-1);
+  background: var(--c-flyer-band);
+  border-radius: var(--radius-4);
+  overflow: hidden;
+}
+
+.asp-evento-mini__visual img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.asp-evento-mini__visual--fecha {
+  align-content: center;
+  gap: var(--sp-1);
+  background: var(--c-accent);
+  color: var(--c-accent-ink);
+  text-align: center;
+}
+
+.asp-evento-mini__dias {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-lg);
+  line-height: 1;
+}
+
+.asp-evento-mini__mes {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-xs);
+}
+
+.asp-evento-mini__texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+.asp-evento-mini__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+  transition: color var(--dur) var(--ease);
+}
+
+.asp-evento-mini__dato {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+@media (min-width: 768px) {
+  .asp-grilla-eventos-mini {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-5);
+  }
+
+  .asp-evento-mini {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .asp-evento-mini__visual {
+    aspect-ratio: 4 / 3;
+    padding: var(--sp-3);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Iniciativas: tarjetas con foto propia o bloque de color, nombre grande.
+   Reemplazan a las cajas con filete y párrafo recortado.
+   --------------------------------------------------------------------- */
+.asp-grilla-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3);
+}
+
+.asp-tile {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 4 / 5;
+  padding: var(--sp-4);
+  overflow: hidden;
+  border-radius: var(--radius-4);
+  color: var(--c-tile-ink);
+  isolation: isolate;
+}
+
+.asp-tile:hover {
+  color: var(--c-tile-ink);
+}
+
+.asp-tile--tono-1 { background: var(--c-tile-1); }
+.asp-tile--tono-2 { background: var(--c-tile-2); }
+.asp-tile--tono-3 { background: var(--c-tile-3); }
+.asp-tile--tono-4 { background: var(--c-tile-4); }
+
+.asp-tile__foto {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms var(--ease);
+}
+
+/* Con foto, velo desde abajo para que el nombre pase AA sobre cualquier imagen */
+.asp-tile--con-foto::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, var(--c-photo-scrim-strong) 0%, var(--c-photo-scrim) 45%, var(--c-photo-scrim-none) 100%);
+}
+
+.asp-tile:hover .asp-tile__foto {
+  transform: scale(1.04);
+}
+
+.asp-tile__texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.asp-tile__num {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-sm);
+  opacity: 0.75;
+}
+
+.asp-tile__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.asp-tile__flecha {
+  position: absolute;
+  top: var(--sp-4);
+  right: var(--sp-4);
+  width: 0.6rem;
+  height: 0.6rem;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.6;
+  transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
+}
+
+.asp-tile:hover .asp-tile__flecha {
+  opacity: 1;
+  transform: translateX(3px) rotate(45deg);
+}
+
+/* ---------------------------------------------------------------------
+   Artículos en el inicio: a la escala de las predicaciones
+   --------------------------------------------------------------------- */
+.asp-grilla-articulos {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-4);
+}
+
+.asp-articulo-tarjeta {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: var(--sp-4);
+  align-items: start;
+  color: var(--c-text);
+}
+
+.asp-articulo-tarjeta--sin-foto {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.asp-articulo-tarjeta:hover .asp-articulo-tarjeta__titulo {
+  color: var(--c-accent);
+}
+
+.asp-articulo-tarjeta__texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+.asp-articulo-tarjeta__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+  transition: color var(--dur) var(--ease);
+}
+
+.asp-articulo-tarjeta__meta {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  color: var(--c-text-muted);
+}
+
+/* ---------------------------------------------------------------------
+   Cierre: "Sumate" sobre la foto de la galería
+   --------------------------------------------------------------------- */
+.asp-fotos__tira--cierre {
+  padding-block: var(--sp-6) var(--sp-4);
+}
+
+.asp-cierre {
+  position: relative;
+  background: var(--c-dark-bg);
+  color: var(--c-photo-text);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.asp-cierre__foto {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.asp-cierre__velo {
+  display: flex;
+  align-items: flex-end;
+  min-height: 22rem;
+}
+
+.asp-cierre--con-foto .asp-cierre__velo {
+  min-height: 70vh;
+  background: linear-gradient(to top, var(--c-photo-scrim-strong) 0%, var(--c-photo-scrim) 50%, var(--c-photo-scrim-none) 100%);
+}
+
+.asp-cierre__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  padding-block: var(--sp-7);
+}
+
+.asp-cierre__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  color: var(--c-photo-text);
+}
+
+.asp-cierre__texto {
+  max-width: 46ch;
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--c-photo-text);
+}
+
+@media (min-width: 768px) {
+  .asp-grilla-tiles {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--sp-4);
+  }
+
+  .asp-tile {
+    aspect-ratio: 3 / 4;
+    padding: var(--sp-5);
+  }
+
+  .asp-tile__titulo {
+    font-size: var(--fs-lg);
+  }
+
+  .asp-grilla-articulos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-5);
+  }
+
+  .asp-articulo-tarjeta {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asp-tile__foto,
+  .asp-tile__flecha,
+  .asp-imagen img {
+    transition: none;
+  }
+}
+
+/* Entre el teléfono y las cuatro columnas, las tarjetas de iniciativa siguen
+   en dos columnas pero ya son anchas: en 4:5 medían 352 × 440 px. Apaisadas. */
+@media (min-width: 560px) and (max-width: 767.98px) {
+  .asp-tile {
+    aspect-ratio: 4 / 3;
+  }
+}

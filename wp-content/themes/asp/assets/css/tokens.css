@@ -126,6 +126,13 @@
      que no compita con el azul. */
   --c-accent-alt:      #5B3E9E;
   --c-accent-alt-soft: #EFEAFA;
+  /* Tarjetas de iniciativa sin foto: cuatro tonos de la misma familia, con
+     texto blanco encima. */
+  --c-tile-1: #1E3A6E;   /* azul */
+  --c-tile-2: #5B3E9E;   /* violeta */
+  --c-tile-3: #2F3D86;   /* índigo */
+  --c-tile-4: #12172A;   /* azul noche */
+  --c-tile-ink: #FFFFFF;
   --c-border:        #E2E5EE;
   --c-border-strong: #C2C7D6;
 

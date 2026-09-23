@@ -30,22 +30,24 @@ $asp_af          = asp_afirmaciones();
    dice en el título. */
 $asp_proximos = array_values(
 	array_filter(
-		asp_eventos_proximos( 5 )->posts,
+		asp_eventos_proximos( 6 )->posts,
 		static fn( WP_Post $p ): bool => ! $asp_hay_evento || $p->ID !== $asp_destacado->ID
 	)
 );
-$asp_proximos  = array_slice( $asp_proximos, 0, 2 );
-$asp_pasados   = asp_eventos_pasados( null, 2 )->posts;
+$asp_proximos  = array_slice( $asp_proximos, 0, 3 );
+$asp_pasados   = asp_eventos_pasados( null, 3 )->posts;
 $asp_eventos   = $asp_proximos ?: $asp_pasados;
 $asp_son_prox  = ! empty( $asp_proximos );
 
 $asp_predic    = asp_predicaciones( [], 4 );
 $asp_articulos = get_posts( [ 'post_type' => 'post', 'post_status' => 'publish', 'posts_per_page' => 3 ] );
 $asp_sumarse   = (string) get_theme_mod( 'asp_sumarse_texto', '' );
-$asp_fotos     = array_values(
+/* La galería cierra la página: la primera foto es el fondo de "Sumarse" y
+   las demás van en una tira justo antes. */
+$asp_foto_cierre = asp_imagen_mod( 'asp_galeria_1', 'asp-cierre__foto', 'full' );
+$asp_tira        = array_values(
 	array_filter(
 		[
-			asp_imagen_mod( 'asp_galeria_1', '', 'full' ),
 			asp_imagen_mod( 'asp_galeria_2', '', 'medium_large' ),
 			asp_imagen_mod( 'asp_galeria_3', '', 'medium_large' ),
 			asp_imagen_mod( 'asp_galeria_4', '', 'medium_large' ) ?: asp_imagen_mod( 'asp_mision_imagen', '', 'medium_large' ),
@@ -66,7 +68,7 @@ get_template_part( 'parts/evento/hero' );
 			<?php endif; ?>
 			<?php if ( $asp_nosotros ) : ?>
 				<div class="asp-row asp-row--enlaces">
-					<a class="asp-cta-link" href="<?php echo esc_url( $asp_nosotros ); ?>"><?php esc_html_e( 'Quiénes somos', 'asp' ); ?></a>
+					<a class="asp-cta-link" href="<?php echo esc_url( $asp_nosotros ); ?>"><?php esc_html_e( 'Conocé el ministerio', 'asp' ); ?></a>
 					<?php if ( ! empty( $asp_af['articulos'] ) ) : ?>
 						<a class="asp-cta-link" href="<?php echo esc_url( $asp_nosotros . '#afirmaciones-y-negaciones' ); ?>"><?php
 							/* translators: %d: cantidad de artículos del documento */
@@ -83,26 +85,13 @@ get_template_part( 'parts/evento/hero' );
 	<section class="asp-container asp-section--rule asp-section--tight" aria-labelledby="home-iniciativas">
 		<div class="asp-editorial__cab asp-cab-suelto">
 			<h2 id="home-iniciativas" class="asp-label"><?php esc_html_e( 'Iniciativas', 'asp' ); ?></h2>
-			<a class="asp-cta-link" href="<?php echo esc_url( (string) get_post_type_archive_link( 'iniciativa' ) ); ?>"><?php esc_html_e( 'Todas', 'asp' ); ?></a>
+			<a class="asp-cta-link" href="<?php echo esc_url( (string) get_post_type_archive_link( 'iniciativa' ) ); ?>"><?php esc_html_e( 'Todas las iniciativas', 'asp' ); ?></a>
 		</div>
-		<div class="asp-grilla-iniciativas">
+		<div class="asp-grilla-tiles">
 			<?php foreach ( $asp_iniciativas as $asp_i => $asp_post ) : ?>
 				<?php get_template_part( 'parts/iniciativa/caja', null, [ 'post_id' => $asp_post->ID, 'numero' => $asp_i + 1 ] ); ?>
 			<?php endforeach; ?>
 		</div>
-	</section>
-<?php endif; ?>
-
-<?php if ( ! empty( $asp_fotos ) ) : ?>
-	<section class="asp-fotos" aria-label="<?php esc_attr_e( 'Fotografías', 'asp' ); ?>">
-		<figure class="asp-fotos__principal"><?php echo $asp_fotos[0]; // phpcs:ignore WordPress.Security.EscapeOutput ?></figure>
-		<?php if ( count( $asp_fotos ) > 1 ) : ?>
-			<div class="asp-container asp-fotos__tira">
-				<?php foreach ( array_slice( $asp_fotos, 1 ) as $asp_img ) : ?>
-					<figure><?php echo $asp_img; // phpcs:ignore WordPress.Security.EscapeOutput ?></figure>
-				<?php endforeach; ?>
-			</div>
-		<?php endif; ?>
 	</section>
 <?php endif; ?>
 
@@ -112,9 +101,9 @@ get_template_part( 'parts/evento/hero' );
 			<h2 id="home-eventos" class="asp-label"><?php echo esc_html( $asp_son_prox ? __( 'Próximos eventos', 'asp' ) : __( 'Últimos eventos', 'asp' ) ); ?></h2>
 			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_eventos() ); ?>"><?php echo esc_html( $asp_son_prox ? __( 'Todos los eventos', 'asp' ) : __( 'Ver el archivo', 'asp' ) ); ?></a>
 		</div>
-		<div class="asp-grilla-eventos">
+		<div class="asp-grilla-eventos-mini">
 			<?php foreach ( $asp_eventos as $asp_post ) : ?>
-				<?php get_template_part( 'parts/evento/card', null, [ 'post_id' => $asp_post->ID ] ); ?>
+				<?php get_template_part( 'parts/evento/mini', null, [ 'post_id' => $asp_post->ID ] ); ?>
 			<?php endforeach; ?>
 		</div>
 	</section>
@@ -140,19 +129,22 @@ get_template_part( 'parts/evento/hero' );
 	<section class="asp-container asp-section--tight" aria-labelledby="home-articulos">
 		<div class="asp-editorial__cab asp-cab-suelto">
 			<h2 id="home-articulos" class="asp-label"><?php esc_html_e( 'Artículos', 'asp' ); ?></h2>
-			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_recursos() ); ?>"><?php esc_html_e( 'Todos los recursos', 'asp' ); ?></a>
+			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_recursos() ); ?>"><?php esc_html_e( 'Todos los artículos', 'asp' ); ?></a>
 		</div>
-		<div class="asp-portada-articulos">
-			<?php get_template_part( 'parts/articulo/destacado', null, [ 'post_id' => $asp_articulos[0]->ID ] ); ?>
-			<?php if ( count( $asp_articulos ) > 1 ) : ?>
-				<div class="asp-portada-articulos__resto">
-					<?php foreach ( array_slice( $asp_articulos, 1 ) as $asp_post ) : ?>
-						<?php get_template_part( 'parts/articulo/card', null, [ 'post_id' => $asp_post->ID ] ); ?>
-					<?php endforeach; ?>
-				</div>
-			<?php endif; ?>
+		<div class="asp-grilla-articulos">
+			<?php foreach ( $asp_articulos as $asp_post ) : ?>
+				<?php get_template_part( 'parts/articulo/tarjeta', null, [ 'post_id' => $asp_post->ID ] ); ?>
+			<?php endforeach; ?>
 		</div>
 	</section>
+<?php endif; ?>
+
+<?php if ( ! empty( $asp_tira ) ) : ?>
+	<div class="asp-container asp-fotos__tira asp-fotos__tira--cierre" aria-label="<?php esc_attr_e( 'Fotografías', 'asp' ); ?>">
+		<?php foreach ( $asp_tira as $asp_img ) : ?>
+			<figure><?php echo $asp_img; // phpcs:ignore WordPress.Security.EscapeOutput ?></figure>
+		<?php endforeach; ?>
+	</div>
 <?php endif; ?>
 
 <?php /* TODO: el ministerio tiene que escribir la invitación real en
@@ -160,19 +152,20 @@ get_template_part( 'parts/evento/hero' );
 	   sección es solo el enlace al formulario, que sí existe. No inventar
 	   acá qué se le ofrece a una iglesia que quiere sumarse. */ ?>
 <?php if ( $asp_contacto || $asp_sumarse ) : ?>
-	<div class="asp-banda">
-	<section class="asp-container asp-editorial asp-section--rule" aria-labelledby="home-sumarse">
-		<h2 id="home-sumarse" class="asp-label"><?php esc_html_e( 'Sumarse', 'asp' ); ?></h2>
-		<div class="asp-editorial__cuerpo">
-			<?php if ( $asp_sumarse ) : ?>
-				<p class="asp-editorial__texto"><?php echo esc_html( $asp_sumarse ); ?></p>
-			<?php endif; ?>
-			<?php if ( $asp_contacto ) : ?>
-				<a class="asp-cta-link" href="<?php echo esc_url( $asp_contacto ); ?>"><?php esc_html_e( 'Escribir al ministerio', 'asp' ); ?></a>
-			<?php endif; ?>
+	<section class="asp-cierre<?php echo $asp_foto_cierre ? ' asp-cierre--con-foto' : ''; ?>" aria-labelledby="home-sumarse">
+		<?php echo $asp_foto_cierre; // phpcs:ignore WordPress.Security.EscapeOutput ?>
+		<div class="asp-cierre__velo">
+			<div class="asp-container asp-cierre__inner">
+				<h2 id="home-sumarse" class="asp-cierre__titulo"><?php esc_html_e( 'Sumate', 'asp' ); ?></h2>
+				<?php if ( $asp_sumarse ) : ?>
+					<p class="asp-cierre__texto"><?php echo esc_html( $asp_sumarse ); ?></p>
+				<?php endif; ?>
+				<?php if ( $asp_contacto ) : ?>
+					<a class="asp-btn asp-btn--invertido" href="<?php echo esc_url( $asp_contacto ); ?>"><?php esc_html_e( 'Escribir al ministerio', 'asp' ); ?></a>
+				<?php endif; ?>
+			</div>
 		</div>
 	</section>
-	</div>
 <?php endif; ?>
 <?php
 get_footer();

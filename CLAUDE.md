@@ -119,3 +119,56 @@ como CPT `predicacion` dentro de Recursos.
 
 Si una tarea empieza a derivar hacia alguna de estas, pará y preguntá antes de
 seguir.
+
+## Design Context
+
+### Users
+- **Pastores y líderes de iglesias locales** de Argentina y Estados Unidos, la mayoría
+  llegando desde Instagram en el teléfono. Vienen por un evento concreto (fecha, lugar,
+  inscripción) o a evaluar al ministerio antes de sumarse o de invitar a su iglesia.
+- **Quien vuelve después de una conferencia**, buscando la predicación que escuchó o
+  la que se perdió.
+- **El área de redes** del ministerio, que carga contenido cada dos o tres meses y no
+  recuerda nada de la vez anterior (ver CLAUDE.md, "Quién usa el panel").
+
+Trabajos principales: enterarse del próximo encuentro e inscribirse; confiar en quiénes
+son y qué creen; volver a ver o escuchar lo predicado.
+
+### Brand Personality
+- **Tres palabras:** moderna, sobria, viva.
+- **Emoción primera:** energía de encuentro — "esto está pasando y quiero estar". Los
+  eventos y las predicaciones son protagonistas; la página tiene ritmo, no es un
+  documento.
+- La seriedad doctrinal está, pero se muestra con contenido (Afirmaciones y Negaciones,
+  predicaciones expositivas), no con solemnidad visual.
+- Voz en castellano rioplatense llano ("conocé", "sumate"), sin jerga de marketing.
+
+### Aesthetic Direction
+- **Referencias:** Desiring God (fotográfico, editorial, títulos grandes, mucho aire) y
+  9Marks (minimalismo tipográfico, casi sin adornos). La síntesis: tipografía serif
+  grande y limpia + fotografía fuerte de encuentros reales, alternando.
+- **Protagonista:** equilibrio. Bloques de texto con peso alternan con bloques de imagen
+  a sangre; ninguno domina toda la página.
+- **Tema:** claro. Fondo blanco. Azules y violetas (el ministerio históricamente se movió
+  en esos tonos); azul para acciones y enlaces, violeta para rótulos y acentos. Una banda
+  oscura azul es válida como contrapunto (la de predicaciones funciona).
+- **Tipografía:** Newsreader (serif, display y lectura) + Archivo (rótulos). Autoalojadas.
+- **Anti-referencias:**
+  - El sitio viejo en Elementor (cian por defecto, eventos maquetados a mano).
+  - La estética genérica de "web hecha con IA": grillas de tarjetas idénticas con ícono,
+    gradientes violeta-azul, glassmorphism, métricas gigantes.
+  - La paleta por defecto de Claude Design (terracota, beige, hueso): el usuario la
+    rechazó explícitamente.
+  - "Diario sobrio": todo texto, sin imágenes, sin ritmo.
+
+### Design Principles
+1. **El encuentro primero.** Lo que está por pasar (evento) y lo que pasó (predicación)
+   van con imagen y peso; lo institucional acompaña.
+2. **Cada bloque con su forma.** Nunca tres secciones seguidas con la misma estructura;
+   el ritmo sale de alternar texto, imagen, oscuro y claro.
+3. **Aire antes que cajas.** Separar con espacio y tipografía, no con bordes y
+   contenedores. Una caja tiene que ganarse su borde.
+4. **Contenido real o nada.** Ningún bloque se rellena con texto inventado ni con
+   placeholders (reglas 4 y 7 de CLAUDE.md); si falta el dato, el bloque no aparece.
+5. **Teléfono primero, AA siempre.** Todo se diseña en 390 px antes que en escritorio, y
+   cada par de color pasa `tools/contraste.php`.

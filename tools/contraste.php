@@ -54,6 +54,10 @@ $pares = [
 	[ '--c-btn-invertido-fg', '--c-btn-invertido-bg', 'botón invertido', 4.5 ],
 	[ '--c-todo-fg', '--c-todo-bg', 'aviso de dato faltante', 4.5 ],
 	[ '--c-photo-text', '--c-photo-placeholder-a', 'texto sobre foto sin cargar', 4.5 ],
+	[ '--c-tile-ink', '--c-tile-1', 'tarjeta de iniciativa, azul', 4.5 ],
+	[ '--c-tile-ink', '--c-tile-2', 'tarjeta de iniciativa, violeta', 4.5 ],
+	[ '--c-tile-ink', '--c-tile-3', 'tarjeta de iniciativa, índigo', 4.5 ],
+	[ '--c-tile-ink', '--c-tile-4', 'tarjeta de iniciativa, azul noche', 4.5 ],
 ];
 
 $fallan = 0;
