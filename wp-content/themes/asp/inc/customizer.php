@@ -77,6 +77,29 @@ function asp_customizer( WP_Customize_Manager $wp_customize ): void {
 		]
 	);
 
+	$wp_customize->add_setting( 'asp_testimonio_texto', [ 'sanitize_callback' => 'sanitize_textarea_field', 'default' => '' ] );
+	$wp_customize->add_control(
+		'asp_testimonio_texto',
+		[
+			'label'       => __( 'Testimonio', 'asp' ),
+			'description' => __( 'Palabras de un pastor que participó de una conferencia, tal como las dijo. Aparece en el inicio, entre las predicaciones y los artículos. Hace falta también el nombre; si falta alguno de los dos, no se muestra.', 'asp' ),
+			'section'     => 'asp_sitio',
+			'type'        => 'textarea',
+		]
+	);
+	$wp_customize->add_setting( 'asp_testimonio_nombre', [ 'sanitize_callback' => 'sanitize_text_field', 'default' => '' ] );
+	$wp_customize->add_control( 'asp_testimonio_nombre', [ 'label' => __( 'Testimonio: nombre', 'asp' ), 'section' => 'asp_sitio', 'type' => 'text' ] );
+	$wp_customize->add_setting( 'asp_testimonio_iglesia', [ 'sanitize_callback' => 'sanitize_text_field', 'default' => '' ] );
+	$wp_customize->add_control(
+		'asp_testimonio_iglesia',
+		[
+			'label'       => __( 'Testimonio: iglesia y ciudad', 'asp' ),
+			'description' => __( 'Ej. Pastor, Iglesia Bíblica de Salta', 'asp' ),
+			'section'     => 'asp_sitio',
+			'type'        => 'text',
+		]
+	);
+
 	$wp_customize->add_setting( 'asp_sumarse_texto', [ 'sanitize_callback' => 'sanitize_textarea_field', 'default' => '' ] );
 	$wp_customize->add_control(
 		'asp_sumarse_texto',

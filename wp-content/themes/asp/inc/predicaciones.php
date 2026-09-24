@@ -259,3 +259,113 @@ function asp_youtube_iframe( string $yt_id, string $titulo ): string {
 		esc_attr( $titulo )
 	);
 }
+
+/* ------------------------------------------------------------------------
+   Buscador del archivo
+   --------------------------------------------------------------------- */
+
+/**
+ * Término de búsqueda del archivo (?buscar=), saneado. Vacío si no hay.
+ *
+ * @return string
+ */
+function asp_predicaciones_termino(): string {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- búsqueda pública por GET, solo lectura.
+	$q = isset( $_GET['buscar'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['buscar'] ) ) : '';
+	return mb_substr( trim( $q ), 0, 80 );
+}
+
+/**
+ * Predicaciones que coinciden con un término: en el título (que en las
+ * importadas de YouTube trae el orador), el pasaje y el orador vinculado.
+ * Las comparaciones de MySQL con la intercalación del sitio no distinguen
+ * tildes ni mayúsculas: "michelen" encuentra "Michelén".
+ *
+ * @param string $termino Lo que escribió la persona.
+ * @return WP_Post[]
+ */
+function asp_predicaciones_buscar( string $termino ): array {
+	$termino = trim( $termino );
+	if ( '' === $termino ) {
+		return [];
+	}
+	$ids = [];
+
+	/* Título y contenido: la búsqueda del core. */
+	foreach ( get_posts( [ 'post_type' => 'predicacion', 'post_status' => 'publish', 'posts_per_page' => -1, 's' => $termino, 'fields' => 'ids' ] ) as $id ) {
+		$ids[ $id ] = true;
+	}
+
+	/* Pasaje bíblico cargado aparte. */
+	foreach ( get_posts( [ 'post_type' => 'predicacion', 'post_status' => 'publish', 'posts_per_page' => -1, 'fields' => 'ids', 'meta_query' => [ [ 'key' => 'predicacion_pasaje', 'value' => $termino, 'compare' => 'LIKE' ] ] ] ) as $id ) {
+		$ids[ $id ] = true;
+	}
+
+	/* Orador vinculado: personas cuyo nombre coincide. */
+	$personas = get_posts( [ 'post_type' => 'persona', 'post_status' => 'publish', 'posts_per_page' => -1, 's' => $termino, 'fields' => 'ids' ] );
+	if ( $personas ) {
+		foreach ( get_posts( [ 'post_type' => 'predicacion', 'post_status' => 'publish', 'posts_per_page' => -1, 'fields' => 'ids', 'meta_query' => [ [ 'key' => 'predicacion_orador', 'value' => array_map( 'strval', $personas ), 'compare' => 'IN' ] ] ] ) as $id ) {
+			$ids[ $id ] = true;
+		}
+	}
+
+	if ( ! $ids ) {
+		return [];
+	}
+	return asp_predicaciones( [ 'post__in' => array_keys( $ids ) ] );
+}
+
+/**
+ * Oradores con más predicaciones, para los atajos del buscador. Salen de los
+ * datos (orador vinculado o el nombre que trae el título), no de una lista
+ * cargada a mano. Se cachea: recorrer los títulos en cada visita no vale la
+ * pena y la lista cambia solo cuando se carga una predicación.
+ *
+ * @param int $cantidad Cuántos.
+ * @return array<string,int> nombre => cantidad de predicaciones.
+ */
+function asp_oradores_frecuentes( int $cantidad = 8 ): array {
+	$cache = get_transient( 'asp_oradores_frecuentes' );
+	if ( ! is_array( $cache ) ) {
+		$cache = [];
+		foreach ( asp_predicaciones() as $p ) {
+			$nombre = asp_predicacion_titulo_partes( $p->ID )['orador'];
+			if ( '' !== $nombre ) {
+				$cache[ $nombre ] = ( $cache[ $nombre ] ?? 0 ) + 1;
+			}
+		}
+		arsort( $cache );
+		set_transient( 'asp_oradores_frecuentes', $cache, DAY_IN_SECONDS );
+	}
+	return array_slice( array_filter( $cache, static fn( int $n ) => $n >= 2 ), 0, $cantidad, true );
+}
+
+/**
+ * Al guardar o borrar una predicación, la lista de oradores se recalcula.
+ *
+ * @return void
+ */
+function asp_limpiar_oradores_frecuentes(): void {
+	delete_transient( 'asp_oradores_frecuentes' );
+}
+add_action( 'save_post_predicacion', 'asp_limpiar_oradores_frecuentes' );
+add_action( 'deleted_post', 'asp_limpiar_oradores_frecuentes' );
+
+/**
+ * Formulario del buscador de predicaciones. Lo usan el archivo y la banda
+ * del inicio; el campo se llama "buscar" para no chocar con la búsqueda
+ * general del sitio (?s=).
+ *
+ * @param string $variante "archivo" o "banda".
+ * @return void
+ */
+function asp_buscador_predicaciones( string $variante = 'archivo' ): void {
+	$id = 'buscar-predicaciones-' . $variante;
+	?>
+	<form class="asp-buscador asp-buscador--<?php echo esc_attr( $variante ); ?>" role="search" method="get" action="<?php echo esc_url( (string) get_post_type_archive_link( 'predicacion' ) ); ?>">
+		<label class="visually-hidden" for="<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Buscar predicaciones', 'asp' ); ?></label>
+		<input class="asp-buscador__campo" id="<?php echo esc_attr( $id ); ?>" type="search" name="buscar" value="<?php echo esc_attr( asp_predicaciones_termino() ); ?>" placeholder="<?php esc_attr_e( 'Pasaje, orador o tema', 'asp' ); ?>" autocomplete="off" enterkeyhint="search">
+		<button class="asp-buscador__boton" type="submit"><?php esc_html_e( 'Buscar', 'asp' ); ?></button>
+	</form>
+	<?php
+}

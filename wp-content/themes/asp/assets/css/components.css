@@ -2494,7 +2494,7 @@ a:hover .asp-imagen img {
 
 .asp-banda-oscura .asp-imagen,
 .asp-banda-oscura .asp-predicacion-tarjeta__sinfoto {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--c-dark-surface);
 }
 
 /* Eventos en tamaño chico (inicio). En el teléfono: flyer a la izquierda,
@@ -2966,5 +2966,276 @@ a:hover .asp-imagen img {
   .asp-portada__titulo {
     font-size: var(--fs-3xl);
     max-width: 16ch;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Titulares de sección, buscador, testimonio y movimiento (23-9-2026)
+   --------------------------------------------------------------------- */
+
+/* Cada bloque abre con un titular de verdad, no con un rótulo de 13 px */
+.asp-seccion__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-display);
+  color: var(--c-text);
+}
+
+.asp-banda-oscura .asp-seccion__titulo {
+  color: var(--c-dark-fg);
+}
+
+@media (min-width: 768px) {
+  /* Titular grande y enlace chico: se alinean por la línea base. El enlace
+     trae align-self: flex-start de su regla general y le ganaba al
+     contenedor; hay que pisarlo acá. */
+  .asp-cab-suelto {
+    align-items: baseline;
+  }
+
+  .asp-cab-suelto .asp-cta-link {
+    align-self: baseline;
+  }
+}
+
+/* Buscador de predicaciones */
+.asp-buscador {
+  display: flex;
+  width: 100%;
+  max-width: 36rem;
+}
+
+.asp-buscador__campo {
+  flex: 1;
+  min-width: 0;
+  min-height: var(--control-h);
+  padding-inline: var(--sp-4);
+  font-family: var(--font-ui);
+  font-size: var(--fs-base);
+  color: var(--c-text);
+  background: var(--c-bg);
+  border: var(--border-hairline) solid var(--c-border-strong);
+  border-right: 0;
+  border-radius: var(--radius-3) 0 0 var(--radius-3);
+}
+
+.asp-buscador__campo::placeholder {
+  color: var(--c-text-faint);
+}
+
+.asp-buscador__campo:focus-visible,
+.asp-buscador__boton:focus-visible {
+  outline: 2px solid var(--c-focus-ring);
+  outline-offset: 2px;
+}
+
+.asp-buscador__boton {
+  min-height: var(--control-h);
+  padding-inline: var(--sp-5);
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  background: var(--c-accent);
+  border: 0;
+  border-radius: 0 var(--radius-3) var(--radius-3) 0;
+  cursor: pointer;
+}
+
+/* En la banda oscura: campo translúcido, botón invertido */
+.asp-buscador--banda {
+  margin-bottom: var(--sp-6);
+}
+
+.asp-buscador--banda .asp-buscador__campo {
+  color: var(--c-dark-fg);
+  background: var(--c-dark-surface);
+  border-color: var(--c-dark-border);
+}
+
+.asp-buscador--banda .asp-buscador__campo::placeholder {
+  color: var(--c-dark-muted);
+}
+
+.asp-buscador--banda .asp-buscador__boton {
+  color: var(--c-btn-invertido-fg);
+  background: var(--c-btn-invertido-bg);
+}
+
+.asp-buscador--banda .asp-buscador__campo:focus-visible,
+.asp-buscador--banda .asp-buscador__boton:focus-visible {
+  outline-color: var(--c-dark-fg);
+}
+
+/* Atajos por orador */
+.asp-atajos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-4);
+}
+
+.asp-atajo {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-accent);
+  text-decoration: underline;
+  text-decoration-color: var(--c-border-strong);
+  text-underline-offset: 0.35em;
+}
+
+.asp-atajo:hover,
+.asp-atajo.is-activo {
+  text-decoration-color: currentColor;
+}
+
+.asp-atajo.is-activo {
+  font-weight: var(--fw-semibold);
+}
+
+.asp-busqueda__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-medium);
+  margin-bottom: var(--sp-5);
+}
+
+.asp-busqueda__vacia {
+  max-width: 48ch;
+  margin-bottom: var(--sp-5);
+  color: var(--c-text-muted);
+}
+
+/* Testimonio: una voz, grande, sin caja */
+.asp-testimonio__figura {
+  max-width: 44rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.asp-testimonio__cita {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-xl);
+  line-height: var(--lh-heading);
+  text-wrap: pretty;
+}
+
+.asp-testimonio__cita p::before { content: "«"; }
+.asp-testimonio__cita p::after  { content: "»"; }
+
+.asp-testimonio__autor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.asp-testimonio__nombre {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+}
+
+.asp-testimonio__iglesia {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+@media (min-width: 1024px) {
+  .asp-seccion__titulo {
+    font-size: var(--fs-3xl);
+  }
+
+  .asp-testimonio__cita {
+    font-size: var(--fs-2xl);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Movimiento. Todo es CSS y todo se apaga si la persona pidió menos
+   movimiento en su sistema. Donde el navegador no lo soporta, la página se
+   ve completa y quieta: no hay nada que dependa de esto.
+   --------------------------------------------------------------------- */
+
+/* Transición entre páginas: la navegación se funde en vez de parpadear */
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
+@keyframes asp-aparece {
+  from {
+    opacity: 0;
+    translate: 0 var(--sp-5);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* Cada pieza entra al aparecer en pantalla, atada al scroll y no a un
+   reloj: si la persona scrollea rápido, llega rápido. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .asp-home-bloque .asp-cab-suelto,
+    .asp-grilla-tiles > *,
+    .asp-grilla-eventos-mini > *,
+    .asp-banda-oscura .asp-grilla-predicaciones > *,
+    .asp-grilla-articulos > *,
+    .asp-testimonio__figura,
+    .asp-cierre__inner {
+      animation: asp-aparece linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+
+    /* Escalonado: en una fila, cada tarjeta entra un poco después */
+    .asp-grilla-tiles > :nth-child(2),
+    .asp-grilla-eventos-mini > :nth-child(2),
+    .asp-banda-oscura .asp-grilla-predicaciones > :nth-child(2),
+    .asp-grilla-articulos > :nth-child(2) {
+      animation-range: entry 8% entry 53%;
+    }
+
+    .asp-grilla-tiles > :nth-child(3),
+    .asp-grilla-eventos-mini > :nth-child(3),
+    .asp-banda-oscura .asp-grilla-predicaciones > :nth-child(3),
+    .asp-grilla-articulos > :nth-child(3) {
+      animation-range: entry 16% entry 61%;
+    }
+
+    .asp-grilla-tiles > :nth-child(4),
+    .asp-banda-oscura .asp-grilla-predicaciones > :nth-child(4) {
+      animation-range: entry 24% entry 69%;
+    }
+  }
+}
+
+/* Cabecera del archivo de predicaciones: título y saltos arriba; buscador e
+   índice de años cada uno en su fila, a todo el ancho. Como tercera columna
+   el buscador quedaba apretado entre los enlaces. */
+@media (min-width: 1024px) {
+  .asp-recursos__cab:has(.asp-buscador-zona) {
+    flex-wrap: wrap;
+    row-gap: var(--sp-5);
+  }
+
+  .asp-recursos__cab .asp-buscador-zona,
+  .asp-recursos__cab .asp-indice-anios {
+    flex-basis: 100%;
   }
 }

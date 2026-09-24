@@ -169,6 +169,8 @@
   --c-dark-fg:    #FFFFFF;
   --c-dark-muted: #AEB5C6;
   --c-dark-rule:  rgba(255, 255, 255, 0.18);
+  --c-dark-surface: rgba(255, 255, 255, 0.08);   /* campos y huecos sobre el pie o la banda oscura */
+  --c-dark-border:  rgba(255, 255, 255, 0.32);
 
   /* Franja "Próximo evento" */
   --c-franja-bg:          #1E3A6E;

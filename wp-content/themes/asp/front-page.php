@@ -42,6 +42,11 @@ $asp_son_prox  = ! empty( $asp_proximos );
 $asp_predic    = asp_predicaciones( [], 4 );
 $asp_articulos = asp_articulos_portada( 3 );
 $asp_sumarse   = (string) get_theme_mod( 'asp_sumarse_texto', '' );
+$asp_testimonio = [
+	'texto'   => (string) get_theme_mod( 'asp_testimonio_texto', '' ),
+	'nombre'  => (string) get_theme_mod( 'asp_testimonio_nombre', '' ),
+	'iglesia' => (string) get_theme_mod( 'asp_testimonio_iglesia', '' ),
+];
 /* La galería cierra la página: su primera foto es el fondo de "Sumate". La
    tira de tres fotos que iba antes se sacó el 23-9-2026: pegada a las
    tarjetas de artículos se leía como una fila de artículos rota. */
@@ -76,7 +81,7 @@ get_template_part( 'parts/evento/hero' );
 <?php if ( ! empty( $asp_iniciativas ) ) : ?>
 	<section class="asp-container asp-home-bloque" aria-labelledby="home-iniciativas">
 		<div class="asp-editorial__cab asp-cab-suelto">
-			<h2 id="home-iniciativas" class="asp-label"><?php esc_html_e( 'Iniciativas', 'asp' ); ?></h2>
+			<h2 id="home-iniciativas" class="asp-seccion__titulo"><?php esc_html_e( 'Iniciativas', 'asp' ); ?></h2>
 			<a class="asp-cta-link" href="<?php echo esc_url( (string) get_post_type_archive_link( 'iniciativa' ) ); ?>"><?php esc_html_e( 'Todas las iniciativas', 'asp' ); ?></a>
 		</div>
 		<div class="asp-grilla-tiles">
@@ -90,7 +95,7 @@ get_template_part( 'parts/evento/hero' );
 <?php if ( ! empty( $asp_eventos ) ) : ?>
 	<section class="asp-container asp-home-bloque" aria-labelledby="home-eventos">
 		<div class="asp-editorial__cab asp-cab-suelto">
-			<h2 id="home-eventos" class="asp-label"><?php echo esc_html( $asp_son_prox ? __( 'Próximos eventos', 'asp' ) : __( 'Últimos eventos', 'asp' ) ); ?></h2>
+			<h2 id="home-eventos" class="asp-seccion__titulo"><?php echo esc_html( $asp_son_prox ? __( 'Próximos eventos', 'asp' ) : __( 'Últimos eventos', 'asp' ) ); ?></h2>
 			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_eventos() ); ?>"><?php echo esc_html( $asp_son_prox ? __( 'Todos los eventos', 'asp' ) : __( 'Ver el archivo', 'asp' ) ); ?></a>
 		</div>
 		<div class="asp-grilla-eventos-mini">
@@ -105,9 +110,10 @@ get_template_part( 'parts/evento/hero' );
 	<div class="asp-banda-oscura">
 		<section class="asp-container asp-home-bloque" aria-labelledby="home-predicaciones">
 			<div class="asp-editorial__cab asp-cab-suelto">
-				<h2 id="home-predicaciones" class="asp-label"><?php esc_html_e( 'Predicaciones', 'asp' ); ?></h2>
+				<h2 id="home-predicaciones" class="asp-seccion__titulo"><?php esc_html_e( 'Predicaciones', 'asp' ); ?></h2>
 				<a class="asp-cta-link" href="<?php echo esc_url( (string) get_post_type_archive_link( 'predicacion' ) ); ?>"><?php esc_html_e( 'Todas las predicaciones', 'asp' ); ?></a>
 			</div>
+			<?php asp_buscador_predicaciones( 'banda' ); ?>
 			<div class="asp-grilla-predicaciones">
 				<?php foreach ( $asp_predic as $asp_post ) : ?>
 					<?php get_template_part( 'parts/predicacion/tarjeta', null, [ 'post_id' => $asp_post->ID ] ); ?>
@@ -117,10 +123,25 @@ get_template_part( 'parts/evento/hero' );
 	</div>
 <?php endif; ?>
 
+<?php /* TODO: la cita la aporta el ministerio (Personalizar → Ante Su Palabra →
+	   "Testimonio"): palabras reales de un pastor que participó, con su nombre.
+	   Sin texto y nombre cargados, el bloque no existe. No inventar una. */ ?>
+<?php if ( $asp_testimonio['texto'] && $asp_testimonio['nombre'] ) : ?>
+	<section class="asp-container asp-home-bloque asp-testimonio" aria-label="<?php esc_attr_e( 'Testimonio', 'asp' ); ?>">
+		<figure class="asp-testimonio__figura">
+			<blockquote class="asp-testimonio__cita"><p><?php echo esc_html( $asp_testimonio['texto'] ); ?></p></blockquote>
+			<figcaption class="asp-testimonio__autor">
+				<span class="asp-testimonio__nombre"><?php echo esc_html( $asp_testimonio['nombre'] ); ?></span>
+				<?php if ( $asp_testimonio['iglesia'] ) : ?><span class="asp-testimonio__iglesia"><?php echo esc_html( $asp_testimonio['iglesia'] ); ?></span><?php endif; ?>
+			</figcaption>
+		</figure>
+	</section>
+<?php endif; ?>
+
 <?php if ( ! empty( $asp_articulos ) ) : ?>
 	<section class="asp-container asp-home-bloque" aria-labelledby="home-articulos">
 		<div class="asp-editorial__cab asp-cab-suelto">
-			<h2 id="home-articulos" class="asp-label"><?php esc_html_e( 'Artículos', 'asp' ); ?></h2>
+			<h2 id="home-articulos" class="asp-seccion__titulo"><?php esc_html_e( 'Artículos', 'asp' ); ?></h2>
 			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_recursos() ); ?>"><?php esc_html_e( 'Todos los artículos', 'asp' ); ?></a>
 		</div>
 		<div class="asp-grilla-articulos">
