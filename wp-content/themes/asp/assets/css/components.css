@@ -49,7 +49,7 @@
   font-weight: var(--fw-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--c-accent-alt);
+  color: var(--c-accent);
   line-height: 1.4;
 }
 
@@ -1659,6 +1659,7 @@
   /* Velo abajo para el texto del evento y un velo corto arriba para la cabecera transparente */
   background:
     linear-gradient(to bottom, var(--c-photo-scrim) 0, var(--c-photo-scrim-none) var(--header-h-desktop)),
+    radial-gradient(ellipse 55% 60% at 100% 0%, var(--c-photo-scrim-strong) 0%, var(--c-photo-scrim-none) 100%),
     linear-gradient(to top, var(--c-photo-scrim-strong) 0%, var(--c-photo-scrim) 45%, var(--c-photo-scrim-none) 100%);
 }
 
@@ -3238,4 +3239,58 @@ a:hover .asp-imagen img {
   .asp-recursos__cab .asp-indice-anios {
     flex-basis: 100%;
   }
+}
+
+/* ---------------------------------------------------------------------
+   Segunda revisión de diseño (24-9-2026)
+   --------------------------------------------------------------------- */
+
+/* Hero: sin palabras viudas ("El cuidado de las / almas") */
+.asp-portada__titulo,
+.asp-seccion__titulo {
+  text-wrap: balance;
+}
+
+/* Quiénes somos: el texto sigue en su columna de lectura */
+.asp-somos__cuerpo {
+  max-width: var(--w-column);
+}
+
+/* Bloques a sangre (banda oscura, cierre): el aire blanco antes y después
+   tiene que ser el mismo que entre dos secciones normales, que suman el
+   padding de las dos. Sin esto quedaba la mitad. */
+.asp-banda-oscura {
+  margin-block: var(--sp-home);
+}
+
+.asp-cierre {
+  margin-top: var(--sp-home);
+}
+
+/* Buscador de la banda: calza en la grilla. En el teléfono ocupa las dos
+   columnas; en escritorio, exactamente dos de las cuatro. */
+.asp-buscador--banda {
+  max-width: none;
+}
+
+@media (min-width: 1024px) {
+  .asp-buscador--banda {
+    max-width: calc((100% - var(--sp-5)) / 2);
+  }
+}
+
+/* Fotos de artículos en los listados: una leve desaturación les da unidad
+   aunque vengan de fuentes muy distintas; al pasar el mouse recuperan el
+   color. Dentro del artículo la foto va tal cual. */
+.asp-articulo-tarjeta .asp-imagen img,
+.asp-articulo-item .asp-imagen img,
+.asp-articulo-destacado__foto img {
+  filter: saturate(0.6) contrast(1.03);
+  transition: filter var(--dur) var(--ease), transform 420ms ease;
+}
+
+.asp-articulo-tarjeta:hover .asp-imagen img,
+.asp-articulo-item:hover .asp-imagen img,
+.asp-articulo-destacado__foto:hover img {
+  filter: none;
 }

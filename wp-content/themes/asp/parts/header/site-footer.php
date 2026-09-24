@@ -26,11 +26,19 @@ $asp_bajada = (string) get_bloginfo( 'description' );
 			<span class="asp-label"><?php esc_html_e( 'Sitio', 'asp' ); ?></span>
 			<?php asp_menu( has_nav_menu( 'pie' ) ? 'pie' : 'principal' ); ?>
 		</nav>
-		<?php if ( $asp_email || ! empty( $asp_redes ) ) : ?>
+		<?php $asp_form = asp_url_pagina_plantilla( 'templates/page-contacto.php' ); ?>
+		<?php if ( $asp_email || $asp_form || ! empty( $asp_redes ) ) : ?>
 			<div class="asp-footer__contacto">
-				<?php /* Sin email cargado, la columna es de redes y así se llama: "Contacto" prometía un dato que no estaba. */ ?>
-				<span class="asp-label"><?php echo esc_html( $asp_email ? __( 'Contacto', 'asp' ) : __( 'Redes', 'asp' ) ); ?></span>
-				<?php if ( $asp_email ) : ?><a class="asp-footer__email" href="mailto:<?php echo esc_attr( $asp_email ); ?>"><?php echo esc_html( $asp_email ); ?></a><?php endif; ?>
+				<span class="asp-label"><?php esc_html_e( 'Contacto', 'asp' ); ?></span>
+				<?php
+				/* TODO: cargar el email del ministerio en Personalizar. Mientras no
+				   haya, el contacto directo es el formulario, que sí existe. */
+				if ( $asp_email ) :
+					?>
+					<a class="asp-footer__email" href="mailto:<?php echo esc_attr( $asp_email ); ?>"><?php echo esc_html( $asp_email ); ?></a>
+				<?php elseif ( $asp_form ) : ?>
+					<a class="asp-footer__email" href="<?php echo esc_url( $asp_form ); ?>"><?php esc_html_e( 'Escribinos por el formulario', 'asp' ); ?></a>
+				<?php endif; ?>
 				<?php if ( ! empty( $asp_redes ) ) : ?>
 					<ul class="asp-footer__redes">
 						<?php foreach ( $asp_redes as $asp_nombre => $asp_url ) : ?>

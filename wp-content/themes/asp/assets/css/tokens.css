@@ -83,7 +83,7 @@
   --logo-h-desktop: 28px;
   --header-h: 64px;
   --header-h-desktop: 80px;
-  --logo-h-footer: 18px;
+  --logo-h-footer: 30px;   /* a 18 px el logo casi no se leía */
   --avatar-sm: 44px;
   --avatar-md: 48px;
   --avatar-lg: 96px;
@@ -123,9 +123,9 @@
   --c-text-faint: #646A78;   /* 5,6:1 sobre bg */
   --c-accent:     #1E3A6E;   /* azul · enlaces, botones y estado abierto */
   --c-accent-ink: #FFFFFF;
-  /* Segundo acento, violeta, con un solo significado: la categoría o la
-     serie de un contenido. Nada más lo usa, así se lee como un código y no
-     como un adorno. Nunca en un enlace ni en un botón. */
+  /* Violeta: reservado. Desde el 24-9-2026 ninguna pieza lo usa; en un
+     solo rótulo chico no se leía como color de marca y la paleta quedó en
+     azules. Se conserva por si vuelve con un rol claro. */
   --c-accent-alt:      #5B3E9E;
   --c-accent-alt-soft: #EFEAFA;
   /* Tarjetas de iniciativa sin foto: cuatro tonos de la misma familia, con

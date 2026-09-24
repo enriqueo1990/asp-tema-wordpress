@@ -25,16 +25,11 @@ $asp_destacado   = asp_evento_destacado();
 $asp_hay_evento  = null !== $asp_destacado;
 $asp_af          = asp_afirmaciones();
 
-/* El hero ya le dio una pantalla entera al evento destacado: no se repite
-   abajo. Sin más próximos, la sección muestra los últimos realizados y lo
-   dice en el título. */
-$asp_proximos = array_values(
-	array_filter(
-		asp_eventos_proximos( 6 )->posts,
-		static fn( WP_Post $p ): bool => ! $asp_hay_evento || $p->ID !== $asp_destacado->ID
-	)
-);
-$asp_proximos  = array_slice( $asp_proximos, 0, 3 );
+/* Los tres próximos, incluido el del hero. Antes se excluía para no
+   repetirlo, pero la sección se llama "Próximos eventos" y le faltaba
+   justo el más cercano: quien llega directo a ese bloque cree que no
+   está. Sin próximos, muestra los últimos realizados y lo dice. */
+$asp_proximos  = array_slice( asp_eventos_proximos( 3 )->posts, 0, 3 );
 $asp_pasados   = asp_eventos_pasados( null, 3 )->posts;
 $asp_eventos   = $asp_proximos ?: $asp_pasados;
 $asp_son_prox  = ! empty( $asp_proximos );
@@ -56,9 +51,11 @@ get_template_part( 'parts/evento/hero' );
 ?>
 
 <?php if ( $asp_mision ) : ?>
-	<section class="asp-container asp-editorial asp-home-bloque" aria-labelledby="home-somos">
-		<h2 id="home-somos" class="asp-label"><?php esc_html_e( 'Quiénes somos', 'asp' ); ?></h2>
-		<div class="asp-editorial__cuerpo">
+	<section class="asp-container asp-home-bloque" aria-labelledby="home-somos">
+		<div class="asp-editorial__cab asp-cab-suelto">
+			<h2 id="home-somos" class="asp-seccion__titulo"><?php esc_html_e( 'Quiénes somos', 'asp' ); ?></h2>
+		</div>
+		<div class="asp-editorial__cuerpo asp-somos__cuerpo">
 			<p class="asp-editorial__texto"><?php echo esc_html( $asp_mision ); ?></p>
 			<?php if ( $asp_hay_evento ) : ?>
 				<p class="asp-editorial__cita">«Pero a este miraré: al que es humilde y contrito de espíritu, y que tiembla ante Mi palabra» <span class="asp-label"><?php esc_html_e( 'Isaías 66:2', 'asp' ); ?></span></p>
@@ -153,18 +150,20 @@ get_template_part( 'parts/evento/hero' );
 <?php endif; ?>
 
 <?php /* TODO: el ministerio tiene que escribir la invitación real en
-	   Personalizar → Ante Su Palabra → "Sumarse". Mientras esté vacío, la
-	   sección es solo el enlace al formulario, que sí existe. No inventar
-	   acá qué se le ofrece a una iglesia que quiere sumarse. */ ?>
+	   Personalizar → Ante Su Palabra → "Sumarse". Mientras esté vacío va una
+	   frase genérica que solo invita a escribir. No inventar acá qué se le
+	   ofrece a una iglesia que quiere sumarse. */ ?>
 <?php if ( $asp_contacto || $asp_sumarse ) : ?>
 	<section class="asp-cierre<?php echo $asp_foto_cierre ? ' asp-cierre--con-foto' : ''; ?>" aria-labelledby="home-sumarse">
 		<?php echo $asp_foto_cierre; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		<div class="asp-cierre__velo">
 			<div class="asp-container asp-cierre__inner">
 				<h2 id="home-sumarse" class="asp-cierre__titulo"><?php esc_html_e( 'Sumate', 'asp' ); ?></h2>
-				<?php if ( $asp_sumarse ) : ?>
-					<p class="asp-cierre__texto"><?php echo esc_html( $asp_sumarse ); ?></p>
-				<?php endif; ?>
+				<p class="asp-cierre__texto"><?php
+					/* Frase por defecto que solo invita a escribir: no promete nada ni
+					   dice qué se ofrece. El ministerio la reemplaza desde el Customizer. */
+					echo esc_html( $asp_sumarse ?: __( 'Si sos pastor o tu iglesia quiere participar, escribinos.', 'asp' ) );
+				?></p>
 				<?php if ( $asp_contacto ) : ?>
 					<a class="asp-btn asp-btn--invertido" href="<?php echo esc_url( $asp_contacto ); ?>"><?php esc_html_e( 'Escribir al ministerio', 'asp' ); ?></a>
 				<?php endif; ?>
