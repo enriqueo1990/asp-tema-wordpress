@@ -1267,6 +1267,7 @@
 .asp-articulo__titulo {
   font-size: var(--fs-2xl);
   line-height: var(--lh-tight);
+  text-wrap: balance;
 }
 
 .asp-articulo__meta {
@@ -2933,7 +2934,8 @@ a:hover .asp-imagen img {
   gap: var(--sp-3) var(--sp-5);
 }
 
-/* Redes con el mismo tratamiento que la columna "Sitio" */
+/* Contacto y redes con el mismo tratamiento que la columna "Sitio" */
+.asp-footer__email,
 .asp-footer__redes a {
   font-family: var(--font-ui);
   font-size: var(--fs-xs);
@@ -3308,4 +3310,687 @@ a:hover .asp-imagen img {
   .asp-grilla-eventos-mini > .asp-evento-mini:only-child .asp-evento-mini__titulo {
     font-size: var(--fs-xl);
   }
+}
+
+/* ---------------------------------------------------------------------
+   Artículo individual: cuerpo, cierre y columna lateral
+   --------------------------------------------------------------------- */
+
+/* Vuelta al listado, arriba de todo */
+.asp-volver {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-height: var(--control-h);
+  margin-bottom: calc(var(--sp-6) * -1 + var(--sp-2));
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+.asp-volver:hover {
+  color: var(--c-accent);
+}
+
+/* Sin índice ni serie: la columna de lectura va centrada */
+.asp-grid-articulo--solo {
+  max-width: var(--w-column);
+  margin-inline: auto;
+}
+
+/* Epígrafe de la foto de apertura */
+.asp-articulo__apertura .asp-imagen--apertura {
+  margin-bottom: 0;
+}
+
+.asp-articulo__pie {
+  margin-top: var(--sp-2);
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  color: var(--c-text-muted);
+}
+
+/* Citas bíblicas: tantas en un mismo párrafo que el subrayado del enlace
+   común ensuciaba la lectura. Quedan en azul con un filete apenas visible,
+   que toma el azul al pasar. El filete se conserva: sin él, el enlace se
+   distinguiría solo por color. */
+.asp-prose a[href*="biblia.com/"],
+.asp-prose a[href*="biblegateway.com/"],
+.asp-prose a[href*="bible.com/"] {
+  box-shadow: inset 0 -1px 0 var(--c-border-strong);
+  transition: box-shadow var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.asp-prose a[href*="biblia.com/"]:hover,
+.asp-prose a[href*="biblegateway.com/"]:hover,
+.asp-prose a[href*="bible.com/"]:hover {
+  color: var(--c-accent);
+  box-shadow: inset 0 -1px 0 var(--c-accent);
+}
+
+/* Lista numerada con el numeral colgante, en la serif del título. Se usa
+   el marcador nativo para que respete el atributo start. */
+.asp-prose .asp-lista-num {
+  list-style: decimal outside;
+  padding-left: 1.75em;
+}
+
+.asp-prose .asp-lista-num > li {
+  padding-left: var(--sp-2);
+}
+
+.asp-prose .asp-lista-num > li + li {
+  margin-top: var(--sp-4);
+}
+
+.asp-prose .asp-lista-num > li::marker {
+  font-family: var(--font-numeral);
+  font-weight: var(--fw-semibold);
+  color: var(--c-accent);
+}
+
+/* Fuente: más chica, en la letra de los rótulos, con un filete arriba */
+.asp-prose .asp-fuente {
+  margin-top: var(--sp-7);
+  padding-top: var(--sp-4);
+  border-top: var(--border-hairline) solid var(--c-border);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+/* Cierre: serie, compartir y autor */
+.asp-articulo__cierre {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  margin-top: var(--sp-2);
+}
+
+.asp-serie-nav {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-top: var(--border-hairline) solid var(--c-border);
+  border-bottom: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-serie-nav__enlace {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding-block: var(--sp-4);
+  color: var(--c-text);
+}
+
+.asp-serie-nav__enlace + .asp-serie-nav__enlace {
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-serie-nav__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+  transition: color var(--dur) var(--ease);
+}
+
+.asp-serie-nav__enlace:hover .asp-serie-nav__titulo {
+  color: var(--c-accent);
+}
+
+.asp-compartir {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.asp-compartir .asp-label {
+  margin-right: var(--sp-2);
+}
+
+.asp-compartir__boton {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h);
+  padding-inline: var(--sp-4);
+  border: var(--border-hairline) solid var(--c-border-strong);
+  border-radius: var(--radius-3);
+  background: var(--c-bg);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--c-accent);
+  cursor: pointer;
+  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.asp-compartir__boton:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+
+.asp-compartir__boton[hidden] {
+  display: none;
+}
+
+.asp-autor-pie {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  padding: var(--sp-5);
+  background: var(--c-surface);
+  border-radius: var(--radius-4);
+}
+
+.asp-autor-pie__foto {
+  flex: none;
+  display: block;
+  width: var(--avatar-md);
+  height: var(--avatar-md);
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+  background: var(--c-surface-2);
+}
+
+.asp-autor-pie__texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+.asp-autor-pie__nombre {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+  color: var(--c-text);
+}
+
+.asp-autor-pie__nombre:hover {
+  color: var(--c-accent);
+}
+
+.asp-autor-pie__linea {
+  font-size: var(--fs-base);
+  color: var(--c-text-muted);
+}
+
+.asp-autor-pie .asp-cta-link {
+  min-height: auto;
+  margin-top: var(--sp-2);
+}
+
+/* Relacionados: separados del artículo por un filete */
+.asp-relacionados {
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+/* Columna lateral: solo en escritorio, donde hay lugar a la derecha.
+   En el teléfono la serie se recorre con anterior/siguiente al pie. */
+.asp-articulo__aside {
+  display: none;
+}
+
+.asp-indice-art {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.asp-indice-art a {
+  display: block;
+  padding-block: var(--sp-2);
+  padding-left: var(--sp-3);
+  border-left: var(--border-hairline) solid var(--c-border);
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  line-height: var(--lh-heading);
+  color: var(--c-text-muted);
+}
+
+.asp-indice-art a:hover {
+  color: var(--c-accent);
+  border-left-color: var(--c-accent);
+}
+
+@media (min-width: 768px) {
+  .asp-serie-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-5);
+  }
+
+  .asp-serie-nav__enlace + .asp-serie-nav__enlace {
+    border-top: 0;
+  }
+
+  .asp-serie-nav__enlace--siguiente {
+    grid-column: 2;
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  .asp-autor-pie__foto {
+    width: var(--avatar-lg);
+    height: var(--avatar-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .asp-articulo__aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-7);
+    top: calc(var(--header-h-desktop) + var(--sp-5));
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Recursos: índice con un bloque de forma distinta por tipo de contenido
+   --------------------------------------------------------------------- */
+.asp-recursos-bloque {
+  padding-block: var(--sp-home);
+}
+
+.asp-recursos__entrada {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  width: 100%;
+  max-width: 36rem;
+}
+
+/* Temas: entrada por interés, con cuántos artículos hay */
+.asp-temas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.asp-tema {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-height: var(--control-h);
+  padding-inline: var(--sp-4);
+  border: var(--border-hairline) solid var(--c-border-strong);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--c-text);
+  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.asp-tema:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+
+.asp-tema.is-active {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: var(--c-accent-ink);
+}
+
+.asp-tema__n {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+.asp-tema:hover .asp-tema__n {
+  color: var(--c-accent);
+}
+
+/* Destacados: uno grande y dos medianos al lado */
+/* Solo el primer bloque, pegado a la cabecera, va con menos aire arriba.
+   (Con :first-of-type caían también las secciones dentro de cada banda.) */
+.asp-recursos-bloque--primero {
+  padding-top: var(--sp-5);
+}
+
+.asp-recursos-destacados {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-7);
+}
+
+.asp-recursos-destacados .asp-articulo-destacado {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.asp-recursos-destacados .asp-imagen--apertura {
+  margin-block: 0;
+}
+
+.asp-recursos-destacados__lado {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-5);
+  align-content: start;
+}
+
+.asp-articulo-tarjeta--mediana .asp-articulo-tarjeta__titulo {
+  font-size: var(--fs-lg);
+}
+
+/* Serie: banda del tono de los flyers, título grande y capítulos numerados */
+.asp-banda-serie {
+  margin-block: var(--sp-home);
+  background: var(--c-surface-2);
+}
+
+/* Dos bandas seguidas se tocan: el blanco entre ellas cortaba el ritmo */
+.asp-banda-serie:has(+ .asp-banda-serie, + .asp-banda-oscura) {
+  margin-bottom: 0;
+}
+
+.asp-banda-serie + .asp-banda-serie,
+.asp-banda-serie + .asp-banda-oscura {
+  margin-top: 0;
+}
+
+.asp-serie-banda {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-7);
+}
+
+.asp-serie-banda__cab {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+
+.asp-serie-banda__titulo {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+  text-wrap: balance;
+}
+
+.asp-serie-banda__autor {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-md);
+  color: var(--c-text-muted);
+}
+
+.asp-serie-banda__desc {
+  max-width: 48ch;
+  color: var(--c-text-muted);
+}
+
+.asp-serie-banda .asp-btn {
+  margin-top: var(--sp-2);
+}
+
+.asp-serie-banda__partes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.asp-serie-banda__partes li + li {
+  border-top: var(--border-hairline) solid var(--c-border-strong);
+}
+
+.asp-serie-banda__parte {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: var(--sp-4);
+  align-items: baseline;
+  padding-block: var(--sp-5);
+  color: var(--c-text);
+}
+
+.asp-serie-banda__num {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  color: var(--c-accent);
+}
+
+.asp-serie-banda__texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.asp-serie-banda__parte-titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+  transition: color var(--dur) var(--ease);
+}
+
+.asp-serie-banda__parte:hover .asp-serie-banda__parte-titulo {
+  color: var(--c-accent);
+}
+
+.asp-serie-banda__resumen {
+  font-size: var(--fs-base);
+  color: var(--c-text-muted);
+}
+
+/* Predicaciones como colección: de qué encuentro son y cuántas */
+.asp-coleccion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  margin-top: var(--sp-7);
+}
+
+.asp-coleccion__cab {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: var(--border-hairline) solid var(--c-dark-rule);
+}
+
+.asp-coleccion__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  color: var(--c-dark-fg);
+}
+
+.asp-coleccion__meta {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-dark-muted);
+}
+
+/* Artículos recientes: lista compacta, sin fotos */
+.asp-lista-compacta {
+  display: flex;
+  flex-direction: column;
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-articulo-compacto {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-1);
+  padding-block: var(--sp-4);
+  border-bottom: var(--border-hairline) solid var(--c-border);
+  color: var(--c-text);
+}
+
+.asp-articulo-compacto__fecha {
+  white-space: nowrap;
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+}
+
+.asp-articulo-compacto__texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.asp-articulo-compacto__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+  transition: color var(--dur) var(--ease);
+}
+
+.asp-articulo-compacto:hover .asp-articulo-compacto__titulo {
+  color: var(--c-accent);
+}
+
+.asp-articulo-compacto__meta {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+/* Conferencias con uno o dos eventos: una línea, no un archivo vacío */
+.asp-recursos-bloque--linea {
+  padding-top: 0;
+}
+
+.asp-conferencias-linea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-top: var(--sp-5);
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-conferencias-linea__lista {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+}
+
+.asp-conferencias-linea__lista a {
+  color: var(--c-text);
+  box-shadow: inset 0 -1px 0 var(--c-border-strong);
+}
+
+.asp-conferencias-linea__lista a:hover {
+  color: var(--c-accent);
+  box-shadow: inset 0 -1px 0 var(--c-accent);
+}
+
+/* Archivo de artículos */
+.asp-archivo-articulos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  max-width: var(--w-column);
+}
+
+.asp-archivo-articulos .asp-volver {
+  margin-bottom: 0;
+}
+
+.asp-articulo-item__autor {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+@media (min-width: 768px) {
+  .asp-articulo-compacto {
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: var(--sp-5);
+    align-items: baseline;
+  }
+
+  .asp-conferencias-linea {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--sp-6);
+  }
+
+  .asp-conferencias-linea__lista {
+    flex: 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .asp-recursos__entrada {
+    align-items: flex-end;
+  }
+
+  .asp-recursos__entrada .asp-temas {
+    justify-content: flex-end;
+  }
+
+  .asp-recursos-destacados {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: var(--sp-8);
+  }
+
+  .asp-recursos-destacados--solo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .asp-recursos-destacados__lado {
+    gap: var(--sp-7);
+  }
+
+  .asp-recursos-destacados__lado .asp-articulo-tarjeta {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-3);
+  }
+
+  .asp-serie-banda {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--sp-8);
+    align-items: start;
+  }
+
+  .asp-serie-banda__titulo {
+    font-size: var(--fs-2xl);
+  }
+
+  .asp-serie-banda__parte {
+    grid-template-columns: 5rem minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .asp-coleccion .asp-grilla-predicaciones {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Con la grilla de tres, el buscador llega justo al borde de la segunda
+     columna (la regla general lo calza en la grilla de cuatro). */
+  .asp-recursos-bloque .asp-buscador--banda {
+    max-width: calc((100% - 2 * var(--sp-5)) / 3 * 2 + var(--sp-5));
+  }
+}
+
+/* Después de la lista compacta, que ya cierra con su filete, la línea de
+   conferencias no suma otro. */
+.asp-recursos-bloque:has(.asp-lista-compacta) + .asp-recursos-bloque--linea .asp-conferencias-linea {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.asp-conferencias-linea__anio {
+  color: var(--c-text-muted);
 }

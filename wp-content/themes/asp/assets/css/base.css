@@ -150,17 +150,33 @@ summary::-webkit-details-marker {
   margin-top: var(--sp-4);
 }
 
+/* Subtítulos: más aire arriba que abajo, para que agrupen con el párrafo
+   que presentan y no con el anterior. Los artículos migrados traen h4, así
+   que h4 se trata como un subtítulo de sección más. */
 .asp-prose h2,
-.asp-prose h3 {
-  margin-top: var(--sp-6);
+.asp-prose h3,
+.asp-prose h4 {
+  margin-top: var(--sp-7);
+  font-weight: var(--fw-semibold);
+  text-wrap: balance;
+  scroll-margin-top: calc(var(--header-h) + var(--sp-5));
+}
+
+.asp-prose :is(h2, h3, h4) + * {
+  margin-top: var(--sp-3);
 }
 
 .asp-prose h2 { font-size: var(--fs-xl); }
-.asp-prose h3 { font-size: var(--fs-lg); }
+.asp-prose h3,
+.asp-prose h4 { font-size: var(--fs-lg); }
 
 .asp-prose ul,
 .asp-prose ol {
   padding-left: 1.2em;
+}
+
+.asp-prose li + li {
+  margin-top: var(--sp-3);
 }
 
 .asp-prose blockquote {
@@ -198,5 +214,9 @@ summary::-webkit-details-marker {
     font-size: var(--fs-lg);
   }
   .asp-prose h2 { font-size: var(--fs-2xl); }
-  .asp-prose h3 { font-size: var(--fs-xl); }
+  .asp-prose h3,
+  .asp-prose h4 { font-size: var(--fs-xl); }
+  .asp-prose h2,
+  .asp-prose h3,
+  .asp-prose h4 { scroll-margin-top: calc(var(--header-h-desktop) + var(--sp-5)); }
 }

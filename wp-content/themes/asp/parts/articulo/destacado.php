@@ -1,6 +1,6 @@
 <?php
 /**
- * Último artículo, en grande. Args: post_id.
+ * Artículo en grande. Args: post_id, rotulo (por defecto "Último artículo").
  *
  * @package asp
  */
@@ -20,7 +20,7 @@ $asp_img   = asp_imagen_destacada( $asp_id, 'asp-apertura', 'asp-imagen asp-imag
 		<a class="asp-articulo-destacado__foto" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>" tabindex="-1" aria-hidden="true"><?php echo $asp_img; // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 	<?php endif; ?>
 	<div class="asp-row">
-		<span class="asp-label"><?php esc_html_e( 'Último artículo', 'asp' ); ?></span>
+		<span class="asp-label"><?php echo esc_html( $args['rotulo'] ?? __( 'Último artículo', 'asp' ) ); ?></span>
 		<span class="asp-chip"><?php echo esc_html( $asp_chip ); ?></span>
 	</div>
 	<h3 class="asp-articulo-destacado__titulo"><a class="asp-link-titulo" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>"><?php echo esc_html( get_the_title( $asp_id ) ); ?></a></h3>

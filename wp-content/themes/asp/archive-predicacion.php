@@ -22,7 +22,7 @@ $asp_oradores  = asp_oradores_frecuentes( 8 );
 			<p class="asp-recursos__bajada"><?php esc_html_e( 'Sesiones y predicaciones de las conferencias, en video, audio o texto.', 'asp' ); ?></p>
 		</div>
 		<nav class="asp-recursos__saltos" aria-label="<?php esc_attr_e( 'Recursos', 'asp' ); ?>">
-			<a href="<?php echo esc_url( asp_url_recursos() ); ?>"><?php esc_html_e( 'Artículos', 'asp' ); ?></a>
+			<a href="<?php echo esc_url( asp_url_articulos() ); ?>"><?php esc_html_e( 'Artículos', 'asp' ); ?></a>
 			<a href="<?php echo esc_url( asp_url_eventos() ); ?>"><?php esc_html_e( 'Eventos', 'asp' ); ?></a>
 		</nav>
 		<div class="asp-stack asp-stack--3 asp-buscador-zona">

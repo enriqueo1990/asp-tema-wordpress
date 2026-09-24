@@ -87,3 +87,27 @@
 		void nombre;
 	});
 })();
+
+/* ---- Predicaciones del evento: un tilde marca todo el grupo del día ---- */
+(function () {
+	'use strict';
+
+	document.querySelectorAll('[data-asp-grupo]').forEach(function (grupo) {
+		var todas = grupo.querySelector('[data-asp-marcar-grupo]');
+		var items = grupo.querySelectorAll('input[name="asp_evento_predicaciones[]"]');
+		if (!todas) {
+			return;
+		}
+		function sincronizar() {
+			var n = 0;
+			items.forEach(function (i) { if (i.checked) { n++; } });
+			todas.checked = n === items.length;
+			todas.indeterminate = n > 0 && n < items.length;
+		}
+		todas.addEventListener('change', function () {
+			items.forEach(function (i) { i.checked = todas.checked; });
+		});
+		items.forEach(function (i) { i.addEventListener('change', sincronizar); });
+		sincronizar();
+	});
+})();

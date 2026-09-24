@@ -1,6 +1,7 @@
 <?php
 /**
- * Fila de predicación. Args: post_id, sin_evento (bool: no repetir el evento).
+ * Fila de predicación. Args: post_id, sin_evento (bool: no repetir el evento;
+ * dentro de su ficha tampoco se repite la fecha, salvo que sea otro día).
  *
  * @package asp
  */
@@ -17,6 +18,7 @@ $asp_meta   = array_filter( [ $asp_partes['orador'], $asp_pasaje, $asp_dur ] );
 /* Con miniatura, ella ocupa la columna de la izquierda y el formato pasa a
    la línea de datos. Sin miniatura (audio o texto), sigue el rótulo. */
 $asp_img    = asp_imagen_destacada( $asp_id, 'asp-tarjeta', 'asp-imagen asp-imagen--miniatura' );
+$asp_fecha  = ( ! empty( $args['sin_evento'] ) && '' === (string) get_post_meta( $asp_id, 'predicacion_fecha', true ) ) ? '' : asp_predicacion_fecha_texto( $asp_id );
 ?>
 <a class="asp-predicacion-fila<?php echo $asp_img ? ' asp-predicacion-fila--con-imagen' : ''; ?>" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>">
 	<?php if ( $asp_img ) : ?>
@@ -32,5 +34,5 @@ $asp_img    = asp_imagen_destacada( $asp_id, 'asp-tarjeta', 'asp-imagen asp-imag
 		<?php if ( ! empty( $asp_datos ) ) : ?><span class="asp-predicacion-fila__meta"><?php echo esc_html( implode( ' · ', $asp_datos ) ); ?></span><?php endif; ?>
 		<?php if ( $asp_evento ) : ?><span class="asp-predicacion-fila__evento"><?php echo esc_html( get_the_title( $asp_evento ) ); ?> · <?php echo esc_html( asp_evento_ciudad( $asp_evento->ID ) ); ?></span><?php endif; ?>
 	</span>
-	<span class="asp-predicacion-fila__fecha"><?php echo esc_html( asp_predicacion_fecha_texto( $asp_id ) ); ?></span>
+	<?php if ( $asp_fecha ) : ?><span class="asp-predicacion-fila__fecha"><?php echo esc_html( $asp_fecha ); ?></span><?php endif; ?>
 </a>

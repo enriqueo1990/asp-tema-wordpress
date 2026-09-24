@@ -1,6 +1,28 @@
 /* Ante Su Palabra — JavaScript mínimo, sin dependencias.
    Cabecera: menú móvil a pantalla completa y estado "scrolled".
    Los desplegables de bio usan <details> nativo. */
+
+/* ---- Copiar enlace (artículo): sin portapapeles el botón no aparece ---- */
+(function () {
+	'use strict';
+
+	if (!navigator.clipboard) {
+		return;
+	}
+	document.querySelectorAll('[data-asp-copiar]').forEach(function (boton) {
+		var original = boton.textContent;
+		boton.hidden = false;
+		boton.addEventListener('click', function () {
+			navigator.clipboard.writeText(boton.getAttribute('data-asp-copiar')).then(function () {
+				boton.textContent = boton.getAttribute('data-asp-copiado');
+				window.setTimeout(function () {
+					boton.textContent = original;
+				}, 2400);
+			});
+		});
+	});
+})();
+
 (function () {
 	'use strict';
 

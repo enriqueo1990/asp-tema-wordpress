@@ -1,10 +1,12 @@
 <?php
 /**
- * /recursos/ — el blog y el archivo de conferencias en una página.
+ * /recursos/ — índice de recursos, y /recursos/articulos/ — el archivo.
  *
- * Arriba, artículos: el último en grande, filtros por categoría y serie,
- * listado con paginación real. Abajo, conferencias y talleres realizados,
- * agrupados por año, que llevan a su ficha. Una sección sin contenido no se
+ * El índice muestra una selección de cada tipo, cada uno con su forma:
+ * artículos destacados (uno grande y dos medianos), la serie en banda de
+ * color, la última tanda de predicaciones en banda oscura, artículos
+ * recientes en lista compacta y las conferencias realizadas. Cada bloque
+ * tiene su salida al listado completo. Una sección sin contenido no se
  * imprime.
  *
  * @package asp
@@ -12,18 +14,25 @@
 
 defined( 'ABSPATH' ) || exit;
 
+if ( asp_es_archivo_articulos() ) {
+	get_template_part( 'parts/recursos/archivo' );
+	return;
+}
+
 get_header();
 
-$asp_pagina_id = (int) get_option( 'page_for_posts' );
-$asp_titulo    = $asp_pagina_id ? get_the_title( $asp_pagina_id ) : __( 'Recursos', 'asp' );
-$asp_bajada    = $asp_pagina_id ? wp_strip_all_tags( (string) get_post_field( 'post_content', $asp_pagina_id ) ) : '';
-$asp_primera   = ! is_paged();
-$asp_series    = get_terms( [ 'taxonomy' => 'serie', 'hide_empty' => true ] );
-$asp_series    = is_array( $asp_series ) ? $asp_series : [];
-$asp_cats      = get_categories( [ 'hide_empty' => true, 'exclude' => [ (int) get_option( 'default_category' ) ] ] );
-$asp_pasados   = asp_eventos_pasados_por_anio();
-$asp_predic    = asp_predicaciones( [], 6 );
-$asp_destacado = ( $asp_primera && have_posts() ) ? $GLOBALS['wp_query']->posts[0] : null;
+$asp_pagina_id  = (int) get_option( 'page_for_posts' );
+$asp_titulo     = $asp_pagina_id ? get_the_title( $asp_pagina_id ) : __( 'Recursos', 'asp' );
+$asp_bajada     = $asp_pagina_id ? wp_strip_all_tags( (string) get_post_field( 'post_content', $asp_pagina_id ) ) : '';
+$asp_temas      = asp_recursos_temas();
+$asp_series     = asp_recursos_series();
+$asp_destacados = asp_articulos_sueltos( 3 );
+$asp_recientes  = asp_articulos_sueltos( 5, wp_list_pluck( $asp_destacados, 'ID' ) );
+$asp_total_art  = (int) wp_count_posts( 'post' )->publish;
+$asp_coleccion  = asp_predicaciones_coleccion_reciente( 9 );
+$asp_pasados    = asp_eventos_pasados_por_anio();
+$asp_n_pasados  = array_sum( array_map( 'count', $asp_pasados ) );
+$asp_buscar_id  = 'buscar-recursos';
 ?>
 <div class="asp-container">
 	<header class="asp-recursos__cab">
@@ -31,83 +40,138 @@ $asp_destacado = ( $asp_primera && have_posts() ) ? $GLOBALS['wp_query']->posts[
 			<h1 class="asp-pagina__titulo"><?php echo esc_html( $asp_titulo ); ?></h1>
 			<?php if ( $asp_bajada ) : ?><p class="asp-recursos__bajada"><?php echo esc_html( $asp_bajada ); ?></p><?php endif; ?>
 		</div>
-		<nav class="asp-recursos__saltos" aria-label="<?php esc_attr_e( 'Secciones de Recursos', 'asp' ); ?>">
-			<a href="#articulos"><?php esc_html_e( 'Artículos', 'asp' ); ?></a>
-			<?php if ( ! empty( $asp_predic ) ) : ?><a href="#predicaciones"><?php esc_html_e( 'Predicaciones', 'asp' ); ?></a><?php endif; ?>
-			<?php if ( ! empty( $asp_pasados ) ) : ?><a href="#conferencias"><?php esc_html_e( 'Conferencias', 'asp' ); ?></a><?php endif; ?>
-		</nav>
+		<div class="asp-recursos__entrada">
+			<form class="asp-buscador" role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+				<label class="visually-hidden" for="<?php echo esc_attr( $asp_buscar_id ); ?>"><?php esc_html_e( 'Buscar artículos', 'asp' ); ?></label>
+				<input class="asp-buscador__campo" id="<?php echo esc_attr( $asp_buscar_id ); ?>" type="search" name="s" placeholder="<?php esc_attr_e( 'Buscar artículos', 'asp' ); ?>" enterkeyhint="search">
+				<input type="hidden" name="post_type" value="post">
+				<button class="asp-buscador__boton" type="submit"><?php esc_html_e( 'Buscar', 'asp' ); ?></button>
+			</form>
+			<?php if ( ! empty( $asp_temas ) ) : ?>
+				<nav aria-label="<?php esc_attr_e( 'Temas', 'asp' ); ?>">
+					<ul class="asp-temas">
+						<?php foreach ( $asp_temas as $asp_tema ) : ?>
+							<li><a class="asp-tema" href="<?php echo esc_url( get_category_link( $asp_tema ) ); ?>"><?php echo esc_html( $asp_tema->name ); ?> <span class="asp-tema__n"><?php echo esc_html( (string) $asp_tema->count ); ?></span></a></li>
+						<?php endforeach; ?>
+					</ul>
+				</nav>
+			<?php endif; ?>
+		</div>
 	</header>
 </div>
 
-<?php if ( have_posts() ) : ?>
-	<section class="asp-container asp-editorial asp-section--rule" id="articulos" aria-labelledby="recursos-articulos">
-		<div class="asp-editorial__cab">
-			<h2 id="recursos-articulos" class="asp-label"><?php esc_html_e( 'Artículos', 'asp' ); ?></h2>
-			<?php if ( ! empty( $asp_cats ) || ! empty( $asp_series ) ) : ?>
-				<ul class="asp-filtros asp-filtros--columna">
-					<li class="<?php echo $asp_primera ? 'is-active' : ''; ?>"><a href="<?php echo esc_url( asp_url_recursos() ); ?>"><?php esc_html_e( 'Todos', 'asp' ); ?></a></li>
-					<?php foreach ( $asp_cats as $asp_cat ) : ?>
-						<li><a href="<?php echo esc_url( get_category_link( $asp_cat ) ); ?>"><?php echo esc_html( $asp_cat->name ); ?></a></li>
-					<?php endforeach; ?>
-					<?php foreach ( $asp_series as $asp_term ) : ?>
-						<li><a href="<?php echo esc_url( get_term_link( $asp_term ) ); ?>"><?php echo esc_html( $asp_term->name ); ?></a></li>
-					<?php endforeach; ?>
-				</ul>
-			<?php endif; ?>
-		</div>
-		<div class="asp-editorial__cuerpo asp-editorial__cuerpo--ancho">
-			<?php if ( $asp_destacado ) : ?>
-				<?php get_template_part( 'parts/articulo/destacado', null, [ 'post_id' => $asp_destacado->ID ] ); ?>
-			<?php endif; ?>
-			<div>
-				<?php
-				while ( have_posts() ) :
-					the_post();
-					if ( $asp_destacado && get_the_ID() === $asp_destacado->ID ) {
-						continue;
-					}
-					get_template_part( 'parts/articulo/card', null, [ 'post_id' => get_the_ID() ] );
-				endwhile;
-				?>
-			</div>
-			<nav class="asp-paginacion" aria-label="<?php esc_attr_e( 'Paginación', 'asp' ); ?>"><?php the_posts_pagination( [ 'prev_text' => __( 'Anteriores', 'asp' ), 'next_text' => __( 'Siguientes', 'asp' ) ] ); ?></nav>
-			<?php if ( $asp_primera && ! empty( $asp_series ) ) : ?>
-				<div class="asp-stack asp-stack--5">
-					<span class="asp-label"><?php esc_html_e( 'Series', 'asp' ); ?></span>
-					<?php foreach ( $asp_series as $asp_term ) : ?>
-						<?php get_template_part( 'parts/articulo/serie', null, [ 'term' => $asp_term ] ); ?>
+<?php if ( ! empty( $asp_destacados ) ) : ?>
+	<section class="asp-container asp-recursos-bloque asp-recursos-bloque--primero" aria-labelledby="recursos-destacados">
+		<h2 id="recursos-destacados" class="visually-hidden"><?php esc_html_e( 'Artículos destacados', 'asp' ); ?></h2>
+		<div class="asp-recursos-destacados<?php echo count( $asp_destacados ) > 1 ? '' : ' asp-recursos-destacados--solo'; ?>">
+			<?php get_template_part( 'parts/articulo/destacado', null, [ 'post_id' => $asp_destacados[0]->ID, 'rotulo' => __( 'Destacado', 'asp' ) ] ); ?>
+			<?php if ( count( $asp_destacados ) > 1 ) : ?>
+				<div class="asp-recursos-destacados__lado">
+					<?php foreach ( array_slice( $asp_destacados, 1 ) as $asp_post ) : ?>
+						<?php get_template_part( 'parts/articulo/tarjeta', null, [ 'post_id' => $asp_post->ID, 'variante' => 'mediana', 'fecha' => true ] ); ?>
 					<?php endforeach; ?>
 				</div>
 			<?php endif; ?>
 		</div>
 	</section>
-<?php elseif ( empty( $asp_pasados ) && empty( $asp_predic ) ) : ?>
-	<div class="asp-container asp-section"><p class="asp-muted"><?php esc_html_e( 'Todavía no hay artículos publicados.', 'asp' ); ?></p></div>
 <?php endif; ?>
 
-<?php if ( ! empty( $asp_predic ) ) : ?>
-	<section class="asp-container asp-editorial asp-section--rule" id="predicaciones" aria-labelledby="recursos-predicaciones">
-		<div class="asp-editorial__cab">
-			<h2 id="recursos-predicaciones" class="asp-label"><?php esc_html_e( 'Predicaciones', 'asp' ); ?></h2>
-			<a class="asp-cta-link" href="<?php echo esc_url( (string) get_post_type_archive_link( 'predicacion' ) ); ?>"><?php esc_html_e( 'Todas las predicaciones', 'asp' ); ?></a>
-		</div>
-		<div class="asp-editorial__cuerpo asp-editorial__cuerpo--ancho">
-			<div>
-				<?php foreach ( $asp_predic as $asp_p ) : ?>
-					<?php get_template_part( 'parts/predicacion/fila', null, [ 'post_id' => $asp_p->ID ] ); ?>
-				<?php endforeach; ?>
+<?php foreach ( $asp_series as $asp_term ) : ?>
+	<?php get_template_part( 'parts/articulo/serie-banda', null, [ 'term' => $asp_term ] ); ?>
+<?php endforeach; ?>
+
+<?php if ( $asp_coleccion ) : ?>
+	<div class="asp-banda-oscura">
+		<section class="asp-container asp-recursos-bloque" aria-labelledby="recursos-predicaciones">
+			<div class="asp-editorial__cab asp-cab-suelto">
+				<h2 id="recursos-predicaciones" class="asp-seccion__titulo"><?php esc_html_e( 'Predicaciones', 'asp' ); ?></h2>
+				<a class="asp-cta-link" href="<?php echo esc_url( (string) get_post_type_archive_link( 'predicacion' ) ); ?>"><?php esc_html_e( 'Todas las predicaciones', 'asp' ); ?></a>
 			</div>
+			<?php asp_buscador_predicaciones( 'banda' ); ?>
+			<div class="asp-coleccion">
+				<div class="asp-coleccion__cab">
+					<span class="asp-label"><?php esc_html_e( 'Lo último', 'asp' ); ?></span>
+					<?php if ( $asp_coleccion['titulo'] ) : ?>
+						<a class="asp-coleccion__titulo" href="<?php echo esc_url( get_permalink( $asp_coleccion['evento'] ) ); ?>"><?php echo esc_html( $asp_coleccion['titulo'] ); ?></a>
+					<?php endif; ?>
+					<span class="asp-coleccion__meta">
+						<?php
+						echo esc_html(
+							implode(
+								' · ',
+								array_filter(
+									[
+										$asp_coleccion['fecha'],
+										/* translators: %d: cantidad de mensajes */
+										count( $asp_coleccion['items'] ) < $asp_coleccion['total']
+											/* translators: 1: mensajes mostrados, 2: total */
+											? sprintf( __( '%1$d de %2$d mensajes', 'asp' ), count( $asp_coleccion['items'] ), $asp_coleccion['total'] )
+											: sprintf( _n( '%d mensaje', '%d mensajes', $asp_coleccion['total'], 'asp' ), $asp_coleccion['total'] ),
+									]
+								)
+							)
+						);
+						?>
+					</span>
+				</div>
+				<div class="asp-grilla-predicaciones">
+					<?php foreach ( $asp_coleccion['items'] as $asp_post ) : ?>
+						<?php get_template_part( 'parts/predicacion/tarjeta', null, [ 'post_id' => $asp_post->ID ] ); ?>
+					<?php endforeach; ?>
+				</div>
+			</div>
+		</section>
+	</div>
+<?php endif; ?>
+
+<?php if ( ! empty( $asp_recientes ) ) : ?>
+	<section class="asp-container asp-recursos-bloque" aria-labelledby="recursos-recientes">
+		<div class="asp-editorial__cab asp-cab-suelto">
+			<h2 id="recursos-recientes" class="asp-seccion__titulo"><?php esc_html_e( 'Más artículos', 'asp' ); ?></h2>
+			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_articulos() ); ?>">
+				<?php
+				/* translators: %d: cantidad total de artículos */
+				echo esc_html( sprintf( __( 'Ver los %d artículos', 'asp' ), $asp_total_art ) );
+				?>
+			</a>
+		</div>
+		<div class="asp-lista-compacta">
+			<?php foreach ( $asp_recientes as $asp_post ) : ?>
+				<?php get_template_part( 'parts/articulo/compacto', null, [ 'post_id' => $asp_post->ID ] ); ?>
+			<?php endforeach; ?>
 		</div>
 	</section>
 <?php endif; ?>
 
-<?php if ( ! empty( $asp_pasados ) ) : ?>
-	<section class="asp-container asp-editorial asp-section--rule" id="conferencias" aria-labelledby="recursos-conferencias">
-		<div class="asp-editorial__cab">
-			<h2 id="recursos-conferencias" class="asp-label"><?php esc_html_e( 'Conferencias y talleres realizados', 'asp' ); ?></h2>
-			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_eventos() ); ?>"><?php esc_html_e( 'Próximos eventos', 'asp' ); ?></a>
+<?php if ( $asp_n_pasados > 0 && $asp_n_pasados < 3 ) : ?>
+	<?php
+	/* Con uno o dos eventos realizados, un archivo por año con un "2026"
+	   enorme se veía vacío: alcanza con una línea. */
+	?>
+	<section class="asp-container asp-recursos-bloque asp-recursos-bloque--linea" aria-labelledby="recursos-conferencias">
+		<div class="asp-conferencias-linea">
+			<h2 id="recursos-conferencias" class="asp-label"><?php esc_html_e( 'Conferencias realizadas', 'asp' ); ?></h2>
+			<p class="asp-conferencias-linea__lista">
+				<?php
+				$asp_links = [];
+				foreach ( $asp_pasados as $asp_anio => $asp_eventos ) {
+					foreach ( $asp_eventos as $asp_post ) {
+						$asp_links[] = '<a href="' . esc_url( get_permalink( $asp_post ) ) . '">' . esc_html( get_the_title( $asp_post ) ) . '</a> <span class="asp-conferencias-linea__anio">· ' . esc_html( (string) $asp_anio ) . '</span>';
+					}
+				}
+				echo implode( ' · ', $asp_links ); // phpcs:ignore WordPress.Security.EscapeOutput
+				?>
+			</p>
+			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_eventos() ); ?>"><?php esc_html_e( 'Archivo de eventos', 'asp' ); ?></a>
 		</div>
-		<div class="asp-editorial__cuerpo asp-editorial__cuerpo--ancho asp-stack--6">
+	</section>
+<?php elseif ( $asp_n_pasados >= 3 ) : ?>
+	<section class="asp-container asp-recursos-bloque" aria-labelledby="recursos-conferencias">
+		<div class="asp-editorial__cab asp-cab-suelto">
+			<h2 id="recursos-conferencias" class="asp-seccion__titulo"><?php esc_html_e( 'Conferencias realizadas', 'asp' ); ?></h2>
+			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_eventos() ); ?>"><?php esc_html_e( 'Archivo de eventos', 'asp' ); ?></a>
+		</div>
+		<div class="asp-stack asp-stack--6">
 			<?php foreach ( $asp_pasados as $asp_anio => $asp_eventos ) : ?>
 				<div class="asp-stack asp-stack--3">
 					<div class="asp-anio"><span class="asp-anio__num"><?php echo esc_html( (string) $asp_anio ); ?></span></div>
@@ -120,6 +184,10 @@ $asp_destacado = ( $asp_primera && have_posts() ) ? $GLOBALS['wp_query']->posts[
 			<?php endforeach; ?>
 		</div>
 	</section>
+<?php endif; ?>
+
+<?php if ( empty( $asp_destacados ) && empty( $asp_series ) && ! $asp_coleccion && ! $asp_n_pasados ) : ?>
+	<div class="asp-container asp-section"><p class="asp-muted"><?php esc_html_e( 'Todavía no hay recursos publicados.', 'asp' ); ?></p></div>
 <?php endif; ?>
 <?php
 get_footer();

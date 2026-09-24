@@ -142,7 +142,7 @@ get_template_part( 'parts/evento/hero' );
 	<section class="asp-container asp-home-bloque" aria-labelledby="home-articulos">
 		<div class="asp-editorial__cab asp-cab-suelto">
 			<h2 id="home-articulos" class="asp-seccion__titulo"><?php esc_html_e( 'Artículos', 'asp' ); ?></h2>
-			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_recursos() ); ?>"><?php esc_html_e( 'Todos los artículos', 'asp' ); ?></a>
+			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_articulos() ); ?>"><?php esc_html_e( 'Todos los artículos', 'asp' ); ?></a>
 		</div>
 		<div class="asp-grilla-articulos">
 			<?php foreach ( $asp_articulos as $asp_post ) : ?>

@@ -27,7 +27,7 @@ $asp_res   = asp_resumen_articulo( $asp_id );
 		<span class="asp-articulo-item__resumen"><?php echo esc_html( $asp_res ); ?></span>
 	<?php endif; ?>
 	<?php if ( $asp_autor['nombre'] ) : ?>
-		<span class="asp-row"><span class="asp-label"><?php esc_html_e( 'Autor', 'asp' ); ?></span><span class="asp-muted"><?php echo esc_html( $asp_autor['nombre'] ); ?></span></span>
+		<span class="asp-articulo-item__autor"><?php echo esc_html( $asp_autor['nombre'] ); ?></span>
 	<?php endif; ?>
 	</span>
 </a>

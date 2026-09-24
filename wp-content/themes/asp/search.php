@@ -21,6 +21,8 @@ get_header();
 				<?php while ( have_posts() ) : the_post(); ?>
 					<?php if ( 'evento' === get_post_type() ) : ?>
 						<?php get_template_part( 'parts/evento/archivo-item', null, [ 'post_id' => get_the_ID() ] ); ?>
+					<?php elseif ( 'predicacion' === get_post_type() ) : ?>
+						<?php get_template_part( 'parts/predicacion/fila', null, [ 'post_id' => get_the_ID() ] ); ?>
 					<?php else : ?>
 						<?php get_template_part( 'parts/articulo/card', null, [ 'post_id' => get_the_ID() ] ); ?>
 					<?php endif; ?>

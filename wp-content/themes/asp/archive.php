@@ -19,7 +19,7 @@ $asp_es_serie = is_tax( 'serie' );
 			<?php if ( term_description() ) : ?>
 				<div class="asp-prose asp-muted"><?php echo wp_kses_post( term_description() ); ?></div>
 			<?php endif; ?>
-			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_recursos() ); ?>"><?php esc_html_e( 'Todos los recursos', 'asp' ); ?></a>
+			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_articulos() ); ?>"><?php esc_html_e( 'Todos los artículos', 'asp' ); ?></a>
 		</div>
 		<?php if ( have_posts() ) : ?>
 			<div>
