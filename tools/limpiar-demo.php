@@ -16,7 +16,11 @@ require __DIR__ . '/arranque.php';
 
 $salvar_eventos = in_array( '--salvo-eventos', (array) $argv, true );
 
-$ids = get_posts( [ 'post_type' => 'any', 'post_status' => 'any', 'posts_per_page' => -1, 'fields' => 'ids', 'meta_key' => '_asp_demo', 'meta_value' => '1' ] );
+/* Todos los tipos registrados, no 'any': 'any' deja afuera los que no
+   aparecen en la búsqueda (los aliados, por ejemplo) y el aliado de muestra
+   sobrevivía a la limpieza. */
+$tipos = array_values( get_post_types( [], 'names' ) );
+$ids   = get_posts( [ 'post_type' => $tipos, 'post_status' => 'any', 'posts_per_page' => -1, 'fields' => 'ids', 'meta_key' => '_asp_demo', 'meta_value' => '1' ] );
 $adj = get_posts( [ 'post_type' => 'attachment', 'post_status' => 'any', 'posts_per_page' => -1, 'fields' => 'ids', 'meta_key' => '_asp_demo', 'meta_value' => '1' ] );
 
 /* Flyers y demás adjuntos colgados de un evento que se conserva. */

@@ -3294,3 +3294,18 @@ a:hover .asp-imagen img {
 .asp-articulo-destacado__foto:hover img {
   filter: none;
 }
+
+/* Un solo evento en la grilla de tres: en vez de una tarjeta en un tercio y
+   dos tercios vacíos, ocupa todo el ancho en formato horizontal. */
+@media (min-width: 768px) {
+  .asp-grilla-eventos-mini > .asp-evento-mini:only-child {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--sp-6);
+  }
+
+  .asp-grilla-eventos-mini > .asp-evento-mini:only-child .asp-evento-mini__titulo {
+    font-size: var(--fs-xl);
+  }
+}

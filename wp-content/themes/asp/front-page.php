@@ -25,11 +25,14 @@ $asp_destacado   = asp_evento_destacado();
 $asp_hay_evento  = null !== $asp_destacado;
 $asp_af          = asp_afirmaciones();
 
-/* Los tres próximos, incluido el del hero. Antes se excluía para no
-   repetirlo, pero la sección se llama "Próximos eventos" y le faltaba
-   justo el más cercano: quien llega directo a ese bloque cree que no
-   está. Sin próximos, muestra los últimos realizados y lo dice. */
-$asp_proximos  = array_slice( asp_eventos_proximos( 3 )->posts, 0, 3 );
+/* Los tres próximos, incluido el del hero: la sección se llama "Próximos
+   eventos" y sin él le faltaba el más cercano. Pero si el del hero es el
+   único próximo, la lista sería una copia exacta del hero: en ese caso la
+   sección muestra los últimos realizados, que es información nueva. */
+$asp_proximos = array_slice( asp_eventos_proximos( 3 )->posts, 0, 3 );
+if ( 1 === count( $asp_proximos ) && $asp_hay_evento && $asp_proximos[0]->ID === $asp_destacado->ID ) {
+	$asp_proximos = [];
+}
 $asp_pasados   = asp_eventos_pasados( null, 3 )->posts;
 $asp_eventos   = $asp_proximos ?: $asp_pasados;
 $asp_son_prox  = ! empty( $asp_proximos );
