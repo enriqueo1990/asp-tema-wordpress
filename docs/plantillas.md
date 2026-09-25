@@ -72,7 +72,7 @@ wp-content/themes/asp/
 │   ├── js/app.js                Menú móvil y estado scrolled de la cabecera. Nada más
 │   ├── js/admin.js              Selector de imagen y repetidor del programa (vanilla)
 │   ├── css/admin.css            Formulario partido del panel
-│   └── img/logo-asp.png         Logo actual (PNG 2018); se reemplaza por el vectorial
+│   └── img/logo-asp.svg         Logo vectorial (del .ai del ministerio), en línea con currentColor
 │
 ├── front-page.php               Inicio
 ├── archive-evento.php           /eventos/ — próximos arriba, archivo por año abajo (#archivo-2026)
