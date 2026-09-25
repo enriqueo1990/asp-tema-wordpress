@@ -467,6 +467,15 @@
   color: var(--c-text-muted);
 }
 
+.asp-archivo-item__iniciativa {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-accent);
+}
+
 .asp-archivo-item__extra {
   font-family: var(--font-ui);
   font-size: var(--fs-sm);
@@ -2934,6 +2943,13 @@ a:hover .asp-imagen img {
   gap: var(--sp-3) var(--sp-5);
 }
 
+/* Una dirección de email en mayúsculas se lee mal: va en minúsculas y sin
+   tracking, con el mismo tamaño que el resto de la columna. */
+.asp-footer__email[href^="mailto:"] {
+  text-transform: none;
+  letter-spacing: normal;
+}
+
 /* Contacto y redes con el mismo tratamiento que la columna "Sitio" */
 .asp-footer__email,
 .asp-footer__redes a {
@@ -3993,4 +4009,8 @@ a:hover .asp-imagen img {
 
 .asp-conferencias-linea__anio {
   color: var(--c-text-muted);
+}
+
+.asp-recursos-anios {
+  margin-top: var(--sp-6);
 }

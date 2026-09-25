@@ -9,13 +9,12 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Email destino: el del Customizer o el del administrador.
+ * Email destino: el de contacto del ministerio.
  *
  * @return string
  */
 function asp_contacto_destino(): string {
-	$email = (string) get_theme_mod( 'asp_email', '' );
-	return is_email( $email ) ? $email : (string) get_option( 'admin_email' );
+	return asp_email();
 }
 
 /**

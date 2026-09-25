@@ -9,7 +9,11 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Logo: el cargado en el Customizer o el PNG del tema.
+ * Logo: el cargado en el Customizer o, si no hay, el vectorial del tema.
+ *
+ * El vectorial (assets/img/logo-asp.svg, sacado del .ai original) va en
+ * línea con fill="currentColor": el color lo pone el CSS de cada lugar
+ * (cabecera, portada con foto, pie oscuro) sin filtros de inversión.
  *
  * @param string $clase Clase del enlace.
  * @return void
@@ -17,16 +21,39 @@ defined( 'ABSPATH' ) || exit;
 function asp_logo( string $clase = 'asp-header__logo' ): void {
 	$id  = (int) get_theme_mod( 'custom_logo' );
 	$src = $id ? wp_get_attachment_image_url( $id, 'full' ) : '';
-	if ( ! $src ) {
-		$src = asp_asset_url( 'assets/img/logo-asp.png' );
+	if ( $src ) {
+		printf(
+			'<a class="%1$s" href="%2$s" rel="home"><img src="%3$s" alt="%4$s"></a>',
+			esc_attr( $clase ),
+			esc_url( home_url( '/' ) ),
+			esc_url( $src ),
+			esc_attr( get_bloginfo( 'name' ) )
+		);
+		return;
+	}
+	static $svg = null;
+	if ( null === $svg ) {
+		$svg = (string) file_get_contents( ASP_THEME_DIR . '/assets/img/logo-asp.svg' );
 	}
 	printf(
-		'<a class="%1$s" href="%2$s" rel="home"><img src="%3$s" alt="%4$s" width="582" height="183"></a>',
+		'<a class="%1$s" href="%2$s" rel="home" aria-label="%3$s">%4$s</a>',
 		esc_attr( $clase ),
 		esc_url( home_url( '/' ) ),
-		esc_url( $src ),
-		esc_attr( get_bloginfo( 'name' ) )
+		esc_attr( get_bloginfo( 'name' ) ),
+		$svg // phpcs:ignore WordPress.Security.EscapeOutput -- archivo propio del tema.
 	);
+}
+
+/**
+ * Email de contacto del ministerio: el del Customizer o, si nunca se
+ * cargó, el institucional. Vaciarlo en el Customizer no lo oculta: para
+ * eso habría que cambiarlo por otro.
+ *
+ * @return string
+ */
+function asp_email(): string {
+	$email = (string) get_theme_mod( 'asp_email', 'contacto@antesupalabra.com' );
+	return is_email( $email ) ? $email : 'contacto@antesupalabra.com';
 }
 
 /**

@@ -12,7 +12,7 @@ get_header();
 
 while ( have_posts() ) :
 	the_post();
-	$asp_email  = (string) get_theme_mod( 'asp_email', '' );
+	$asp_email  = asp_email();
 	$asp_redes  = asp_redes();
 	$asp_estado = asp_contacto_estado();
 	?>

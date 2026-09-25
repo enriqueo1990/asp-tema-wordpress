@@ -91,7 +91,14 @@
   flex: none;
 }
 
-.asp-header__logo img {
+.asp-header__logo {
+  color: var(--c-text);
+  transition: color var(--dur) var(--ease);
+}
+
+.asp-header__logo img,
+.asp-header__logo svg {
+  display: block;
   height: var(--logo-h);
   width: auto;
   transition: filter var(--dur) var(--ease);
@@ -203,6 +210,10 @@
   color: var(--c-photo-text);
 }
 
+.asp-con-portada .asp-header:not(.is-scrolled):not(.is-menu-open) .asp-header__logo {
+  color: var(--c-photo-text);
+}
+
 .asp-con-portada .asp-header:not(.is-scrolled):not(.is-menu-open) .asp-header__logo img {
   filter: invert(1) brightness(1.4);
 }
@@ -230,7 +241,8 @@
     min-height: var(--header-h-desktop);
   }
 
-  .asp-header__logo img {
+  .asp-header__logo img,
+  .asp-header__logo svg {
     height: var(--logo-h-desktop);
   }
 
@@ -356,7 +368,14 @@
   padding-block: var(--sp-8);
 }
 
-.asp-footer__logo img {
+.asp-footer__logo {
+  align-self: flex-start;
+  color: var(--c-dark-fg);
+}
+
+.asp-footer__logo img,
+.asp-footer__logo svg {
+  display: block;
   height: var(--logo-h-footer);
   width: auto;
 }

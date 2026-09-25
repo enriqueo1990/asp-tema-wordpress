@@ -47,3 +47,18 @@ function asp_romano( int $n ): string {
 function asp_afirmacion_ancla( int $indice ): string {
 	return 'articulo-' . strtolower( asp_romano( $indice ) );
 }
+
+/**
+ * PDF para descargar: el subido en el Customizer o, si no hay, el que trae
+ * el tema (generado con tools/generar-pdf-afirmaciones.php).
+ *
+ * @return string URL, o vacía si no hay ninguno.
+ */
+function asp_afirmaciones_pdf(): string {
+	$subido = (string) get_theme_mod( 'asp_afirmaciones_pdf', '' );
+	if ( '' !== $subido ) {
+		return $subido;
+	}
+	$ruta = 'assets/docs/afirmaciones-y-negaciones.pdf';
+	return is_readable( ASP_THEME_DIR . '/' . $ruta ) ? asp_asset_url( $ruta ) . '?v=' . asp_asset_version( $ruta ) : '';
+}

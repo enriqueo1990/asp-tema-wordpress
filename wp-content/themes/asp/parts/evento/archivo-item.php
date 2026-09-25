@@ -10,6 +10,7 @@ defined( 'ABSPATH' ) || exit;
 $asp_id       = (int) ( $args['post_id'] ?? get_the_ID() );
 $asp_oradores = asp_evento_relacionados( $asp_id, 'evento_oradores', 'persona' );
 $asp_aliados  = asp_evento_relacionados( $asp_id, 'evento_aliados', 'aliado' );
+$asp_inic     = asp_evento_iniciativa( $asp_id );
 $asp_extra    = array_filter(
 	[
 		implode( ', ', array_map( 'get_the_title', $asp_oradores ) ),
@@ -20,6 +21,8 @@ $asp_extra    = array_filter(
 <a class="asp-archivo-item<?php echo ! empty( $args['ancho'] ) ? ' asp-archivo-item--ancho' : ''; ?>" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>">
 	<span class="asp-archivo-item__fecha"><?php echo esc_html( asp_evento_fecha_texto( $asp_id ) ); ?></span>
 	<span class="asp-archivo-item__principal">
+		<?php /* El título es el tema ("Amós", "Efesios"): sin la iniciativa no se sabe qué fue. */ ?>
+		<?php if ( $asp_inic ) : ?><span class="asp-archivo-item__iniciativa"><?php echo esc_html( get_the_title( $asp_inic ) ); ?></span><?php endif; ?>
 		<span class="asp-archivo-item__titulo"><?php echo esc_html( get_the_title( $asp_id ) ); ?></span>
 		<?php if ( ! empty( $asp_extra ) ) : ?>
 			<span class="asp-archivo-item__extra"><?php echo esc_html( implode( ' · ', $asp_extra ) ); ?></span>

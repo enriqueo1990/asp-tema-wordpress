@@ -166,23 +166,32 @@ $asp_buscar_id  = 'buscar-recursos';
 		</div>
 	</section>
 <?php elseif ( $asp_n_pasados >= 3 ) : ?>
+	<?php
+	/* Con decenas de eventos, el archivo completo ocupaba media página: acá
+	   van los últimos y un índice de años que lleva al archivo. */
+	?>
 	<section class="asp-container asp-recursos-bloque" aria-labelledby="recursos-conferencias">
 		<div class="asp-editorial__cab asp-cab-suelto">
 			<h2 id="recursos-conferencias" class="asp-seccion__titulo"><?php esc_html_e( 'Conferencias realizadas', 'asp' ); ?></h2>
-			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_eventos() ); ?>"><?php esc_html_e( 'Archivo de eventos', 'asp' ); ?></a>
+			<a class="asp-cta-link" href="<?php echo esc_url( asp_url_eventos() . '#archivo' ); ?>">
+				<?php
+				/* translators: %d: cantidad de eventos realizados */
+				echo esc_html( sprintf( __( 'Ver los %d eventos', 'asp' ), $asp_n_pasados ) );
+				?>
+			</a>
 		</div>
-		<div class="asp-stack asp-stack--6">
-			<?php foreach ( $asp_pasados as $asp_anio => $asp_eventos ) : ?>
-				<div class="asp-stack asp-stack--3">
-					<div class="asp-anio"><span class="asp-anio__num"><?php echo esc_html( (string) $asp_anio ); ?></span></div>
-					<div>
-						<?php foreach ( $asp_eventos as $asp_post ) : ?>
-							<?php get_template_part( 'parts/evento/archivo-item', null, [ 'post_id' => $asp_post->ID ] ); ?>
-						<?php endforeach; ?>
-					</div>
-				</div>
+		<div>
+			<?php foreach ( array_slice( array_merge( ...array_values( $asp_pasados ) ), 0, 4 ) as $asp_post ) : ?>
+				<?php get_template_part( 'parts/evento/archivo-item', null, [ 'post_id' => $asp_post->ID ] ); ?>
 			<?php endforeach; ?>
 		</div>
+		<nav class="asp-recursos-anios" aria-label="<?php esc_attr_e( 'Eventos por año', 'asp' ); ?>">
+			<ul class="asp-temas">
+				<?php foreach ( $asp_pasados as $asp_anio => $asp_eventos ) : ?>
+					<li><a class="asp-tema" href="<?php echo esc_url( asp_url_eventos() . '#archivo-' . $asp_anio ); ?>"><?php echo esc_html( (string) $asp_anio ); ?> <span class="asp-tema__n"><?php echo esc_html( (string) count( $asp_eventos ) ); ?></span></a></li>
+				<?php endforeach; ?>
+			</ul>
+		</nav>
 	</section>
 <?php endif; ?>
 

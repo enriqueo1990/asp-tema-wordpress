@@ -17,7 +17,7 @@ while ( have_posts() ) :
 	the_post();
 	$asp_consejo   = asp_personas_por_rol( 'consejo' );
 	$asp_af        = asp_afirmaciones();
-	$asp_pdf       = (string) get_theme_mod( 'asp_afirmaciones_pdf', '' );
+	$asp_pdf       = asp_afirmaciones_pdf();
 	$asp_destacado = asp_evento_destacado();
 	$asp_mision    = (string) get_theme_mod( 'asp_mision_texto', asp_mision_default() );
 	?>

@@ -111,12 +111,12 @@ function asp_customizer( WP_Customize_Manager $wp_customize ): void {
 		]
 	);
 
-	$wp_customize->add_setting( 'asp_email', [ 'sanitize_callback' => 'sanitize_email', 'default' => '' ] );
+	$wp_customize->add_setting( 'asp_email', [ 'sanitize_callback' => 'sanitize_email', 'default' => 'contacto@antesupalabra.com' ] );
 	$wp_customize->add_control(
 		'asp_email',
 		[
 			'label'       => __( 'Email de contacto', 'asp' ),
-			'description' => __( 'Se muestra en el pie. Vacío = no se muestra.', 'asp' ),
+			'description' => __( 'Se muestra en el pie y en Contacto, y ahí llegan los mensajes del formulario.', 'asp' ),
 			'section'     => 'asp_sitio',
 			'type'        => 'email',
 		]
@@ -140,7 +140,7 @@ function asp_customizer( WP_Customize_Manager $wp_customize ): void {
 			'asp_afirmaciones_pdf',
 			[
 				'label'       => __( 'PDF de Afirmaciones y Negaciones', 'asp' ),
-				'description' => __( 'Vacío = no se muestra el botón de descarga.', 'asp' ),
+				'description' => __( 'Vacío = se ofrece el PDF que trae el tema.', 'asp' ),
 				'section'     => 'asp_sitio',
 			]
 		)

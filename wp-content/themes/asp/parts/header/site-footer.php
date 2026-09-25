@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$asp_email  = (string) get_theme_mod( 'asp_email', '' );
+$asp_email  = asp_email();
 $asp_redes  = asp_redes();
 $asp_bajada = (string) get_bloginfo( 'description' );
 ?>
@@ -30,11 +30,7 @@ $asp_bajada = (string) get_bloginfo( 'description' );
 		<?php if ( $asp_email || $asp_form || ! empty( $asp_redes ) ) : ?>
 			<div class="asp-footer__contacto">
 				<span class="asp-label"><?php esc_html_e( 'Contacto', 'asp' ); ?></span>
-				<?php
-				/* TODO: cargar el email del ministerio en Personalizar. Mientras no
-				   haya, el contacto directo es el formulario, que sí existe. */
-				if ( $asp_email ) :
-					?>
+				<?php if ( $asp_email ) : ?>
 					<a class="asp-footer__email" href="mailto:<?php echo esc_attr( $asp_email ); ?>"><?php echo esc_html( $asp_email ); ?></a>
 				<?php elseif ( $asp_form ) : ?>
 					<a class="asp-footer__email" href="<?php echo esc_url( $asp_form ); ?>"><?php esc_html_e( 'Escribinos por el formulario', 'asp' ); ?></a>
