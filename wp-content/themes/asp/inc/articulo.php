@@ -329,7 +329,7 @@ function asp_articulos_relacionados( int $post_id, int $cantidad = 3 ): array {
  * @return string HTML listo para imprimir, o cadena vacía.
  */
 function asp_articulo_apertura( int $post_id ): string {
-	$img = asp_imagen_destacada( $post_id, 'asp-apertura', 'asp-imagen asp-imagen--apertura' );
+	$img = asp_imagen_destacada( $post_id, 'asp-apertura', 'asp-imagen asp-imagen--apertura', true );
 	if ( '' === $img ) {
 		return '';
 	}

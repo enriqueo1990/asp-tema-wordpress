@@ -24,8 +24,13 @@ $asp_prox = asp_iniciativa_proximo( $asp_id );
 		<span class="asp-tile__titulo"><?php echo esc_html( get_the_title( $asp_id ) ); ?></span>
 		<?php if ( $asp_prox ) : ?>
 			<span class="asp-tile__dato"><?php
-				/* translators: %s: fecha del próximo evento */
-				echo esc_html( sprintf( __( 'Próximo: %s', 'asp' ), asp_evento_fecha_texto( $asp_prox->ID ) ) );
+				echo esc_html(
+					'en_curso' === asp_evento_estado( $asp_prox->ID )
+						/* translators: %s: fecha del evento en curso */
+						? sprintf( __( 'En curso: %s', 'asp' ), asp_evento_fecha_texto( $asp_prox->ID ) )
+						/* translators: %s: fecha del próximo evento */
+						: sprintf( __( 'Próximo: %s', 'asp' ), asp_evento_fecha_texto( $asp_prox->ID ) )
+				);
 			?></span>
 		<?php endif; ?>
 	</span>

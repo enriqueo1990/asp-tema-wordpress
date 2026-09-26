@@ -135,6 +135,49 @@ function asp_eventos_de_iniciativa( int $iniciativa_id, bool $proximos ): array 
 }
 
 /**
+ * Resumen de una iniciativa para /iniciativas/ y su ficha: la próxima
+ * edición, cuántas hubo, desde qué año y qué evento mostrar como vitrina
+ * (el próximo, o el último realizado, que tenga flyer).
+ *
+ * @param int $iniciativa_id ID de la iniciativa.
+ * @return array{proximo:?WP_Post,vitrina:?WP_Post,ediciones:int,desde:int}
+ */
+function asp_iniciativa_ediciones( int $iniciativa_id ): array {
+	$proximos = asp_eventos_de_iniciativa( $iniciativa_id, true );
+	$todos    = array_merge( $proximos, asp_eventos_de_iniciativa( $iniciativa_id, false ) );
+	$anios    = array_filter( array_map( static fn( WP_Post $p ) => asp_evento_anio( $p->ID ), $todos ) );
+	$vitrina  = null;
+	foreach ( $todos as $p ) {
+		if ( absint( get_post_meta( $p->ID, 'evento_flyer', true ) ) ) {
+			$vitrina = $p;
+			break;
+		}
+	}
+	return [
+		'proximo'   => $proximos[0] ?? null,
+		'vitrina'   => $vitrina,
+		'ediciones' => count( $todos ),
+		'desde'     => $anios ? min( $anios ) : 0,
+	];
+}
+
+/**
+ * /iniciativas/ en el mismo orden que el inicio, que las numera I a IV
+ * por orden del panel. Sin esto salían por fecha de carga.
+ *
+ * @param WP_Query $query Consulta principal.
+ * @return void
+ */
+function asp_orden_archivo_iniciativas( WP_Query $query ): void {
+	if ( is_admin() || ! $query->is_main_query() || ! $query->is_post_type_archive( 'iniciativa' ) ) {
+		return;
+	}
+	$query->set( 'orderby', [ 'menu_order' => 'ASC', 'title' => 'ASC' ] );
+	$query->set( 'posts_per_page', -1 );
+}
+add_action( 'pre_get_posts', 'asp_orden_archivo_iniciativas' );
+
+/**
  * Eventos donde una persona fue oradora, del más reciente al más viejo.
  *
  * @param int $persona_id ID de la persona.

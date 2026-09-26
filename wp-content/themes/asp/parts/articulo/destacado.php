@@ -13,7 +13,7 @@ $asp_cat   = get_the_category( $asp_id );
 $asp_chip  = $asp_serie ? $asp_serie->name : ( ( ! empty( $asp_cat ) && 'uncategorized' !== $asp_cat[0]->slug ) ? $asp_cat[0]->name : __( 'Artículo', 'asp' ) );
 $asp_autor = asp_autor_articulo( $asp_id );
 $asp_res   = asp_resumen_articulo( $asp_id, 42 );
-$asp_img   = asp_imagen_destacada( $asp_id, 'asp-apertura', 'asp-imagen asp-imagen--apertura' );
+$asp_img   = asp_imagen_destacada( $asp_id, 'asp-apertura', 'asp-imagen asp-imagen--apertura', true );
 ?>
 <article class="asp-articulo-destacado<?php echo $asp_img ? ' asp-articulo-destacado--con-imagen' : ''; ?>">
 	<?php if ( $asp_img ) : ?>

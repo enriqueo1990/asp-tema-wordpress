@@ -500,6 +500,311 @@
   }
 }
 
+/* ---------------------------------------------------------------------
+   /eventos/: cabecera, próximos y archivo como grilla de flyers
+   --------------------------------------------------------------------- */
+.asp-eventos__cab {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  padding-block: var(--sp-7) var(--sp-6);
+}
+
+.asp-eventos__cab .asp-indice-anios {
+  align-items: baseline;
+}
+
+.asp-eventos__proximos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  padding-bottom: var(--sp-7);
+}
+
+.asp-eventos__archivo {
+  padding-bottom: var(--sp-8);
+}
+
+/* El encabezado es pegajoso: el ancla del año no puede quedar debajo. */
+[id^="archivo-"] {
+  scroll-margin-top: calc(var(--header-h) + var(--sp-4));
+}
+
+.asp-grilla-eventos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-6) var(--sp-4);
+}
+
+.asp-evento-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  min-width: 0;
+  color: var(--c-text);
+}
+
+.asp-evento-tile:hover {
+  color: var(--c-text);
+}
+
+.asp-flyer--tile {
+  aspect-ratio: var(--band-ratio-tile);
+  transition: background-color var(--dur) var(--ease);
+}
+
+.asp-flyer--tile img {
+  top: calc((100% - var(--band-flyer-h-tile)) / 2);
+  left: calc((100% - var(--band-flyer-h-tile)) / 2);
+  width: var(--band-flyer-h-tile);
+  height: var(--band-flyer-h-tile);
+}
+
+.asp-evento-tile:hover .asp-flyer--tile {
+  background: var(--c-border-strong);
+}
+
+/* Sin flyer: la fecha en numerales ocupa la banda, como en la ficha */
+.asp-evento-tile__sinflyer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--sp-1);
+  aspect-ratio: var(--band-ratio-tile);
+  padding: var(--sp-4);
+  background: var(--c-flyer-band);
+  border-radius: var(--radius-4);
+}
+
+.asp-evento-tile__dias {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-display);
+  color: var(--c-accent);
+}
+
+.asp-evento-tile__mes {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-sm);
+  color: var(--c-flyer-band-ink);
+}
+
+.asp-evento-tile__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.asp-evento-tile__iniciativa {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  line-height: var(--lh-heading);
+  text-transform: uppercase;
+  color: var(--c-accent-alt);
+}
+
+.asp-evento-tile__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+  text-wrap: pretty;
+  transition: color var(--dur) var(--ease);
+}
+
+.asp-evento-tile:hover .asp-evento-tile__titulo {
+  color: var(--c-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+.asp-evento-tile:focus-visible {
+  outline: 2px solid var(--c-focus-ring);
+  outline-offset: 4px;
+}
+
+.asp-evento-tile__meta {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-heading);
+  color: var(--c-text-muted);
+}
+
+@media (min-width: 768px) {
+  .asp-grilla-eventos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-7) var(--sp-5);
+  }
+}
+
+@media (min-width: 1024px) {
+  .asp-eventos__cab {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-block: var(--sp-8) var(--sp-7);
+  }
+
+  .asp-eventos__cab .asp-indice-anios {
+    justify-content: flex-end;
+  }
+
+  .asp-eventos__proximos {
+    padding-bottom: var(--sp-8);
+  }
+
+  .asp-grilla-eventos {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .asp-evento-tile__titulo {
+    font-size: var(--fs-lg);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   /iniciativas/: un bloque por iniciativa, texto y flyer alternando lado
+   --------------------------------------------------------------------- */
+.asp-iniciativas {
+  padding-bottom: var(--sp-8);
+}
+
+.asp-iniciativa-fila {
+  display: grid;
+  gap: var(--sp-6);
+  padding-block: var(--sp-7);
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-iniciativa-fila__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+
+.asp-iniciativa-fila__num {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-xl);
+  line-height: 1;
+  color: var(--c-accent-alt);
+}
+
+.asp-iniciativa-fila__titulo {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+}
+
+.asp-iniciativa-fila__titulo a {
+  color: var(--c-text);
+}
+
+.asp-iniciativa-fila__titulo a:hover {
+  color: var(--c-accent);
+}
+
+.asp-iniciativa-fila__desc {
+  max-width: 52ch;
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+}
+
+.asp-iniciativa-fila__desc p {
+  margin: 0;
+}
+
+.asp-iniciativa-fila__datos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-5);
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+.asp-iniciativa-fila__proxima {
+  font-weight: var(--fw-semibold);
+  color: var(--c-accent);
+}
+
+.asp-iniciativa-fila__vitrina {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  color: var(--c-text);
+}
+
+.asp-iniciativa-fila__vitrina:hover {
+  color: var(--c-text);
+}
+
+.asp-iniciativa-fila__vitrina:hover .asp-flyer--tile {
+  background: var(--c-border-strong);
+}
+
+.asp-iniciativa-fila__vitrina:hover .asp-iniciativa-fila__evento {
+  color: var(--c-accent);
+}
+
+.asp-iniciativa-fila__vitrina:focus-visible {
+  outline: 2px solid var(--c-focus-ring);
+  outline-offset: 4px;
+}
+
+.asp-iniciativa-fila__pie {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.asp-iniciativa-fila__evento {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+  transition: color var(--dur) var(--ease);
+}
+
+.asp-iniciativa-fila__cuando {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+.asp-iniciativa__ediciones {
+  padding-top: var(--sp-6);
+}
+
+@media (min-width: 1024px) {
+  .asp-iniciativa-fila {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: var(--sp-8);
+    align-items: center;
+    padding-block: var(--sp-8);
+  }
+
+  .asp-iniciativa-fila--sin-vitrina {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Cada bloque con su forma: el flyer cambia de lado en cada iniciativa. */
+  .asp-iniciativa-fila:nth-child(even) .asp-iniciativa-fila__vitrina {
+    order: -1;
+  }
+
+  .asp-iniciativa-fila__titulo {
+    font-size: var(--fs-3xl);
+  }
+}
+
 /* Fila compacta de evento en la home */
 .asp-evento-fila {
   display: flex;

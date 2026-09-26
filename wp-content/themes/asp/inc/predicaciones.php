@@ -59,6 +59,61 @@ function asp_predicaciones_de_evento( int $evento_id ): array {
 }
 
 /**
+ * Oradores de un evento según sus predicaciones, para cuando el campo
+ * "Oradores" del evento está vacío: los eventos históricos se cargaron sin
+ * él, pero sus predicaciones sí dicen quién predicó. Cada uno una vez, en
+ * el orden en que predicaron. Si la predicación tiene la persona vinculada,
+ * o el nombre del título coincide con una persona cargada, va la persona;
+ * si no, el nombre tal como viene en el título. Nada se inventa.
+ *
+ * @param int $evento_id ID del evento.
+ * @return array<int, array{persona:?WP_Post, nombre:string}>
+ */
+function asp_evento_oradores_de_predicaciones( int $evento_id ): array {
+	$predicaciones = asp_predicaciones_de_evento( $evento_id );
+	if ( empty( $predicaciones ) ) {
+		return [];
+	}
+	$personas = [];
+	foreach ( get_posts( [ 'post_type' => 'persona', 'post_status' => 'publish', 'posts_per_page' => -1, 'no_found_rows' => true ] ) as $p ) {
+		$personas[ asp_clave_nombre( $p->post_title ) ] = $p;
+	}
+	$oradores = [];
+	foreach ( $predicaciones as $pred ) {
+		$persona = asp_predicacion_orador( $pred->ID );
+		$nombre  = $persona ? $persona->post_title : asp_predicacion_titulo_partes( $pred->ID )['orador'];
+		if ( '' === $nombre ) {
+			continue;
+		}
+		$clave = asp_clave_nombre( $nombre );
+		if ( isset( $oradores[ $clave ] ) ) {
+			continue;
+		}
+		$persona            = $persona ?: ( $personas[ $clave ] ?? null );
+		$oradores[ $clave ] = [
+			'persona' => $persona,
+			'nombre'  => $persona ? html_entity_decode( $persona->post_title, ENT_QUOTES, 'UTF-8' ) : $nombre,
+		];
+	}
+	return array_values( $oradores );
+}
+
+/**
+ * Clave para comparar nombres sin que importen tildes, mayúsculas ni
+ * espacios: "Sugél Michelén" y "Sugel  Michelen" son la misma persona.
+ *
+ * @param string $nombre Nombre.
+ * @return string
+ */
+function asp_clave_nombre( string $nombre ): string {
+	$nombre = html_entity_decode( $nombre, ENT_QUOTES, 'UTF-8' );
+	if ( function_exists( 'normalizer_normalize' ) ) {
+		$nombre = (string) ( normalizer_normalize( $nombre, Normalizer::FORM_C ) ?: $nombre );
+	}
+	return strtolower( trim( (string) preg_replace( '/\s+/u', ' ', remove_accents( $nombre ) ) ) );
+}
+
+/**
  * Predicaciones de una persona.
  *
  * @param int $persona_id ID de la persona.
@@ -369,3 +424,20 @@ function asp_buscador_predicaciones( string $variante = 'archivo' ): void {
 	</form>
 	<?php
 }
+
+/**
+ * Título del documento de una predicación: el mismo título limpio que la
+ * página, sin el orador ni la conferencia que trae de YouTube. Es lo que
+ * muestran la pestaña, los buscadores y las vistas previas al compartir.
+ *
+ * @param array<string,string> $partes Partes del título del documento.
+ * @return array<string,string>
+ */
+function asp_titulo_documento_predicacion( array $partes ): array {
+	if ( is_singular( 'predicacion' ) ) {
+		$limpio = asp_predicacion_titulo_partes( (int) get_queried_object_id() );
+		$partes['title'] = '' !== $limpio['orador'] ? $limpio['titulo'] . ' · ' . $limpio['orador'] : $limpio['titulo'];
+	}
+	return $partes;
+}
+add_filter( 'document_title_parts', 'asp_titulo_documento_predicacion' );

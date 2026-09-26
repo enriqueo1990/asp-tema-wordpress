@@ -182,14 +182,33 @@ function asp_fecha_iso( string $ymd ): string {
  * "28 de abril de 2026", "25 al 27 de septiembre de 2026",
  * "30 de abril al 2 de mayo de 2026".
  *
- * @param int $post_id ID del evento.
+ * Sin año ("25 y 26 de septiembre") donde el año ya está a la vista, como
+ * en la grilla del archivo; si el evento cruza de año, lo lleva igual.
+ *
+ * @param int  $post_id  ID del evento.
+ * @param bool $con_anio Incluir el año.
  * @return string
  */
-function asp_evento_fecha_texto( int $post_id ): string {
+function asp_evento_fecha_texto( int $post_id, bool $con_anio = true ): string {
 	$ini = asp_fecha_partes( (string) get_post_meta( $post_id, 'evento_fecha_inicio', true ) );
 	$fin = asp_fecha_partes( (string) get_post_meta( $post_id, 'evento_fecha_fin', true ) );
 	if ( ! $ini ) {
 		return '';
+	}
+	if ( ! $con_anio && ( ! $fin || $ini['anio'] === $fin['anio'] ) ) {
+		if ( ! $fin || $fin === $ini ) {
+			/* translators: 1: día, 2: mes */
+			return sprintf( __( '%1$d de %2$s', 'asp' ), $ini['dia'], asp_nombre_mes( $ini['mes'] ) );
+		}
+		if ( $ini['mes'] === $fin['mes'] ) {
+			return $fin['dia'] - $ini['dia'] === 1
+				/* translators: 1: primer día, 2: segundo día, 3: mes */
+				? sprintf( __( '%1$d y %2$d de %3$s', 'asp' ), $ini['dia'], $fin['dia'], asp_nombre_mes( $ini['mes'] ) )
+				/* translators: 1: primer día, 2: último día, 3: mes */
+				: sprintf( __( '%1$d al %2$d de %3$s', 'asp' ), $ini['dia'], $fin['dia'], asp_nombre_mes( $ini['mes'] ) );
+		}
+		/* translators: 1: día inicio, 2: mes inicio, 3: día fin, 4: mes fin */
+		return sprintf( __( '%1$d de %2$s al %3$d de %4$s', 'asp' ), $ini['dia'], asp_nombre_mes( $ini['mes'] ), $fin['dia'], asp_nombre_mes( $fin['mes'] ) );
 	}
 	if ( ! $fin || $fin === $ini ) {
 		/* translators: 1: día, 2: mes, 3: año */

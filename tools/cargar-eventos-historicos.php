@@ -18,6 +18,12 @@
  * publicado, la predicación pierde su fecha propia, que era el día de subida
  * a YouTube, y toma la del evento.
  *
+ * Fechas provisorias (25-9-2026, pedido del usuario): cuatro eventos sin
+ * días conocidos se publican con la fecha de subida a YouTube de su primera
+ * sesión, para que sus predicaciones se vean. Quedan marcados con
+ * _asp_fecha_provisoria y el panel avisa hasta que se cargue la real. La
+ * lista y lo que falta está en docs/conferencias-a-confirmar.md.
+ *
  * Idempotente: un evento con el mismo título y fecha de inicio no se duplica.
  *
  * Uso: php tools/cargar-eventos-historicos.php
@@ -55,8 +61,8 @@ foreach ( [
 // clave => [título, slug, inicio, fin, ciudad, país, sede, dirección, iniciativa]
 $eventos = [
 	'asp2015'  => [ 'Conferencia Ante Su Palabra 2015', '', '20150710', '20150712', 'Pilar', AR, '', '', 'asp' ],
-	'9marks'   => [ 'Conferencia 9Marks en Buenos Aires', '', '', '', 'Buenos Aires', AR, '', '', 'asp' ], // TODO: días (octubre de 2015).
-	'patag'    => [ 'Regresando a la Biblia: la Palabra de Dios', '', '', '', 'Villa Regina', AR, '', '', 'asp' ], // TODO: días (julio de 2016).
+	'9marks'   => [ 'Conferencia 9Marks en Buenos Aires', '', '20151016', '20151016', 'Buenos Aires', AR, '', '', 'asp' ], // TODO: días reales; fecha provisoria.
+	'patag'    => [ 'Regresando a la Biblia: la Palabra de Dios', '', '20160705', '20160705', 'Villa Regina', AR, '', '', 'asp' ], // TODO: días reales; fecha provisoria.
 	'asp2016'  => [ 'El grito de la Reforma', '', '20160909', '20160910', 'Buenos Aires', AR, '', 'Salcedo 4038, Boedo, Ciudad Autónoma de Buenos Aires', 'asp' ],
 	'cant17cb' => [ 'Cánticos Espirituales en City Bell', '', '20170728', '20170728', 'City Bell', AR, 'Iglesia Bíblica de City Bell', 'Camino General Belgrano 311, City Bell, Buenos Aires', 'can' ],
 	'cant17ca' => [ 'Cánticos Espirituales en Campana', 'canticos-espirituales-en-campana-2017', '20170729', '20170729', 'Campana', AR, 'Templo Unión Evangélica', 'Av. Varela 447, Campana, Buenos Aires', 'can' ],
@@ -65,7 +71,7 @@ $eventos = [
 	'asp2017'  => [ 'Reforma: el Espíritu y la Palabra', 'reforma-el-espiritu-y-la-palabra-buenos-aires', '20171027', '20171028', 'Buenos Aires', AR, '', '', 'asp' ],
 	'ref17vr'  => [ 'Reforma: el Espíritu y la Palabra', 'reforma-el-espiritu-y-la-palabra-villa-regina', '20171030', '20171031', 'Villa Regina', AR, '', 'Lisandro de la Torre, Villa Regina, Río Negro', 'asp' ],
 	'mez'      => [ 'La iglesia en lugares difíciles', '', '20180504', '20180505', 'Buenos Aires', AR, '', 'Av. Gaona 3581, Villa Santa Rita, Ciudad Autónoma de Buenos Aires', 'asp' ],
-	'usa2018'  => [ 'Edificando iglesias saludables', '', '', '', 'Denton', US, '', '', 'usa' ], // TODO: días (junio de 2018).
+	'usa2018'  => [ 'Edificando iglesias saludables', '', '20180530', '20180530', 'Denton', US, '', '', 'usa' ], // TODO: días reales; fecha provisoria.
 	'tal18ba'  => [ 'Los Evangelios', 'los-evangelios-buenos-aires', '20180709', '20180710', 'Buenos Aires', AR, 'Iglesia Redil Abierto', 'Av. Gaona 3581, Villa Santa Rita, Ciudad Autónoma de Buenos Aires', 'tal' ],
 	'tal18bb'  => [ 'Los Evangelios', 'los-evangelios-bahia-blanca', '20180713', '20180714', 'Bahía Blanca', AR, 'Iglesia Cristiana de la Gracia', 'Donado 667, Bahía Blanca, Buenos Aires', 'tal' ],
 	'asp2019'  => [ 'Dios es el evangelio', '', '20190301', '20190302', 'Pilar', AR, 'Parque Nazareno', 'Av. Sgto. Cayetano Beliera 1635, Pilar, Buenos Aires', 'asp' ],
@@ -75,9 +81,11 @@ $eventos = [
 	'tal19ba'  => [ 'Salmos de lamento', 'salmos-de-lamento-pilar', '20190708', '20190709', 'Pilar', AR, 'Parque Nazareno de Pilar', 'Av. Sgto. Cayetano Beliera 1635, Pilar, Buenos Aires', 'tal' ],
 	'tal19co'  => [ 'Salmos de lamento', 'salmos-de-lamento-cordoba', '20190712', '20190713', 'Córdoba', AR, 'Iglesia Bíblica Bautista Crecer', 'Lima 849, Córdoba', 'tal' ],
 	'dever'    => [ 'Pastoreando iglesias saludables', '', '20200220', '20200220', 'Presidente Derqui', AR, 'Centro de Desarrollo Cristiano (El Nazareno)', 'Av. Juan Domingo Perón 3251, Presidente Derqui, Buenos Aires', 'asp' ],
-	'asp2020'  => [ 'Conferencia Ante Su Palabra 2020', '', '', '', '', AR, '', '', 'asp' ], // TODO: fechas y ciudad.
+	// Antes "Conferencia Ante Su Palabra 2020": el usuario confirmó que fue en
+	// 2021, en Denton y sobre la santidad. Días según la subida de los videos.
+	'asp2020'  => [ 'La santidad', 'la-santidad', '20210105', '20210106', 'Denton', US, '', '', 'usa' ], // TODO: confirmar días; fecha provisoria.
 	// En línea, transmitida desde Denton.
-	'disc2021' => [ 'Discipulado eficaz', '', '20210202', '20210205', 'Denton', US, '', '', 'asp' ],
+	'disc2021' => [ 'Discipulado eficaz', '', '20210202', '20210205', 'Denton', US, '', '', 'usa' ],
 	'cambios'  => [ 'Cambios profundos: cuando disfrutar a Dios me transforma', '', '20211217', '20211218', 'Rosario', AR, '', 'Rodríguez 542, Rosario, Santa Fe', 'asp' ],
 	'comun22'  => [ 'La comunión de los santos', '', '20220218', '20220219', 'Denton', US, '', '', 'usa' ],
 	'tal22'    => [ 'Amós', 'amos-2022', '20220715', '20220716', 'Presidente Derqui', AR, 'Centro de Desarrollo Cristiano (El Nazareno)', 'Av. Juan Domingo Perón 3251, Presidente Derqui, Buenos Aires', 'tal' ],
@@ -111,7 +119,8 @@ $videos = [
 	'asp2017'  => [ 'xrrP5fjK2Ko', 'oUkJEiIGBS0', 'QO2Uk8Au7do', 'TnOjIIpcu30', 'fPO8G8bnBBo', 'dC02iVfX9yU', 'eya2K9JIfWQ', 'uMO2g8bCjeU' ],
 	'usa2018'  => [ 'WBF5Bk_X-XY', 'ea77LzhUBUY', '9LvXc2lO2ak', '6GcY4Uu-2CA', 'Tx6rLpH4x8s', 'mjKxPGTx_gw', '4HiIC8Zhbx4', '-L0MR1Z7JrY', 'ji-ny8dfu1w', 'ZhkRWWeRvCI', 'Zb368_TgBKw' ],
 	// Fuera de toda lista: los que llevan "Ante Su Palabra 2019" en el título, subidos en mayo de 2019.
-	'asp2019'  => [ 'G9lAe8Csn5g', 'MyMgNRMT3V8' ],
+	// "El mayor tesoro" (Greg Travis) también fue en esta conferencia, según el usuario.
+	'asp2019'  => [ 'G9lAe8Csn5g', 'MyMgNRMT3V8', 'iNUZlSBgxkA' ],
 	'usa2019'  => [ '5FxV2kIX0Yo', 'h4N14w7Mfx0', 'elqgkQAXK5I', 'ERR2AwloWvU', 'vARWfoshxRo', '6PT6HxSOdI0', '8A3cZ0Ji-yY', '9G4tpQFX9Xg', '67vXRmlTjrA', '-dIRWGTfp28', '3VBivBFXyEo', 'VnmAmDjMDAQ', 's62fcLU0cEI', 'hf1GpQPZ2AQ', 'ZRijBXEc0-E', 'PSzYmGu7rJw', 'm72nCX3e_SE', '4_qIWYmvpuM', '496yWN57u8w', 'rpPi7tJh6t8', '2VgjU0YtMXA', 'umpQiFk8Sbg', '3AQanqSygs8', 'KzsG1UVjsJw', '3DfacTryWZs' ],
 	'asp2020'  => [ 'sYj1XZXbo3w', 'FYgsvAptyaA', 'i-Arc5iWTGM', 'CEbAX1IcogQ', 'krs_uAkvI_0', 'Gy9kivSBa6E', '7qdXZ-khCe4' ],
 	'disc2021' => [ 'DYBCgBZvofM', '3Up9ekbh1FE', 'Q8tueVi55nI', 'xccZRC7TBhk', '9KfW1tYF_ro', 'qTiAhOsBHso', 'oqhKiIy5xMg', 'T5rMzYm6UzU', 'ukHYFQx76uo', 'UPX4Ij2aSp4', 'cHZ6Rtta5aw', 'mtMRdBbYoVw' ],
@@ -135,6 +144,9 @@ foreach ( get_posts( [ 'post_type' => 'predicacion', 'post_status' => 'any', 'nu
 		$videos['asp2019'][] = $vid;
 	}
 }
+
+// Eventos publicados con fecha supuesta: ver el encabezado.
+$provisorias = [ '9marks', 'patag', 'usa2018', 'asp2020' ];
 
 $ymd_a_input = static fn( string $ymd ): string => $ymd ? substr( $ymd, 0, 4 ) . '-' . substr( $ymd, 4, 2 ) . '-' . substr( $ymd, 6, 2 ) : '';
 
@@ -176,6 +188,9 @@ foreach ( $eventos as $clave => [ $titulo, $slug, $inicio, $fin, $ciudad, $pais,
 			continue;
 		}
 		$accion = 'creado';
+		if ( in_array( $clave, $provisorias, true ) ) {
+			update_post_meta( $id, '_asp_fecha_provisoria', $inicio );
+		}
 	} else {
 		$accion = 'ya estaba';
 	}

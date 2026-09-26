@@ -129,3 +129,35 @@ function asp_mensajes_evento( array $mensajes ): array {
 	return $mensajes;
 }
 add_filter( 'post_updated_messages', 'asp_mensajes_evento' );
+
+/**
+ * Aviso de fecha provisoria. Algunos eventos históricos se publicaron con
+ * una fecha supuesta para que sus predicaciones se vieran en la ficha (la
+ * de subida a YouTube de la primera sesión). _asp_fecha_provisoria guarda
+ * esa fecha; cuando alguien carga la real, deja de coincidir y el aviso se
+ * va solo.
+ *
+ * @return void
+ */
+function asp_aviso_fecha_provisoria(): void {
+	$pantalla = get_current_screen();
+	if ( ! $pantalla || 'post' !== $pantalla->base || 'evento' !== $pantalla->post_type ) {
+		return;
+	}
+	$id         = absint( get_the_ID() );
+	$provisoria = (string) get_post_meta( $id, '_asp_fecha_provisoria', true );
+	if ( '' === $provisoria ) {
+		return;
+	}
+	if ( (string) get_post_meta( $id, 'evento_fecha_inicio', true ) !== $provisoria ) {
+		delete_post_meta( $id, '_asp_fecha_provisoria' );
+		return;
+	}
+	?>
+	<div class="notice notice-warning asp-aviso">
+		<p><strong><?php esc_html_e( 'La fecha de este evento es provisoria.', 'asp' ); ?></strong>
+		<?php esc_html_e( 'Se puso la fecha en que se subió a YouTube la primera predicación, para que el evento pudiera publicarse. Cuando tengas los días reales, cambiá el primer y el último día y guardá.', 'asp' ); ?></p>
+	</div>
+	<?php
+}
+add_action( 'admin_notices', 'asp_aviso_fecha_provisoria' );

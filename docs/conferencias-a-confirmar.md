@@ -10,6 +10,24 @@ fin, ciudad, país y sede.** Con eso se cargan como eventos del archivo y las
 115 predicaciones se enganchan a su conferencia.
 
 
+
+## Fechas provisorias (25-9-2026)
+
+Para que sus predicaciones se vieran en la ficha, estos cuatro eventos se
+publicaron con una **fecha supuesta**: el día en que se subió a YouTube la
+primera sesión, sin pasar del año del título. Un solo día, inicio igual a fin,
+salvo La santidad, que va del primer al último día de subida.
+El panel muestra un aviso en cada uno hasta que se cambie la fecha.
+
+| Evento | Fecha provisoria | Falta además |
+|---|---|---|
+| Conferencia 9Marks en Buenos Aires | 16-10-2015 | |
+| Regresando a la Biblia: la Palabra de Dios | 5-7-2016 | |
+| Edificando iglesias saludables | 30-5-2018 | |
+| La santidad (antes "Conferencia Ante Su Palabra 2020"; el usuario confirmó que fue en 2021 y sobre la santidad) | 5 y 6-1-2021 (Denton, Texas, confirmado por el usuario) | |
+
+TODO: reemplazar por las fechas reales cuando las confirme el consejo.
+
 ## Tanda 1 · 2015-08-16 → 2015-10-23 · 20 sesiones
 
 - **Oradores detectados:** James Arnold, Rodney Brown, Ryan Townsend, Edgar Aponte, Sugel Michelén, Dardo Leandi, Greg Travis, Nicolás Tranchini

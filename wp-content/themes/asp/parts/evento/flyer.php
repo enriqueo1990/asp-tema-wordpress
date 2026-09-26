@@ -1,7 +1,8 @@
 <?php
 /**
  * Flyer contenido sobre la banda tonal, nunca recortado.
- * Args: post_id, clase (extra), tamano.
+ * Args: post_id, clase (extra), tamano, loading, sizes, alt.
+ * alt vacío cuando el título del evento está al lado dentro del mismo enlace.
  * No imprime nada si el evento no tiene flyer.
  *
  * @package asp
@@ -16,15 +17,15 @@ if ( ! $asp_flyer ) {
 	return;
 }
 
-$asp_img = wp_get_attachment_image(
-	$asp_flyer,
-	(string) ( $args['tamano'] ?? 'asp-flyer' ),
-	false,
-	[
-		'alt'     => sprintf( /* translators: %s: título del evento */ __( 'Flyer de %s', 'asp' ), get_the_title( $asp_id ) ),
-		'loading' => (string) ( $args['loading'] ?? 'lazy' ),
-	]
-);
+$asp_attr = [
+	'alt'     => isset( $args['alt'] ) ? (string) $args['alt'] : sprintf( /* translators: %s: título del evento */ __( 'Flyer de %s', 'asp' ), get_the_title( $asp_id ) ),
+	'loading' => (string) ( $args['loading'] ?? 'lazy' ),
+];
+if ( ! empty( $args['sizes'] ) ) {
+	$asp_attr['sizes'] = (string) $args['sizes'];
+}
+
+$asp_img = wp_get_attachment_image( $asp_flyer, (string) ( $args['tamano'] ?? 'asp-flyer' ), false, $asp_attr );
 
 if ( ! $asp_img ) {
 	return;

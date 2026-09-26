@@ -3,13 +3,20 @@
  * Oradores: lista densa con bio desplegable. Args: post_id, grid (bool).
  * Se autooculta si no hay oradores.
  *
+ * Si el campo "Oradores" del evento está vacío, salen de sus predicaciones
+ * (asp_evento_oradores_de_predicaciones). Un orador que no es una persona
+ * cargada va solo con el nombre: sin foto, sin enlace y sin recuadro vacío.
+ *
  * @package asp
  */
 
 defined( 'ABSPATH' ) || exit;
 
 $asp_id       = (int) ( $args['post_id'] ?? get_the_ID() );
-$asp_oradores = asp_evento_relacionados( $asp_id, 'evento_oradores', 'persona' );
+$asp_cargados = asp_evento_relacionados( $asp_id, 'evento_oradores', 'persona' );
+$asp_oradores = ! empty( $asp_cargados )
+	? array_map( static fn( WP_Post $p ): array => [ 'persona' => $p, 'nombre' => get_the_title( $p ) ], $asp_cargados )
+	: asp_evento_oradores_de_predicaciones( $asp_id );
 
 if ( empty( $asp_oradores ) ) {
 	return;
@@ -18,7 +25,15 @@ if ( empty( $asp_oradores ) ) {
 <div class="asp-bloque">
 	<span class="asp-label"><?php echo esc_html( _n( 'Orador', 'Oradores', count( $asp_oradores ), 'asp' ) ); ?></span>
 	<div class="asp-oradores<?php echo ! empty( $args['grid'] ) ? ' asp-oradores--grid' : ''; ?>">
-		<?php foreach ( $asp_oradores as $asp_persona ) :
+		<?php foreach ( $asp_oradores as $asp_orador ) :
+			$asp_persona = $asp_orador['persona'];
+			if ( ! $asp_persona ) : ?>
+				<div class="asp-orador">
+					<span class="asp-orador__fila"><span class="asp-orador__nombre"><strong><?php echo esc_html( $asp_orador['nombre'] ); ?></strong></span></span>
+				</div>
+				<?php
+				continue;
+			endif;
 			$asp_bio   = (string) get_post_meta( $asp_persona->ID, 'persona_bio', true );
 			$asp_linea = asp_persona_cargo_iglesia( $asp_persona->ID );
 			?>
@@ -26,7 +41,7 @@ if ( empty( $asp_oradores ) ) {
 				<details class="asp-orador">
 					<summary class="asp-orador__fila">
 						<?php echo asp_persona_foto( $asp_persona->ID, 'asp-orador__foto' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-						<span class="asp-orador__nombre"><strong><?php echo esc_html( get_the_title( $asp_persona ) ); ?></strong><?php if ( $asp_linea ) : ?><span><?php echo esc_html( $asp_linea ); ?></span><?php endif; ?></span>
+						<span class="asp-orador__nombre"><strong><?php echo esc_html( $asp_orador['nombre'] ); ?></strong><?php if ( $asp_linea ) : ?><span><?php echo esc_html( $asp_linea ); ?></span><?php endif; ?></span>
 						<span class="asp-orador__toggle" aria-hidden="true"></span>
 						<span class="visually-hidden"><?php esc_html_e( 'Ver bio', 'asp' ); ?></span>
 					</summary>
@@ -39,7 +54,7 @@ if ( empty( $asp_oradores ) ) {
 				<div class="asp-orador">
 					<a class="asp-orador__fila" href="<?php echo esc_url( get_permalink( $asp_persona ) ); ?>">
 						<?php echo asp_persona_foto( $asp_persona->ID, 'asp-orador__foto' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-						<span class="asp-orador__nombre"><strong><?php echo esc_html( get_the_title( $asp_persona ) ); ?></strong><?php if ( $asp_linea ) : ?><span><?php echo esc_html( $asp_linea ); ?></span><?php endif; ?></span>
+						<span class="asp-orador__nombre"><strong><?php echo esc_html( $asp_orador['nombre'] ); ?></strong><?php if ( $asp_linea ) : ?><span><?php echo esc_html( $asp_linea ); ?></span><?php endif; ?></span>
 					</a>
 				</div>
 			<?php endif; ?>

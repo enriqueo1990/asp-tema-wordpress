@@ -359,11 +359,17 @@ function asp_predicacion_titulo_partes( int $post_id ): array {
 	/* El título crudo: get_the_title() convierte guiones y comillas en
 	   entidades y el corte no los encontraría. */
 	$titulo = html_entity_decode( (string) get_post_field( 'post_title', $post_id ), ENT_QUOTES, 'UTF-8' );
+	/* Varios títulos de YouTube traen la tilde como carácter aparte ("U" +
+	   acento): sin componerla, "JESÚS" no se reconoce como nombre propio. */
+	if ( function_exists( 'normalizer_normalize' ) ) {
+		$titulo = (string) ( normalizer_normalize( $titulo, Normalizer::FORM_C ) ?: $titulo );
+	}
 	$vinc   = asp_predicacion_orador( $post_id );
 	$orador = $vinc ? (string) get_post_field( 'post_title', $vinc->ID ) : '';
 
 	$tramos = [];
-	foreach ( preg_split( '/\s+[-–|]\s*|\s*[-–|]\s+/u', $titulo ) ?: [ $titulo ] as $tramo ) {
+	/* Tres espacios o más también separan: algunos títulos perdieron el guion al subirse. */
+	foreach ( preg_split( '/\s+[-–|]\s*|\s*[-–|]\s+|\s{3,}/u', $titulo ) ?: [ $titulo ] as $tramo ) {
 		/* «"Título" Pr. Nombre»: el título entre comillas y el orador pegado. */
 		if ( preg_match( '/^\s*["“«]([^"”»]+)["”»]\s+(.+)$/u', $tramo, $m ) ) {
 			$tramos[] = $m[1];
@@ -374,7 +380,7 @@ function asp_predicacion_titulo_partes( int $post_id ): array {
 	}
 	$tramos = array_values( array_filter( array_map( static fn( $t ) => trim( (string) preg_replace( '/\s+/u', ' ', trim( $t, " \"“”«»" ) ) ), $tramos ) ) );
 	if ( count( $tramos ) < 2 ) {
-		return [ 'titulo' => $titulo, 'orador' => $orador ];
+		return [ 'titulo' => asp_titulo_sin_mayusculas( $titulo ), 'orador' => $orador ];
 	}
 
 	/* Un tramo que solo nombra la conferencia no aporta en la tarjeta. */
@@ -385,7 +391,7 @@ function asp_predicacion_titulo_partes( int $post_id ): array {
 		$pals = preg_split( '/\s+/u', $t ) ?: [];
 		return count( $pals ) >= 2 && count( $pals ) <= 4
 			&& ! preg_match( '/[\d:¿?¡!]/u', $t )
-			&& ! preg_match( '/ante su palabra|conferencia|asp|sesi[oó]n|parte|panel|preguntas|d[ií]a|iglesia|evangelio|palabra|cristo|dios/iu', $t )
+			&& ! preg_match( '/ante su palabra|conferencia|asp|sesi[oó]n|parte|panel|preguntas|d[ií]a|iglesia|evangelio|palabra|cristo|dios|predicaci[oó]n|\by\b|\bvs\b|^(el|la|los|las|un|una)\s/iu', $t )
 			&& count( array_filter( $pals, static fn( $w ) => mb_strtoupper( mb_substr( $w, 0, 1 ) ) === mb_substr( $w, 0, 1 ) ) ) === count( $pals );
 	};
 
@@ -394,7 +400,7 @@ function asp_predicacion_titulo_partes( int $post_id ): array {
 	$indice = null;
 	if ( '' !== $orador ) {
 		foreach ( $tramos as $i => $t ) {
-			if ( 0 === strcasecmp( $sin_honor( $t ), $orador ) ) {
+			if ( mb_strtolower( $sin_honor( $t ) ) === mb_strtolower( $orador ) ) {
 				$indice = $i;
 			}
 		}
@@ -419,7 +425,38 @@ function asp_predicacion_titulo_partes( int $post_id ): array {
 		unset( $tramos[ $indice ] );
 	}
 	$resto = implode( ' · ', $tramos );
-	return [ 'titulo' => '' !== $resto ? $resto : $titulo, 'orador' => $orador ];
+	return [ 'titulo' => asp_titulo_sin_mayusculas( '' !== $resto ? $resto : $titulo ), 'orador' => $orador ];
+}
+
+/**
+ * Un título escrito todo en mayúsculas ("LOS ATRIBUTOS DE DIOS") pasa a
+ * minúscula con inicial mayúscula, respetando los nombres que se escriben
+ * con mayúscula. Solo cambia la caja: ninguna palabra se agrega ni se quita.
+ * Un título con minúsculas queda como está.
+ *
+ * @param string $titulo Título.
+ * @return string
+ */
+function asp_titulo_sin_mayusculas( string $titulo ): string {
+	if ( preg_match( '/\p{Ll}/u', $titulo ) || ! preg_match( '/\p{Lu}{4,}/u', $titulo ) ) {
+		return $titulo;
+	}
+	$texto = mb_strtolower( $titulo );
+	/* Nombres propios y expresiones que en castellano van con mayúscula. */
+	$propios = [ 'dios', 'jesús', 'jesucristo', 'cristo', 'señor', 'espíritu santo', 'biblia', 'escrituras', 'escritura', 'palabra', 'antiguo testamento', 'nuevo testamento', 'gran comisión', 'reforma' ];
+	foreach ( $propios as $p ) {
+		$texto = (string) preg_replace_callback(
+			'/(?<!\p{L})' . preg_quote( $p, '/' ) . '(?!\p{L})/u',
+			static fn( array $m ): string => mb_convert_case( $m[0], MB_CASE_TITLE ),
+			$texto
+		);
+	}
+	/* Los tramos unidos por " · " empiezan cada uno con mayúscula. */
+	return (string) preg_replace_callback(
+		'/(^|·\s+)(\p{Ll})/u',
+		static fn( array $m ): string => $m[1] . mb_strtoupper( $m[2] ),
+		$texto
+	);
 }
 
 /**
@@ -515,16 +552,22 @@ function asp_resumen_articulo( int $post_id, int $palabras = 28 ): string {
  * Imagen destacada de un artículo o predicación, lista para imprimir.
  * Cadena vacía si no tiene: ninguna vista dibuja un hueco gris.
  *
+ * Arriba (la apertura del artículo, el destacado de Recursos) la imagen
+ * carga enseguida y con prioridad: con carga diferida, en el teléfono se
+ * veía primero el rectángulo gris y después la foto.
+ *
  * @param int    $post_id ID del post.
  * @param string $tamano  Tamaño registrado.
  * @param string $clase   Clase del contenedor.
+ * @param bool   $arriba  Si está en la primera pantalla.
  * @return string
  */
-function asp_imagen_destacada( int $post_id, string $tamano = 'asp-tarjeta', string $clase = 'asp-imagen' ): string {
+function asp_imagen_destacada( int $post_id, string $tamano = 'asp-tarjeta', string $clase = 'asp-imagen', bool $arriba = false ): string {
 	if ( ! has_post_thumbnail( $post_id ) ) {
 		return '';
 	}
-	$img = get_the_post_thumbnail( $post_id, $tamano, [ 'loading' => 'lazy', 'alt' => '' ] );
+	$attr = $arriba ? [ 'loading' => 'eager', 'fetchpriority' => 'high', 'alt' => '' ] : [ 'loading' => 'lazy', 'alt' => '' ];
+	$img  = get_the_post_thumbnail( $post_id, $tamano, $attr );
 	if ( ! $img ) {
 		return '';
 	}

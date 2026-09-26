@@ -46,7 +46,8 @@ wp-content/themes/asp/
 │   ├── evento/hero.php          Hero del inicio: foto con velo, versículo o eslogan, último evento
 │   ├── evento/franja.php        Franja "Próximo evento" bajo el hero
 │   ├── evento/card.php          Tarjeta de evento (listado); variante ancha en escritorio
-│   ├── evento/archivo-item.php  Fila del archivo por año
+│   ├── evento/archivo-item.php  Fila de evento pasado (búsqueda, iniciativa, persona, Recursos)
+│   ├── evento/tarjeta-archivo.php Tarjeta de la grilla del archivo en /eventos/: flyer entero en banda 4:3
 │   ├── evento/fila.php          Fila compacta (home)
 │   ├── evento/badge.php         Badge de estado
 │   ├── evento/fecha.php         Fecha: inline, xl o grande entre filetes
@@ -54,7 +55,7 @@ wp-content/themes/asp/
 │   ├── evento/flyer.php         Banda tonal con el flyer contenido; nada si no hay flyer
 │   ├── evento/cta.php           Botón según estado; nada en reserva/realizado
 │   ├── evento/sede.php          Se autooculta si está vacío
-│   ├── evento/oradores.php      Lista densa con bio en <details>; se autooculta
+│   ├── evento/oradores.php      Lista densa con bio en <details>; sin oradores cargados, salen de las predicaciones; se autooculta
 │   ├── evento/programa.php      Filas por día; se autooculta
 │   ├── evento/aliados.php       Se autooculta
 │   ├── articulo/card.php        Fila de artículo
@@ -62,7 +63,9 @@ wp-content/themes/asp/
 │   ├── persona/card.php         Box del consejo pastoral
 │   ├── persona/retrato.php      Retrato 4:5 para filas (home)
 │   ├── predicacion/fila.php     Fila de predicación: formato, título, orador, pasaje, evento, fecha
-│   └── iniciativa/card.php
+│   ├── iniciativa/card.php
+│   ├── iniciativa/caja.php      Caja de color del inicio (numeral romano, próxima o en curso)
+│   └── iniciativa/fila.php      Bloque de /iniciativas/: texto y flyer de la próxima o última edición
 │
 ├── assets/
 │   ├── css/tokens.css           Custom properties. Único lugar con valores. Dirección del canvas
@@ -77,8 +80,8 @@ wp-content/themes/asp/
 ├── front-page.php               Inicio
 ├── archive-evento.php           /eventos/ — próximos arriba, archivo por año abajo (#archivo-2026)
 ├── single-evento.php            Ficha de evento + JSON-LD schema.org/Event
-├── archive-iniciativa.php       /iniciativas/
-├── single-iniciativa.php        Ficha de iniciativa con próximos y ediciones anteriores
+├── archive-iniciativa.php       /iniciativas/ — un bloque por iniciativa, mismo orden y numeral que el inicio
+├── single-iniciativa.php        Ficha de iniciativa: próximos y ediciones anteriores en grilla de flyers
 ├── single-persona.php           Ficha de persona: bio, predicaciones, eventos, artículos
 ├── archive-predicacion.php      /recursos/predicaciones/ — todas por año
 ├── single-predicacion.php       Reproductor de video o audio, o texto; del mismo evento al lado
@@ -128,9 +131,14 @@ en filetes, retratos 4:5 en blanco y negro en Nosotros, filtros de Recursos
 como enlaces subrayados, Recursos con rótulo a la izquierda y cuerpo a la
 derecha, y heros de página con velo en degradado solo abajo.
 
-**`archive-evento.php`** — Próximos ascendentes como tarjetas anchas, sin
-filtros. Archivo agrupado por año descendente. Una sección sin contenido no se
-imprime; si no hay nada, una sola línea.
+**`archive-evento.php`** — Cabecera con el título y un índice de años que
+salta a `#archivo-AAAA`. Próximos ascendentes como tarjetas anchas, sin
+filtros. Archivo agrupado por año descendente, cada año con su cantidad y una
+grilla de flyers (2 columnas en móvil, 3 en tableta, 4 en escritorio): el
+flyer va entero sobre una banda tonal 4:3 —casi todos los históricos son
+banners 16:9 y los nuevos 4:5— y debajo iniciativa, título, fecha sin año y
+ciudad. Sin flyer, la banda muestra la fecha en numerales. Una sección sin
+contenido no se imprime; si no hay nada, una sola línea.
 
 **`single-evento.php`** — Sin flyer, la fecha grande entre filetes ocupa su
 lugar y la ficha es una columna de texto. Con flyer, banda 1:1 en móvil y 4:3

@@ -32,7 +32,7 @@ $asp_fecha  = ( ! empty( $args['sin_evento'] ) && '' === (string) get_post_meta(
 		$asp_datos = $asp_img ? array_merge( [ asp_predicacion_tipo_etiqueta( $asp_tipo ) ], $asp_meta ) : $asp_meta;
 		?>
 		<?php if ( ! empty( $asp_datos ) ) : ?><span class="asp-predicacion-fila__meta"><?php echo esc_html( implode( ' · ', $asp_datos ) ); ?></span><?php endif; ?>
-		<?php if ( $asp_evento ) : ?><span class="asp-predicacion-fila__evento"><?php echo esc_html( get_the_title( $asp_evento ) ); ?> · <?php echo esc_html( asp_evento_ciudad( $asp_evento->ID ) ); ?></span><?php endif; ?>
+		<?php if ( $asp_evento ) : ?><span class="asp-predicacion-fila__evento"><?php echo esc_html( implode( ' · ', array_filter( [ get_the_title( $asp_evento ), asp_evento_ciudad( $asp_evento->ID ) ] ) ) ); ?></span><?php endif; ?>
 	</span>
 	<?php if ( $asp_fecha ) : ?><span class="asp-predicacion-fila__fecha"><?php echo esc_html( $asp_fecha ); ?></span><?php endif; ?>
 </a>
