@@ -94,8 +94,11 @@ $eventos = [
 	'arrep25'  => [ 'Arrepentíos y creed', '', '20250228', '20250228', 'Fort Worth', US, '', '4616 Stanley Avenue, Fort Worth, TX 76115', 'usa' ],
 	'tal25co'  => [ 'Eclesiastés', 'eclesiastes-cordoba', '20250704', '20250705', 'Córdoba', AR, '', '', 'tal' ],
 	'tal25ar'  => [ 'Eclesiastés', 'eclesiastes-buenos-aires', '20250708', '20250709', 'Buenos Aires', AR, '', '', 'tal' ],
+	'tal25nq'  => [ '2 Timoteo', '', '20251128', '20251129', 'Neuquén', AR, '', 'Mendoza 44, Neuquén', 'tal' ],
 	'asp2025'  => [ 'El alma del pastor', '', '20251107', '20251108', 'Lanús', AR, 'Iglesia Bíblica de la Gracia', 'Eva Perón 122, Lanús Oeste, Provincia de Buenos Aires', 'asp' ],
 	'tal26us'  => [ 'Eclesiastés', 'eclesiastes-denton', '20260226', '20260227', 'Denton', US, '', '2300 East University Drive, Denton, TX 76209', 'tal' ],
+	'tal26ar'  => [ 'Evangelio de Juan', '', '20260707', '20260708', 'Buenos Aires', AR, '', 'Lascano 2659, Villa del Parque, Ciudad Autónoma de Buenos Aires', 'tal' ],
+	'cant26'   => [ 'Serviremos al Señor', '', '20260910', '20260910', 'Campana', AR, 'Iglesia Bautista Misionera en Campana', 'Urquiza 451, Campana, Buenos Aires', 'can' ],
 	'reg26'    => [ 'Conferencia regional en Houston', '', '20260515', '20260516', 'Rosenberg', US, '', '6701 FM 762 Road, Rosenberg, TX 77469', 'usa' ],
 	'poder26'  => [ 'Por el poder del Espíritu Santo', '', '20260911', '20260912', 'Buenos Aires', AR, 'Iglesia Bautista Misionera de C.A.B.A.', 'Auditorio · Lascano 2659, C1417, Ciudad Autónoma de Buenos Aires', 'asp' ],
 ];
@@ -195,10 +198,16 @@ foreach ( $eventos as $clave => [ $titulo, $slug, $inicio, $fin, $ciudad, $pais,
 	printf( "%-9s #%-5d %-9s %-9s %s%s\n", $clave, $id, $accion, $publicado ? 'publicado' : 'borrador', $titulo, $n ? " · {$n} predicaciones" : '' );
 }
 
-// "Un libro en un día" ya existía antes de esta carga: solo le falta la iniciativa.
+// "Un libro en un día" ya existía antes de esta carga: le falta la iniciativa,
+// y se canceló (su flyer en Entrada27 dice "Evento cancelado"), así que no
+// se muestra como realizado: queda en borrador.
 foreach ( get_posts( [ 'post_type' => 'evento', 'post_status' => 'any', 'title' => 'Un libro en un día', 'numberposts' => -1 ] ) as $p ) {
 	if ( ! get_post_meta( $p->ID, 'evento_iniciativa', true ) && $iniciativas['tal'] ) {
 		update_post_meta( $p->ID, 'evento_iniciativa', $iniciativas['tal'] );
 		echo "Un libro en un día #{$p->ID} → Taller de Predicación Expositiva\n";
+	}
+	if ( 'publish' === $p->post_status ) {
+		wp_update_post( [ 'ID' => $p->ID, 'post_status' => 'draft' ] );
+		echo "Un libro en un día #{$p->ID} → borrador (cancelado)\n";
 	}
 }

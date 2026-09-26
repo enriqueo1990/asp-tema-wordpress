@@ -70,6 +70,10 @@ $flyers = [
 	[ 'Eclesiastés', '20250708', 'flyers-facebook/eclesiastes-2025.jpg' ],
 	// Del Instagram del ministerio.
 	[ 'Eclesiastés', '20260226', 'flyers-facebook/eclesiastes-denton-2026.jpg' ],
+	[ 'La iglesia', '20241101', 'flyers-facebook/la-iglesia-2024.jpg' ],
+	[ 'Evangelio de Juan', '20260707', 'flyers-facebook/evangelio-de-juan-2026.jpg' ],
+	[ '2 Timoteo', '20251128', 'flyers-facebook/2-timoteo-2025.jpg' ],
+	[ 'Serviremos al Señor', '20260910', 'https://res.cloudinary.com/daxlbrqec/image/upload/v1779971906/events-uploads/tpfxqvc1powa25wyuobw.jpg' ],
 ];
 
 $extensiones = [ 'image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp', 'image/gif' => 'gif' ];
