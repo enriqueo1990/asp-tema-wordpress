@@ -24,6 +24,7 @@ while ( have_posts() ) :
 	$asp_ciudad  = asp_evento_ciudad( $asp_id );
 	$asp_pais    = asp_evento_pais( $asp_id );
 	$asp_hay_cta = asp_evento_tiene_boton( $asp_id ) || in_array( $asp_estado, [ 'cerrada', 'agotado' ], true );
+	$asp_agenda  = asp_evento_agendable( $asp_id );
 	$asp_predic    = asp_predicaciones_de_evento( $asp_id );
 	$asp_izq_vacia = $asp_vacia && ! $asp_desc && empty( asp_evento_programa( $asp_id ) ) && empty( asp_evento_relacionados( $asp_id, 'evento_oradores', 'persona' ) ) && empty( asp_evento_relacionados( $asp_id, 'evento_aliados', 'aliado' ) ) && empty( $asp_predic ) && 'realizado' !== $asp_estado;
 	?>
@@ -73,13 +74,16 @@ while ( have_posts() ) :
 				<?php if ( $asp_sede ) : ?>
 					<div class="asp-bloque"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id ] ); ?></div>
 				<?php endif; ?>
+				<?php if ( $asp_agenda ) : ?>
+					<div class="asp-bloque"><?php get_template_part( 'parts/evento/agenda', null, [ 'post_id' => $asp_id ] ); ?></div>
+				<?php endif; ?>
 			</div>
 
 			<?php /* ---- Cuerpo: grilla 7/4 en escritorio ---- */ ?>
 			<?php
 			/* Sin cuerpo a la izquierda y sin datos para la columna lateral, la grilla no existe en escritorio.
 			   Sin cuerpo pero con columna lateral, esta ocupa el ancho de lectura. */
-			$asp_aside_vacio = $asp_vacia && ! $asp_hay_cta && ! $asp_precio && ! $asp_sede;
+			$asp_aside_vacio = $asp_vacia && ! $asp_hay_cta && ! $asp_precio && ! $asp_sede && ! $asp_agenda;
 			$asp_grid_clase  = 'asp-grid-ficha';
 			if ( $asp_izq_vacia && $asp_aside_vacio ) {
 				$asp_grid_clase .= ' asp-solo-movil';
@@ -128,7 +132,7 @@ while ( have_posts() ) :
 					<?php endif; ?>
 				</div>
 
-				<?php if ( $asp_hay_cta || $asp_precio || $asp_sede || ! $asp_vacia ) : ?>
+				<?php if ( $asp_hay_cta || $asp_precio || $asp_sede || $asp_agenda || ! $asp_vacia ) : ?>
 					<aside class="asp-ficha-aside asp-solo-escritorio asp-sticky" aria-label="<?php esc_attr_e( 'Datos del evento', 'asp' ); ?>">
 						<?php if ( $asp_hay_cta || $asp_precio ) : ?>
 							<div class="asp-ficha-aside__cta">
@@ -142,6 +146,7 @@ while ( have_posts() ) :
 							<div class="asp-stack">
 								<span class="asp-label"><?php esc_html_e( 'Fechas', 'asp' ); ?></span>
 								<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id ] ); ?>
+								<?php get_template_part( 'parts/evento/agenda', null, [ 'post_id' => $asp_id ] ); ?>
 							</div>
 						</div>
 						<?php if ( $asp_sede ) : ?>

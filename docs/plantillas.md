@@ -17,6 +17,7 @@ wp-content/themes/asp/
 │   ├── meta-campos.php          register_post_meta: nombres, tipos y sanitización
 │   ├── evento-estado.php        asp_evento_estado(), fechas en castellano, helpers de render
 │   ├── evento-queries.php       proximos, pasados por año, destacado, inversas, personas, series
+│   ├── evento-agenda.php        Link a Google Maps, Google Calendar y .ics (?calendario=ics)
 │   ├── predicaciones.php        consultas, fecha efectiva, formato y reproductor de predicaciones
 │   ├── template-tags.php        logo, menú con fallback, ícono de lugar, foto de persona, schema.org
 │   ├── customizer.php           fotos de heros y galería, eslogan, misión, redes, email, PDF
@@ -53,8 +54,9 @@ wp-content/themes/asp/
 │   ├── evento/fecha.php         Fecha: inline, xl o grande entre filetes
 │   ├── evento/lugar.php         Ciudad y país, tipográfico, sin banderas
 │   ├── evento/flyer.php         Banda tonal con el flyer contenido; nada si no hay flyer
+│   ├── evento/agenda.php        Agregar al calendario; solo con fechas y si no pasó
 │   ├── evento/cta.php           Botón según estado; nada en reserva/realizado
-│   ├── evento/sede.php          Se autooculta si está vacío
+│   ├── evento/sede.php          Se autooculta si está vacío; "Cómo llegar" con dirección
 │   ├── evento/oradores.php      Lista densa con bio en <details>; sin oradores cargados, salen de las predicaciones; se autooculta
 │   ├── evento/programa.php      Filas por día; se autooculta
 │   ├── evento/aliados.php       Se autooculta
