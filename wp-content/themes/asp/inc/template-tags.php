@@ -57,6 +57,16 @@ function asp_email(): string {
 }
 
 /**
+ * Link externo para donar, cargado en el Customizer. Vacío = no hay botón.
+ * Las donaciones no pasan por el sitio: es solo un enlace.
+ *
+ * @return string
+ */
+function asp_url_donar(): string {
+	return (string) get_theme_mod( 'asp_donar_url', '' );
+}
+
+/**
  * Ícono de locación: el único ícono del sistema.
  *
  * @param string $clase Clases extra.

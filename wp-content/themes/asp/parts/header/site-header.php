@@ -11,6 +11,7 @@ defined( 'ABSPATH' ) || exit;
 
 $asp_proximo = asp_evento_destacado();
 $asp_fecha   = $asp_proximo ? asp_evento_fecha_display( $asp_proximo->ID ) : null;
+$asp_donar   = asp_url_donar();
 ?>
 <a class="asp-skip" href="#contenido"><?php esc_html_e( 'Ir al contenido', 'asp' ); ?></a>
 <header class="asp-header" data-asp-header>
@@ -38,6 +39,9 @@ $asp_fecha   = $asp_proximo ? asp_evento_fecha_display( $asp_proximo->ID ) : nul
 						<span class="asp-header__cta-fecha"><?php echo esc_html( str_replace( ' · ', '–', $asp_fecha['dias'] ) . ' ' . mb_substr( $asp_fecha['mes'], 0, 3 ) ); ?></span>
 					<?php endif; ?>
 				</a>
+			<?php endif; ?>
+			<?php if ( $asp_donar ) : ?>
+				<a class="asp-header__donar" href="<?php echo esc_url( $asp_donar ); ?>"><?php esc_html_e( 'Donar', 'asp' ); ?></a>
 			<?php endif; ?>
 			<button class="asp-header__toggle" type="button" aria-expanded="false" aria-controls="asp-nav" data-asp-toggle>
 				<span class="asp-header__toggle-abrir"><?php esc_html_e( 'Menú', 'asp' ); ?></span>

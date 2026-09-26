@@ -60,21 +60,26 @@ $eventos = [
 	'asp2016'  => [ 'El grito de la Reforma', '', '20160909', '20160910', 'Buenos Aires', AR, '', 'Salcedo 4038, Boedo, Ciudad Autónoma de Buenos Aires', 'asp' ],
 	'cant17cb' => [ 'Cánticos Espirituales en City Bell', '', '20170728', '20170728', 'City Bell', AR, 'Iglesia Bíblica de City Bell', 'Camino General Belgrano 311, City Bell, Buenos Aires', 'can' ],
 	'cant17ca' => [ 'Cánticos Espirituales en Campana', 'canticos-espirituales-en-campana-2017', '20170729', '20170729', 'Campana', AR, 'Templo Unión Evangélica', 'Av. Varela 447, Campana, Buenos Aires', 'can' ],
-	'asp2017'  => [ 'Reforma: el Espíritu y la Palabra', '', '20171027', '20171028', 'Buenos Aires', AR, '', '', 'asp' ],
+	// Reforma 2017 fue una gira: Córdoba, Buenos Aires y Villa Regina (eventos de Facebook).
+	'ref17co'  => [ 'Reforma: el Espíritu y la Palabra', 'reforma-el-espiritu-y-la-palabra-cordoba', '20171026', '20171027', 'Córdoba', AR, '', '', 'asp' ],
+	'asp2017'  => [ 'Reforma: el Espíritu y la Palabra', 'reforma-el-espiritu-y-la-palabra-buenos-aires', '20171027', '20171028', 'Buenos Aires', AR, '', '', 'asp' ],
+	'ref17vr'  => [ 'Reforma: el Espíritu y la Palabra', 'reforma-el-espiritu-y-la-palabra-villa-regina', '20171030', '20171031', 'Villa Regina', AR, '', 'Lisandro de la Torre, Villa Regina, Río Negro', 'asp' ],
 	'mez'      => [ 'La iglesia en lugares difíciles', '', '20180504', '20180505', 'Buenos Aires', AR, '', 'Av. Gaona 3581, Villa Santa Rita, Ciudad Autónoma de Buenos Aires', 'asp' ],
 	'usa2018'  => [ 'Edificando iglesias saludables', '', '', '', 'Denton', US, '', '', 'usa' ], // TODO: días (junio de 2018).
 	'tal18ba'  => [ 'Los Evangelios', 'los-evangelios-buenos-aires', '20180709', '20180710', 'Buenos Aires', AR, 'Iglesia Redil Abierto', 'Av. Gaona 3581, Villa Santa Rita, Ciudad Autónoma de Buenos Aires', 'tal' ],
 	'tal18bb'  => [ 'Los Evangelios', 'los-evangelios-bahia-blanca', '20180713', '20180714', 'Bahía Blanca', AR, 'Iglesia Cristiana de la Gracia', 'Donado 667, Bahía Blanca, Buenos Aires', 'tal' ],
 	'asp2019'  => [ 'Dios es el evangelio', '', '20190301', '20190302', 'Pilar', AR, 'Parque Nazareno', 'Av. Sgto. Cayetano Beliera 1635, Pilar, Buenos Aires', 'asp' ],
 	'cant19'   => [ 'Cánticos Espirituales en Campana', 'canticos-espirituales-en-campana-2019', '20190304', '20190304', 'Campana', AR, 'IBM Campana', 'Urquiza 451, Campana, Buenos Aires', 'can' ],
-	'usa2019'  => [ 'No me avergüenzo del evangelio', '', '', '', 'Denton', US, '', '', 'usa' ], // TODO: días (marzo de 2019).
+	// Fechas y sede: página de la conferencia en 9marcas.org.
+	'usa2019'  => [ 'No me avergüenzo del evangelio', '', '20190222', '20190223', 'Denton', US, 'Denton Bible Church', '2300 East University Drive, Denton, TX 76209', 'usa' ],
 	'tal19ba'  => [ 'Salmos de lamento', 'salmos-de-lamento-pilar', '20190708', '20190709', 'Pilar', AR, 'Parque Nazareno de Pilar', 'Av. Sgto. Cayetano Beliera 1635, Pilar, Buenos Aires', 'tal' ],
 	'tal19co'  => [ 'Salmos de lamento', 'salmos-de-lamento-cordoba', '20190712', '20190713', 'Córdoba', AR, 'Iglesia Bíblica Bautista Crecer', 'Lima 849, Córdoba', 'tal' ],
 	'dever'    => [ 'Pastoreando iglesias saludables', '', '20200220', '20200220', 'Presidente Derqui', AR, 'Centro de Desarrollo Cristiano (El Nazareno)', 'Av. Juan Domingo Perón 3251, Presidente Derqui, Buenos Aires', 'asp' ],
 	'asp2020'  => [ 'Conferencia Ante Su Palabra 2020', '', '', '', '', AR, '', '', 'asp' ], // TODO: fechas y ciudad.
 	// En línea, transmitida desde Denton.
-	'disc2021' => [ 'Discipulado eficaz', '', '20210202', '20210207', 'Denton', US, '', '', 'asp' ],
+	'disc2021' => [ 'Discipulado eficaz', '', '20210202', '20210205', 'Denton', US, '', '', 'asp' ],
 	'cambios'  => [ 'Cambios profundos: cuando disfrutar a Dios me transforma', '', '20211217', '20211218', 'Rosario', AR, '', 'Rodríguez 542, Rosario, Santa Fe', 'asp' ],
+	'comun22'  => [ 'La comunión de los santos', '', '20220218', '20220219', 'Denton', US, '', '', 'usa' ],
 	'tal22'    => [ 'Amós', 'amos-2022', '20220715', '20220716', 'Presidente Derqui', AR, 'Centro de Desarrollo Cristiano (El Nazareno)', 'Av. Juan Domingo Perón 3251, Presidente Derqui, Buenos Aires', 'tal' ],
 	'tal23us'  => [ 'Literatura profética', '', '20230118', '20230119', 'Argyle', US, '', '600 FM 407, Argyle, TX 76226', 'tal' ],
 	'usa2023'  => [ 'Nuestra esperanza viva', '', '20230120', '20230121', 'Denton', US, 'Denton Bible Church', '2300 East University Drive, Denton, TX 76209', 'usa' ],
@@ -87,9 +92,10 @@ $eventos = [
 	'asp2024'  => [ 'La iglesia', '', '20241101', '20241102', 'Pilar', AR, 'Parque Nazareno de Pilar', 'Av. Sgto. Cayetano Beliera 1635, Pilar, Buenos Aires', 'asp' ],
 	'tal25us'  => [ 'Efesios', '', '20250226', '20250227', 'Denton', US, '', '2300 East University Drive, Denton, TX 76209', 'tal' ],
 	'arrep25'  => [ 'Arrepentíos y creed', '', '20250228', '20250228', 'Fort Worth', US, '', '4616 Stanley Avenue, Fort Worth, TX 76115', 'usa' ],
-	'tal25ar'  => [ 'Eclesiastés', '', '20250708', '20250709', 'Buenos Aires', AR, '', '', 'tal' ],
+	'tal25co'  => [ 'Eclesiastés', 'eclesiastes-cordoba', '20250704', '20250705', 'Córdoba', AR, '', '', 'tal' ],
+	'tal25ar'  => [ 'Eclesiastés', 'eclesiastes-buenos-aires', '20250708', '20250709', 'Buenos Aires', AR, '', '', 'tal' ],
 	'asp2025'  => [ 'El alma del pastor', '', '20251107', '20251108', 'Lanús', AR, 'Iglesia Bíblica de la Gracia', 'Eva Perón 122, Lanús Oeste, Provincia de Buenos Aires', 'asp' ],
-	'tal26us'  => [ 'Taller de predicación en Denton', '', '20260226', '20260227', 'Denton', US, '', '', 'tal' ],
+	'tal26us'  => [ 'Eclesiastés', 'eclesiastes-denton', '20260226', '20260227', 'Denton', US, '', '2300 East University Drive, Denton, TX 76209', 'tal' ],
 	'reg26'    => [ 'Conferencia regional en Houston', '', '20260515', '20260516', 'Rosenberg', US, '', '6701 FM 762 Road, Rosenberg, TX 77469', 'usa' ],
 	'poder26'  => [ 'Por el poder del Espíritu Santo', '', '20260911', '20260912', 'Buenos Aires', AR, 'Iglesia Bautista Misionera de C.A.B.A.', 'Auditorio · Lascano 2659, C1417, Ciudad Autónoma de Buenos Aires', 'asp' ],
 ];

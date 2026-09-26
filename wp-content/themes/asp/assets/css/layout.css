@@ -114,6 +114,42 @@
   display: none;
 }
 
+/* Donar: la única acción de la cabecera, en azul. Enlace externo. */
+/* Visualmente compacto al lado del logo; el área táctil sigue siendo de
+   44 px gracias al ::before, que la extiende hacia arriba y abajo. */
+.asp-header__donar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-3);
+  background: var(--c-accent);
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  white-space: nowrap;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.asp-header__donar::before {
+  content: "";
+  position: absolute;
+  inset: calc((var(--control-h) - 100%) / -2) 0;
+}
+
+.asp-header__donar:hover {
+  background: var(--c-text);
+  color: var(--c-accent-ink);
+}
+
+.asp-con-portada .asp-header:not(.is-scrolled):not(.is-menu-open) .asp-header__donar {
+  background: var(--c-btn-invertido-bg);
+  color: var(--c-btn-invertido-fg);
+}
+
 /* Menú móvil: panel a pantalla completa bajo la cabecera */
 .asp-nav {
   display: none;

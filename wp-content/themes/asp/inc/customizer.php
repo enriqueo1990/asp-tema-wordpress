@@ -122,6 +122,17 @@ function asp_customizer( WP_Customize_Manager $wp_customize ): void {
 		]
 	);
 
+	$wp_customize->add_setting( 'asp_donar_url', [ 'sanitize_callback' => 'esc_url_raw', 'default' => '' ] );
+	$wp_customize->add_control(
+		'asp_donar_url',
+		[
+			'label'       => __( 'Link para donar', 'asp' ),
+			'description' => __( 'La página donde se dona (PayPal, Mercado Pago u otra). Con link cargado aparece el botón "Donar" en la cabecera; vacío, no aparece.', 'asp' ),
+			'section'     => 'asp_sitio',
+			'type'        => 'url',
+		]
+	);
+
 	$redes = [
 		'asp_red_facebook'  => [ 'Facebook', 'https://www.facebook.com/ConferenciaAnteSuPalabra/' ],
 		'asp_red_twitter'   => [ 'X', 'https://x.com/antesupalabra' ],

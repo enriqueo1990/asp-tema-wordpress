@@ -113,6 +113,10 @@ Sitio bilingüe · donaciones · registro e inscripción propios (sigue Eventbri
 Entrada27) · listado de iglesias en comunión · newsletter · galería de fotos por
 evento · rebranding (el logo se conserva).
 
+Las donaciones no pasan por el sitio, pero desde el 25-9-2026 sí entra un botón
+"Donar" en la cabecera hacia un link externo (Personalizar → "Link para donar");
+sin link cargado, el botón no aparece.
+
 Adelantado a fase 1 el 11-9-2026 por decisión del ministerio: el archivo de
 predicaciones de las conferencias en video (YouTube por oEmbed), audio o texto,
 como CPT `predicacion` dentro de Recursos.
