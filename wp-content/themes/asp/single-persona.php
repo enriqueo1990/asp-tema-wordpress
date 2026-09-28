@@ -23,7 +23,7 @@ while ( have_posts() ) :
 	<div class="asp-container asp-section">
 		<div class="asp-column asp-section__inner asp-section__inner--loose">
 			<header class="asp-stack">
-				<?php echo asp_persona_foto( $asp_id, 'asp-persona-ficha__foto' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+				<?php echo asp_persona_foto( $asp_id, 'asp-persona-ficha__foto', 'asp-persona', 'eager' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 				<h1 class="asp-pagina__titulo"><?php the_title(); ?></h1>
 				<?php if ( $asp_linea ) : ?><p class="asp-persona-box__iglesia"><?php echo esc_html( $asp_linea ); ?></p><?php endif; ?>
 				<?php if ( $asp_ciudad || $asp_pais ) : ?>

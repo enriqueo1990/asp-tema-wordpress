@@ -75,7 +75,7 @@ while ( have_posts() ) :
 				<span class="asp-label"><?php esc_html_e( '¿Consultás por el próximo evento?', 'asp' ); ?></span>
 				<a class="asp-contacto__evento-titulo" href="<?php echo esc_url( get_permalink( $asp_evento ) ); ?>"><?php echo esc_html( get_the_title( $asp_evento ) ); ?></a>
 				<span class="asp-contacto__evento-dato"><?php echo esc_html( implode( ' · ', array_filter( [ asp_evento_fecha_texto( $asp_evento->ID ), asp_evento_ciudad( $asp_evento->ID ) ] ) ) ); ?></span>
-				<span class="asp-contacto__evento-ayuda"><?php esc_html_e( 'La sede, el programa y la inscripción están en la ficha del evento.', 'asp' ); ?></span>
+				<span class="asp-contacto__evento-ayuda"><?php esc_html_e( 'Todo lo que ya sabemos del evento está en su ficha.', 'asp' ); ?></span>
 			</div>
 		<?php endif; ?>
 

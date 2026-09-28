@@ -31,8 +31,9 @@ $asp_por_anio = asp_eventos_pasados_por_anio();
 <?php if ( ! empty( $asp_proximos ) ) : ?>
 	<section class="asp-container asp-eventos__proximos" aria-labelledby="eventos-proximos">
 		<h2 class="asp-label" id="eventos-proximos"><?php esc_html_e( 'Próximos', 'asp' ); ?></h2>
-		<?php foreach ( $asp_proximos as $asp_post ) : ?>
-			<?php get_template_part( 'parts/evento/card', null, [ 'post_id' => $asp_post->ID, 'ancha' => true ] ); ?>
+		<?php foreach ( $asp_proximos as $asp_i => $asp_post ) : ?>
+			<?php /* La primera tarjeta se ve apenas abre la página: sin carga diferida. */ ?>
+			<?php get_template_part( 'parts/evento/card', null, [ 'post_id' => $asp_post->ID, 'ancha' => true, 'loading' => 0 === $asp_i ? 'eager' : 'lazy' ] ); ?>
 		<?php endforeach; ?>
 	</section>
 <?php endif; ?>

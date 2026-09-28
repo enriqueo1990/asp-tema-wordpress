@@ -31,6 +31,12 @@ if ( ! $asp_img ) {
 	return;
 }
 ?>
-<div class="asp-flyer <?php echo esc_attr( (string) ( $args['clase'] ?? '' ) ); ?>">
+<?php
+/* Flyer apaisado (los de talleres vienen 16:9): la banda pasa a 4:3 para que
+   no quede chico dentro de un cuadrado. Nunca se recorta. */
+$asp_meta     = wp_get_attachment_metadata( $asp_flyer );
+$asp_apaisado = is_array( $asp_meta ) && ! empty( $asp_meta['width'] ) && ! empty( $asp_meta['height'] ) && $asp_meta['width'] > $asp_meta['height'] * 1.2;
+?>
+<div class="asp-flyer<?php echo $asp_apaisado ? ' asp-flyer--apaisado' : ''; ?> <?php echo esc_attr( (string) ( $args['clase'] ?? '' ) ); ?>">
 	<?php echo $asp_img; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 </div>

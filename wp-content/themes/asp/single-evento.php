@@ -45,7 +45,8 @@ while ( have_posts() ) :
 						<a class="asp-label" href="<?php echo esc_url( get_permalink( $asp_inic ) ); ?>"><?php echo esc_html( get_the_title( $asp_inic ) ); ?></a>
 					<?php endif; ?>
 				</div>
-				<h1 class="asp-ficha__titulo<?php echo ( ! $asp_vacia ) ? ' asp-ficha__titulo--compacto' : ''; ?>"><?php the_title(); ?></h1>
+				<?php /* El título manda también con flyer: en compacto (24 px) la ficha se veía más débil que sin flyer. */ ?>
+				<h1 class="asp-ficha__titulo"><?php the_title(); ?></h1>
 
 				<div class="asp-solo-escritorio asp-ficha__linea">
 					<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id, 'variante' => 'xl' ] ); ?>
@@ -62,20 +63,26 @@ while ( have_posts() ) :
 					<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id, 'variante' => 'grande' ] ); ?>
 					<?php get_template_part( 'parts/evento/lugar', null, [ 'post_id' => $asp_id, 'variante' => 'grande' ] ); ?>
 				<?php else : ?>
-					<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id, 'variante' => 'xl' ] ); ?>
+					<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id ] ); ?>
 					<?php get_template_part( 'parts/evento/lugar', null, [ 'post_id' => $asp_id ] ); ?>
 				<?php endif; ?>
 				<?php if ( $asp_hay_cta ) : ?>
 					<div class="asp-bloque"><?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_id, 'con_plataforma' => true, 'bloque' => true ] ); ?></div>
 				<?php endif; ?>
-				<?php if ( $asp_precio ) : ?>
-					<div class="asp-bloque"><h2 class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></h2><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
-				<?php endif; ?>
-				<?php if ( $asp_sede ) : ?>
-					<div class="asp-bloque"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id ] ); ?></div>
-				<?php endif; ?>
-				<?php if ( $asp_agenda ) : ?>
-					<div class="asp-bloque"><?php get_template_part( 'parts/evento/agenda', null, [ 'post_id' => $asp_id ] ); ?></div>
+				<?php /* Precio, sede y calendario en un solo bloque de datos: tres
+				   bloques con filete seguidos se leían como un formulario. */ ?>
+				<?php if ( $asp_precio || $asp_sede || $asp_agenda ) : ?>
+					<div class="asp-bloque asp-bloque--datos">
+						<?php if ( $asp_precio ) : ?>
+							<div class="asp-bloque__dato"><h2 class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></h2><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
+						<?php endif; ?>
+						<?php if ( $asp_sede ) : ?>
+							<div class="asp-bloque__dato"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id ] ); ?></div>
+						<?php endif; ?>
+						<?php if ( $asp_agenda ) : ?>
+							<div class="asp-bloque__dato"><?php get_template_part( 'parts/evento/agenda', null, [ 'post_id' => $asp_id ] ); ?></div>
+						<?php endif; ?>
+					</div>
 				<?php endif; ?>
 			</div>
 

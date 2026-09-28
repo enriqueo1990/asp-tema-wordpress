@@ -22,7 +22,8 @@ if ( '' === $asp_sede && '' === $asp_dir ) {
 	<span class="asp-sede__nombre"><?php echo esc_html( $asp_sede ); ?></span>
 <?php endif; ?>
 <?php if ( $asp_dir ) : ?>
-	<span class="asp-bloque__detalle"><?php echo nl2br( esc_html( $asp_dir ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
+	<?php /* Sin nombre de sede, la dirección es el dato principal: en chico parecía una nota al pie. */ ?>
+	<span class="<?php echo $asp_sede ? 'asp-bloque__detalle' : 'asp-sede__nombre'; ?>"><?php echo nl2br( esc_html( $asp_dir ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
 <?php endif; ?>
 <?php if ( ! empty( $args['con_pais'] ) && asp_evento_pais( $asp_id ) ) : ?>
 	<span class="asp-lugar-grande__pais"><span class="asp-label"><?php echo esc_html( asp_evento_pais( $asp_id ) ); ?></span></span>

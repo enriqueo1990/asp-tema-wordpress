@@ -217,6 +217,10 @@
   /* En columnas anchas de escritorio la banda pasa a 4:3 */
 }
 
+.asp-flyer--apaisado {
+  aspect-ratio: var(--band-ratio-desktop);
+}
+
 .asp-flyer--column {
   max-width: var(--w-flyer-column);
 }
@@ -604,7 +608,7 @@
   letter-spacing: var(--tracking-label);
   line-height: var(--lh-heading);
   text-transform: uppercase;
-  color: var(--c-accent-alt);
+  color: var(--c-text-faint);
 }
 
 .asp-evento-tile__titulo {
@@ -708,7 +712,7 @@
 .asp-iniciativa-fila__num {
   margin-right: var(--sp-2);
   font-family: var(--font-numeral);
-  color: var(--c-accent-alt);
+  color: var(--c-text-faint);
 }
 
 .asp-iniciativa-fila__titulo a {
@@ -883,6 +887,16 @@
   gap: var(--sp-2);
   padding-top: var(--sp-5);
   border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-bloque--datos {
+  gap: var(--sp-5);
+}
+
+.asp-bloque__dato {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
 }
 
 .asp-bloque--sin-filete {
@@ -1514,6 +1528,16 @@
   color: inherit;
 }
 
+.asp-articulo-af__volver {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-accent);
+}
+
 .asp-articulo-af__num strong {
   font-family: var(--font-numeral);
   font-size: var(--fs-2xl);
@@ -1988,7 +2012,7 @@
   }
   .asp-franja__cabecera { order: 1; }
   .asp-franja__fecha    { order: 2; }
-  .asp-franja__titulo   { order: 3; }
+  .asp-franja .asp-franja__titulo { order: 3; }
   .asp-franja .asp-lugar { order: 4; }
   .asp-franja .asp-btn  { order: 5; }
 }
@@ -2687,6 +2711,25 @@ a:hover .asp-imagen img {
   }
 }
 
+/* En la columna lateral (unos 300 px) la fila de predicación queda
+   compacta a cualquier ancho: la versión de 11rem dejaba al título en 92 px
+   y una palabra por renglón. */
+.asp-aside-caja .asp-predicacion-fila,
+.asp-aside-caja .asp-predicacion-fila--con-imagen {
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: var(--sp-1) var(--sp-3);
+}
+
+.asp-aside-caja .asp-predicacion-fila__titulo {
+  font-size: var(--fs-base);
+}
+
+.asp-aside-caja .asp-predicacion-fila__fecha {
+  grid-column: 2;
+  padding-top: 0;
+  text-align: left;
+}
+
 .asp-articulo-item__resumen {
   font-size: var(--fs-sm);
   line-height: var(--lh-body);
@@ -2701,18 +2744,24 @@ a:hover .asp-imagen img {
 .asp-indice-anios {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sp-2) var(--sp-4);
+  gap: 0 var(--sp-4);
   font-family: var(--font-numeral);
   font-size: var(--fs-sm);
 }
 
 .asp-indice-anios a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h);
+  min-width: var(--control-h);
   color: var(--c-accent);
-  box-shadow: inset 0 -1px 0 var(--c-border-strong);
+  text-decoration: underline;
+  text-decoration-color: var(--c-border-strong);
+  text-underline-offset: 0.3em;
 }
 
 .asp-indice-anios a:hover {
-  box-shadow: inset 0 -1px 0 var(--c-accent);
+  text-decoration-color: var(--c-accent);
 }
 
 .asp-anio__num--grilla {
@@ -2825,7 +2874,17 @@ a:hover .asp-imagen img {
   transform: rotate(-135deg) translateY(-0.15rem);
 }
 
-.asp-anio-plegable > summary:hover span:first-child {
+/* Año plegado: una línea, sin el aire de una sección abierta. Ocho años
+   cerrados sumaban unos 930 px casi vacíos en el teléfono. */
+.asp-anio-plegable:not([open]) > .asp-anio__num--grilla {
+  margin-bottom: 0;
+}
+
+section:has(> .asp-anio-plegable:not([open])) {
+  padding-block: var(--sp-3);
+}
+
+.asp-anio-plegable > summary:hover .asp-anio__titulo {
   color: var(--c-accent);
 }
 
@@ -4646,4 +4705,125 @@ a:hover .asp-imagen img {
 
 .asp-recursos-anios {
   margin-top: var(--sp-6);
+}
+
+/* Persona sin foto: sus iniciales, del tamaño de la caja que ocupa la foto */
+.asp-iniciales {
+  display: grid;
+  place-items: center;
+  container-type: inline-size;
+  background: var(--c-surface-2);
+  filter: none;
+}
+
+.asp-iniciales > span {
+  font-family: var(--font-display);
+  font-size: 38cqi;
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  color: var(--c-text-faint);
+}
+
+/* Búsqueda: un bloque por tipo de resultado */
+.asp-busqueda-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.asp-busqueda-fila {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-4) 0;
+  border-top: var(--border-hairline) solid var(--c-border);
+  color: var(--c-text);
+}
+
+.asp-busqueda-fila:hover .asp-busqueda-fila__titulo {
+  color: var(--c-accent);
+}
+
+.asp-busqueda-fila__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+}
+
+.asp-busqueda-fila__bajada {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+}
+
+/* ---------------------------------------------------------------------
+   Inicio en escritorio (28-9-2026): cuatro grillas iguales seguidas, con
+   títulos de sección de 76 px y títulos de evento de 19 px. Ahora cada
+   bloque tiene su forma: el próximo evento grande y el resto en lista, y
+   los artículos como lista editorial.
+   --------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+  .asp-home-bloque .asp-seccion__titulo {
+    font-size: var(--fs-2xl);
+  }
+
+  .asp-evento-mini__titulo {
+    font-size: var(--fs-lg);
+  }
+
+  /* Dos o más eventos: el primero ocupa la columna ancha y los demás van
+     en lista a su derecha, con el flyer chico al costado. */
+  .asp-grilla-eventos-mini:has(> :nth-child(2)) {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-auto-rows: min-content;
+    column-gap: var(--sp-7);
+    row-gap: var(--sp-5);
+  }
+
+  .asp-grilla-eventos-mini:has(> :nth-child(2)) > :first-child {
+    grid-row: 1 / span 3;
+  }
+
+  .asp-grilla-eventos-mini:has(> :nth-child(2)) > :first-child .asp-evento-mini__titulo {
+    font-size: var(--fs-xl);
+  }
+
+  .asp-grilla-eventos-mini:has(> :nth-child(2)) > :not(:first-child) {
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-5);
+    border-bottom: var(--border-hairline) solid var(--c-border);
+  }
+
+  .asp-grilla-eventos-mini:has(> :nth-child(2)) > :not(:first-child) .asp-evento-mini__visual {
+    aspect-ratio: 1 / 1;
+  }
+
+  .asp-grilla-eventos-mini:has(> :nth-child(2)) > :not(:first-child) .asp-evento-mini__flyer {
+    inset: var(--sp-2);
+  }
+
+  /* Artículos: lista editorial, una fila por artículo con la foto al costado */
+  .asp-home-bloque .asp-grilla-articulos {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    max-width: var(--w-column);
+  }
+
+  .asp-home-bloque .asp-articulo-tarjeta {
+    grid-template-columns: 12rem minmax(0, 1fr);
+    gap: var(--sp-5);
+    align-items: center;
+    padding-block: var(--sp-5);
+    border-top: var(--border-hairline) solid var(--c-border);
+  }
+
+  .asp-home-bloque .asp-articulo-tarjeta--sin-foto {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .asp-home-bloque .asp-articulo-tarjeta__titulo {
+    font-size: var(--fs-lg);
+  }
 }

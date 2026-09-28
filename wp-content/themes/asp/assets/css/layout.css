@@ -422,10 +422,14 @@
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sp-4);
+  column-gap: var(--sp-4);
 }
 
+/* Área táctil de 44 px: los links del pie medían 13 px de alto */
 .asp-footer nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h);
   font-family: var(--font-ui);
   font-size: var(--fs-xs);
   letter-spacing: var(--tracking-label);

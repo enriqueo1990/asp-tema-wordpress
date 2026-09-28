@@ -3,8 +3,10 @@
  * Template Name: Nosotros
  * Template Post Type: page
  *
- * Una sola columna: hero, qué nos une, consejo pastoral, Afirmaciones y
- * Negaciones (texto verbatim, con índice y anclas) y el próximo evento.
+ * Una sola columna: hero, qué nos une, consejo pastoral, el próximo evento
+ * y Afirmaciones y Negaciones (texto verbatim, con índice, anclas y vuelta
+ * al índice). El evento va antes del documento: al final quedaba a 16.000 px
+ * en el teléfono.
  *
  * @package asp
  */
@@ -22,7 +24,7 @@ while ( have_posts() ) :
 	$asp_mision    = (string) get_theme_mod( 'asp_mision_texto', asp_mision_default() );
 	?>
 	<section class="asp-hero asp-hero--nosotros">
-		<?php echo asp_imagen_mod( 'asp_nosotros_imagen', 'asp-hero__foto', 'full' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+		<?php echo asp_imagen_mod( 'asp_nosotros_imagen', 'asp-hero__foto', 'full', 'eager' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		<div class="asp-container asp-hero__velo">
 			<div class="asp-column asp-stack asp-stack--5">
 				<div class="asp-row">
@@ -65,6 +67,20 @@ while ( have_posts() ) :
 		</section>
 	<?php endif; ?>
 
+	<?php if ( $asp_destacado ) : ?>
+		<section class="asp-section asp-section--rule asp-section--surface asp-section--proximo" aria-label="<?php esc_attr_e( 'Próximo evento', 'asp' ); ?>">
+			<div class="asp-container"><div class="asp-column asp-stack asp-stack--5">
+				<h2 class="asp-label"><?php esc_html_e( 'Próximo evento', 'asp' ); ?></h2>
+				<?php get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_destacado->ID, 'clase' => 'asp-flyer--column', 'tamano' => 'asp-flyer-card' ] ); ?>
+				<a class="asp-franja__titulo" href="<?php echo esc_url( get_permalink( $asp_destacado ) ); ?>"><?php echo esc_html( get_the_title( $asp_destacado ) ); ?></a>
+				<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_destacado->ID ] ); ?>
+				<?php get_template_part( 'parts/evento/lugar', null, [ 'post_id' => $asp_destacado->ID ] ); ?>
+				<?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_destacado->ID ] ); ?>
+				<a class="asp-cta-link" href="<?php echo esc_url( asp_url_eventos() ); ?>"><?php esc_html_e( 'Ver todos los eventos', 'asp' ); ?></a>
+			</div></div>
+		</section>
+	<?php endif; ?>
+
 	<section class="asp-section asp-section--rule" id="afirmaciones-y-negaciones" aria-labelledby="titulo-afirmaciones">
 		<div class="asp-container"><div class="asp-column asp-stack asp-stack--5">
 			<h2 id="titulo-afirmaciones" class="asp-pagina__titulo"><?php esc_html_e( 'Afirmaciones y Negaciones', 'asp' ); ?></h2>
@@ -84,7 +100,7 @@ while ( have_posts() ) :
 					<p class="asp-prose"><?php echo esc_html( $asp_parrafo ); ?></p>
 				<?php endforeach; ?>
 			</div>
-			<nav class="asp-caja asp-caja--suave" aria-label="<?php esc_attr_e( 'Índice de artículos', 'asp' ); ?>">
+			<nav class="asp-caja asp-caja--suave" id="indice-afirmaciones" aria-label="<?php esc_attr_e( 'Índice de artículos', 'asp' ); ?>">
 				<span class="asp-label"><?php
 					/* translators: %d: cantidad de artículos */
 					echo esc_html( sprintf( __( 'Índice · %d artículos', 'asp' ), count( $asp_af['articulos'] ) ) );
@@ -107,25 +123,13 @@ while ( have_posts() ) :
 							<span class="asp-chip"><?php esc_html_e( 'Negamos', 'asp' ); ?></span>
 							<p><?php echo esc_html( $asp_art['negamos'] ); ?></p>
 						</div>
+						<a class="asp-articulo-af__volver" href="#indice-afirmaciones"><?php esc_html_e( 'Volver al índice', 'asp' ); ?></a>
 					</article>
 				<?php endforeach; ?>
 			</div>
 		</div></div>
 	</section>
 
-	<?php if ( $asp_destacado ) : ?>
-		<section class="asp-section asp-section--rule asp-section--surface asp-section--proximo" aria-label="<?php esc_attr_e( 'Próximo evento', 'asp' ); ?>">
-			<div class="asp-container"><div class="asp-column asp-stack asp-stack--5">
-				<h2 class="asp-label"><?php esc_html_e( 'Próximo evento', 'asp' ); ?></h2>
-				<?php get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_destacado->ID, 'clase' => 'asp-flyer--column', 'tamano' => 'asp-flyer-card' ] ); ?>
-				<a class="asp-franja__titulo" href="<?php echo esc_url( get_permalink( $asp_destacado ) ); ?>"><?php echo esc_html( get_the_title( $asp_destacado ) ); ?></a>
-				<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_destacado->ID ] ); ?>
-				<?php get_template_part( 'parts/evento/lugar', null, [ 'post_id' => $asp_destacado->ID ] ); ?>
-				<?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_destacado->ID ] ); ?>
-				<a class="asp-cta-link" href="<?php echo esc_url( asp_url_eventos() ); ?>"><?php esc_html_e( 'Ver todos los eventos', 'asp' ); ?></a>
-			</div></div>
-		</section>
-	<?php endif; ?>
 <?php
 endwhile;
 get_footer();

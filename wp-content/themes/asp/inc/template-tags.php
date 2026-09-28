@@ -242,9 +242,10 @@ function asp_redes(): array {
  * @param int    $persona_id ID de la persona.
  * @param string $clase      Clase del elemento.
  * @param string $tamano     Tamaño de imagen registrado.
+ * @param string $loading    'lazy' salvo la foto de arriba de la ficha.
  * @return string
  */
-function asp_persona_foto( int $persona_id, string $clase, string $tamano = 'asp-persona' ): string {
+function asp_persona_foto( int $persona_id, string $clase, string $tamano = 'asp-persona', string $loading = 'lazy' ): string {
 	$foto_id = absint( get_post_meta( $persona_id, 'persona_foto', true ) );
 	if ( ! $foto_id ) {
 		$foto_id = (int) get_post_thumbnail_id( $persona_id );
@@ -252,12 +253,19 @@ function asp_persona_foto( int $persona_id, string $clase, string $tamano = 'asp
 	if ( $foto_id ) {
 		/* alt vacío: en todos los usos el nombre está escrito al lado, y con alt
 		   el lector de pantalla lo leía dos veces. */
-		$html = wp_get_attachment_image( $foto_id, $tamano, false, [ 'class' => $clase, 'alt' => '' ] );
+		$html = wp_get_attachment_image( $foto_id, $tamano, false, [ 'class' => $clase, 'alt' => '', 'loading' => $loading, 'fetchpriority' => 'lazy' === $loading ? 'low' : 'high' ] );
 		if ( $html ) {
 			return $html;
 		}
 	}
-	return '<span class="' . esc_attr( $clase ) . '" aria-hidden="true"></span>';
+	/* Sin foto, las iniciales en tipografía: el rayado se leía como una
+	   imagen rota (regla 4, «contenido real o nada»). */
+	$palabras  = preg_split( '/\s+/u', trim( wp_strip_all_tags( get_the_title( $persona_id ) ) ) ) ?: [];
+	$iniciales = '';
+	foreach ( array_filter( [ reset( $palabras ), count( $palabras ) > 1 ? end( $palabras ) : '' ] ) as $palabra ) {
+		$iniciales .= mb_strtoupper( mb_substr( (string) $palabra, 0, 1 ) );
+	}
+	return '<span class="' . esc_attr( $clase ) . ' asp-iniciales" aria-hidden="true"><span>' . esc_html( $iniciales ) . '</span></span>';
 }
 
 /**
