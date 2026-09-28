@@ -59,6 +59,8 @@
   --w-column: 720px;          /* columna de lectura de Nosotros */
   --w-flyer-column: 420px;    /* banda del flyer en columna angosta */
   --w-aside: 300px;           /* columna lateral del artículo */
+  --w-flyer-mini: 6.5rem;     /* miniatura del flyer en filas compactas (/iniciativas/) */
+  --w-flyer-mini-desktop: 9rem;
   --w-gutter: var(--sp-5);
   --w-gutter-desktop: var(--sp-7);
 

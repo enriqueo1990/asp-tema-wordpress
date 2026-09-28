@@ -670,36 +670,45 @@
 }
 
 /* ---------------------------------------------------------------------
-   /iniciativas/: un bloque por iniciativa, texto y flyer alternando lado
+   /iniciativas/: una fila compacta por iniciativa, flyer en miniatura
    --------------------------------------------------------------------- */
 .asp-iniciativas {
+  display: grid;
   padding-bottom: var(--sp-8);
 }
 
 .asp-iniciativa-fila {
   display: grid;
-  gap: var(--sp-6);
-  padding-block: var(--sp-7);
+  grid-template-columns: minmax(0, 1fr) var(--w-flyer-mini);
+  grid-template-areas: "cab vitrina" "desc desc";
+  gap: var(--sp-3) var(--sp-4);
+  align-items: start;
+  padding-block: var(--sp-5);
   border-top: var(--border-hairline) solid var(--c-border);
 }
 
-.asp-iniciativa-fila__texto {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--sp-4);
+.asp-iniciativa-fila--sin-vitrina {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "cab" "desc";
 }
 
-.asp-iniciativa-fila__num {
-  font-family: var(--font-numeral);
-  font-size: var(--fs-xl);
-  line-height: 1;
-  color: var(--c-accent-alt);
+.asp-iniciativa-fila__cab {
+  grid-area: cab;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 0;
 }
 
 .asp-iniciativa-fila__titulo {
-  font-size: var(--fs-2xl);
-  line-height: var(--lh-tight);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+}
+
+.asp-iniciativa-fila__num {
+  margin-right: var(--sp-2);
+  font-family: var(--font-numeral);
+  color: var(--c-accent-alt);
 }
 
 .asp-iniciativa-fila__titulo a {
@@ -711,19 +720,25 @@
 }
 
 .asp-iniciativa-fila__desc {
-  max-width: 52ch;
-  font-size: var(--fs-md);
+  grid-area: desc;
+  max-width: 60ch;
+  font-size: var(--fs-base);
   line-height: var(--lh-body);
+  color: var(--c-text-muted);
 }
 
 .asp-iniciativa-fila__desc p {
   margin: 0;
 }
 
+.asp-iniciativa-fila__desc p + p {
+  margin-top: var(--sp-2);
+}
+
 .asp-iniciativa-fila__datos {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sp-2) var(--sp-5);
+  gap: var(--sp-1) var(--sp-4);
   margin: 0;
   font-family: var(--font-ui);
   font-size: var(--fs-sm);
@@ -736,22 +751,23 @@
 }
 
 .asp-iniciativa-fila__vitrina {
+  grid-area: vitrina;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
-  color: var(--c-text);
+  gap: var(--sp-2);
+  color: var(--c-text-muted);
+}
+
+.asp-iniciativa-fila__vitrina .asp-flyer {
+  transition: background-color var(--dur) var(--ease);
 }
 
 .asp-iniciativa-fila__vitrina:hover {
-  color: var(--c-text);
-}
-
-.asp-iniciativa-fila__vitrina:hover .asp-flyer--tile {
-  background: var(--c-border-strong);
-}
-
-.asp-iniciativa-fila__vitrina:hover .asp-iniciativa-fila__evento {
   color: var(--c-accent);
+}
+
+.asp-iniciativa-fila__vitrina:hover .asp-flyer {
+  background: var(--c-border-strong);
 }
 
 .asp-iniciativa-fila__vitrina:focus-visible {
@@ -759,50 +775,42 @@
   outline-offset: 4px;
 }
 
-.asp-iniciativa-fila__pie {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-1);
-}
-
-.asp-iniciativa-fila__evento {
-  font-family: var(--font-display);
-  font-size: var(--fs-md);
-  font-weight: var(--fw-medium);
-  line-height: var(--lh-heading);
-  transition: color var(--dur) var(--ease);
-}
-
-.asp-iniciativa-fila__cuando {
+.asp-iniciativa-fila__rotulo {
   font-family: var(--font-ui);
-  font-size: var(--fs-sm);
-  color: var(--c-text-muted);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-heading);
+  text-align: center;
+  white-space: nowrap;
+  color: inherit;
+}
+
+@media (min-width: 1024px) {
+  .asp-iniciativas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--sp-8);
+  }
+
+  .asp-iniciativa-fila {
+    grid-template-columns: minmax(0, 1fr) var(--w-flyer-mini-desktop);
+    grid-template-rows: auto 1fr;
+    grid-template-areas: "cab vitrina" "desc vitrina";
+    gap: var(--sp-3) var(--sp-5);
+    padding-block: var(--sp-6);
+  }
+
+  /* En escritorio sobra ancho: la descripción sube al lado del flyer. */
+  .asp-iniciativa-fila--sin-vitrina {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "cab" "desc";
+  }
+
+  .asp-iniciativa-fila__titulo {
+    font-size: var(--fs-xl);
+  }
 }
 
 .asp-iniciativa__ediciones {
   padding-top: var(--sp-6);
-}
-
-@media (min-width: 1024px) {
-  .asp-iniciativa-fila {
-    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-    gap: var(--sp-8);
-    align-items: center;
-    padding-block: var(--sp-8);
-  }
-
-  .asp-iniciativa-fila--sin-vitrina {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  /* Cada bloque con su forma: el flyer cambia de lado en cada iniciativa. */
-  .asp-iniciativa-fila:nth-child(even) .asp-iniciativa-fila__vitrina {
-    order: -1;
-  }
-
-  .asp-iniciativa-fila__titulo {
-    font-size: var(--fs-3xl);
-  }
 }
 
 /* Fila compacta de evento en la home */

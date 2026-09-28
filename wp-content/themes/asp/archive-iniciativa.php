@@ -1,7 +1,7 @@
 <?php
 /**
- * /iniciativas/ — cada iniciativa como un bloque propio, en el mismo orden
- * y con el mismo numeral que en el inicio.
+ * /iniciativas/ — una fila compacta por iniciativa, en el mismo orden y con
+ * el mismo numeral que en el inicio. En escritorio, dos columnas.
  *
  * @package asp
  */
@@ -16,7 +16,7 @@ get_header();
 	</header>
 </div>
 <?php if ( have_posts() ) : ?>
-	<div class="asp-iniciativas">
+	<div class="asp-container asp-iniciativas">
 		<?php $asp_n = 0; ?>
 		<?php while ( have_posts() ) : the_post(); ?>
 			<?php get_template_part( 'parts/iniciativa/fila', null, [ 'post_id' => get_the_ID(), 'numero' => ++$asp_n ] ); ?>

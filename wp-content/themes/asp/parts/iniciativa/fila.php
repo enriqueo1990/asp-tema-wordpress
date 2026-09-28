@@ -2,10 +2,13 @@
 /**
  * Bloque de una iniciativa en /iniciativas/. Args: post_id, numero.
  *
- * Texto a un lado (numeral, nombre, qué es, ediciones y próxima fecha) y al
- * otro el flyer de la próxima edición o de la última realizada: las
- * iniciativas no tienen foto propia cargada y el flyer es la imagen real de
- * lo que pasa. Sin evento con flyer, el bloque queda solo con el texto.
+ * Fila compacta: arriba el nombre con la próxima fecha y las ediciones, al
+ * costado el flyer en miniatura de la próxima edición o de la última
+ * realizada (entero sobre la banda tonal), y debajo, a todo el ancho, qué es. Sin evento con flyer, la fila
+ * queda solo con el texto.
+ *
+ * Compactada el 28-9-2026: con el flyer a todo el ancho cada iniciativa
+ * ocupaba una pantalla y media en el teléfono.
  *
  * @package asp
  */
@@ -20,15 +23,12 @@ $asp_prox    = $asp_resumen['proximo'];
 $asp_vitrina = $asp_resumen['vitrina'];
 $asp_titulo  = 'asp-iniciativa-' . $asp_id;
 ?>
-<section class="asp-container asp-iniciativa-fila<?php echo $asp_vitrina ? '' : ' asp-iniciativa-fila--sin-vitrina'; ?>" aria-labelledby="<?php echo esc_attr( $asp_titulo ); ?>">
-	<div class="asp-iniciativa-fila__texto">
-		<span class="asp-iniciativa-fila__num" aria-hidden="true"><?php echo esc_html( asp_romano( $asp_num ) ); ?></span>
+<section class="asp-iniciativa-fila<?php echo $asp_vitrina ? '' : ' asp-iniciativa-fila--sin-vitrina'; ?>" aria-labelledby="<?php echo esc_attr( $asp_titulo ); ?>">
+	<div class="asp-iniciativa-fila__cab">
 		<h2 class="asp-iniciativa-fila__titulo" id="<?php echo esc_attr( $asp_titulo ); ?>">
+			<span class="asp-iniciativa-fila__num" aria-hidden="true"><?php echo esc_html( asp_romano( $asp_num ) ); ?></span>
 			<a href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>"><?php echo esc_html( get_the_title( $asp_id ) ); ?></a>
 		</h2>
-		<?php if ( $asp_desc ) : ?>
-			<div class="asp-iniciativa-fila__desc"><?php echo wp_kses_post( wpautop( $asp_desc ) ); ?></div>
-		<?php endif; ?>
 		<?php if ( $asp_resumen['ediciones'] || $asp_prox ) : ?>
 			<p class="asp-iniciativa-fila__datos">
 				<?php if ( $asp_prox ) : ?>
@@ -50,34 +50,36 @@ $asp_titulo  = 'asp-iniciativa-' . $asp_id;
 				<?php endif; ?>
 			</p>
 		<?php endif; ?>
-		<a class="asp-cta-link" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>"><?php esc_html_e( 'Conocé la iniciativa', 'asp' ); ?></a>
 	</div>
-	<?php if ( $asp_vitrina ) : ?>
-		<a class="asp-iniciativa-fila__vitrina" href="<?php echo esc_url( get_permalink( $asp_vitrina ) ); ?>">
+	<?php if ( $asp_vitrina ) :
+		$asp_es_prox = $asp_prox && $asp_prox->ID === $asp_vitrina->ID;
+		if ( $asp_es_prox ) {
+			$asp_rotulo = 'en_curso' === asp_evento_estado( $asp_vitrina->ID ) ? __( 'En curso', 'asp' ) : __( 'Próxima', 'asp' );
+		} else {
+			/* translators: %d: año de la última edición */
+			$asp_rotulo = sprintf( __( 'Última, %d', 'asp' ), asp_evento_anio( $asp_vitrina->ID ) );
+		}
+		?>
+		<a class="asp-iniciativa-fila__vitrina" href="<?php echo esc_url( get_permalink( $asp_vitrina ) ); ?>" aria-label="<?php
+			/* translators: 1: próxima/última edición, 2: título del evento */
+			echo esc_attr( sprintf( __( '%1$s edición: %2$s', 'asp' ), $asp_es_prox ? __( 'Próxima', 'asp' ) : __( 'Última', 'asp' ), get_the_title( $asp_vitrina ) ) );
+		?>">
 			<?php
 			get_template_part(
 				'parts/evento/flyer',
 				null,
 				[
 					'post_id' => $asp_vitrina->ID,
-					'clase'   => 'asp-flyer--tile',
 					'tamano'  => 'asp-flyer-card',
 					'alt'     => '',
-					'sizes'   => '(min-width: 1024px) 520px, 100vw',
+					'sizes'   => '(min-width: 1024px) 144px, 104px',
 				]
 			);
 			?>
-			<span class="asp-iniciativa-fila__pie">
-				<span class="asp-label"><?php
-					if ( $asp_prox && $asp_prox->ID === $asp_vitrina->ID ) {
-						echo 'en_curso' === asp_evento_estado( $asp_vitrina->ID ) ? esc_html__( 'Edición en curso', 'asp' ) : esc_html__( 'Próxima edición', 'asp' );
-					} else {
-						esc_html_e( 'Última edición', 'asp' );
-					}
-				?></span>
-				<span class="asp-iniciativa-fila__evento"><?php echo esc_html( get_the_title( $asp_vitrina ) ); ?></span>
-				<span class="asp-iniciativa-fila__cuando"><?php echo esc_html( implode( ' · ', array_filter( [ asp_evento_fecha_texto( $asp_vitrina->ID ), asp_evento_ciudad( $asp_vitrina->ID ) ] ) ) ); ?></span>
-			</span>
+			<span class="asp-iniciativa-fila__rotulo" aria-hidden="true"><?php echo esc_html( $asp_rotulo ); ?></span>
 		</a>
+	<?php endif; ?>
+	<?php if ( $asp_desc ) : ?>
+		<div class="asp-iniciativa-fila__desc"><?php echo wp_kses_post( wpautop( $asp_desc ) ); ?></div>
 	<?php endif; ?>
 </section>
