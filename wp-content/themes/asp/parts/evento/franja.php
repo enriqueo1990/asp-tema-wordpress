@@ -60,6 +60,7 @@ $asp_hid    = 'franja-titulo-' . $asp_id;
 			<a class="asp-btn asp-btn--block asp-btn--invertido" href="<?php echo esc_url( $asp_url ); ?>" target="_blank" rel="noopener">
 				<span class="asp-franja__btn-corto"><?php echo esc_html( asp_evento_boton_texto( $asp_id, false ) ); ?></span>
 				<span class="asp-franja__btn-largo"><?php echo esc_html( asp_evento_boton_texto( $asp_id, true ) ); ?></span>
+				<?php echo asp_aviso_pestana(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 			</a>
 		<?php else : ?>
 			<a class="asp-btn asp-btn--block asp-btn--invertido" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>"><?php esc_html_e( 'Ver el evento', 'asp' ); ?></a>

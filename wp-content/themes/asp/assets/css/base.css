@@ -73,6 +73,13 @@ button {
   outline-offset: 3px;
 }
 
+/* Sobre fondos oscuros y fotos el anillo azul no se veía (1,0:1 sobre la
+   franja): ahí va blanco. */
+:is(.asp-footer, .asp-banda-oscura, .asp-franja, .asp-portada, .asp-cierre, .asp-contacto-portada) :focus-visible,
+.asp-con-portada .asp-header:not(.is-scrolled):not(.is-menu-open) :focus-visible {
+  outline-color: var(--c-focus-ring-inverso);
+}
+
 summary {
   cursor: pointer;
   list-style: none;
@@ -119,6 +126,14 @@ summary::-webkit-details-marker {
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--c-text-faint);
+}
+
+/* Rótulos que son encabezados (h2/h3) para lectores de pantalla: se ven
+   igual que el span de antes. */
+:where(h2, h3, h4).asp-label {
+  font-weight: var(--fw-regular);
+  line-height: inherit;
+  text-wrap: inherit;
 }
 
 .asp-label--muted {

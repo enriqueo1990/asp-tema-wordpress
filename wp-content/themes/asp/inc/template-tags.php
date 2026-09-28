@@ -57,6 +57,15 @@ function asp_email(): string {
 }
 
 /**
+ * Aviso para lectores de pantalla en los links que abren otra pestaña.
+ *
+ * @return string HTML.
+ */
+function asp_aviso_pestana(): string {
+	return '<span class="screen-reader-text"> ' . esc_html__( '(se abre en otra pestaña)', 'asp' ) . '</span>';
+}
+
+/**
  * Link externo para donar, cargado en el Customizer. Vacío = no hay botón.
  * Las donaciones no pasan por el sitio: es solo un enlace.
  *
@@ -241,7 +250,9 @@ function asp_persona_foto( int $persona_id, string $clase, string $tamano = 'asp
 		$foto_id = (int) get_post_thumbnail_id( $persona_id );
 	}
 	if ( $foto_id ) {
-		$html = wp_get_attachment_image( $foto_id, $tamano, false, [ 'class' => $clase, 'alt' => get_the_title( $persona_id ) ] );
+		/* alt vacío: en todos los usos el nombre está escrito al lado, y con alt
+		   el lector de pantalla lo leía dos veces. */
+		$html = wp_get_attachment_image( $foto_id, $tamano, false, [ 'class' => $clase, 'alt' => '' ] );
 		if ( $html ) {
 			return $html;
 		}

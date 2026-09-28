@@ -23,7 +23,7 @@ if ( empty( $asp_oradores ) ) {
 }
 ?>
 <div class="asp-bloque">
-	<span class="asp-label"><?php echo esc_html( _n( 'Orador', 'Oradores', count( $asp_oradores ), 'asp' ) ); ?></span>
+	<h2 class="asp-label"><?php echo esc_html( _n( 'Orador', 'Oradores', count( $asp_oradores ), 'asp' ) ); ?></h2>
 	<div class="asp-oradores<?php echo ! empty( $args['grid'] ) ? ' asp-oradores--grid' : ''; ?>">
 		<?php foreach ( $asp_oradores as $asp_orador ) :
 			$asp_persona = $asp_orador['persona'];

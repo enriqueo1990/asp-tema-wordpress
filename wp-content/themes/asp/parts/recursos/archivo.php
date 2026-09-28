@@ -41,7 +41,7 @@ $asp_series = asp_recursos_series();
 				endwhile;
 				?>
 			</div>
-			<nav class="asp-paginacion" aria-label="<?php esc_attr_e( 'Paginación', 'asp' ); ?>"><?php the_posts_pagination( [ 'prev_text' => __( 'Anteriores', 'asp' ), 'next_text' => __( 'Siguientes', 'asp' ) ] ); ?></nav>
+			<div class="asp-paginacion"><?php the_posts_pagination( [ 'prev_text' => __( 'Anteriores', 'asp' ), 'next_text' => __( 'Siguientes', 'asp' ), 'aria_label' => __( 'Paginación', 'asp' ) ] ); ?></div>
 		<?php else : ?>
 			<p class="asp-muted"><?php esc_html_e( 'Todavía no hay artículos publicados.', 'asp' ); ?></p>
 		<?php endif; ?>

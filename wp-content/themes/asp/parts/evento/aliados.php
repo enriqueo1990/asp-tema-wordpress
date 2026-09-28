@@ -15,7 +15,7 @@ if ( empty( $asp_aliados ) ) {
 }
 ?>
 <div class="asp-bloque">
-	<span class="asp-label"><?php esc_html_e( 'Aliados', 'asp' ); ?></span>
+	<h2 class="asp-label"><?php esc_html_e( 'Aliados', 'asp' ); ?></h2>
 	<div class="asp-aliados">
 		<?php foreach ( $asp_aliados as $asp_i => $asp_aliado ) :
 			$asp_url  = (string) get_post_meta( $asp_aliado->ID, 'aliado_url', true );
@@ -26,7 +26,7 @@ if ( empty( $asp_aliados ) ) {
 			}
 			if ( $asp_url ) :
 				?>
-				<a href="<?php echo esc_url( $asp_url ); ?>" rel="noopener" target="_blank"><?php echo $asp_html; // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
+				<a href="<?php echo esc_url( $asp_url ); ?>" rel="noopener" target="_blank"><?php echo $asp_html; // phpcs:ignore WordPress.Security.EscapeOutput ?><?php echo asp_aviso_pestana(); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 			<?php else : ?>
 				<span><?php echo $asp_html; // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
 			<?php endif;

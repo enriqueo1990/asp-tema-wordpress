@@ -38,7 +38,7 @@ $asp_bajada = (string) get_bloginfo( 'description' );
 				<?php if ( ! empty( $asp_redes ) ) : ?>
 					<ul class="asp-footer__redes">
 						<?php foreach ( $asp_redes as $asp_nombre => $asp_url ) : ?>
-							<li><a href="<?php echo esc_url( $asp_url ); ?>" rel="me noopener" target="_blank"><?php echo esc_html( $asp_nombre ); ?></a></li>
+							<li><a href="<?php echo esc_url( $asp_url ); ?>" rel="me noopener" target="_blank"><?php echo esc_html( $asp_nombre ); ?><?php echo asp_aviso_pestana(); // phpcs:ignore WordPress.Security.EscapeOutput ?></a></li>
 						<?php endforeach; ?>
 					</ul>
 				<?php endif; ?>

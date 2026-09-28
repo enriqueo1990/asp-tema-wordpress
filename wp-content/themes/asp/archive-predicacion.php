@@ -73,7 +73,7 @@ $asp_oradores  = asp_oradores_frecuentes( 8 );
 		<section class="asp-container asp-section--rule asp-section--tight" id="anio-<?php echo esc_attr( (string) $asp_anio ); ?>" aria-label="<?php echo esc_attr( (string) $asp_anio ); ?>">
 			<details class="asp-anio-plegable"<?php echo $asp_primero ? ' open' : ''; ?>>
 				<summary class="asp-anio__num asp-anio__num--grilla">
-					<span><?php echo esc_html( $asp_anio ? (string) $asp_anio : __( 'Sin fecha', 'asp' ) ); ?></span>
+					<h2 class="asp-anio__titulo"><?php echo esc_html( $asp_anio ? (string) $asp_anio : __( 'Sin fecha', 'asp' ) ); ?></h2>
 					<span class="asp-anio__cuenta"><?php
 						/* translators: %d: cantidad de predicaciones del año */
 						echo esc_html( sprintf( _n( '%d predicación', '%d predicaciones', count( $asp_items ), 'asp' ), count( $asp_items ) ) );

@@ -60,10 +60,7 @@ $asp_titulo  = 'asp-iniciativa-' . $asp_id;
 			$asp_rotulo = sprintf( __( 'Última, %d', 'asp' ), asp_evento_anio( $asp_vitrina->ID ) );
 		}
 		?>
-		<a class="asp-iniciativa-fila__vitrina" href="<?php echo esc_url( get_permalink( $asp_vitrina ) ); ?>" aria-label="<?php
-			/* translators: 1: próxima/última edición, 2: título del evento */
-			echo esc_attr( sprintf( __( '%1$s edición: %2$s', 'asp' ), $asp_es_prox ? __( 'Próxima', 'asp' ) : __( 'Última', 'asp' ), get_the_title( $asp_vitrina ) ) );
-		?>">
+		<a class="asp-iniciativa-fila__vitrina" href="<?php echo esc_url( get_permalink( $asp_vitrina ) ); ?>">
 			<?php
 			get_template_part(
 				'parts/evento/flyer',
@@ -76,7 +73,7 @@ $asp_titulo  = 'asp-iniciativa-' . $asp_id;
 				]
 			);
 			?>
-			<span class="asp-iniciativa-fila__rotulo" aria-hidden="true"><?php echo esc_html( $asp_rotulo ); ?></span>
+			<span class="asp-iniciativa-fila__rotulo"><?php echo esc_html( $asp_rotulo ); ?><span class="screen-reader-text">: <?php echo esc_html( get_the_title( $asp_vitrina ) ); ?></span></span>
 		</a>
 	<?php endif; ?>
 	<?php if ( $asp_desc ) : ?>

@@ -18,6 +18,18 @@ foreach ( $m as $x ) {
 	$t[ $x[1] ] = $x[2];
 }
 
+/* Velos rgba(): se verifican compuestos sobre blanco puro, el peor caso de
+   una foto clara detrás del texto. Se agregan como tokens "--x@blanco". */
+preg_match_all( '/(--c-[a-z0-9-]+):\s*rgba\(\s*(\d+),\s*(\d+),\s*(\d+),\s*([0-9.]+)\s*\)/', $css, $r, PREG_SET_ORDER );
+foreach ( $r as $x ) {
+	$a   = (float) $x[5];
+	$hex = '#';
+	foreach ( [ 2, 3, 4 ] as $i ) {
+		$hex .= sprintf( '%02X', (int) round( (int) $x[ $i ] * $a + 255 * ( 1 - $a ) ) );
+	}
+	$t[ $x[1] . '@blanco' ] = $hex;
+}
+
 $lum = static function ( string $hex ): float {
 	$c = [];
 	foreach ( [ 1, 3, 5 ] as $i ) {
@@ -32,7 +44,8 @@ $ratio = static function ( string $a, string $b ) use ( $lum ): float {
 	return ( max( $la, $lb ) + 0.05 ) / ( min( $la, $lb ) + 0.05 );
 };
 
-/* [texto, fondo, dónde se ve, mínimo] — 3.0 para texto grande. */
+/* [texto, fondo, dónde se ve, mínimo] — 3.0 para texto grande y para
+   componentes que no son texto (bordes de campos, foco: WCAG 1.4.11). */
 $pares = [
 	[ '--c-text', '--c-bg', 'cuerpo sobre el fondo', 4.5 ],
 	[ '--c-text-muted', '--c-bg', 'texto apagado', 4.5 ],
@@ -58,6 +71,14 @@ $pares = [
 	[ '--c-tile-ink', '--c-tile-2', 'tarjeta de iniciativa, azul medio', 4.5 ],
 	[ '--c-tile-ink', '--c-tile-3', 'tarjeta de iniciativa, índigo', 4.5 ],
 	[ '--c-tile-ink', '--c-tile-4', 'tarjeta de iniciativa, azul noche', 4.5 ],
+	[ '--c-photo-text', '--c-photo-scrim-text@blanco', 'texto sobre foto con el velo mínimo, foto blanca', 4.5 ],
+	[ '--c-border-control', '--c-bg', 'borde de campos de formulario (no texto)', 3.0 ],
+	[ '--c-border-control', '--c-surface', 'borde de campos sobre banda (no texto)', 3.0 ],
+	[ '--c-focus-ring', '--c-bg', 'anillo de foco', 3.0 ],
+	[ '--c-focus-ring', '--c-surface', 'anillo de foco sobre banda', 3.0 ],
+	[ '--c-focus-ring-inverso', '--c-dark-bg', 'anillo de foco en el pie y la banda oscura', 3.0 ],
+	[ '--c-focus-ring-inverso', '--c-franja-bg', 'anillo de foco en la franja', 3.0 ],
+	[ '--c-focus-ring-inverso', '--c-photo-scrim-text@blanco', 'anillo de foco sobre foto', 3.0 ],
 ];
 
 $fallan = 0;

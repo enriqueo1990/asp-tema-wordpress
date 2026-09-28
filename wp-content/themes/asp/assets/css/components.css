@@ -1503,6 +1503,15 @@
   display: flex;
   align-items: baseline;
   gap: var(--sp-4);
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+/* El año de Predicaciones es un h2 dentro del <summary>: se ve como antes. */
+.asp-anio__titulo {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
 }
 
 .asp-articulo-af__num strong {
@@ -1730,7 +1739,7 @@
   width: 100%;
   min-height: var(--control-h);
   padding: var(--sp-2) var(--sp-4);
-  border: var(--border-hairline) solid var(--c-border-strong);
+  border: var(--border-hairline) solid var(--c-border-control);
   border-radius: var(--radius-3);
   background: var(--c-bg);
   color: var(--c-text);
@@ -2014,11 +2023,37 @@
   min-height: 80vh;
   display: flex;
   align-items: flex-end;
-  /* Velo abajo para el texto del evento y un velo corto arriba para la cabecera transparente */
+  /* Velo abajo para el texto del evento y arriba, con piso de contraste,
+     para el menú de la cabecera transparente (antes daba 2,1:1). */
   background:
-    linear-gradient(to bottom, var(--c-photo-scrim) 0, var(--c-photo-scrim-none) var(--header-h-desktop)),
+    linear-gradient(to bottom, var(--c-photo-scrim-text) 0, var(--c-photo-scrim-text) var(--header-h-desktop), var(--c-photo-scrim-none) calc(var(--header-h-desktop) + var(--sp-8))),
     radial-gradient(ellipse 55% 60% at 100% 0%, var(--c-photo-scrim-strong) 0%, var(--c-photo-scrim-none) 100%),
     linear-gradient(to top, var(--c-photo-scrim-strong) 0%, var(--c-photo-scrim) 45%, var(--c-photo-scrim-none) 100%);
+}
+
+/* Piso de velo detrás de todo bloque de texto sobre foto: desde un poco
+   arriba del texto hasta abajo, nunca menos que --c-photo-scrim-text, a
+   todo el ancho. El degradado general solo no alcanzaba: el rótulo
+   «Próximo evento» quedaba en 3,2:1 sobre fotos claras. */
+.asp-portada__inner,
+.asp-cierre--con-foto .asp-cierre__inner,
+.asp-contacto-portada--con-foto .asp-contacto-portada__inner {
+  position: relative;
+  isolation: isolate;
+}
+
+.asp-portada__inner::before,
+.asp-cierre--con-foto .asp-cierre__inner::before,
+.asp-contacto-portada--con-foto .asp-contacto-portada__inner::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: calc(-1 * var(--sp-8));
+  bottom: 0;
+  left: -100vw;
+  right: -100vw;
+  background: linear-gradient(to top, var(--c-photo-scrim-text) calc(100% - var(--sp-8)), var(--c-photo-scrim-none) 100%);
+  pointer-events: none;
 }
 
 .asp-portada__inner {
@@ -3633,7 +3668,7 @@ a:hover .asp-imagen img {
   font-size: var(--fs-base);
   color: var(--c-text);
   background: var(--c-bg);
-  border: var(--border-hairline) solid var(--c-border-strong);
+  border: var(--border-hairline) solid var(--c-border-control);
   border-right: 0;
   border-radius: var(--radius-3) 0 0 var(--radius-3);
 }

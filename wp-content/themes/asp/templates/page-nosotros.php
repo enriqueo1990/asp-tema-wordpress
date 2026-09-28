@@ -41,7 +41,7 @@ while ( have_posts() ) :
 	<?php if ( get_the_content() ) : ?>
 		<section class="asp-section asp-section--rule">
 			<div class="asp-container"><div class="asp-column asp-stack asp-stack--5">
-				<span class="asp-label"><?php esc_html_e( 'Qué nos une', 'asp' ); ?></span>
+				<h2 class="asp-label"><?php esc_html_e( 'Qué nos une', 'asp' ); ?></h2>
 				<div class="asp-prose"><?php the_content(); ?></div>
 				<div class="asp-cita">
 					<blockquote>«El me amó, y se entregó a sí mismo por mí»</blockquote>
@@ -54,7 +54,7 @@ while ( have_posts() ) :
 	<?php if ( ! empty( $asp_consejo ) ) : ?>
 		<section class="asp-section asp-section--rule" aria-label="<?php esc_attr_e( 'Consejo Pastoral', 'asp' ); ?>">
 			<div class="asp-container"><div class="asp-column asp-stack asp-stack--5">
-				<span class="asp-label"><?php esc_html_e( 'Consejo Pastoral', 'asp' ); ?></span>
+				<h2 class="asp-label"><?php esc_html_e( 'Consejo Pastoral', 'asp' ); ?></h2>
 				<p class="asp-prose"><?php esc_html_e( 'El Consejo Pastoral da dirección y cuidado al ministerio y las iniciativas del mismo.', 'asp' ); ?></p>
 				<div class="asp-grid-consejo">
 					<?php foreach ( $asp_consejo as $asp_persona ) : ?>
@@ -98,7 +98,7 @@ while ( have_posts() ) :
 			<div class="asp-articulos-af">
 				<?php foreach ( $asp_af['articulos'] as $asp_i => $asp_art ) : ?>
 					<article class="asp-articulo-af" id="<?php echo esc_attr( asp_afirmacion_ancla( $asp_i + 1 ) ); ?>">
-						<div class="asp-articulo-af__num"><strong><?php echo esc_html( asp_romano( $asp_i + 1 ) ); ?></strong><span class="asp-label"><?php esc_html_e( 'Artículo', 'asp' ); ?></span></div>
+						<h3 class="asp-articulo-af__num"><strong><?php echo esc_html( asp_romano( $asp_i + 1 ) ); ?></strong><span class="asp-label"><?php esc_html_e( 'Artículo', 'asp' ); ?></span></h3>
 						<div class="asp-articulo-af__parte">
 							<span class="asp-chip asp-chip--accent"><?php esc_html_e( 'Afirmamos', 'asp' ); ?></span>
 							<p><?php echo esc_html( $asp_art['afirmamos'] ); ?></p>
@@ -116,7 +116,7 @@ while ( have_posts() ) :
 	<?php if ( $asp_destacado ) : ?>
 		<section class="asp-section asp-section--rule asp-section--surface asp-section--proximo" aria-label="<?php esc_attr_e( 'Próximo evento', 'asp' ); ?>">
 			<div class="asp-container"><div class="asp-column asp-stack asp-stack--5">
-				<span class="asp-label"><?php esc_html_e( 'Próximo evento', 'asp' ); ?></span>
+				<h2 class="asp-label"><?php esc_html_e( 'Próximo evento', 'asp' ); ?></h2>
 				<?php get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_destacado->ID, 'clase' => 'asp-flyer--column', 'tamano' => 'asp-flyer-card' ] ); ?>
 				<a class="asp-franja__titulo" href="<?php echo esc_url( get_permalink( $asp_destacado ) ); ?>"><?php echo esc_html( get_the_title( $asp_destacado ) ); ?></a>
 				<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_destacado->ID ] ); ?>

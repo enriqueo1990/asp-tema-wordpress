@@ -235,7 +235,7 @@ function asp_predicacion_reproductor( int $post_id ): string {
 		$yt_id = asp_youtube_id( $url );
 		$embed = $yt_id ? asp_youtube_iframe( $yt_id, get_the_title( $post_id ) ) : asp_oembed_cacheado( $url );
 		if ( ! $embed ) {
-			return '<p class="asp-reproductor__enlace"><a href="' . esc_url( $url ) . '" rel="noopener" target="_blank">' . esc_html__( 'Ver el video', 'asp' ) . '</a></p>';
+			return '<p class="asp-reproductor__enlace"><a href="' . esc_url( $url ) . '" rel="noopener" target="_blank">' . esc_html__( 'Ver el video', 'asp' ) . asp_aviso_pestana() . '</a></p>';
 		}
 		return '<div class="asp-reproductor asp-reproductor--video">' . $embed . '</div>';
 	}

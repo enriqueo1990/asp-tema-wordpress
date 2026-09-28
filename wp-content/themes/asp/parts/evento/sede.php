@@ -17,7 +17,7 @@ if ( '' === $asp_sede && '' === $asp_dir ) {
 	return;
 }
 ?>
-<span class="asp-label"><?php esc_html_e( 'Sede', 'asp' ); ?></span>
+<h2 class="asp-label"><?php esc_html_e( 'Sede', 'asp' ); ?></h2>
 <?php if ( $asp_sede ) : ?>
 	<span class="asp-sede__nombre"><?php echo esc_html( $asp_sede ); ?></span>
 <?php endif; ?>

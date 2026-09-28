@@ -146,6 +146,7 @@
   --c-tile-ink: #FFFFFF;
   --c-border:        #E2E5EE;
   --c-border-strong: #C2C7D6;
+  --c-border-control: #80879A;   /* borde de campos: 3:1 sobre bg y surface (WCAG 1.4.11) */
 
   --c-state-reserva-bg:   transparent;
   --c-state-reserva-fg:   #3A3F4B;
@@ -168,6 +169,9 @@
   --c-photo-scrim: rgba(10, 12, 18, 0.55);
   --c-photo-scrim-strong: rgba(10, 12, 18, 0.86);
   --c-photo-scrim-none: rgba(10, 12, 18, 0);
+  /* Piso del velo donde hay texto: blanco sobre una foto blanca daría 5,6:1.
+     tools/contraste.php lo verifica compuesto sobre blanco puro. */
+  --c-photo-scrim-text: rgba(10, 12, 18, 0.62);
   --c-photo-text:  #FFFFFF;
   --c-photo-placeholder-a: #1D2230;
   --c-photo-placeholder-b: #141821;
@@ -190,6 +194,7 @@
   --c-btn-invertido-fg:   #1E3A6E;
 
   --c-focus-ring: #1E3A6E;
+  --c-focus-ring-inverso: #FFFFFF;   /* foco sobre pie, bandas oscuras y fotos */
   --c-logo-plate: #FFFFFF;
 
   /* Placeholder rayado de foto de persona sin cargar */

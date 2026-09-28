@@ -84,7 +84,7 @@ while ( have_posts() ) :
 				<span class="asp-label"><?php esc_html_e( 'Redes', 'asp' ); ?></span>
 				<ul class="asp-contacto__redes">
 					<?php foreach ( $asp_redes as $asp_nombre => $asp_url ) : ?>
-						<li><a href="<?php echo esc_url( $asp_url ); ?>" rel="me noopener" target="_blank"><?php echo esc_html( $asp_nombre ); ?><span class="asp-contacto__flecha" aria-hidden="true">↗</span></a></li>
+						<li><a href="<?php echo esc_url( $asp_url ); ?>" rel="me noopener" target="_blank"><?php echo esc_html( $asp_nombre ); ?><span class="asp-contacto__flecha" aria-hidden="true">↗</span><?php echo asp_aviso_pestana(); // phpcs:ignore WordPress.Security.EscapeOutput ?></a></li>
 					<?php endforeach; ?>
 				</ul>
 			</div>

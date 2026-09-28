@@ -34,11 +34,18 @@
 	}
 
 	/* ---- Menú móvil ---- */
+	/* Con el menú abierto, lo que queda tapado se vuelve inerte: el Tab y
+	   los lectores de pantalla no lo recorren. */
+	var fondo = [document.getElementById('contenido'), document.querySelector('.asp-footer')].filter(Boolean);
+
 	function setOpen(open) {
 		nav.classList.toggle('is-open', open);
 		header.classList.toggle('is-menu-open', open);
 		document.documentElement.classList.toggle('asp-menu-abierto', open);
 		toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+		fondo.forEach(function (el) {
+			el.inert = open;
+		});
 		if (open) {
 			var primero = nav.querySelector('a');
 			if (primero) {

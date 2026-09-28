@@ -16,7 +16,7 @@ if ( empty( $asp_grupos ) ) {
 $asp_varios_dias = count( $asp_grupos ) > 1;
 ?>
 <div class="asp-bloque">
-	<span class="asp-label"><?php esc_html_e( 'Programa', 'asp' ); ?></span>
+	<h2 class="asp-label"><?php esc_html_e( 'Programa', 'asp' ); ?></h2>
 	<div class="asp-programa">
 		<?php foreach ( $asp_grupos as $asp_dia => $asp_filas ) :
 			$asp_p        = asp_fecha_partes( (string) $asp_dia );

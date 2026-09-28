@@ -47,7 +47,7 @@ $asp_foto    = asp_portada_foto();
 				<div class="asp-portada__pie">
 					<?php get_template_part( 'parts/evento/lugar', null, [ 'post_id' => $asp_id, 'variante' => 'md' ] ); ?>
 					<?php if ( asp_evento_tiene_boton( $asp_id ) ) : ?>
-						<a class="asp-btn asp-btn--invertido" href="<?php echo esc_url( asp_evento_url_registro( $asp_id ) ); ?>" target="_blank" rel="noopener"><?php echo esc_html( asp_evento_boton_texto( $asp_id, true ) ); ?></a>
+						<a class="asp-btn asp-btn--invertido" href="<?php echo esc_url( asp_evento_url_registro( $asp_id ) ); ?>" target="_blank" rel="noopener"><?php echo esc_html( asp_evento_boton_texto( $asp_id, true ) ); ?><?php echo asp_aviso_pestana(); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 					<?php else : ?>
 						<a class="asp-btn asp-btn--invertido" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>"><?php esc_html_e( 'Ver el evento', 'asp' ); ?></a>
 					<?php endif; ?>

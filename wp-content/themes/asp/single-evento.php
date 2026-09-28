@@ -69,7 +69,7 @@ while ( have_posts() ) :
 					<div class="asp-bloque"><?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_id, 'con_plataforma' => true, 'bloque' => true ] ); ?></div>
 				<?php endif; ?>
 				<?php if ( $asp_precio ) : ?>
-					<div class="asp-bloque"><span class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></span><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
+					<div class="asp-bloque"><h2 class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></h2><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
 				<?php endif; ?>
 				<?php if ( $asp_sede ) : ?>
 					<div class="asp-bloque"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id ] ); ?></div>
@@ -101,13 +101,13 @@ while ( have_posts() ) :
 					</div>
 					<?php if ( $asp_desc ) : ?>
 						<div class="asp-bloque asp-bloque--sin-filete">
-							<span class="asp-label"><?php esc_html_e( 'Descripción', 'asp' ); ?></span>
+							<h2 class="asp-label"><?php esc_html_e( 'Descripción', 'asp' ); ?></h2>
 							<div class="asp-prose"><?php echo wp_kses_post( wpautop( $asp_desc ) ); ?></div>
 						</div>
 					<?php endif; ?>
 					<?php if ( ! empty( $asp_predic ) ) : ?>
 						<div class="asp-bloque">
-							<span class="asp-label"><?php esc_html_e( 'Predicaciones de este evento', 'asp' ); ?></span>
+							<h2 class="asp-label"><?php esc_html_e( 'Predicaciones de este evento', 'asp' ); ?></h2>
 							<div>
 								<?php foreach ( $asp_predic as $asp_p ) : ?>
 									<?php get_template_part( 'parts/predicacion/fila', null, [ 'post_id' => $asp_p->ID, 'sin_evento' => true ] ); ?>
@@ -137,14 +137,14 @@ while ( have_posts() ) :
 						<?php if ( $asp_hay_cta || $asp_precio ) : ?>
 							<div class="asp-ficha-aside__cta">
 								<?php if ( $asp_precio ) : ?>
-									<div class="asp-ficha-aside__precio"><span class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></span><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
+									<div class="asp-ficha-aside__precio"><h2 class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></h2><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
 								<?php endif; ?>
 								<?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_id, 'con_plataforma' => true, 'bloque' => true ] ); ?>
 							</div>
 						<?php endif; ?>
 						<div class="asp-ficha-aside__bloque">
 							<div class="asp-stack">
-								<span class="asp-label"><?php esc_html_e( 'Fechas', 'asp' ); ?></span>
+								<h2 class="asp-label"><?php esc_html_e( 'Fechas', 'asp' ); ?></h2>
 								<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id ] ); ?>
 								<?php get_template_part( 'parts/evento/agenda', null, [ 'post_id' => $asp_id ] ); ?>
 							</div>

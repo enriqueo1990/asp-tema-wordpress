@@ -28,7 +28,7 @@ get_header();
 					<?php endif; ?>
 				<?php endwhile; ?>
 			</div>
-			<nav class="asp-paginacion" aria-label="<?php esc_attr_e( 'Paginación', 'asp' ); ?>"><?php the_posts_pagination( [ 'prev_text' => __( 'Anteriores', 'asp' ), 'next_text' => __( 'Siguientes', 'asp' ) ] ); ?></nav>
+			<div class="asp-paginacion"><?php the_posts_pagination( [ 'prev_text' => __( 'Anteriores', 'asp' ), 'next_text' => __( 'Siguientes', 'asp' ), 'aria_label' => __( 'Paginación', 'asp' ) ] ); ?></div>
 		<?php else : ?>
 			<p class="asp-muted"><?php esc_html_e( 'No encontramos nada con esas palabras.', 'asp' ); ?></p>
 		<?php endif; ?>

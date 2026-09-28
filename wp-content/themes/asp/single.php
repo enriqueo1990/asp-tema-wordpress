@@ -77,7 +77,7 @@ while ( have_posts() ) :
 
 					<div class="asp-compartir">
 						<span class="asp-label"><?php esc_html_e( 'Compartir', 'asp' ); ?></span>
-						<a class="asp-compartir__boton" href="<?php echo esc_url( $asp_compartir['whatsapp'] ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'WhatsApp', 'asp' ); ?></a>
+						<a class="asp-compartir__boton" href="<?php echo esc_url( $asp_compartir['whatsapp'] ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'WhatsApp', 'asp' ); ?><?php echo asp_aviso_pestana(); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 						<button class="asp-compartir__boton" type="button" data-asp-copiar="<?php echo esc_attr( $asp_compartir['url'] ); ?>" data-asp-copiado="<?php esc_attr_e( 'Enlace copiado', 'asp' ); ?>" aria-live="polite" hidden><?php esc_html_e( 'Copiar enlace', 'asp' ); ?></button>
 					</div>
 

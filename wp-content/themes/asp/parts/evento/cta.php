@@ -23,7 +23,7 @@ if ( asp_evento_tiene_boton( $asp_id ) ) :
 	$asp_plat = asp_evento_plataforma( $asp_url );
 	?>
 	<div class="asp-stack asp-stack--2">
-		<a class="<?php echo esc_attr( $asp_clase ); ?>" href="<?php echo esc_url( $asp_url ); ?>" target="_blank" rel="noopener"><?php echo esc_html( asp_evento_boton_texto( $asp_id, $asp_con_plat ) ); ?></a>
+		<a class="<?php echo esc_attr( $asp_clase ); ?>" href="<?php echo esc_url( $asp_url ); ?>" target="_blank" rel="noopener"><?php echo esc_html( asp_evento_boton_texto( $asp_id, $asp_con_plat ) ); ?><?php echo asp_aviso_pestana(); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 		<?php if ( $asp_con_plat && $asp_plat ) : ?>
 			<span class="asp-cta__nota"><?php
 				/* translators: %s: plataforma de inscripción */
