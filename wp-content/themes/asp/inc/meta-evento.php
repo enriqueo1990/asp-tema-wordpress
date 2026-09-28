@@ -67,7 +67,7 @@ function asp_render_evento_obligatorio( WP_Post $post ): void {
 function asp_render_evento_opcional( WP_Post $post ): void {
 	$id          = $post->ID;
 	$iniciativas = get_posts( [ 'post_type' => 'iniciativa', 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'menu_order title', 'order' => 'ASC' ] );
-	$oradores    = asp_personas_por_rol( 'orador' );
+	$oradores    = asp_personas_oradores();
 	$aliados     = get_posts( [ 'post_type' => 'aliado', 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC' ] );
 	$programa    = asp_sanitizar_programa( get_post_meta( $id, 'evento_programa', true ) );
 	?>
@@ -80,7 +80,7 @@ function asp_render_evento_opcional( WP_Post $post ): void {
 		<?php asp_campo_texto( 'evento_precio', __( 'Precio', 'asp' ), (string) get_post_meta( $id, 'evento_precio', true ), __( 'Texto libre, ej. "Entrada libre" o "USD 25 · ARS 15.000".', 'asp' ) ); ?>
 		<?php asp_campo_checkbox( 'evento_destacado', __( 'Mostrar como evento principal en el inicio', 'asp' ), (bool) get_post_meta( $id, 'evento_destacado', true ), __( 'Si ninguno está marcado, el inicio muestra el próximo por fecha.', 'asp' ) ); ?>
 	</div>
-	<?php asp_campo_checkboxes_posts( 'evento_oradores', __( 'Oradores', 'asp' ), $oradores, array_map( 'absint', (array) get_post_meta( $id, 'evento_oradores', false ) ), __( 'Aparecen los que tienen el rol "Orador" en Personas.', 'asp' ), __( 'Todavía no hay personas con rol "Orador". Se agregan en Personas.', 'asp' ) ); ?>
+	<?php asp_campo_checkboxes_posts( 'evento_oradores', __( 'Oradores', 'asp' ), $oradores, array_map( 'absint', (array) get_post_meta( $id, 'evento_oradores', false ) ), __( 'Aparecen los oradores y los pastores del consejo. Si falta alguien, pedile a quien administra el sitio que lo agregue.', 'asp' ), __( 'Todavía no hay oradores cargados. Pedile a quien administra el sitio que los agregue.', 'asp' ) ); ?>
 	<?php asp_campo_checkboxes_posts( 'evento_aliados', __( 'Aliados', 'asp' ), $aliados, array_map( 'absint', (array) get_post_meta( $id, 'evento_aliados', false ) ), '', __( 'Todavía no hay aliados cargados.', 'asp' ) ); ?>
 	<?php asp_campo_wysiwyg( 'evento_descripcion', __( 'Descripción', 'asp' ), (string) get_post_meta( $id, 'evento_descripcion', true ), __( 'De qué se trata, para quién es. Lo que hoy va en el texto del posteo.', 'asp' ) ); ?>
 	<?php asp_campo_programa( 'evento_programa', __( 'Programa', 'asp' ), $programa, __( 'Una fila por sesión. El día va porque las conferencias duran dos.', 'asp' ) ); ?>
@@ -98,14 +98,18 @@ function asp_guardar_evento( int $post_id ): void {
 		return;
 	}
 
-	asp_guardar_meta( $post_id, 'evento_fecha_inicio', asp_fecha_input_a_ymd( asp_post_texto( 'evento_fecha_inicio' ) ) );
-	asp_guardar_meta( $post_id, 'evento_fecha_fin', asp_fecha_input_a_ymd( asp_post_texto( 'evento_fecha_fin' ) ) );
-	asp_guardar_meta( $post_id, 'evento_ciudad', sanitize_text_field( asp_post_texto( 'evento_ciudad' ) ) );
-	asp_guardar_meta( $post_id, 'evento_estado_inscripcion', asp_sanitizar_estado_inscripcion( asp_post_texto( 'evento_estado_inscripcion' ) ) );
-	asp_guardar_meta( $post_id, 'evento_url_registro', esc_url_raw( asp_post_texto( 'evento_url_registro' ) ) );
+	/* Evento publicado con el bloque obligatorio incompleto: sigue publicado
+	   con sus datos mínimos anteriores (ver evento-validacion.php). */
+	if ( ! asp_evento_minimos_rechazados( $post_id ) ) {
+		asp_guardar_meta( $post_id, 'evento_fecha_inicio', asp_fecha_input_a_ymd( asp_post_texto( 'evento_fecha_inicio' ) ) );
+		asp_guardar_meta( $post_id, 'evento_fecha_fin', asp_fecha_input_a_ymd( asp_post_texto( 'evento_fecha_fin' ) ) );
+		asp_guardar_meta( $post_id, 'evento_ciudad', sanitize_text_field( asp_post_texto( 'evento_ciudad' ) ) );
+		asp_guardar_meta( $post_id, 'evento_estado_inscripcion', asp_sanitizar_estado_inscripcion( asp_post_texto( 'evento_estado_inscripcion' ) ) );
+		asp_guardar_meta( $post_id, 'evento_url_registro', esc_url_raw( asp_post_texto( 'evento_url_registro' ) ) );
 
-	$pais = sanitize_key( asp_post_texto( 'evento_pais' ) );
-	wp_set_object_terms( $post_id, $pais ? $pais : [], 'pais' );
+		$pais = sanitize_key( asp_post_texto( 'evento_pais' ) );
+		wp_set_object_terms( $post_id, $pais ? $pais : [], 'pais' );
+	}
 
 	asp_guardar_meta( $post_id, 'evento_flyer', absint( asp_post_texto( 'evento_flyer' ) ) );
 	asp_guardar_meta( $post_id, 'evento_foto', absint( asp_post_texto( 'evento_foto' ) ) );

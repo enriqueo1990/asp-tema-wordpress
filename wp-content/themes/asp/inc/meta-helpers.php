@@ -181,6 +181,26 @@ function asp_campo_url( string $nombre, string $etiqueta, string $valor, string 
 }
 
 /**
+ * Link a un archivo, con botón para elegirlo o subirlo desde la biblioteca
+ * de medios (quien carga no ve el menú Medios, pero puede subir archivos).
+ *
+ * @param string $tipo Tipo de la biblioteca: audio, video, image.
+ */
+function asp_campo_url_archivo( string $nombre, string $etiqueta, string $valor, string $ayuda = '', string $tipo = 'audio' ): void {
+	$control = sprintf(
+		'<div class="asp-archivo" data-asp-archivo data-tipo="%3$s">
+			<input type="url" id="%1$s" name="%1$s" value="%2$s" class="regular-text code" placeholder="https://" inputmode="url">
+			<button type="button" class="button" data-asp-elegir-archivo>%4$s</button>
+		</div>',
+		esc_attr( $nombre ),
+		esc_attr( $valor ),
+		esc_attr( $tipo ),
+		esc_html__( 'Elegir o subir archivo', 'asp' )
+	);
+	asp_campo_envoltorio( $nombre, $etiqueta, $control, $ayuda );
+}
+
+/**
  * Input de fecha nativo. El valor llega y se guarda como Ymd.
  */
 function asp_campo_fecha( string $nombre, string $etiqueta, string $ymd, string $ayuda = '', bool $requerido = false ): void {
@@ -270,7 +290,8 @@ function asp_campo_checkbox( string $nombre, string $etiqueta, bool $marcado, st
  * @param string    $vacio        Texto si no hay opciones.
  */
 function asp_campo_checkboxes_posts( string $nombre, string $etiqueta, array $posts, array $seleccionados, string $ayuda = '', string $vacio = '' ): void {
-	$html = '<div class="asp-checks">';
+	$posts = asp_opciones_con_seleccion( $posts, $seleccionados );
+	$html  = '<div class="asp-checks">';
 	if ( empty( $posts ) ) {
 		$html .= '<p class="asp-campo__ayuda">' . esc_html( $vacio ) . '</p>';
 	}
@@ -290,11 +311,34 @@ function asp_campo_checkboxes_posts( string $nombre, string $etiqueta, array $po
 }
 
 /**
+ * Suma a las opciones los posts ya elegidos que no están en la lista (por
+ * ejemplo, una persona a la que le cambiaron el rol). Sin esto el campo se
+ * mostraba vacío y al guardar se perdía el vínculo.
+ *
+ * @param WP_Post[] $posts         Opciones.
+ * @param int[]     $seleccionados IDs guardados.
+ * @return WP_Post[]
+ */
+function asp_opciones_con_seleccion( array $posts, array $seleccionados ): array {
+	$ids = wp_list_pluck( $posts, 'ID' );
+	foreach ( array_filter( array_map( 'absint', $seleccionados ) ) as $id ) {
+		if ( ! in_array( $id, $ids, true ) ) {
+			$extra = get_post( $id );
+			if ( $extra instanceof WP_Post ) {
+				$posts[] = $extra;
+			}
+		}
+	}
+	return $posts;
+}
+
+/**
  * Select de posts (relación única) con opción "Ninguna".
  *
  * @param WP_Post[] $posts Opciones.
  */
 function asp_campo_select_posts( string $nombre, string $etiqueta, array $posts, int $actual, string $ayuda = '', string $ninguna = '' ): void {
+	$posts    = asp_opciones_con_seleccion( $posts, [ $actual ] );
 	$opciones = [ '0' => $ninguna ?: __( 'Ninguna', 'asp' ) ];
 	foreach ( $posts as $p ) {
 		$opciones[ (string) $p->ID ] = get_the_title( $p );
@@ -420,6 +464,8 @@ function asp_admin_assets( string $hook ): void {
 		[
 			'elegirTitulo' => __( 'Elegir imagen', 'asp' ),
 			'elegirBoton'  => __( 'Usar esta imagen', 'asp' ),
+			'archivoTitulo' => __( 'Elegir o subir archivo', 'asp' ),
+			'archivoBoton'  => __( 'Usar este archivo', 'asp' ),
 		]
 	);
 }

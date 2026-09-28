@@ -230,6 +230,33 @@ function asp_personas_por_rol( string $rol ): array {
 }
 
 /**
+ * Personas que pueden figurar como oradores en el panel: las de rol
+ * "Orador" y las del consejo, que predican en todas las conferencias.
+ *
+ * @return WP_Post[]
+ */
+function asp_personas_oradores(): array {
+	$query = new WP_Query(
+		[
+			'post_type'      => 'persona',
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'orderby'        => 'title',
+			'order'          => 'ASC',
+			'no_found_rows'  => true,
+			'meta_query'     => [
+				[
+					'key'     => 'persona_roles',
+					'value'   => [ 'orador', 'consejo' ],
+					'compare' => 'IN',
+				],
+			],
+		]
+	);
+	return $query->posts;
+}
+
+/**
  * Persona vinculada a un usuario de WordPress (autor de artículos).
  *
  * @param int $user_id ID del usuario.

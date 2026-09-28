@@ -135,15 +135,15 @@ function asp_render_predicacion( WP_Post $post ): void {
 	asp_nonce_campo( 'predicacion' );
 	$id      = $post->ID;
 	$eventos = get_posts( [ 'post_type' => 'evento', 'post_status' => 'publish', 'posts_per_page' => -1, 'meta_key' => 'evento_fecha_inicio', 'orderby' => 'meta_value_num', 'order' => 'DESC' ] );
-	$oradores = asp_personas_por_rol( 'orador' );
+	$oradores = asp_personas_oradores();
 	?>
 	<p class="asp-campo__intro"><?php esc_html_e( 'Elegí el formato y pegá el link. Si es texto, va en el cuadro grande de arriba.', 'asp' ); ?></p>
 	<div class="asp-grid-campos">
 		<?php asp_campo_select( 'predicacion_tipo', __( 'Formato', 'asp' ), (string) get_post_meta( $id, 'predicacion_tipo', true ) ?: 'texto', asp_tipos_predicacion(), '', true ); ?>
 		<?php asp_campo_url( 'predicacion_video_url', __( 'Link de YouTube', 'asp' ), (string) get_post_meta( $id, 'predicacion_video_url', true ), __( 'El link del video, tal cual está en la barra del navegador.', 'asp' ) ); ?>
-		<?php asp_campo_url( 'predicacion_audio_url', __( 'Link del audio', 'asp' ), (string) get_post_meta( $id, 'predicacion_audio_url', true ), __( 'Subí el mp3 a Medios y pegá acá su dirección.', 'asp' ) ); ?>
+		<?php asp_campo_url_archivo( 'predicacion_audio_url', __( 'Audio', 'asp' ), (string) get_post_meta( $id, 'predicacion_audio_url', true ), __( 'Tocá «Elegir o subir archivo» y subí el mp3, o pegá el link si el audio ya está en otro lado.', 'asp' ), 'audio' ); ?>
 		<?php asp_campo_select_posts( 'predicacion_evento', __( 'Evento', 'asp' ), $eventos, absint( get_post_meta( $id, 'predicacion_evento', true ) ), __( 'La conferencia o taller donde se dio. La fecha se toma de ahí si no cargás una.', 'asp' ), __( 'Ninguno', 'asp' ) ); ?>
-		<?php asp_campo_select_posts( 'predicacion_orador', __( 'Orador', 'asp' ), $oradores, absint( get_post_meta( $id, 'predicacion_orador', true ) ), __( 'Personas con el rol "Orador".', 'asp' ), __( 'Ninguno', 'asp' ) ); ?>
+		<?php asp_campo_select_posts( 'predicacion_orador', __( 'Orador', 'asp' ), $oradores, absint( get_post_meta( $id, 'predicacion_orador', true ) ), __( 'Aparecen los oradores y los pastores del consejo. Si falta alguien, pedile a quien administra el sitio que lo agregue en Personas.', 'asp' ), __( 'Ninguno', 'asp' ) ); ?>
 		<?php asp_campo_texto( 'predicacion_pasaje', __( 'Pasaje bíblico', 'asp' ), (string) get_post_meta( $id, 'predicacion_pasaje', true ), '', false, __( 'Ej. 2 Timoteo 4:1-5', 'asp' ) ); ?>
 		<?php asp_campo_texto( 'predicacion_duracion', __( 'Duración', 'asp' ), (string) get_post_meta( $id, 'predicacion_duracion', true ), '', false, __( 'Ej. 48 min', 'asp' ) ); ?>
 		<?php asp_campo_fecha( 'predicacion_fecha', __( 'Fecha', 'asp' ), (string) get_post_meta( $id, 'predicacion_fecha', true ), __( 'Solo si no está vinculada a un evento o fue otro día.', 'asp' ) ); ?>

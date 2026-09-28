@@ -47,6 +47,33 @@
 		});
 	});
 
+	/* ---- Archivo (audio) desde la biblioteca de medios ---- */
+	document.querySelectorAll('[data-asp-archivo]').forEach(function (campo) {
+		var input = campo.querySelector('input[type="url"]');
+		var elegir = campo.querySelector('[data-asp-elegir-archivo]');
+		var frame = null;
+
+		elegir.addEventListener('click', function () {
+			if (!window.wp || !wp.media) {
+				return;
+			}
+			if (!frame) {
+				frame = wp.media({
+					title: (window.aspAdmin && aspAdmin.archivoTitulo) || 'Elegir o subir archivo',
+					button: { text: (window.aspAdmin && aspAdmin.archivoBoton) || 'Usar este archivo' },
+					library: { type: campo.getAttribute('data-tipo') || 'audio' },
+					multiple: false
+				});
+				frame.on('select', function () {
+					var att = frame.state().get('selection').first().toJSON();
+					input.value = att.url;
+					input.dispatchEvent(new Event('change', { bubbles: true }));
+				});
+			}
+			frame.open();
+		});
+	});
+
 	/* ---- Repetidor ---- */
 	document.querySelectorAll('[data-asp-repetidor]').forEach(function (rep) {
 		var filas = rep.querySelector('[data-asp-filas]');

@@ -42,7 +42,7 @@ function asp_render_ayuda(): void {
 		<ol>
 			<li><?php echo wp_kses_post( sprintf( __( 'Entrá a <a href="%s">Eventos</a> y buscá la edición anterior (la conferencia del año pasado, el taller anterior).', 'asp' ), esc_url( $url_eventos ) ) ); ?></li>
 			<li><?php esc_html_e( 'Pasá el mouse por el título y hacé clic en «Duplicar edición anterior».', 'asp' ); ?></li>
-			<li><?php esc_html_e( 'Se abre una copia como borrador con todo cargado. Cambiá el nombre si hace falta, poné las fechas nuevas y revisá la sede.', 'asp' ); ?></li>
+			<li><?php esc_html_e( 'Se abre una copia como borrador. Sacale «(nueva edición)» al nombre, poné las fechas nuevas, subí el flyer nuevo y revisá la sede, los oradores y el programa (los días quedan vacíos).', 'asp' ); ?></li>
 			<li><?php esc_html_e( 'Si ya hay link de inscripción, elegí «Inscripción abierta» y pegalo. Si todavía no, dejá «Reservá la fecha».', 'asp' ); ?></li>
 			<li><?php esc_html_e( 'Publicar. Listo: aparece en el inicio y en Eventos.', 'asp' ); ?></li>
 		</ol>
@@ -62,7 +62,18 @@ function asp_render_ayuda(): void {
 			<li><?php esc_html_e( 'Si el link de inscripción cambia o se cierra, editá el evento y cambiá «¿Se puede inscribir?». El botón del sitio se actualiza solo.', 'asp' ); ?></li>
 			<li><?php esc_html_e( 'Las fechas se toman con el horario del sitio, que es el de Buenos Aires.', 'asp' ); ?></li>
 			<li><?php esc_html_e( 'Si al publicar dice que falta algo, el evento quedó guardado como borrador: completá lo que pide y volvé a publicar.', 'asp' ); ?></li>
+			<li><?php esc_html_e( 'Si corregís un evento que ya está publicado y dejás algo incompleto, el evento sigue publicado con los datos que tenía y un aviso te dice qué falta.', 'asp' ); ?></li>
+			<li><?php esc_html_e( 'Los oradores y los aliados se eligen de una lista. Si falta alguien, pedile a quien administra el sitio que lo agregue.', 'asp' ); ?></li>
 		</ul>
+
+		<h2><?php esc_html_e( 'Cargar una predicación', 'asp' ); ?></h2>
+		<ol>
+			<li><?php echo wp_kses_post( sprintf( __( 'Entrá a <a href="%s">Predicaciones</a> y tocá «Cargar predicación».', 'asp' ), esc_url( admin_url( 'edit.php?post_type=predicacion' ) ) ) ); ?></li>
+			<li><?php esc_html_e( 'Poné el título tal como se predicó y elegí el formato: video, audio o texto.', 'asp' ); ?></li>
+			<li><?php esc_html_e( 'Video: pegá el link de YouTube. Audio: tocá «Elegir o subir archivo» y subí el mp3. Texto: escribilo en el cuadro grande de arriba.', 'asp' ); ?></li>
+			<li><?php esc_html_e( 'Elegí el evento donde se predicó y el orador. La fecha sale del evento; cargala solo si fue otro día.', 'asp' ); ?></li>
+			<li><?php esc_html_e( 'Publicar. Aparece en Recursos, en la ficha del evento y en la del orador.', 'asp' ); ?></li>
+		</ol>
 	</div>
 	<?php
 }

@@ -1,7 +1,8 @@
 <?php
 /**
  * "Duplicar edición anterior": clona un evento entero como borrador y
- * limpia solo fechas, link de inscripción y destacado. Es el flujo
+ * limpia lo que es de esa edición: fechas, link de inscripción, destacado,
+ * flyer (trae impresa la fecha vieja) y los días del programa. Es el flujo
  * principal de carga: los eventos se repiten año a año.
  *
  * @package asp
@@ -57,7 +58,7 @@ function asp_boton_duplicar( WP_Post $post ): void {
 		'<div class="misc-pub-section"><a class="button" href="%1$s">%2$s</a><p class="description">%3$s</p></div>',
 		esc_url( asp_url_duplicar( $post->ID ) ),
 		esc_html__( 'Duplicar como nueva edición', 'asp' ),
-		esc_html__( 'Copia todo menos las fechas y el link de inscripción.', 'asp' )
+		esc_html__( 'Copia todo menos las fechas, el link de inscripción y el flyer.', 'asp' )
 	);
 }
 add_action( 'post_submitbox_misc_actions', 'asp_boton_duplicar' );
@@ -90,7 +91,7 @@ function asp_duplicar_evento(): void {
 		wp_die( esc_html( $nuevo_id->get_error_message() ) );
 	}
 
-	$no_copiar = [ 'evento_fecha_inicio', 'evento_fecha_fin', 'evento_url_registro', 'evento_destacado', 'evento_galeria', 'evento_videos' ];
+	$no_copiar = [ 'evento_fecha_inicio', 'evento_fecha_fin', 'evento_url_registro', 'evento_destacado', 'evento_galeria', 'evento_videos', 'evento_flyer' ];
 	foreach ( get_post_meta( $origen_id ) as $clave => $valores ) {
 		if ( str_starts_with( $clave, '_' ) || in_array( $clave, $no_copiar, true ) ) {
 			continue;
@@ -100,6 +101,17 @@ function asp_duplicar_evento(): void {
 		}
 	}
 	update_post_meta( $nuevo_id, 'evento_estado_inscripcion', 'reserva' );
+
+	/* El programa se copia como punto de partida, pero sin los días: eran
+	   fechas de la edición anterior. */
+	$programa = asp_sanitizar_programa( get_post_meta( $nuevo_id, 'evento_programa', true ) );
+	if ( $programa ) {
+		foreach ( $programa as &$fila ) {
+			$fila['dia'] = '';
+		}
+		unset( $fila );
+		update_post_meta( $nuevo_id, 'evento_programa', $programa );
+	}
 
 	$paises = wp_get_object_terms( $origen_id, 'pais', [ 'fields' => 'slugs' ] );
 	if ( is_array( $paises ) ) {
@@ -124,7 +136,7 @@ function asp_aviso_duplicado(): void {
 	?>
 	<div class="notice notice-info">
 		<p><strong><?php esc_html_e( 'Esta es una copia, guardada como borrador.', 'asp' ); ?></strong>
-		<?php esc_html_e( 'Cambiá el nombre si corresponde, cargá las fechas nuevas, revisá la sede y, cuando lo tengas, el link de inscripción. Después publicá.', 'asp' ); ?></p>
+		<?php esc_html_e( 'Sacale «(nueva edición)» al nombre y poné el de esta edición, cargá las fechas nuevas, subí el flyer nuevo y revisá la sede, los oradores, la descripción y el programa (los días quedaron vacíos). Cuando tengas el link de inscripción, cargalo. Después publicá.', 'asp' ); ?></p>
 	</div>
 	<?php
 }

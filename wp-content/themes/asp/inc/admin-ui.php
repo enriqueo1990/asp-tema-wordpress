@@ -127,7 +127,10 @@ function asp_columnas_ordenables_evento( array $columnas ): array {
 add_filter( 'manage_edit-evento_sortable_columns', 'asp_columnas_ordenables_evento' );
 
 /**
- * En el panel los eventos se listan del más próximo al más viejo.
+ * En el panel los eventos se listan del más próximo al más viejo, y los que
+ * todavía no tienen fecha van arriba de todo. Antes se ordenaba con
+ * meta_key, que excluye los posts sin ese meta: las copias recién hechas
+ * con "Duplicar" (que salen sin fechas) no aparecían en el listado.
  *
  * @param WP_Query $query Consulta.
  * @return void
@@ -138,14 +141,59 @@ function asp_orden_admin_eventos( WP_Query $query ): void {
 	}
 	$orderby = $query->get( 'orderby' );
 	if ( '' === $orderby || 'asp_fecha' === $orderby ) {
-		$query->set( 'meta_key', 'evento_fecha_inicio' );
-		$query->set( 'orderby', 'meta_value_num' );
-		if ( '' === $orderby ) {
-			$query->set( 'order', 'DESC' );
-		}
+		$order = strtoupper( (string) $query->get( 'order' ) );
+		$query->set( 'asp_orden_fecha', ( '' === $orderby || 'ASC' !== $order ) ? 'DESC' : 'ASC' );
 	}
 }
 add_action( 'pre_get_posts', 'asp_orden_admin_eventos' );
+
+/**
+ * El orden por fecha, con un LEFT JOIN que no deja afuera a nadie.
+ *
+ * @param array<string,string> $clausulas Cláusulas SQL.
+ * @param WP_Query             $query     Consulta.
+ * @return array<string,string>
+ */
+function asp_orden_admin_eventos_sql( array $clausulas, WP_Query $query ): array {
+	$order = $query->get( 'asp_orden_fecha' );
+	if ( ! in_array( $order, [ 'ASC', 'DESC' ], true ) ) {
+		return $clausulas;
+	}
+	global $wpdb;
+	$clausulas['join']   .= $wpdb->prepare( " LEFT JOIN {$wpdb->postmeta} AS asp_fi ON ( asp_fi.post_id = {$wpdb->posts}.ID AND asp_fi.meta_key = %s )", 'evento_fecha_inicio' );
+	$clausulas['orderby'] = "( asp_fi.meta_value IS NULL OR asp_fi.meta_value = '' ) DESC, asp_fi.meta_value {$order}, {$wpdb->posts}.post_date DESC";
+	return $clausulas;
+}
+add_filter( 'posts_clauses', 'asp_orden_admin_eventos_sql', 10, 2 );
+
+/**
+ * Sin edición rápida ni masiva en Eventos: esas vías no traen el formulario
+ * con los datos obligatorios y dejaban publicar un evento sin fechas.
+ * Además mostraban "Slug" y "Contraseña" a quien carga por primera vez.
+ *
+ * @param array<string,string> $acciones Acciones de la fila.
+ * @param WP_Post              $post     Post.
+ * @return array<string,string>
+ */
+function asp_sin_edicion_rapida_evento( array $acciones, WP_Post $post ): array {
+	if ( 'evento' === $post->post_type ) {
+		unset( $acciones['inline hide-if-no-js'] );
+	}
+	return $acciones;
+}
+add_filter( 'post_row_actions', 'asp_sin_edicion_rapida_evento', 10, 2 );
+
+/**
+ * Acciones masivas de Eventos: solo mover a la papelera.
+ *
+ * @param array<string,string> $acciones Acciones.
+ * @return array<string,string>
+ */
+function asp_sin_edicion_masiva_evento( array $acciones ): array {
+	unset( $acciones['edit'] );
+	return $acciones;
+}
+add_filter( 'bulk_actions-edit-evento', 'asp_sin_edicion_masiva_evento' );
 
 /**
  * Columna "Dónde aparece" en Personas.

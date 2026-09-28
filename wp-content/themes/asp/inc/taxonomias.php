@@ -32,6 +32,14 @@ function asp_registrar_taxonomias(): void {
 			'show_in_rest'      => false,
 			/* El radio se dibuja dentro del meta box obligatorio del evento (sesión 3a). */
 			'meta_box_cb'       => false,
+			/* Los países los administra solo quien administra el sitio: si alguien
+			   de redes borraba "Argentina", los eventos perdían el país y no volvía. */
+			'capabilities'      => [
+				'manage_terms' => 'manage_options',
+				'edit_terms'   => 'manage_options',
+				'delete_terms' => 'manage_options',
+				'assign_terms' => 'edit_eventos',
+			],
 			'rewrite'           => [ 'slug' => 'pais', 'with_front' => false ],
 		]
 	);
