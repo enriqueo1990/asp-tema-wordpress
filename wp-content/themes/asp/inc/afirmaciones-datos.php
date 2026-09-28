@@ -26,19 +26,19 @@ return [
 	'articulos'   => [
 		[
 			'afirmamos' => 'Afirmamos que la única autoridad para la iglesia es la Biblia, inspirada de manera verbal y plenaria, inerrante, infalible, y totalmente suficiente y digna de confianza.',
-			'negamos'   => 'Negamos que la Biblia sea un mero testimonio de la revelación divina, o que alguna porción de la Escritura esté caracterizada por error o por los efectos del pecado humano',
+			'negamos'   => 'Negamos que la Biblia sea un mero testimonio de la revelación divina, o que alguna porción de la Escritura esté caracterizada por error o por los efectos del pecado humano.',
 		],
 		[
 			'afirmamos' => 'Afirmamos que la autoridad y suficiencia de la Escritura se extiende a la totalidad de la Biblia, y por lo tanto la Biblia es nuestra autoridad final en toda doctrina y práctica.',
-			'negamos'   => 'Negamos que cualquier porción de la Biblia deba usarse para negar la veracidad o confiabilidad de otra porción de la misma. Además, rechazamos cualquier esfuerzo por identificar un canon dentro del canon o, por ejemplo, de contraponer las palabras de Jesús a los escritos de Pablo',
+			'negamos'   => 'Negamos que cualquier porción de la Biblia deba usarse para negar la veracidad o confiabilidad de otra porción de la misma. Además, rechazamos cualquier esfuerzo por identificar un canon dentro del canon o, por ejemplo, de contraponer las palabras de Jesús a los escritos de Pablo.',
 		],
 		[
-			'afirmamos' => 'Afirmamos que la verdad siempre es un asunto central para la iglesia, y que la iglesia debe resistir la atracción del pragmatismo y de las conceptos posmodernos de la verdad como sustitutos de la obediencia a lo que la Escritura declara como verdad absoluta.',
-			'negamos'   => 'Negamos que la verdad sea meramente un producto de construcción social o que la verdad del evangelio se pueda expresar o fundamentar en cualquier cosa que no sea una confianza total en la veracidad de la Biblia, la historicidad de los eventos bíblicos y la habilidad del lenguaje de comunicar verdades inteligibles en forma de oraciones. Además, negamos que la iglesia pueda establecer su ministerio sobre la base del pragmatismo, de las técnicas de mercadotecnia, o de las modas culturales contemporáneas',
+			'afirmamos' => 'Afirmamos que la verdad siempre es un asunto central para la iglesia, y que la iglesia debe resistir la atracción del pragmatismo y de los conceptos posmodernos de la verdad como sustitutos de la obediencia a lo que la Escritura declara como verdad absoluta.',
+			'negamos'   => 'Negamos que la verdad sea meramente un producto de construcción social o que la verdad del evangelio se pueda expresar o fundamentar en cualquier cosa que no sea una confianza total en la veracidad de la Biblia, la historicidad de los eventos bíblicos y la habilidad del lenguaje de comunicar verdades inteligibles en forma de oraciones. Además, negamos que la iglesia pueda establecer su ministerio sobre la base del pragmatismo, de las técnicas de mercadotecnia, o de las modas culturales contemporáneas.',
 		],
 		[
 			'afirmamos' => 'Afirmamos la centralidad de la predicación expositiva en la iglesia y la necesidad urgente de recuperar la exposición bíblica y la lectura pública de la Escritura en el culto.',
-			'negamos'   => 'Negamos que el culto que honra a Dios pueda marginar o desatender el ministerio de la Palabra que se manifiesta mediante laexposición y la lectura pública. También negamos que una iglesia desprovista de predicación bíblica verdadera pueda sobrevivir como iglesia evangélica.',
+			'negamos'   => 'Negamos que el culto que honra a Dios pueda marginar o desatender el ministerio de la Palabra que se manifiesta mediante la exposición y la lectura pública. También negamos que una iglesia desprovista de predicación bíblica verdadera pueda sobrevivir como iglesia evangélica.',
 		],
 		[
 			'afirmamos' => 'Afirmamos que la Biblia revela que Dios es infinito en todas sus perfecciones, y por lo tanto es verdaderamente omnisciente, omnipotente, eterno e independiente en su existencia. También afirmamos que Dios conoce perfectamente todas las cosas: pasadas, presentes y futuras, incluyendo todos los pensamientos, motivaciones, acciones y decisiones humanas.',
@@ -49,7 +49,7 @@ return [
 			'negamos'   => 'Rechazamos la afirmación de que la Trinidad no es una doctrina esencial, o que la Trinidad se pueda entender meramente en categorías funcionales.',
 		],
 		[
-			'afirmamos' => 'Afirmamos que Jesucristo es verdadero Dios y verdadero Hombre, en perfecta, pura e inconfundible unión a lo largo de toda su encarnación y ahora eternamente. También afirmamos que Cristo murió en la cruz como sustituto de los pecadores, como sacrificio por el pecado, y como propiciación de la ira de Dios para con los pecadores. Afirmamos que la muerte, la sepultura y la resurrección corporal de Cristo son esenciales para el evangelio. Además, afirmamos que Jesucristo es Señor sobre su iglesia, y que Cristo reinará sobre todo el cosmos en cumplimiento del bondadoso propósito del Padre',
+			'afirmamos' => 'Afirmamos que Jesucristo es verdadero Dios y verdadero Hombre, en perfecta, pura e inconfundible unión a lo largo de toda su encarnación y ahora eternamente. También afirmamos que Cristo murió en la cruz como sustituto de los pecadores, como sacrificio por el pecado, y como propiciación de la ira de Dios para con los pecadores. Afirmamos que la muerte, la sepultura y la resurrección corporal de Cristo son esenciales para el evangelio. Además, afirmamos que Jesucristo es Señor sobre su iglesia, y que Cristo reinará sobre todo el cosmos en cumplimiento del bondadoso propósito del Padre.',
 			'negamos'   => 'Negamos que el carácter sustitutivo de la expiación de Cristo por el pecado se pueda negociar sin dañar seriamente el evangelio, o que se pueda negar sin repudiar el evangelio.',
 		],
 		[
@@ -58,11 +58,11 @@ return [
 		],
 		[
 			'afirmamos' => 'Afirmamos que el evangelio de Jesucristo es el medio por el cual Dios salva a su pueblo, que a los pecadores se les manda creer el evangelio, y que a la iglesia se le ha encomendado la misión de predicar y enseñar el evangelio a toda persona de toda etnia.',
-			'negamos'   => 'Negamos que el evangelio pueda ser reducido a un programa, una técnica, o un enfoque de mercadotecnia. Negamos las enseñanzas del evangelio de la prosperidad que ve a la pobreza como una maldición y la prosperidad como el fruto de dar a Dios de nuestras finanzas con la garantías de que Él nos devolverá multiplicado todo lo que invirtamos en su reino. Estas enseñanzas niegan la cruz, minimizan la obra de Cristo a favor de los pecadores y promueven la avaricia entre los hombres. Además, negamos que la salvación se pueda separar del arrepentimiento para con Dios y de la fe en nuestro Señor Jesucristo.',
+			'negamos'   => 'Negamos que el evangelio pueda ser reducido a un programa, una técnica, o un enfoque de mercadotecnia. Negamos las enseñanzas del evangelio de la prosperidad que ve a la pobreza como una maldición y la prosperidad como el fruto de dar a Dios de nuestras finanzas con la garantía de que Él nos devolverá multiplicado todo lo que invirtamos en su reino. Estas enseñanzas niegan la cruz, minimizan la obra de Cristo a favor de los pecadores y promueven la avaricia entre los hombres. Además, negamos que la salvación se pueda separar del arrepentimiento para con Dios y de la fe en nuestro Señor Jesucristo.',
 		],
 		[
 			'afirmamos' => 'Afirmamos que la salvación viene sobre aquellos que verdaderamente se arrepienten y creen en Jesucristo como su Señor y Salvador.',
-			'negamos'   => 'Negamos que haya salvación en cualquier otro nombre, o que la fe salvífica pueda tomar cualquier otra forma que no sea una creencia consciente en el Señor Jesucristo y en su obra de salvación',
+			'negamos'   => 'Negamos que haya salvación en cualquier otro nombre, o que la fe salvífica pueda tomar cualquier otra forma que no sea una creencia consciente en el Señor Jesucristo y en su obra de salvación.',
 		],
 		[
 			'afirmamos' => 'Afirmamos la continuidad del propósito salvífico de Dios y la unidad Cristológica en la historia de la redención. También afirmamos que existe una distinción básica entre la ley y la gracia, y que el verdadero evangelio exalta la obra propiciatoria de Cristo como el cumplimiento consumado y perfecto de la ley.',
@@ -85,7 +85,7 @@ return [
 			'negamos'   => 'Negamos que la lealtad a cualquier denominación o comunión de iglesias pueda tomar precedencia sobre las afirmaciones de la verdad y la fidelidad al evangelio.',
 		],
 		[
-			'afirmamos' => 'Afirmamos que el Nuevo Testamentos establece los criterios para el liderazgo de la iglesia. Y que tanto los ancianos (pastores u obispos), así como los diáconos deben conformarse a los criterios que las Escrituras establecen para estas funciones. Afirmamos la función esencial en el pasado de los profetas y apóstoles en el establecimiento del fundamento de la Iglesia, del cual Cristo es la piedra angular.',
+			'afirmamos' => 'Afirmamos que el Nuevo Testamento establece los criterios para el liderazgo de la iglesia. Y que tanto los ancianos (pastores u obispos), así como los diáconos deben conformarse a los criterios que las Escrituras establecen para estas funciones. Afirmamos la función esencial en el pasado de los profetas y apóstoles en el establecimiento del fundamento de la Iglesia, del cual Cristo es la piedra angular.',
 			'negamos'   => 'Negamos hoy en día la continuación de los oficios de profetas y apóstoles. Negamos que exista una base escritural para los mismos en nuestros días y negamos que aquellos que asumen esos títulos puedan tener algún grado de infalibilidad a la hora de hablar en nombre del Señor.',
 		],
 		[
