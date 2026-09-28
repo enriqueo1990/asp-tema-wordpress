@@ -93,3 +93,28 @@
 	}, { passive: true });
 	actualizar();
 })();
+
+/* ---- Índices de años: abrir el año plegado al que se salta ---- */
+(function () {
+	'use strict';
+
+	function abrir() {
+		var id = window.location.hash.slice(1);
+		if (!id) {
+			return;
+		}
+		var el = document.getElementById(id);
+		if (!el) {
+			return;
+		}
+		var plegable = el.matches('details') ? el : el.querySelector('details');
+		if (plegable && !plegable.open) {
+			plegable.open = true;
+			el.scrollIntoView();
+		}
+	}
+
+	window.addEventListener('hashchange', abrir);
+	abrir();
+})();
+

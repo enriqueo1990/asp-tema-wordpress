@@ -505,28 +505,170 @@
 }
 
 /* ---------------------------------------------------------------------
-   /eventos/: cabecera, próximos y archivo como grilla de flyers
+   /eventos/ (28-9-2026): próximos sobre una banda, con el siguiente grande
+   y el resto en filas; archivo en lista tipográfica, plegado por año.
    --------------------------------------------------------------------- */
 .asp-eventos__cab {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-5);
   padding-block: var(--sp-7) var(--sp-6);
 }
 
-.asp-eventos__cab .asp-indice-anios {
-  align-items: baseline;
+.asp-eventos__proximos {
+  background: var(--c-surface);
+  padding-block: var(--sp-7);
 }
 
-.asp-eventos__proximos {
+.asp-eventos__proximos-inner {
   display: flex;
   flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.asp-eventos__proximos .asp-card-evento {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.asp-proximos-lista {
+  display: grid;
   gap: var(--sp-5);
-  padding-bottom: var(--sp-7);
+}
+
+.asp-proximo-fila {
+  display: grid;
+  grid-template-columns: var(--w-flyer-mini) minmax(0, 1fr);
+  gap: var(--sp-4);
+  align-items: start;
+  padding-top: var(--sp-5);
+  border-top: var(--border-hairline) solid var(--c-border-strong);
+}
+
+.asp-proximo-fila__visual {
+  display: block;
+}
+
+.asp-proximo-fila__fecha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1);
+  aspect-ratio: 1 / 1;
+  padding: var(--sp-2);
+  border-radius: var(--radius-4);
+  background: var(--c-flyer-band);
+  color: var(--c-text);
+  text-align: center;
+}
+
+.asp-proximo-fila__dias {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-xl);
+  line-height: 1;
+}
+
+.asp-proximo-fila__mes {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-heading);
+  color: var(--c-flyer-band-ink);
+}
+
+.asp-proximo-fila__cuerpo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.asp-proximo-fila__titulo {
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+}
+
+.asp-proximo-fila__titulo a {
+  color: var(--c-text);
+}
+
+.asp-proximo-fila__titulo a:hover {
+  color: var(--c-accent);
+}
+
+.asp-proximo-fila .asp-btn {
+  margin-top: var(--sp-2);
+}
+
+.asp-proximo-fila .asp-fecha {
+  font-size: var(--fs-md);
+}
+
+.asp-proximo-fila__lugar {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
 }
 
 .asp-eventos__archivo {
-  padding-bottom: var(--sp-8);
+  display: flex;
+  flex-direction: column;
+  padding-block: var(--sp-7) var(--sp-8);
+}
+
+.asp-eventos__archivo-cab {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding-bottom: var(--sp-5);
+}
+
+.asp-eventos__archivo-cuenta {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+.asp-eventos__anio {
+  padding-block: var(--sp-3);
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-eventos__lista {
+  padding-bottom: var(--sp-4);
+}
+
+@media (min-width: 1024px) {
+  .asp-eventos__cab {
+    padding-block: var(--sp-8) var(--sp-7);
+  }
+
+  .asp-eventos__proximos {
+    padding-block: var(--sp-8);
+  }
+
+  .asp-proximos-lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--sp-7);
+  }
+
+  .asp-proximo-fila {
+    grid-template-columns: var(--w-flyer-mini-desktop) minmax(0, 1fr);
+    gap: var(--sp-5);
+  }
+
+  .asp-eventos__archivo {
+    padding-block: var(--sp-8) var(--sp-9);
+  }
+
+  .asp-eventos__archivo-cab {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--sp-7);
+  }
+
+  .asp-eventos__archivo-cab .asp-indice-anios {
+    justify-content: flex-end;
+  }
 }
 
 /* El encabezado es pegajoso: el ancla del año no puede quedar debajo. */
@@ -649,21 +791,6 @@
 }
 
 @media (min-width: 1024px) {
-  .asp-eventos__cab {
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
-    padding-block: var(--sp-8) var(--sp-7);
-  }
-
-  .asp-eventos__cab .asp-indice-anios {
-    justify-content: flex-end;
-  }
-
-  .asp-eventos__proximos {
-    padding-bottom: var(--sp-8);
-  }
-
   .asp-grilla-eventos {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
