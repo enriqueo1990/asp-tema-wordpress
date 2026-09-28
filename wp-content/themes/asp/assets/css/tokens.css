@@ -61,6 +61,8 @@
   --w-aside: 300px;           /* columna lateral del artículo */
   --w-flyer-mini: 6.5rem;     /* miniatura del flyer en filas compactas (/iniciativas/) */
   --w-flyer-mini-desktop: 9rem;
+  --h-portada-contacto: 18rem;          /* portada de Contacto: corta, el formulario tiene que asomar */
+  --h-portada-contacto-desktop: 26rem;
   --w-gutter: var(--sp-5);
   --w-gutter-desktop: var(--sp-7);
 

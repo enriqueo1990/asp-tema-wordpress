@@ -3121,6 +3121,256 @@ a:hover .asp-imagen img {
   padding-block: var(--sp-6) var(--sp-4);
 }
 
+/* ---------------------------------------------------------------------
+   Contacto: portada con foto, vías directas y el formulario en su panel
+   --------------------------------------------------------------------- */
+.asp-contacto-portada {
+  position: relative;
+  background: var(--c-dark-bg);
+  color: var(--c-photo-text);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.asp-contacto-portada__foto {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.asp-contacto-portada__velo {
+  display: flex;
+  align-items: flex-end;
+  min-height: var(--h-portada-contacto);
+}
+
+.asp-contacto-portada--con-foto .asp-contacto-portada__velo {
+  background: linear-gradient(to top, var(--c-photo-scrim-strong) 0%, var(--c-photo-scrim) 55%, var(--c-photo-scrim-none) 100%);
+}
+
+.asp-contacto-portada__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-block: var(--sp-7) var(--sp-6);
+}
+
+.asp-contacto-portada__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  color: var(--c-photo-text);
+}
+
+.asp-contacto-portada__texto,
+.asp-contacto-portada__texto p {
+  max-width: 40ch;
+  margin: 0;
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--c-photo-text);
+}
+
+.asp-contacto {
+  display: grid;
+  gap: var(--sp-6);
+  padding-block: var(--sp-6) var(--sp-9);
+}
+
+.asp-contacto__bloque {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-2);
+}
+
+.asp-contacto__email {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  line-height: var(--lh-heading);
+  color: var(--c-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  overflow-wrap: anywhere;
+}
+
+.asp-contacto__email:hover {
+  color: var(--c-text);
+}
+
+.asp-contacto__redes {
+  align-self: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-contacto__redes li {
+  border-bottom: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-contacto__redes a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: var(--control-h);
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  color: var(--c-text);
+}
+
+.asp-contacto__redes a:hover {
+  color: var(--c-accent);
+}
+
+.asp-contacto__flecha {
+  font-family: var(--font-ui);
+  color: var(--c-accent);
+  transition: transform var(--dur) var(--ease);
+}
+
+.asp-contacto__redes a:hover .asp-contacto__flecha {
+  transform: translate(2px, -2px);
+}
+
+.asp-contacto__evento {
+  padding-left: var(--sp-4);
+  border-left: 2px solid var(--c-accent);
+}
+
+.asp-contacto__evento-titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+  color: var(--c-text);
+}
+
+.asp-contacto__evento-titulo:hover {
+  color: var(--c-accent);
+}
+
+.asp-contacto__evento-dato {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--c-accent);
+}
+
+.asp-contacto__evento-ayuda {
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+}
+
+/* El formulario es lo único con caja en la página: se la gana. */
+.asp-contacto__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  margin-inline: calc(-1 * var(--w-gutter));
+  padding: var(--sp-6) var(--w-gutter);
+  background: var(--c-surface);
+  scroll-margin-top: var(--header-h);
+}
+
+.asp-contacto__panel-titulo {
+  font-size: var(--fs-xl);
+  line-height: var(--lh-heading);
+}
+
+.asp-contacto__fila {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.asp-contacto__enviar {
+  align-self: stretch;
+  justify-content: center;
+}
+
+.asp-contacto__estado {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-left: 2px solid var(--c-accent);
+  background: var(--c-bg);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text);
+}
+
+.asp-contacto__estado--ok {
+  background: var(--c-surface-2);
+}
+
+@media (min-width: 768px) {
+  .asp-contacto__fila {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .asp-contacto__enviar {
+    align-self: flex-start;
+  }
+}
+
+@media (min-width: 1024px) {
+  .asp-contacto-portada__velo {
+    min-height: var(--h-portada-contacto-desktop);
+  }
+
+  .asp-contacto-portada__inner {
+    padding-block: var(--sp-8) var(--sp-9);
+  }
+
+  .asp-contacto-portada__titulo,
+  .asp-contacto-portada__texto {
+    max-width: 42%;
+  }
+
+  /* Mail, redes y evento a la izquierda; el panel ocupa toda la derecha.
+     La última fila es flexible para que el alto del panel no abra huecos
+     entre los bloques de la izquierda. */
+  .asp-contacto {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: var(--sp-9);
+    row-gap: var(--sp-6);
+    align-items: start;
+    padding-top: 0;
+  }
+
+  .asp-contacto > * {
+    grid-column: 1;
+  }
+
+  .asp-contacto > .asp-contacto__panel {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+  }
+
+  .asp-contacto__mail {
+    padding-top: var(--sp-7);
+  }
+
+  /* En escritorio el panel sube y se monta sobre la foto. */
+  .asp-contacto__panel {
+    position: relative;
+    margin-inline: 0;
+    margin-top: calc(-1 * var(--sp-9));
+    padding: var(--sp-7);
+    border: var(--border-hairline) solid var(--c-border);
+    border-radius: var(--radius-4);
+    background: var(--c-bg);
+    scroll-margin-top: var(--header-h-desktop);
+  }
+}
+
 .asp-cierre {
   position: relative;
   background: var(--c-dark-bg);

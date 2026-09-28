@@ -36,6 +36,7 @@ function asp_customizer( WP_Customize_Manager $wp_customize ): void {
 	$imagenes = [
 		'asp_hero_imagen'     => __( 'Fotografía del inicio (fondo de la portada cuando el evento principal no tiene foto propia)', 'asp' ),
 		'asp_nosotros_imagen' => __( 'Fotografía de la página Nosotros', 'asp' ),
+		'asp_contacto_imagen' => __( 'Fotografía de la página Contacto (si no hay, se usa la foto 2 de la galería)', 'asp' ),
 		'asp_galeria_1'       => __( 'Galería del inicio · foto 1', 'asp' ),
 		'asp_galeria_2'       => __( 'Galería del inicio · foto 2', 'asp' ),
 		'asp_galeria_3'       => __( 'Galería del inicio · foto 3', 'asp' ),
