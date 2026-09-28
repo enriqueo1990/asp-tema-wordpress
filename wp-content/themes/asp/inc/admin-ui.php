@@ -24,6 +24,35 @@ function asp_podar_menu(): void {
 add_action( 'admin_menu', 'asp_podar_menu', 999 );
 
 /**
+ * En el panel las entradas se llaman como en el sitio: Artículos.
+ *
+ * @param object $labels Etiquetas del tipo "post".
+ * @return object
+ */
+function asp_etiquetas_articulos( object $labels ): object {
+	$nuevas = [
+		'name'               => __( 'Artículos', 'asp' ),
+		'singular_name'      => __( 'Artículo', 'asp' ),
+		'menu_name'          => __( 'Artículos', 'asp' ),
+		'name_admin_bar'     => __( 'Artículo', 'asp' ),
+		'all_items'          => __( 'Todos los artículos', 'asp' ),
+		'add_new'            => __( 'Escribir artículo', 'asp' ),
+		'add_new_item'       => __( 'Escribir un artículo', 'asp' ),
+		'edit_item'          => __( 'Editar artículo', 'asp' ),
+		'new_item'           => __( 'Artículo nuevo', 'asp' ),
+		'view_item'          => __( 'Ver artículo', 'asp' ),
+		'search_items'       => __( 'Buscar artículos', 'asp' ),
+		'not_found'          => __( 'No hay artículos.', 'asp' ),
+		'not_found_in_trash' => __( 'No hay artículos en la papelera.', 'asp' ),
+	];
+	foreach ( $nuevas as $clave => $texto ) {
+		$labels->$clave = $texto;
+	}
+	return $labels;
+}
+add_filter( 'post_type_labels_post', 'asp_etiquetas_articulos' );
+
+/**
  * Barra superior sin "Comentarios" ni "Nuevo" genérico para ese rol.
  *
  * @param WP_Admin_Bar $barra Barra.
@@ -105,7 +134,7 @@ function asp_columna_evento( string $columna, int $post_id ): void {
 			break;
 		case 'asp_estado':
 			$estado = asp_evento_estado( $post_id );
-			printf( '<span class="asp-columna-estado asp-columna-estado--%1$s">%2$s</span>', esc_attr( $estado ), esc_html( asp_evento_estado_etiqueta( $estado ) ) );
+			printf( '<span class="asp-columna-estado asp-columna-estado--%1$s">%2$s</span>', esc_attr( $estado ), esc_html( asp_evento_estado_etiqueta( $estado, $post_id ) ) );
 			break;
 		case 'asp_destacado':
 			echo get_post_meta( $post_id, 'evento_destacado', true ) ? esc_html__( 'Destacado', 'asp' ) : '';

@@ -50,7 +50,7 @@ $asp_hid    = 'franja-titulo-' . $asp_id;
 			<div class="asp-franja__cabecera">
 				<h2 id="<?php echo esc_attr( $asp_hid ); ?>" class="asp-label"><?php esc_html_e( 'Próximo evento', 'asp' ); ?></h2>
 				<span class="asp-franja__sep" aria-hidden="true"></span>
-				<span class="asp-franja__estado"><?php echo esc_html( asp_evento_estado_etiqueta( $asp_estado ) ); ?></span>
+				<span class="asp-franja__estado"><?php echo esc_html( asp_evento_estado_etiqueta( $asp_estado, $asp_id ) ); ?></span>
 			</div>
 			<p class="asp-franja__titulo"><a href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>"><?php echo esc_html( get_the_title( $asp_id ) ); ?></a></p>
 			<?php get_template_part( 'parts/evento/lugar', null, [ 'post_id' => $asp_id ] ); ?>

@@ -59,7 +59,7 @@ function asp_registrar_taxonomias(): void {
 				'edit_item'     => __( 'Editar serie', 'asp' ),
 				'add_new_item'  => __( 'Agregar serie', 'asp' ),
 			],
-			'description'       => __( 'Artículos que van juntos y en orden, como "El pastor frente a los falsos maestros".', 'asp' ),
+			'description'       => __( 'Artículos que van juntos y en orden, como «El pastor frente a los falsos maestros».', 'asp' ),
 			'public'            => true,
 			'hierarchical'      => false,
 			'show_ui'           => true,

@@ -20,7 +20,7 @@ get_header();
 $asp_mision      = (string) get_theme_mod( 'asp_mision_texto', asp_mision_default() );
 $asp_nosotros    = asp_url_pagina_plantilla( 'templates/page-nosotros.php' );
 $asp_contacto    = asp_url_pagina_plantilla( 'templates/page-contacto.php' );
-$asp_iniciativas = get_posts( [ 'post_type' => 'iniciativa', 'post_status' => 'publish', 'posts_per_page' => 4, 'orderby' => 'menu_order title', 'order' => 'ASC' ] );
+$asp_iniciativas = asp_iniciativas_portada( 4 );
 $asp_destacado   = asp_evento_destacado();
 $asp_hay_evento  = null !== $asp_destacado;
 $asp_af          = asp_afirmaciones();
@@ -61,7 +61,7 @@ get_template_part( 'parts/evento/hero' );
 		<div class="asp-editorial__cuerpo asp-somos__cuerpo">
 			<p class="asp-editorial__texto"><?php echo esc_html( $asp_mision ); ?></p>
 			<?php if ( $asp_hay_evento ) : ?>
-				<p class="asp-editorial__cita">«Pero a este miraré: al que es humilde y contrito de espíritu, y que tiembla ante Mi palabra» <span class="asp-label"><?php esc_html_e( 'Isaías 66:2', 'asp' ); ?></span></p>
+				<p class="asp-editorial__cita"><?php esc_html_e( '«Pero a este miraré: al que es humilde y contrito de espíritu, y que tiembla ante Mi palabra»', 'asp' ); ?> <span class="asp-label"><?php esc_html_e( 'Isaías 66:2', 'asp' ); ?></span></p>
 			<?php endif; ?>
 			<?php if ( $asp_nosotros ) : ?>
 				<div class="asp-row asp-row--enlaces">

@@ -112,7 +112,7 @@ function asp_sanitizar_tipo_predicacion( $valor ): string {
  */
 function asp_roles_persona(): array {
 	return [
-		'consejo' => __( 'Consejo pastoral', 'asp' ),
+		'consejo' => __( 'Consejo Pastoral', 'asp' ),
 		'orador'  => __( 'Orador', 'asp' ),
 		'autor'   => __( 'Autor de artículos', 'asp' ),
 	];

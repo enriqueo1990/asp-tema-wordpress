@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @return string
  */
 function asp_mision_default(): string {
-	return 'Ante Su Palabra es una comunión de pastores e iglesias locales, que cree en la autoridad y la suficiencia de las Escrituras, cuyo propósito es contribuir a la salud de las iglesias locales.';
+	return __( 'Ante Su Palabra es una comunión de pastores e iglesias locales, que cree en la autoridad y la suficiencia de las Escrituras, cuyo propósito es contribuir a la salud de las iglesias locales.', 'asp' );
 }
 
 /**
@@ -128,7 +128,7 @@ function asp_customizer( WP_Customize_Manager $wp_customize ): void {
 		'asp_donar_url',
 		[
 			'label'       => __( 'Link para donar', 'asp' ),
-			'description' => __( 'La página donde se dona (PayPal, Mercado Pago u otra). Con link cargado aparece el botón "Donar" en la cabecera; vacío, no aparece.', 'asp' ),
+			'description' => __( 'La página donde se dona (PayPal, Mercado Pago u otra). Con link cargado aparece el botón «Donar» en la cabecera; vacío, no aparece.', 'asp' ),
 			'section'     => 'asp_sitio',
 			'type'        => 'url',
 		]

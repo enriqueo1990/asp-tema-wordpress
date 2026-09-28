@@ -296,7 +296,8 @@ function asp_autor_articulo( int $post_id ): array {
 	if ( $persona ) {
 		return [ 'nombre' => get_the_title( $persona ), 'url' => (string) get_permalink( $persona ) ];
 	}
-	return [ 'nombre' => (string) get_the_author_meta( 'display_name', $user_id ), 'url' => (string) get_author_posts_url( $user_id ) ];
+	/* Sin ficha de persona no hay a dónde enlazar: los archivos de autor ya no existen (inc/seo.php). */
+	return [ 'nombre' => (string) get_the_author_meta( 'display_name', $user_id ), 'url' => '' ];
 }
 
 /**
@@ -695,6 +696,10 @@ function asp_menu_clases( array $clases, $item ): array {
 		$clases = array_diff( $clases, [ 'current_page_parent' ] );
 	}
 	if ( 'post_type_archive' === $item->type && is_singular( $item->object ) ) {
+		$clases[] = 'current-menu-ancestor';
+	}
+	/* Predicaciones viven dentro de Recursos: el ítem Recursos queda marcado. */
+	if ( ( is_singular( 'predicacion' ) || is_post_type_archive( 'predicacion' ) ) && (int) $item->object_id === (int) get_option( 'page_for_posts' ) ) {
 		$clases[] = 'current-menu-ancestor';
 	}
 	return array_values( array_unique( $clases ) );

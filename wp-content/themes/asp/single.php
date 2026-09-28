@@ -36,7 +36,7 @@ while ( have_posts() ) :
 				<div class="asp-row">
 					<?php if ( $asp_serie ) : ?>
 						<span class="asp-chip"><?php esc_html_e( 'Serie', 'asp' ); ?></span>
-						<a class="asp-label" href="<?php echo esc_url( get_term_link( $asp_serie ) ); ?>"><?php echo esc_html( $asp_serie->name ); ?><?php if ( $asp_pos ) : ?> · <?php echo esc_html( str_pad( (string) $asp_pos, 2, '0', STR_PAD_LEFT ) ); ?> <?php esc_html_e( 'de', 'asp' ); ?> <?php echo esc_html( (string) count( $asp_lista ) ); ?><?php endif; ?></a>
+						<a class="asp-label" href="<?php echo esc_url( get_term_link( $asp_serie ) ); ?>"><?php echo esc_html( $asp_serie->name ); ?><?php if ( $asp_pos ) : ?> · <?php echo esc_html( (string) $asp_pos ); ?> <?php esc_html_e( 'de', 'asp' ); ?> <?php echo esc_html( (string) count( $asp_lista ) ); ?><?php endif; ?></a>
 					<?php elseif ( ! empty( $asp_cat ) && 'uncategorized' !== $asp_cat[0]->slug ) : ?>
 						<a class="asp-chip" href="<?php echo esc_url( get_category_link( $asp_cat[0] ) ); ?>"><?php echo esc_html( $asp_cat[0]->name ); ?></a>
 					<?php else : ?>
@@ -46,7 +46,7 @@ while ( have_posts() ) :
 				<h1 class="asp-articulo__titulo"><?php the_title(); ?></h1>
 				<div class="asp-articulo__meta">
 					<?php if ( $asp_autor['nombre'] ) : ?>
-						<div><span class="asp-label"><?php esc_html_e( 'Autor', 'asp' ); ?></span><a href="<?php echo esc_url( $asp_autor['url'] ); ?>"><?php echo esc_html( $asp_autor['nombre'] ); ?></a></div>
+						<div><span class="asp-label"><?php esc_html_e( 'Autor', 'asp' ); ?></span><?php if ( $asp_autor['url'] ) : ?><a href="<?php echo esc_url( $asp_autor['url'] ); ?>"><?php echo esc_html( $asp_autor['nombre'] ); ?></a><?php else : ?><span><?php echo esc_html( $asp_autor['nombre'] ); ?></span><?php endif; ?></div>
 					<?php endif; ?>
 					<div><span class="asp-label"><?php esc_html_e( 'Fecha', 'asp' ); ?></span><time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( asp_fecha_articulo( $asp_id ) ); ?></time></div>
 				</div>
@@ -88,11 +88,15 @@ while ( have_posts() ) :
 							<?php endif; ?>
 							<div class="asp-autor-pie__texto">
 								<span class="asp-label"><?php esc_html_e( 'Escribió', 'asp' ); ?></span>
-								<a class="asp-autor-pie__nombre" href="<?php echo esc_url( $asp_autor_pie['url'] ); ?>"><?php echo esc_html( $asp_autor_pie['nombre'] ); ?></a>
+								<?php if ( $asp_autor_pie['url'] ) : ?>
+									<a class="asp-autor-pie__nombre" href="<?php echo esc_url( $asp_autor_pie['url'] ); ?>"><?php echo esc_html( $asp_autor_pie['nombre'] ); ?></a>
+								<?php else : ?>
+									<span class="asp-autor-pie__nombre"><?php echo esc_html( $asp_autor_pie['nombre'] ); ?></span>
+								<?php endif; ?>
 								<?php if ( $asp_autor_pie['linea'] ) : ?>
 									<p class="asp-autor-pie__linea"><?php echo esc_html( $asp_autor_pie['linea'] ); ?></p>
 								<?php endif; ?>
-								<?php if ( $asp_autor_pie['otros'] > 0 ) : ?>
+								<?php if ( $asp_autor_pie['otros'] > 0 && $asp_autor_pie['url'] ) : ?>
 									<a class="asp-cta-link" href="<?php echo esc_url( $asp_autor_pie['url'] ); ?>">
 										<?php
 										/* translators: %d: cantidad de artículos */

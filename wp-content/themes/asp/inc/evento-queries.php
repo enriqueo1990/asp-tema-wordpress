@@ -95,16 +95,34 @@ function asp_eventos_pasados_por_anio(): array {
  * @return WP_Post|null
  */
 function asp_evento_destacado(): ?WP_Post {
-	$proximos = asp_eventos_proximos()->posts;
-	if ( empty( $proximos ) ) {
-		return null;
+	/* Se llama desde la cabecera, el hero, la franja, Contacto y el SEO en
+	   el mismo pedido: una sola consulta. */
+	static $destacado = false;
+	if ( false !== $destacado ) {
+		return $destacado;
 	}
+	$proximos  = asp_eventos_proximos()->posts;
+	$destacado = null;
 	foreach ( $proximos as $post ) {
 		if ( get_post_meta( $post->ID, 'evento_destacado', true ) ) {
-			return $post;
+			$destacado = $post;
+			break;
 		}
 	}
-	return $proximos[0];
+	if ( ! $destacado && ! empty( $proximos ) ) {
+		$destacado = $proximos[0];
+	}
+	return $destacado;
+}
+
+/**
+ * Iniciativas para el inicio, en el orden del panel.
+ *
+ * @param int $cantidad Máximo.
+ * @return WP_Post[]
+ */
+function asp_iniciativas_portada( int $cantidad = 4 ): array {
+	return get_posts( [ 'post_type' => 'iniciativa', 'post_status' => 'publish', 'posts_per_page' => $cantidad, 'orderby' => 'menu_order title', 'order' => 'ASC' ] );
 }
 
 /**

@@ -46,7 +46,7 @@ while ( have_posts() ) :
 				<h2 class="asp-label"><?php esc_html_e( 'Qué nos une', 'asp' ); ?></h2>
 				<div class="asp-prose"><?php the_content(); ?></div>
 				<div class="asp-cita">
-					<blockquote>«El me amó, y se entregó a sí mismo por mí»</blockquote>
+					<blockquote><?php esc_html_e( '«El me amó, y se entregó a sí mismo por mí»', 'asp' ); ?></blockquote>
 					<span class="asp-label asp-label--muted"><?php esc_html_e( 'Gálatas 2:20', 'asp' ); ?></span>
 				</div>
 			</div></div>

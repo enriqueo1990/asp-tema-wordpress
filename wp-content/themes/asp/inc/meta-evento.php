@@ -52,7 +52,7 @@ function asp_render_evento_obligatorio( WP_Post $post ): void {
 		<?php asp_campo_fecha( 'evento_fecha_fin', __( 'Último día del evento', 'asp' ), (string) get_post_meta( $id, 'evento_fecha_fin', true ), __( 'Si dura un solo día, poné la misma fecha. Cuando pasa esta fecha el evento se archiva solo.', 'asp' ), true ); ?>
 		<?php asp_campo_texto( 'evento_ciudad', __( 'Ciudad', 'asp' ), (string) get_post_meta( $id, 'evento_ciudad', true ), '', true, __( 'Ej. Buenos Aires', 'asp' ) ); ?>
 		<?php asp_campo_radio_terminos( 'evento_pais', __( 'País', 'asp' ), 'pais', $pais, '', true ); ?>
-		<?php asp_campo_select( 'evento_estado_inscripcion', __( '¿Se puede inscribir?', 'asp' ), $estado, asp_estados_inscripcion(), __( 'Si todavía no hay link, dejá "Reservá la fecha": la ficha se publica igual, sin botón.', 'asp' ), true ); ?>
+		<?php asp_campo_select( 'evento_estado_inscripcion', __( '¿Se puede inscribir?', 'asp' ), $estado, asp_estados_inscripcion(), __( 'Si todavía no hay link, dejá «Reservá la fecha»: la ficha se publica igual, sin botón.', 'asp' ), true ); ?>
 		<?php asp_campo_url( 'evento_url_registro', __( 'Link de inscripción', 'asp' ), (string) get_post_meta( $id, 'evento_url_registro', true ), __( 'Eventbrite, Entrada27 u otro. Obligatorio solo cuando la inscripción está abierta.', 'asp' ) ); ?>
 	</div>
 	<?php
@@ -77,7 +77,7 @@ function asp_render_evento_opcional( WP_Post $post ): void {
 		<?php asp_campo_select_posts( 'evento_iniciativa', __( 'Iniciativa', 'asp' ), $iniciativas, absint( get_post_meta( $id, 'evento_iniciativa', true ) ), __( 'A qué iniciativa pertenece (Conferencia, Cánticos, Taller…).', 'asp' ) ); ?>
 		<?php asp_campo_texto( 'evento_sede_nombre', __( 'Sede', 'asp' ), (string) get_post_meta( $id, 'evento_sede_nombre', true ), '', false, __( 'Ej. Iglesia Gracia Soberana', 'asp' ) ); ?>
 		<?php asp_campo_textarea( 'evento_sede_direccion', __( 'Dirección de la sede', 'asp' ), (string) get_post_meta( $id, 'evento_sede_direccion', true ), __( 'Ej. 8300 Helgerman Ct, Gaithersburg, MD', 'asp' ), 2 ); ?>
-		<?php asp_campo_texto( 'evento_precio', __( 'Precio', 'asp' ), (string) get_post_meta( $id, 'evento_precio', true ), __( 'Texto libre, ej. "Entrada libre" o "USD 25 · ARS 15.000".', 'asp' ) ); ?>
+		<?php asp_campo_texto( 'evento_precio', __( 'Precio', 'asp' ), (string) get_post_meta( $id, 'evento_precio', true ), __( 'Texto libre, ej. «Entrada libre» o «USD 25 · ARS 15.000».', 'asp' ) ); ?>
 		<?php asp_campo_checkbox( 'evento_destacado', __( 'Mostrar como evento principal en el inicio', 'asp' ), (bool) get_post_meta( $id, 'evento_destacado', true ), __( 'Si ninguno está marcado, el inicio muestra el próximo por fecha.', 'asp' ) ); ?>
 	</div>
 	<?php asp_campo_checkboxes_posts( 'evento_oradores', __( 'Oradores', 'asp' ), $oradores, array_map( 'absint', (array) get_post_meta( $id, 'evento_oradores', false ) ), __( 'Aparecen los oradores y los pastores del consejo. Si falta alguien, pedile a quien administra el sitio que lo agregue.', 'asp' ), __( 'Todavía no hay oradores cargados. Pedile a quien administra el sitio que los agregue.', 'asp' ) ); ?>

@@ -28,8 +28,8 @@ $asp_prox = asp_iniciativa_proximo( $asp_id );
 					'en_curso' === asp_evento_estado( $asp_prox->ID )
 						/* translators: %s: fecha del evento en curso */
 						? sprintf( __( 'En curso: %s', 'asp' ), asp_evento_fecha_texto( $asp_prox->ID ) )
-						/* translators: %s: fecha del próximo evento */
-						: sprintf( __( 'Próximo: %s', 'asp' ), asp_evento_fecha_texto( $asp_prox->ID ) )
+						/* translators: %s: fecha de la próxima edición */
+						: sprintf( __( 'Próxima: %s', 'asp' ), asp_evento_fecha_texto( $asp_prox->ID ) )
 				);
 			?></span>
 		<?php endif; ?>

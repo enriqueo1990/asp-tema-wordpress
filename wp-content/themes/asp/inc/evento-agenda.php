@@ -83,7 +83,8 @@ function asp_evento_dias_calendario( int $post_id ): array {
  */
 function asp_evento_titulo_calendario( int $post_id ): string {
 	/* translators: 1: título del evento, 2: nombre del sitio */
-	return sprintf( __( '%1$s · %2$s', 'asp' ), wp_strip_all_tags( get_the_title( $post_id ) ), get_bloginfo( 'name' ) );
+	/* get_the_title() trae entidades (&#8211;, &amp;): el calendario las mostraría tal cual. */
+	return sprintf( __( '%1$s · %2$s', 'asp' ), html_entity_decode( wp_strip_all_tags( get_the_title( $post_id ) ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ), html_entity_decode( get_bloginfo( 'name' ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) );
 }
 
 /**

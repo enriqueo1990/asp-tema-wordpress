@@ -35,14 +35,18 @@ function asp_evento_estado( int $post_id ): string {
 }
 
 /**
- * Texto del badge para cada estado.
+ * Texto del badge para cada estado. Con el evento, los de Estados Unidos
+ * van con tuteo neutro («Reserva la fecha»): las piezas para EE.UU. no
+ * llevan voseo.
  *
- * @param string $estado Estado efectivo.
+ * @param string $estado  Estado efectivo.
+ * @param int    $post_id Evento, para elegir la voz según el país.
  * @return string
  */
-function asp_evento_estado_etiqueta( string $estado ): string {
+function asp_evento_estado_etiqueta( string $estado, int $post_id = 0 ): string {
+	$eeuu      = $post_id && has_term( 'estados-unidos', 'pais', $post_id );
 	$etiquetas = [
-		'reserva'   => __( 'Reservá la fecha', 'asp' ),
+		'reserva'   => $eeuu ? __( 'Reserva la fecha', 'asp' ) : __( 'Reservá la fecha', 'asp' ),
 		'abierta'   => __( 'Inscripción abierta', 'asp' ),
 		'cerrada'   => __( 'Inscripción cerrada', 'asp' ),
 		'agotado'   => __( 'Sin cupo', 'asp' ),
@@ -251,14 +255,14 @@ function asp_evento_fecha_grande( int $post_id ): array {
 	}
 	if ( $ini['anio'] === $fin['anio'] && $ini['mes'] === $fin['mes'] ) {
 		return [
-			'dias' => $ini['dia'] . '—' . $fin['dia'],
+			'dias' => $ini['dia'] . '–' . $fin['dia'],
 			'mes'  => sprintf( __( '%1$s de %2$d', 'asp' ), asp_nombre_mes( $ini['mes'] ), $ini['anio'] ),
 		];
 	}
 	return [
-		'dias' => $ini['dia'] . '—' . $fin['dia'],
+		'dias' => $ini['dia'] . '–' . $fin['dia'],
 		/* translators: 1: mes inicio, 2: mes fin, 3: año */
-		'mes'  => sprintf( __( '%1$s — %2$s de %3$d', 'asp' ), asp_nombre_mes( $ini['mes'] ), asp_nombre_mes( $fin['mes'] ), $fin['anio'] ),
+		'mes'  => sprintf( __( '%1$s – %2$s de %3$d', 'asp' ), asp_nombre_mes( $ini['mes'] ), asp_nombre_mes( $fin['mes'] ), $fin['anio'] ),
 	];
 }
 

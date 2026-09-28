@@ -32,7 +32,7 @@ $asp_foto    = asp_portada_foto();
 					   dice cuánto falta. Con inscripción abierta, manda el estado. */
 					$asp_cerca = 'reserva' === $asp_estado ? asp_evento_rotulo_cercania( $asp_id ) : '';
 					?>
-					<span class="asp-label asp-label--strong"><?php echo esc_html( $asp_cerca ?: asp_evento_estado_etiqueta( $asp_estado ) ); ?></span>
+					<span class="asp-label asp-label--strong"><?php echo esc_html( $asp_cerca ?: asp_evento_estado_etiqueta( $asp_estado, $asp_id ) ); ?></span>
 				</div>
 				<?php if ( $asp_fecha['dias'] ) : ?>
 					<p class="asp-portada__fecha">
@@ -55,7 +55,7 @@ $asp_foto    = asp_portada_foto();
 			<?php elseif ( $asp_eslogan ) : ?>
 				<h1 class="asp-portada__cita"><?php echo esc_html( $asp_eslogan ); ?></h1>
 			<?php else : ?>
-				<h1 class="asp-portada__cita">«Pero a este miraré: al que es humilde y contrito de espíritu, y que tiembla ante Mi palabra»</h1>
+				<h1 class="asp-portada__cita"><?php esc_html_e( '«Pero a este miraré: al que es humilde y contrito de espíritu, y que tiembla ante Mi palabra»', 'asp' ); ?></h1>
 				<span class="asp-label"><?php esc_html_e( 'Isaías 66:2', 'asp' ); ?></span>
 			<?php endif; ?>
 		</div>

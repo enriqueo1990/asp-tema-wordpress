@@ -140,18 +140,24 @@ function asp_fecha_ymd_a_input( string $ymd ): string {
  * @param string $control  HTML del control (ya escapado).
  * @param string $ayuda    Texto de ayuda.
  * @param bool   $requerido Marca visual de obligatorio.
+ * @param bool   $grupo     Grupo de opciones: fieldset y legend.
  * @return void
  */
-function asp_campo_envoltorio( string $nombre, string $etiqueta, string $control, string $ayuda = '', bool $requerido = false ): void {
+function asp_campo_envoltorio( string $nombre, string $etiqueta, string $control, string $ayuda = '', bool $requerido = false, bool $grupo = false ): void {
+	/* Grupos de opciones (radios, casillas, imagen, programa): fieldset y
+	   legend. Con <label for> apuntaban a un id que no existe. */
+	$contenedor = $grupo ? 'fieldset' : 'div';
+	$titulo     = $grupo ? 'legend' : 'label';
+	$para       = $grupo ? '' : ' for="' . esc_attr( $nombre ) . '"';
 	?>
-	<div class="asp-campo asp-campo--<?php echo esc_attr( $nombre ); ?>">
-		<label class="asp-campo__etiqueta" for="<?php echo esc_attr( $nombre ); ?>">
+	<<?php echo $contenedor; // phpcs:ignore WordPress.Security.EscapeOutput ?> class="asp-campo asp-campo--<?php echo esc_attr( $nombre ); ?><?php echo $grupo ? ' asp-campo--grupo' : ''; ?>">
+		<<?php echo $titulo . $para; // phpcs:ignore WordPress.Security.EscapeOutput ?> class="asp-campo__etiqueta">
 			<?php echo esc_html( $etiqueta ); ?>
 			<?php if ( $requerido ) : ?><span class="asp-campo__req" aria-hidden="true">*</span><span class="screen-reader-text"><?php esc_html_e( '(obligatorio)', 'asp' ); ?></span><?php endif; ?>
-		</label>
+		</<?php echo $titulo; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 		<?php echo $control; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		<?php if ( $ayuda ) : ?><p class="asp-campo__ayuda"><?php echo esc_html( $ayuda ); ?></p><?php endif; ?>
-	</div>
+	</<?php echo $contenedor; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 	<?php
 }
 
@@ -264,7 +270,7 @@ function asp_campo_radio_terminos( string $nombre, string $etiqueta, string $tax
 		}
 	}
 	$html .= '</div>';
-	asp_campo_envoltorio( $nombre, $etiqueta, $html, $ayuda, $requerido );
+	asp_campo_envoltorio( $nombre, $etiqueta, $html, $ayuda, $requerido, true );
 }
 
 /**
@@ -307,7 +313,7 @@ function asp_campo_checkboxes_posts( string $nombre, string $etiqueta, array $po
 		);
 	}
 	$html .= '</div>';
-	asp_campo_envoltorio( $nombre, $etiqueta, $html, $ayuda );
+	asp_campo_envoltorio( $nombre, $etiqueta, $html, $ayuda, false, true );
 }
 
 /**
@@ -368,7 +374,7 @@ function asp_campo_imagen( string $nombre, string $etiqueta, int $attachment_id,
 		$attachment_id ? '' : ' hidden',
 		esc_html__( 'Quitar', 'asp' )
 	);
-	asp_campo_envoltorio( $nombre, $etiqueta, $html, $ayuda );
+	asp_campo_envoltorio( $nombre, $etiqueta, $html, $ayuda, false, true );
 }
 
 /**
@@ -434,7 +440,7 @@ function asp_campo_programa( string $nombre, string $etiqueta, array $filas, str
 	$html .= '<template data-asp-plantilla>' . $fila_html( 0, [] ) . '</template>';
 	$html .= '<p><button type="button" class="button" data-asp-agregar-fila>' . esc_html__( 'Agregar fila', 'asp' ) . '</button></p>';
 	$html .= '</div>';
-	asp_campo_envoltorio( $nombre, $etiqueta, $html, $ayuda );
+	asp_campo_envoltorio( $nombre, $etiqueta, $html, $ayuda, false, true );
 }
 
 /* ------------------------------------------------------------------------

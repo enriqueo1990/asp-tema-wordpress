@@ -57,7 +57,7 @@ function asp_boton_duplicar( WP_Post $post ): void {
 	printf(
 		'<div class="misc-pub-section"><a class="button" href="%1$s">%2$s</a><p class="description">%3$s</p></div>',
 		esc_url( asp_url_duplicar( $post->ID ) ),
-		esc_html__( 'Duplicar como nueva edición', 'asp' ),
+		esc_html__( 'Duplicar edición anterior', 'asp' ),
 		esc_html__( 'Copia todo menos las fechas, el link de inscripción y el flyer.', 'asp' )
 	);
 }

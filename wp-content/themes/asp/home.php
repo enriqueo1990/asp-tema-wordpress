@@ -102,11 +102,11 @@ $asp_buscar_id  = 'buscar-recursos';
 								array_filter(
 									[
 										$asp_coleccion['fecha'],
-										/* translators: %d: cantidad de mensajes */
+										/* translators: %d: cantidad de predicaciones */
 										count( $asp_coleccion['items'] ) < $asp_coleccion['total']
-											/* translators: 1: mensajes mostrados, 2: total */
-											? sprintf( __( '%1$d de %2$d mensajes', 'asp' ), count( $asp_coleccion['items'] ), $asp_coleccion['total'] )
-											: sprintf( _n( '%d mensaje', '%d mensajes', $asp_coleccion['total'], 'asp' ), $asp_coleccion['total'] ),
+											/* translators: 1: predicaciones mostradas, 2: total */
+											? sprintf( __( '%1$d de %2$d predicaciones', 'asp' ), count( $asp_coleccion['items'] ), $asp_coleccion['total'] )
+											: sprintf( _n( '%d predicación', '%d predicaciones', $asp_coleccion['total'], 'asp' ), $asp_coleccion['total'] ),
 									]
 								)
 							)

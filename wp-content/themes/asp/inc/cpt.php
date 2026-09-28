@@ -84,7 +84,7 @@ function asp_registrar_cpt(): void {
 				'not_found'     => __( 'Todavía no hay personas cargadas.', 'asp' ),
 				'menu_name'     => __( 'Personas', 'asp' ),
 			],
-			'description'   => __( 'Consejo pastoral, oradores y autores en una sola ficha.', 'asp' ),
+			'description'   => __( 'Consejo Pastoral, oradores y autores en una sola ficha.', 'asp' ),
 			'public'        => true,
 			'show_in_rest'  => false,
 			'menu_position' => 7,

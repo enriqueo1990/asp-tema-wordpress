@@ -44,7 +44,7 @@ function asp_render_ayuda(): void {
 			<li><?php esc_html_e( 'Pasá el mouse por el título y hacé clic en «Duplicar edición anterior».', 'asp' ); ?></li>
 			<li><?php esc_html_e( 'Se abre una copia como borrador. Sacale «(nueva edición)» al nombre, poné las fechas nuevas, subí el flyer nuevo y revisá la sede, los oradores y el programa (los días quedan vacíos).', 'asp' ); ?></li>
 			<li><?php esc_html_e( 'Si ya hay link de inscripción, elegí «Inscripción abierta» y pegalo. Si todavía no, dejá «Reservá la fecha».', 'asp' ); ?></li>
-			<li><?php esc_html_e( 'Publicar. Listo: aparece en el inicio y en Eventos.', 'asp' ); ?></li>
+			<li><?php esc_html_e( 'Publicá. Listo: aparece en el inicio y en Eventos.', 'asp' ); ?></li>
 		</ol>
 
 		<h2><?php esc_html_e( 'Un evento nuevo desde cero', 'asp' ); ?></h2>
@@ -72,7 +72,7 @@ function asp_render_ayuda(): void {
 			<li><?php esc_html_e( 'Poné el título tal como se predicó y elegí el formato: video, audio o texto.', 'asp' ); ?></li>
 			<li><?php esc_html_e( 'Video: pegá el link de YouTube. Audio: tocá «Elegir o subir archivo» y subí el mp3. Texto: escribilo en el cuadro grande de arriba.', 'asp' ); ?></li>
 			<li><?php esc_html_e( 'Elegí el evento donde se predicó y el orador. La fecha sale del evento; cargala solo si fue otro día.', 'asp' ); ?></li>
-			<li><?php esc_html_e( 'Publicar. Aparece en Recursos, en la ficha del evento y en la del orador.', 'asp' ); ?></li>
+			<li><?php esc_html_e( 'Publicá. Aparece en Recursos, en la ficha del evento y en la del orador.', 'asp' ); ?></li>
 		</ol>
 	</div>
 	<?php

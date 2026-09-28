@@ -24,6 +24,8 @@ while ( have_posts() ) :
 	$asp_email  = asp_email();
 	$asp_redes  = asp_redes();
 	$asp_estado = asp_contacto_estado();
+	$asp_previo = asp_contacto_borrador();
+	$asp_faltan = asp_contacto_faltan();
 	$asp_foto   = asp_contacto_foto();
 	$asp_evento = asp_evento_destacado();
 	?>
@@ -58,14 +60,14 @@ while ( have_posts() ) :
 
 			<form class="asp-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="asp_contacto">
-				<input type="hidden" name="asp_t" value="<?php echo esc_attr( (string) time() ); ?>">
+				<input type="hidden" name="asp_t" value="<?php echo esc_attr( asp_contacto_marca() ); ?>">
 				<?php wp_nonce_field( 'asp_contacto', 'asp_contacto_nonce' ); ?>
 				<p class="visually-hidden" aria-hidden="true"><label for="sitio_web"><?php esc_html_e( 'Dejá este campo vacío', 'asp' ); ?></label><input type="text" id="sitio_web" name="sitio_web" tabindex="-1" autocomplete="off"></p>
 				<div class="asp-contacto__fila">
-					<div class="asp-stack asp-stack--2"><label for="nombre"><?php esc_html_e( 'Nombre', 'asp' ); ?></label><input type="text" id="nombre" name="nombre" required autocomplete="name"></div>
-					<div class="asp-stack asp-stack--2"><label for="email"><?php esc_html_e( 'Email', 'asp' ); ?></label><input type="email" id="email" name="email" required autocomplete="email"></div>
+					<div class="asp-stack asp-stack--2"><label for="nombre"><?php esc_html_e( 'Nombre', 'asp' ); ?></label><input type="text" id="nombre" name="nombre" required maxlength="<?php echo (int) ASP_CONTACTO_LARGOS['nombre']; ?>" autocomplete="name" value="<?php echo esc_attr( $asp_previo['nombre'] ); ?>"<?php echo in_array( 'nombre', $asp_faltan, true ) ? ' aria-invalid="true"' : ''; ?>></div>
+					<div class="asp-stack asp-stack--2"><label for="email"><?php esc_html_e( 'Mail', 'asp' ); ?></label><input type="email" id="email" name="email" required maxlength="<?php echo (int) ASP_CONTACTO_LARGOS['email']; ?>" autocomplete="email" value="<?php echo esc_attr( $asp_previo['email'] ); ?>"<?php echo in_array( 'email', $asp_faltan, true ) ? ' aria-invalid="true"' : ''; ?>></div>
 				</div>
-				<div class="asp-stack asp-stack--2"><label for="mensaje"><?php esc_html_e( 'Mensaje', 'asp' ); ?></label><textarea id="mensaje" name="mensaje" rows="6" required minlength="10"></textarea></div>
+				<div class="asp-stack asp-stack--2"><label for="mensaje"><?php esc_html_e( 'Mensaje', 'asp' ); ?></label><textarea id="mensaje" name="mensaje" rows="6" required minlength="10" maxlength="<?php echo (int) ASP_CONTACTO_LARGOS['mensaje']; ?>"<?php echo in_array( 'mensaje', $asp_faltan, true ) ? ' aria-invalid="true"' : ''; ?>><?php echo esc_textarea( $asp_previo['mensaje'] ); ?></textarea></div>
 				<button class="asp-btn asp-contacto__enviar" type="submit"><?php esc_html_e( 'Enviar mensaje', 'asp' ); ?></button>
 			</form>
 		</div>

@@ -255,7 +255,7 @@ function asp_articulo_autor( int $post_id ): ?array {
 	}
 	return [
 		'nombre'  => $nombre,
-		'url'     => (string) get_author_posts_url( $user_id ),
+		'url'     => '',
 		'persona' => 0,
 		'linea'   => '',
 		'otros'   => max( 0, (int) count_user_posts( $user_id, 'post', true ) - 1 ),

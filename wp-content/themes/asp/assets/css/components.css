@@ -4827,3 +4827,9 @@ section:has(> .asp-anio-plegable:not([open])) {
     font-size: var(--fs-lg);
   }
 }
+
+/* Campo que faltó en el último envío */
+.asp-form [aria-invalid="true"] {
+  border-color: var(--c-text);
+  border-width: 2px;
+}

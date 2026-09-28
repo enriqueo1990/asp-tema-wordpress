@@ -231,7 +231,10 @@ function asp_predicacion_orador( int $post_id ): ?WP_Post {
 function asp_predicacion_reproductor( int $post_id ): string {
 	$tipo = asp_predicacion_tipo( $post_id );
 	if ( 'video' === $tipo ) {
-		$url   = (string) get_post_meta( $post_id, 'predicacion_video_url', true );
+		$url = (string) get_post_meta( $post_id, 'predicacion_video_url', true );
+		if ( '' === $url ) {
+			return ''; /* Sin link no hay reproductor ni un enlace vacío. */
+		}
 		$yt_id = asp_youtube_id( $url );
 		$embed = $yt_id ? asp_youtube_iframe( $yt_id, get_the_title( $post_id ) ) : asp_oembed_cacheado( $url );
 		if ( ! $embed ) {
@@ -241,6 +244,9 @@ function asp_predicacion_reproductor( int $post_id ): string {
 	}
 	if ( 'audio' === $tipo ) {
 		$url = (string) get_post_meta( $post_id, 'predicacion_audio_url', true );
+		if ( '' === $url ) {
+			return '';
+		}
 		return '<div class="asp-reproductor asp-reproductor--audio"><audio controls preload="none" src="' . esc_url( $url ) . '"><a href="' . esc_url( $url ) . '">' . esc_html__( 'Descargar el audio', 'asp' ) . '</a></audio></div>';
 	}
 	return '';

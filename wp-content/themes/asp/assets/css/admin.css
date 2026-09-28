@@ -204,3 +204,15 @@
   flex: 1 1 16rem;
   min-width: 0;
 }
+
+/* Grupos de opciones como fieldset, con el mismo aspecto que un campo */
+.asp-campo--grupo {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.asp-campo--grupo > legend {
+  padding: 0;
+}

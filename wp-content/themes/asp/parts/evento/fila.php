@@ -12,7 +12,7 @@ $asp_estado = asp_evento_estado( $asp_id );
 ?>
 <a class="asp-evento-fila" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>">
 	<span class="asp-evento-fila__meta">
-		<span class="asp-label"><?php echo esc_html( asp_evento_estado_etiqueta( $asp_estado ) ); ?></span>
+		<span class="asp-label"><?php echo esc_html( asp_evento_estado_etiqueta( $asp_estado, $asp_id ) ); ?></span>
 		<span class="asp-evento-fila__fecha"><?php echo esc_html( asp_evento_fecha_texto( $asp_id ) ); ?></span>
 	</span>
 	<span class="asp-evento-fila__titulo"><?php echo esc_html( get_the_title( $asp_id ) ); ?></span>
