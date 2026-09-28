@@ -699,6 +699,38 @@ function asp_primeras_oraciones( string $texto, int $n = 2 ): string {
 }
 
 /**
+ * Foto de fondo del hero: la del evento destacado si tiene una, si no la
+ * general de Personalizar. Nunca el flyer: trae texto encima y en el hero
+ * se recortaría. 0 si no hay ninguna.
+ *
+ * @return int ID de adjunto.
+ */
+function asp_portada_foto_id(): int {
+	static $id = null;
+	if ( null === $id ) {
+		$evento = asp_evento_destacado();
+		$id     = $evento ? absint( get_post_meta( $evento->ID, 'evento_foto', true ) ) : 0;
+		if ( ! $id || ! wp_attachment_is_image( $id ) ) {
+			$id = absint( get_theme_mod( 'asp_hero_imagen', 0 ) );
+		}
+	}
+	return $id;
+}
+
+/**
+ * Etiqueta <img> del hero, cargada con prioridad. Vacía si no hay foto.
+ *
+ * @return string
+ */
+function asp_portada_foto(): string {
+	$id = asp_portada_foto_id();
+	if ( ! $id ) {
+		return '';
+	}
+	return (string) wp_get_attachment_image( $id, 'full', false, [ 'class' => 'asp-portada__foto', 'loading' => 'eager', 'fetchpriority' => 'high' ] );
+}
+
+/**
  * Clase en <body> cuando la portada tiene fotografía: la cabecera arranca
  * transparente sobre ella.
  *
@@ -706,7 +738,7 @@ function asp_primeras_oraciones( string $texto, int $n = 2 ): string {
  * @return string[]
  */
 function asp_body_class_portada( array $clases ): array {
-	if ( is_front_page() && absint( get_theme_mod( 'asp_hero_imagen', 0 ) ) ) {
+	if ( is_front_page() && asp_portada_foto_id() ) {
 		$clases[] = 'asp-con-portada';
 	}
 	return $clases;

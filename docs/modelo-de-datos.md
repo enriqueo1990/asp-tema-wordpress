@@ -102,6 +102,7 @@ agotado  => Sin cupo
 | `evento_sede_direccion` | textarea | Ej. 8300 Helgerman Ct, Gaithersburg MD |
 | `evento_oradores` | relación múltiple → `persona` | Solo personas con rol `orador` |
 | `evento_flyer` | imagen | Se muestra contenido, nunca recortado |
+| `evento_foto` | imagen | Opcional. Foto del encuentro sin texto, fondo del hero mientras el evento es el destacado. Vacía → foto general de Personalizar. Se copia al duplicar |
 | `evento_descripcion` | wysiwyg | Cuerpo de la ficha |
 | `evento_programa` | repetidor | Filas: `dia` (fecha), `hora` (texto), `titulo` (texto), `orador` (texto) |
 | `evento_aliados` | relación múltiple → `aliado` | Simeon Trust, Cross Connections, TeoLibros |

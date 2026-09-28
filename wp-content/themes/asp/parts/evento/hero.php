@@ -2,6 +2,7 @@
 /**
  * Hero del inicio. El evento manda: si hay próximo evento, ocupa la primera
  * pantalla sobre la fotografía a sangre, con la fecha como numeral grande.
+ * La foto es la propia del evento si la cargaron, si no la general del sitio.
  * Sin evento próximo, el hero cae al versículo (o al eslogan propio) sobre la
  * misma foto. Sin foto, fondo oscuro pleno. Nunca queda vacío.
  *
@@ -13,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 $asp_evento  = asp_evento_destacado();
 $asp_id      = $asp_evento ? $asp_evento->ID : 0;
 $asp_eslogan = (string) get_theme_mod( 'asp_hero_eslogan', '' );
-$asp_foto    = asp_imagen_mod( 'asp_hero_imagen', 'asp-portada__foto', 'full', 'eager' );
+$asp_foto    = asp_portada_foto();
 ?>
 <section class="asp-portada<?php echo $asp_id ? ' asp-portada--evento' : ''; ?>" aria-label="<?php echo $asp_id ? esc_attr__( 'Próximo evento', 'asp' ) : esc_attr__( 'Presentación', 'asp' ); ?>">
 	<?php echo $asp_foto; // phpcs:ignore WordPress.Security.EscapeOutput ?>

@@ -146,6 +146,7 @@ function asp_registrar_meta(): void {
 	register_post_meta( 'evento', 'evento_sede_direccion', $textarea );
 	register_post_meta( 'evento', 'evento_oradores', $ids );
 	register_post_meta( 'evento', 'evento_flyer', $id );
+	register_post_meta( 'evento', 'evento_foto', $id );
 	register_post_meta( 'evento', 'evento_descripcion', $html );
 	register_post_meta( 'evento', 'evento_programa', [ 'type' => 'array', 'single' => true, 'sanitize_callback' => 'asp_sanitizar_programa', 'show_in_rest' => false ] );
 	register_post_meta( 'evento', 'evento_aliados', $ids );
