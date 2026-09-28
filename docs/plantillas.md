@@ -32,7 +32,8 @@ wp-content/themes/asp/
 │   ├── admin-duplicar.php       "Duplicar edición anterior"
 │   ├── admin-ayuda.php          página de ayuda dentro del panel
 │   ├── contacto.php             formulario de contacto sin plugin
-│   └── redirects.php            301 del blog viejo, lee redirects.csv
+│   ├── redirects.php            301 del blog e institucional viejos, lee redirects.csv
+│   └── seo.php                  descripción, Open Graph, títulos, schema, autores y ícono
 │
 ├── redirects.csv                mapa origen,destino del blog viejo
 │

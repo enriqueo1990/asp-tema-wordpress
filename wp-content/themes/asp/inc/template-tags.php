@@ -635,7 +635,7 @@ function asp_evento_schema( int $post_id ): array {
 			'address' => [
 				'@type'           => 'PostalAddress',
 				'addressLocality' => $ciudad,
-				'addressCountry'  => $pais,
+				'addressCountry'  => asp_evento_pais_iso( $post_id ),
 			],
 		];
 		$direccion = (string) get_post_meta( $post_id, 'evento_sede_direccion', true );

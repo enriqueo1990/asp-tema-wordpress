@@ -25,7 +25,10 @@ function asp_registrar_taxonomias(): void {
 				'edit_item'     => __( 'Editar país', 'asp' ),
 				'add_new_item'  => __( 'Agregar país', 'asp' ),
 			],
-			'public'            => true,
+			'public'             => true,
+			/* Sin páginas propias: /pais/argentina/ listaba eventos como si
+			   fueran artículos. El país se muestra en fichas y tarjetas. */
+			'publicly_queryable' => false,
 			'hierarchical'      => false,
 			'show_ui'           => true,
 			'show_admin_column' => true,
@@ -40,7 +43,7 @@ function asp_registrar_taxonomias(): void {
 				'delete_terms' => 'manage_options',
 				'assign_terms' => 'edit_eventos',
 			],
-			'rewrite'           => [ 'slug' => 'pais', 'with_front' => false ],
+			'rewrite'           => false,
 		]
 	);
 

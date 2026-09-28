@@ -12,8 +12,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-/** Sube este número cuando cambien las reglas de reescritura de este archivo. */
-const ASP_RECURSOS_REGLAS = '1';
+/** Sube este número cuando cambien las reglas de reescritura del tema: se vacían una vez. */
+const ASP_RECURSOS_REGLAS = '2'; // 2: sin reglas de /pais/ (28-9-2026).
 
 /**
  * Ruta de la página de entradas, ej. "recursos". Vacía si no hay una.

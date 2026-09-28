@@ -1,13 +1,14 @@
 <?php
 /**
- * 301 del blog viejo (blog.antesupalabra.com) al sitio unificado.
+ * 301 del blog viejo (blog.antesupalabra.com) y del institucional viejo
+ * (antesupalabra.com) al sitio unificado.
  *
  * El mapa vive en redirects.csv (raíz del tema), una fila por URL:
  *   origen,destino
  * "origen" es la ruta (con o sin dominio); "destino" una ruta o URL.
  * Se aplica cuando la petición llega con el dominio del blog viejo o cuando
  * WordPress daría 404. Lo que no está en el CSV cae a la regla genérica:
- * /category/x/ → categoría x, /slug/ → /recursos/slug/ si existe.
+ * /category/x/ → categoría x, /slug/ → el artículo o el evento con ese slug.
  *
  * @package asp
  */
@@ -83,9 +84,13 @@ function asp_destino_redirect( string $ruta ): string {
 		return asp_url_recursos();
 	}
 	if ( preg_match( '#^/([^/]+)/$#', $ruta, $m ) ) {
-		$post = get_page_by_path( $m[1], OBJECT, 'post' );
-		if ( $post && 'publish' === $post->post_status ) {
-			return (string) get_permalink( $post );
+		/* Artículos del blog y, del institucional viejo, las páginas de
+		   conferencias que hoy son eventos con el mismo slug. */
+		foreach ( [ 'post', 'evento' ] as $tipo ) {
+			$post = get_page_by_path( $m[1], OBJECT, $tipo );
+			if ( $post && 'publish' === $post->post_status ) {
+				return (string) get_permalink( $post );
+			}
 		}
 	}
 	return '';

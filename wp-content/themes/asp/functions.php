@@ -28,6 +28,7 @@ $asp_modulos = [
 	'contacto',
 	'correo',
 	'redirects',
+	'seo',
 	'meta-helpers',
 	'meta-evento',
 	'evento-predicaciones',

@@ -23,3 +23,21 @@ origen,destino
 /author/ricardo/,/personas/ricardo-daglio/
 /author/joselo/,/personas/joselo-mercado/
 /author/enrique_oriolo/,/recursos/
+# Sitio institucional viejo (antesupalabra.com), según su sitemap de Yoast.
+# Las páginas de conferencias con un evento del mismo slug (/la-iglesia/,
+# /dios-es-el-evangelio/, etc.) las cubre la regla genérica de redirects.php.
+/sitemap_index.xml,/wp-sitemap.xml
+/author/enrique/,/recursos/
+/go/conferencia-top/,/eventos/
+/go/conferencia-bottom/,/eventos/
+/go/pre-conferencia-top/,/eventos/
+/go/pre-conferencia-bottom/,/eventos/
+# TODO: el ministerio define el destino de estas páginas y entradas del
+# institucional (sin evento equivalente cargado). Hasta entonces dan 404.
+# Las dos entradas se pueden migrar verbatim o redirigir a /recursos/.
+#   /conferencia-2023-denton/
+#   /retiro-de-pastores-2023/
+#   /retiro-de-pastores-2023-audios/
+#   /preguntas-frecuentes-denton2022/
+#   /6-cosas-que-miembros-deben-evitar-en-tiempos-de-pandemia/ (y -2, -3, -4)
+#   /lidiando-con-la-ansiedad-en-el-ministerio/
