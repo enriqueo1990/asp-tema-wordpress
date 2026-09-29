@@ -1,6 +1,7 @@
 <?php
 /**
- * Box de persona (consejo pastoral). Args: post_id.
+ * Box de persona (consejo pastoral). Args: post_id, sin_pais (bool: no
+ * repetir el país cuando la tarjeta ya está en el grupo de ese país).
  *
  * @package asp
  */
@@ -10,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 $asp_id     = (int) ( $args['post_id'] ?? get_the_ID() );
 $asp_linea  = asp_persona_cargo_iglesia( $asp_id );
 $asp_ciudad = (string) get_post_meta( $asp_id, 'persona_ciudad', true );
-$asp_pais   = (string) get_post_meta( $asp_id, 'persona_pais', true );
+$asp_pais   = empty( $args['sin_pais'] ) ? (string) get_post_meta( $asp_id, 'persona_pais', true ) : '';
 ?>
 <a class="asp-persona-box" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>">
 	<?php echo asp_persona_foto( $asp_id, 'asp-persona-box__foto' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>

@@ -59,6 +59,43 @@ function asp_predicaciones_de_evento( int $evento_id ): array {
 }
 
 /**
+ * Predicaciones agrupadas por conferencia, de la más reciente a la más
+ * vieja. Cada grupo trae el evento, su rótulo ("Taller de Predicación
+ * Expositiva · 2026", armado con la iniciativa y el año; nada se deduce del
+ * título de YouTube) y sus predicaciones en el orden del evento. Las que no
+ * están vinculadas a un evento no entran.
+ *
+ * @param int $grupos   Cuántas conferencias.
+ * @param int $por_grupo Cuántas predicaciones de cada una.
+ * @return array<int, array{evento:WP_Post,rotulo:string,total:int,items:WP_Post[]}>
+ */
+function asp_predicaciones_por_conferencia( int $grupos = 2, int $por_grupo = 4 ): array {
+	$eventos = [];
+	foreach ( asp_predicaciones() as $p ) {
+		$evento = asp_predicacion_evento( $p->ID );
+		if ( $evento && ! isset( $eventos[ $evento->ID ] ) ) {
+			$eventos[ $evento->ID ] = $evento;
+			if ( count( $eventos ) >= $grupos ) {
+				break;
+			}
+		}
+	}
+	$salida = [];
+	foreach ( $eventos as $evento ) {
+		$items      = asp_predicaciones_de_evento( $evento->ID );
+		$iniciativa = asp_evento_iniciativa( $evento->ID );
+		$anio       = asp_evento_anio( $evento->ID );
+		$salida[]   = [
+			'evento' => $evento,
+			'rotulo' => implode( ' · ', array_filter( [ $iniciativa ? get_the_title( $iniciativa ) : '', $anio ? (string) $anio : '' ] ) ),
+			'total'  => count( $items ),
+			'items'  => array_slice( $items, 0, $por_grupo ),
+		];
+	}
+	return $salida;
+}
+
+/**
  * Oradores de un evento según sus predicaciones, para cuando el campo
  * "Oradores" del evento está vacío: los eventos históricos se cargaron sin
  * él, pero sus predicaciones sí dicen quién predicó. Cada uno una vez, en

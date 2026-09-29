@@ -28,6 +28,7 @@ while ( have_posts() ) :
 	$asp_faltan = asp_contacto_faltan();
 	$asp_foto   = asp_contacto_foto();
 	$asp_evento = asp_evento_destacado();
+	$asp_motivo = asp_contacto_motivo();
 	?>
 	<section class="asp-contacto-portada<?php echo $asp_foto ? ' asp-contacto-portada--con-foto' : ''; ?>">
 		<?php echo $asp_foto; // phpcs:ignore WordPress.Security.EscapeOutput ?>
@@ -62,6 +63,10 @@ while ( have_posts() ) :
 				<input type="hidden" name="action" value="asp_contacto">
 				<input type="hidden" name="asp_t" value="<?php echo esc_attr( asp_contacto_marca() ); ?>">
 				<?php wp_nonce_field( 'asp_contacto', 'asp_contacto_nonce' ); ?>
+				<?php if ( $asp_motivo ) : ?>
+					<input type="hidden" name="motivo" value="<?php echo esc_attr( $asp_motivo ); ?>">
+					<p class="asp-contacto__asunto"><span class="asp-label"><?php esc_html_e( 'Asunto', 'asp' ); ?></span> <?php echo esc_html( asp_contacto_motivos()[ $asp_motivo ] ); ?></p>
+				<?php endif; ?>
 				<p class="visually-hidden" aria-hidden="true"><label for="sitio_web"><?php esc_html_e( 'Dejá este campo vacío', 'asp' ); ?></label><input type="text" id="sitio_web" name="sitio_web" tabindex="-1" autocomplete="off"></p>
 				<div class="asp-contacto__fila">
 					<div class="asp-stack asp-stack--2"><label for="nombre"><?php esc_html_e( 'Nombre', 'asp' ); ?></label><input type="text" id="nombre" name="nombre" required maxlength="<?php echo (int) ASP_CONTACTO_LARGOS['nombre']; ?>" autocomplete="name" value="<?php echo esc_attr( $asp_previo['nombre'] ); ?>"<?php echo in_array( 'nombre', $asp_faltan, true ) ? ' aria-invalid="true"' : ''; ?>></div>

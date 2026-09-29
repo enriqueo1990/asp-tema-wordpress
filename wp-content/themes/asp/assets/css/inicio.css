@@ -1,0 +1,1037 @@
+/* inicio.css — Inicio nuevo (templates/page-inicio.php) y botón «Inscribirse»
+   de la cabecera. Se carga solo con el inicio nuevo activo o en su vista
+   previa (inc/inicio.php): si se vuelve atrás, el sitio no carga esta hoja.
+   Sin valores literales de color, tipografía ni espaciado: solo var(--…) de
+   tokens.css. Teléfono primero; 768 y 1024 como en el resto del tema. */
+
+/* ---------------------------------------------------------------------
+   Margen lateral por tamaño de pantalla
+   --------------------------------------------------------------------- */
+/* tokens.css define --w-gutter-desktop pero ninguna regla lo usaba: el
+   sitio tenía 24 px de margen también en escritorio. Se corrige acá, junto
+   con el inicio nuevo, para que volver atrás deje todo como estaba. Con el
+   inicio nuevo activo esta hoja carga en todas las páginas, así que
+   cabecera, pie y el resto quedan alineados. */
+@media (min-width: 768px) {
+  :root {
+    --w-gutter: var(--sp-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --w-gutter: var(--w-gutter-desktop);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Cabecera: «Inscribirse» mientras haya un evento abierto
+   --------------------------------------------------------------------- */
+.asp-header__inscribir {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-3);
+  background: var(--c-accent);
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+  white-space: nowrap;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+/* Área táctil de 44 px, como el botón Donar */
+.asp-header__inscribir::before {
+  content: "";
+  position: absolute;
+  inset: calc((var(--control-h) - 100%) / -2) 0;
+}
+
+.asp-header__inscribir:hover {
+  background: var(--c-text);
+  color: var(--c-accent-ink);
+}
+
+.asp-con-portada .asp-header:not(.is-scrolled):not(.is-menu-open) .asp-header__inscribir {
+  background: var(--c-btn-invertido-bg);
+  color: var(--c-btn-invertido-fg);
+}
+
+/* Con los dos botones, en el teléfono no entran logo, Inscribirse, Donar y
+   Menú: Donar pasa adentro del menú. */
+.asp-nav__donar {
+  display: none;
+}
+
+@media (max-width: 479.98px) {
+  .asp-header--inscribir .asp-header__donar {
+    display: none;
+  }
+
+  .asp-header--inscribir .asp-nav__donar {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--control-h);
+    margin-top: var(--sp-5);
+    font-family: var(--font-ui);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--c-accent);
+  }
+}
+
+/* En el inicio nuevo el hero ya es el próximo evento */
+.asp-inicio-nuevo .asp-nav__proximo {
+  display: none;
+}
+
+/* ---------------------------------------------------------------------
+   Aviso de dato faltante (solo lo ve quien administra)
+   --------------------------------------------------------------------- */
+.asp-inicio-falta {
+  position: relative;
+  z-index: 1;
+  max-width: var(--w-prose);
+  margin: 0;
+  padding: var(--sp-2) var(--sp-3);
+  border-left: var(--border-marca) solid var(--c-todo-fg);
+  background: var(--c-todo-bg);
+  color: var(--c-todo-fg);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-style: normal;
+  line-height: var(--lh-body);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ---------------------------------------------------------------------
+   1. Hero
+   --------------------------------------------------------------------- */
+.asp-inicio-hero__inner {
+  gap: var(--sp-6);
+}
+
+/* Sin evento abierto, la identidad pasa a ser el titular */
+.asp-inicio-hero__lema {
+  max-width: 20ch;
+  font-family: var(--font-display);
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+  color: var(--c-photo-text);
+}
+
+.asp-inicio-hero__evento {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.asp-inicio-hero__principal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.asp-inicio-hero__titulo {
+  max-width: 20ch;
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+
+.asp-inicio-hero__titulo a {
+  color: var(--c-photo-text);
+}
+
+.asp-inicio-hero__titulo a:hover .asp-inicio-hero__nombre {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.12em;
+}
+
+.asp-inicio-hero__tipo {
+  display: block;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-lg);
+  font-style: italic;
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-heading);
+  letter-spacing: 0;
+}
+
+.asp-inicio-hero__nombre {
+  display: block;
+}
+
+/* Fecha y lugar: el dato que sigue al título, en serif y a su escala */
+.asp-inicio-hero__datos {
+  margin: 0;
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+  color: var(--c-photo-text);
+}
+
+/* Para quién y cupo: una sola línea, chica, que no compite */
+.asp-inicio-hero__secundario {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1) var(--sp-5);
+  max-width: var(--w-prose);
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--c-photo-text);
+}
+
+.asp-inicio-hero__secundario .asp-label {
+  margin-right: var(--sp-1);
+}
+
+/* Los dos botones del mismo alto: uno relleno y el otro con borde */
+.asp-inicio-hero__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-2);
+}
+
+.asp-inicio-hero__ficha {
+  border: var(--border-hairline) solid var(--c-photo-text);
+  background: transparent;
+  color: var(--c-photo-text);
+}
+
+.asp-inicio-hero__ficha:hover {
+  background: var(--c-dark-surface);
+  color: var(--c-photo-text);
+}
+
+/* Quiénes enseñan: bloque propio, separado por un filete */
+.asp-inicio-hero__oradores {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-top: var(--sp-5);
+  border-top: var(--border-hairline) solid var(--c-photo-rule);
+}
+
+.asp-inicio-hero__oradores ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--inicio-orador-min), 1fr));
+  gap: var(--sp-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.asp-inicio-hero__oradores li {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  color: var(--c-photo-text);
+}
+
+.asp-inicio-hero__avatar {
+  flex: none;
+  width: var(--inicio-avatar);
+  height: var(--inicio-avatar);
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+}
+
+/* Sin foto, las iniciales centradas */
+.asp-inicio-hero__avatar.asp-iniciales {
+  display: grid;
+}
+
+.asp-inicio-hero__persona-nombre {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  line-height: var(--lh-heading);
+}
+
+/* Escritorio: los oradores pasan a una columna a la derecha, abajo */
+@media (min-width: 1024px) {
+  .asp-inicio-hero__evento--con-oradores {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--sp-9);
+    align-items: end;
+  }
+
+  .asp-inicio-hero__oradores {
+    padding-top: 0;
+    padding-left: var(--sp-6);
+    border-top: 0;
+    border-left: var(--border-hairline) solid var(--c-photo-rule);
+  }
+
+  .asp-inicio-hero__oradores ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* En el teléfono, para quién y el cupo van en renglones propios. */
+@media (max-width: 767.98px) {
+  .asp-inicio-hero__secundario {
+    flex-direction: column;
+  }
+}
+
+/* En el teléfono los dos botones no entran lado a lado: van a todo el
+   ancho, uno debajo del otro, en vez de quedar apilados y desparejos. */
+@media (max-width: 479.98px) {
+  .asp-inicio-hero__acciones {
+    flex-direction: column;
+  }
+
+  .asp-inicio-hero__acciones .asp-btn {
+    width: 100%;
+  }
+}
+
+.asp-inicio-hero :focus-visible {
+  outline-color: var(--c-focus-ring-inverso);
+}
+
+@media (min-width: 1024px) {
+  .asp-inicio-hero__titulo {
+    font-size: var(--fs-4xl);
+    max-width: 16ch;
+  }
+
+  .asp-inicio-hero__tipo {
+    font-size: var(--fs-xl);
+  }
+
+  .asp-inicio-hero__lema {
+    font-size: var(--fs-4xl);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   2. Quiénes somos y confianza (fondo blanco)
+   --------------------------------------------------------------------- */
+.asp-inicio-somos {
+  padding-block: var(--sp-home);
+}
+
+.asp-inicio-somos__grilla {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-7);
+}
+
+.asp-inicio-somos__texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  max-width: var(--w-column);
+}
+
+.asp-inicio-cifras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--inicio-cifra-min), 1fr));
+  gap: var(--sp-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  align-self: start;
+}
+
+.asp-inicio-cifras li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding-top: var(--sp-3);
+  border-top: var(--border-hairline) solid var(--c-border-strong);
+}
+
+/* Números a escala de subtítulo, no de cartel */
+.asp-inicio-cifras__numero {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  color: var(--c-accent);
+}
+
+.asp-inicio-cifras__texto {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-heading);
+  color: var(--c-text-muted);
+}
+
+.asp-inicio-somos__testimonio {
+  padding-top: var(--sp-6);
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+@media (min-width: 1024px) {
+  .asp-inicio-somos__grilla {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    column-gap: var(--sp-9);
+    row-gap: var(--sp-8);
+  }
+
+  .asp-inicio-cifras {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: var(--sp-9);
+  }
+
+  .asp-inicio-somos__testimonio {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   3. Cómo servimos (banda tonal)
+   --------------------------------------------------------------------- */
+.asp-inicio-servir {
+  padding-block: var(--sp-home);
+  background: var(--c-surface);
+  border-block: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-inicio-servir .asp-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.asp-inicio-servir__lista {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-7);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.asp-inicio-servir__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+/* Sin foto, un filete arriba: nunca un bloque de color en su lugar */
+.asp-inicio-servir__item:not(.asp-inicio-servir__item--con-foto) {
+  padding-top: var(--sp-4);
+  border-top: var(--border-hairline) solid var(--c-border-strong);
+}
+
+.asp-inicio-servir__visual {
+  display: block;
+  aspect-ratio: var(--inicio-ratio-foto);
+  overflow: hidden;
+  background: var(--c-surface-2);
+}
+
+.asp-inicio-servir__foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur) var(--ease);
+}
+
+.asp-inicio-servir__item:hover .asp-inicio-servir__foto {
+  transform: scale(1.02);
+}
+
+.asp-inicio-servir__cuerpo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-2);
+}
+
+.asp-inicio-servir__titulo {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+  text-wrap: balance;
+}
+
+.asp-inicio-servir__enlace {
+  color: var(--c-text);
+  transition: color var(--dur) var(--ease);
+}
+
+/* Toda la tarjeta lleva a la iniciativa */
+.asp-inicio-servir__enlace::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.asp-inicio-servir__item:hover .asp-inicio-servir__enlace {
+  color: var(--c-accent);
+}
+
+.asp-inicio-servir__bajada {
+  max-width: 48ch;
+  margin: 0;
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--c-text);
+}
+
+.asp-inicio-servir__datos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin: var(--sp-1) 0 0;
+}
+
+.asp-inicio-servir__datos div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2);
+}
+
+.asp-inicio-servir__datos dd {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+@media (min-width: 768px) {
+  .asp-inicio-servir__lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-8) var(--sp-7);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asp-inicio-servir__foto {
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   4. Próximos eventos (fondo blanco, filas iguales)
+   --------------------------------------------------------------------- */
+.asp-inicio-agenda {
+  padding-block: var(--sp-home);
+}
+
+.asp-inicio-agenda__cab {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-6);
+}
+
+.asp-inicio-agenda__lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--border-hairline) solid var(--c-border-strong);
+}
+
+.asp-inicio-agenda__item {
+  position: relative;
+  display: grid;
+  /* Teléfono: miniatura a la izquierda; la fecha en una línea sobre el título */
+  grid-template-columns: var(--inicio-agenda-mini) minmax(0, 1fr);
+  grid-template-areas:
+    "visual fecha"
+    "visual cuerpo";
+  grid-template-rows: auto 1fr;
+  column-gap: var(--sp-4);
+  row-gap: var(--sp-1);
+  align-items: start;
+  padding-block: var(--sp-5);
+  border-bottom: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-inicio-agenda__fecha {
+  grid-area: fecha;
+  margin: 0;
+}
+
+.asp-inicio-agenda__fecha time {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-1) var(--sp-2);
+}
+
+.asp-inicio-agenda__dias {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  white-space: nowrap;   /* «12–13» nunca en dos renglones */
+  color: var(--c-accent);
+}
+
+.asp-inicio-agenda__mes {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-sm);
+  font-style: italic;
+  line-height: var(--lh-heading);
+  color: var(--c-text-muted);
+}
+
+.asp-inicio-agenda__cuerpo {
+  grid-area: cuerpo;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+.asp-inicio-agenda__titulo {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+}
+
+.asp-inicio-agenda__enlace {
+  color: var(--c-text);
+  transition: color var(--dur) var(--ease);
+}
+
+.asp-inicio-agenda__enlace::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.asp-inicio-agenda__item:hover .asp-inicio-agenda__enlace {
+  color: var(--c-accent);
+}
+
+.asp-inicio-agenda__lugar {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+/* Miniatura: la foto (nunca el flyer) o, sin foto, la cruz del logo sobre
+   la banda tonal. Siempre el mismo tamaño, así las filas no cambian. */
+.asp-inicio-agenda__visual {
+  grid-area: visual;
+  display: block;
+  aspect-ratio: var(--inicio-ratio-foto);
+  overflow: hidden;
+  background: var(--c-surface-2);
+}
+
+.asp-inicio-agenda__foto {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.asp-inicio-agenda__visual--sin-foto {
+  display: grid;
+  place-items: center;
+  color: var(--c-border-strong);
+}
+
+.asp-inicio-agenda__visual--sin-foto svg {
+  width: 36%;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  .asp-inicio-agenda__cab {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  /* Tableta y escritorio: fecha, texto y la miniatura a la derecha */
+  .asp-inicio-agenda__item {
+    grid-template-columns: var(--inicio-fecha-col-desktop) minmax(0, 1fr) var(--inicio-foto-col);
+    grid-template-areas: "fecha cuerpo visual";
+    grid-template-rows: auto;
+    column-gap: var(--sp-6);
+    padding-block: var(--sp-6);
+  }
+
+  .asp-inicio-agenda__fecha time {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .asp-inicio-agenda__dias {
+    font-size: var(--fs-2xl);
+  }
+
+  .asp-inicio-agenda__titulo {
+    font-size: var(--fs-xl);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   5. Predicaciones por conferencia (banda oscura)
+   --------------------------------------------------------------------- */
+/* La banda oscura trae un margen vertical de components.css pensado para
+   el inicio viejo: acá dejaba una franja blanca de más arriba y abajo. */
+.asp-inicio-predicaciones {
+  margin-block: 0;
+  padding-block: var(--sp-home);
+}
+
+.asp-inicio-predicaciones .asp-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.asp-inicio-predicaciones__cab {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.asp-inicio-predicaciones__cab .asp-buscador--banda {
+  width: 100%;
+  max-width: var(--inicio-buscador-w);
+  margin-bottom: 0;
+}
+
+.asp-inicio-predicaciones__grupos {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-8);
+  margin-block: var(--sp-2);
+}
+
+.asp-inicio-conferencia {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.asp-inicio-conferencia__cab {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding-top: var(--sp-4);
+  border-top: var(--border-hairline) solid var(--c-dark-border);
+}
+
+.asp-inicio-conferencia__titulo {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+  text-wrap: balance;
+}
+
+.asp-inicio-conferencia__titulo a {
+  color: var(--c-dark-fg);
+}
+
+.asp-inicio-conferencia__titulo a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.12em;
+}
+
+.asp-inicio-conferencia__lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.asp-inicio-conferencia__lista li {
+  border-bottom: var(--border-hairline) solid var(--c-dark-rule);
+}
+
+.asp-inicio-sermon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding-block: var(--sp-4);
+  color: var(--c-dark-fg);
+}
+
+/* Con miniatura: la imagen a la izquierda y el texto al lado */
+.asp-inicio-sermon--con-miniatura {
+  display: grid;
+  grid-template-columns: var(--inicio-miniatura-w) minmax(0, 1fr);
+  gap: var(--sp-4);
+  align-items: start;
+}
+
+.asp-inicio-sermon__visual {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--c-dark-surface);
+}
+
+.asp-inicio-sermon__miniatura,
+.asp-inicio-sermon__miniatura img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.asp-inicio-sermon__miniatura img {
+  object-fit: cover;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.asp-inicio-sermon:hover .asp-inicio-sermon__miniatura img {
+  opacity: 0.85;
+}
+
+.asp-inicio-sermon__texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+/* El pasaje es lo primero que se lee */
+.asp-inicio-sermon__pasaje {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+}
+
+.asp-inicio-sermon__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  line-height: var(--lh-heading);
+}
+
+.asp-inicio-sermon--sin-pasaje .asp-inicio-sermon__titulo {
+  font-size: var(--fs-lg);
+}
+
+.asp-inicio-sermon__orador {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-dark-muted);
+}
+
+/* La regla general a:hover pinta con el color de texto (casi negro): sobre
+   la banda oscura el título desaparecía. */
+.asp-inicio-sermon:hover {
+  color: var(--c-dark-fg);
+}
+
+.asp-inicio-sermon:hover .asp-inicio-sermon__titulo {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+.asp-inicio-predicaciones :focus-visible {
+  outline-color: var(--c-focus-ring-inverso);
+}
+
+@media (min-width: 768px) {
+  .asp-inicio-sermon--con-miniatura {
+    grid-template-columns: var(--inicio-miniatura-w-desktop) minmax(0, 1fr);
+    gap: var(--sp-5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asp-inicio-sermon__miniatura img {
+    transition: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .asp-inicio-predicaciones__cab {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .asp-inicio-predicaciones__grupos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-9);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   6. Artículos a todo el ancho (fondo blanco)
+   --------------------------------------------------------------------- */
+.asp-inicio-articulos {
+  padding-block: var(--sp-home);
+}
+
+.asp-inicio-articulos .asp-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.asp-inicio-articulos__grilla {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-7);
+}
+
+.asp-inicio-articulos__lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--border-hairline) solid var(--c-border-strong);
+}
+
+.asp-inicio-articulos__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-1);
+  padding-block: var(--sp-4);
+  border-bottom: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-inicio-articulos__titulo {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+  text-wrap: pretty;
+}
+
+.asp-inicio-articulos__enlace {
+  color: var(--c-text);
+  transition: color var(--dur) var(--ease);
+}
+
+.asp-inicio-articulos__enlace::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.asp-inicio-articulos__item:hover .asp-inicio-articulos__enlace {
+  color: var(--c-accent);
+}
+
+.asp-inicio-articulos__meta {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+@media (min-width: 1024px) {
+  .asp-inicio-articulos__grilla {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--sp-9);
+    align-items: start;
+  }
+
+  .asp-inicio-articulos__grilla--uno {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .asp-inicio-articulos__lista {
+    border-top: 0;
+  }
+
+  .asp-inicio-articulos__item:first-child {
+    padding-top: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   7. Formas de participar (banda tonal, tarjetas iguales sin caja)
+   --------------------------------------------------------------------- */
+.asp-inicio-participar {
+  padding-block: var(--sp-home);
+  background: var(--c-surface);
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-inicio-participar .asp-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.asp-inicio-participar__grilla {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.asp-inicio-participar__tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-top: var(--sp-4);
+  border-top: var(--border-hairline) solid var(--c-border-strong);
+}
+
+.asp-inicio-participar__titulo {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+}
+
+.asp-inicio-participar__texto {
+  max-width: 40ch;
+  margin: 0;
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+}
+
+.asp-inicio-participar__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin: 0;
+  padding-left: var(--sp-5);
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+}
+
+.asp-inicio-participar__acciones {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+}
+
+@media (min-width: 768px) {
+  .asp-inicio-participar__grilla {
+    grid-template-columns: repeat(auto-fit, minmax(var(--inicio-tarjeta-min), 1fr));
+    gap: var(--sp-7) var(--sp-6);
+  }
+}
+
+/* El destacado comparte fila con la lista: título a escala de columna */
+@media (min-width: 1024px) {
+  .asp-inicio-articulos .asp-articulo-destacado__titulo {
+    font-size: var(--fs-2xl);
+  }
+}

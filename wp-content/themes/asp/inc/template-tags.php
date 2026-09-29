@@ -232,6 +232,8 @@ function asp_redes(): array {
 		'X'         => (string) get_theme_mod( 'asp_red_twitter', 'https://x.com/antesupalabra' ),
 		'YouTube'   => (string) get_theme_mod( 'asp_red_youtube', 'https://www.youtube.com/channel/UCzBclEQZPuu7qy7rQRpUdaA' ),
 		'Instagram' => (string) get_theme_mod( 'asp_red_instagram', 'https://www.instagram.com/antesupalabra/' ),
+		/* Sin default: aparece recién cuando el ministerio carga el link del canal. */
+		'WhatsApp'  => (string) get_theme_mod( 'asp_red_whatsapp', '' ),
 	];
 	return array_filter( $redes );
 }

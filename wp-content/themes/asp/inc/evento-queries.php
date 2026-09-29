@@ -248,6 +248,38 @@ function asp_personas_por_rol( string $rol ): array {
 }
 
 /**
+ * Consejo Pastoral agrupado por país (campo «País» de cada persona): hay un
+ * consejo en Argentina y otro en Estados Unidos. Argentina primero, después
+ * Estados Unidos, después cualquier otro país; quien no tiene país cargado
+ * va al final en un grupo sin rótulo. Dentro de cada grupo, el orden del
+ * panel («Atributos → Orden»).
+ *
+ * @return array<int, array{pais:string,personas:WP_Post[]}>
+ */
+function asp_consejo_por_pais(): array {
+	$grupos = [];
+	foreach ( asp_personas_por_rol( 'consejo' ) as $persona ) {
+		$pais = trim( (string) get_post_meta( $persona->ID, 'persona_pais', true ) );
+		/* Variantes que se escriben a mano para el mismo país. */
+		if ( in_array( strtolower( str_replace( [ '.', ' ' ], '', $pais ) ), [ 'eeuu', 'usa', 'us', 'estadosunidos' ], true ) ) {
+			$pais = 'Estados Unidos';
+		}
+		$grupos[ $pais ][] = $persona;
+	}
+	$orden = static function ( string $pais ): string {
+		$fijos = [ 'Argentina' => '0', 'Estados Unidos' => '1' ];
+		return $fijos[ $pais ] ?? ( '' === $pais ? '9' : '2' . $pais );
+	};
+	uksort( $grupos, static fn( $a, $b ): int => strcmp( $orden( (string) $a ), $orden( (string) $b ) ) );
+
+	$salida = [];
+	foreach ( $grupos as $pais => $personas ) {
+		$salida[] = [ 'pais' => (string) $pais, 'personas' => $personas ];
+	}
+	return $salida;
+}
+
+/**
  * Personas que pueden figurar como oradores en el panel: las de rol
  * "Orador" y las del consejo, que predican en todas las conferencias.
  *

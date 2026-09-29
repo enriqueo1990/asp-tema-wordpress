@@ -17,7 +17,7 @@ get_header();
 
 while ( have_posts() ) :
 	the_post();
-	$asp_consejo   = asp_personas_por_rol( 'consejo' );
+	$asp_consejo   = asp_consejo_por_pais();
 	$asp_af        = asp_afirmaciones();
 	$asp_pdf       = asp_afirmaciones_pdf();
 	$asp_destacado = asp_evento_destacado();
@@ -58,11 +58,19 @@ while ( have_posts() ) :
 			<div class="asp-container"><div class="asp-column asp-stack asp-stack--5">
 				<h2 class="asp-label"><?php esc_html_e( 'Consejo Pastoral', 'asp' ); ?></h2>
 				<p class="asp-prose"><?php esc_html_e( 'El Consejo Pastoral da dirección y cuidado al ministerio y las iniciativas del mismo.', 'asp' ); ?></p>
-				<div class="asp-grid-consejo">
-					<?php foreach ( $asp_consejo as $asp_persona ) : ?>
-						<?php get_template_part( 'parts/persona/card', null, [ 'post_id' => $asp_persona->ID ] ); ?>
-					<?php endforeach; ?>
-				</div>
+				<?php /* Un consejo en Argentina y otro en Estados Unidos, según el campo «País» de cada persona (29-9-2026). */ ?>
+				<?php foreach ( $asp_consejo as $asp_i => $asp_grupo ) : ?>
+					<div class="asp-consejo-grupo">
+						<?php if ( '' !== $asp_grupo['pais'] ) : ?>
+							<h3 class="asp-consejo-grupo__pais" id="consejo-<?php echo esc_attr( (string) $asp_i ); ?>"><?php echo esc_html( $asp_grupo['pais'] ); ?></h3>
+						<?php endif; ?>
+						<div class="asp-grid-consejo"<?php echo '' !== $asp_grupo['pais'] ? ' role="list" aria-labelledby="consejo-' . esc_attr( (string) $asp_i ) . '"' : ''; ?>>
+							<?php foreach ( $asp_grupo['personas'] as $asp_persona ) : ?>
+								<div role="listitem"><?php get_template_part( 'parts/persona/card', null, [ 'post_id' => $asp_persona->ID, 'sin_pais' => '' !== $asp_grupo['pais'] ] ); ?></div>
+							<?php endforeach; ?>
+						</div>
+					</div>
+				<?php endforeach; ?>
 			</div></div>
 		</section>
 	<?php endif; ?>

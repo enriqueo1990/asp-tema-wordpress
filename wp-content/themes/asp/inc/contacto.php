@@ -138,7 +138,13 @@ function asp_contacto_enviar(): void {
 		$fallar( 'limite' );
 	}
 
-	$asunto = sprintf( /* translators: %s: nombre */ __( 'Contacto desde el sitio: %s', 'asp' ), $nombre );
+	$motivos = asp_contacto_motivos();
+	$motivo  = sanitize_key( asp_contacto_campo( 'motivo' ) );
+	$asunto  = isset( $motivos[ $motivo ] )
+		/* translators: 1: motivo, 2: nombre */
+		? sprintf( __( '%1$s: %2$s', 'asp' ), $motivos[ $motivo ], $nombre )
+		/* translators: %s: nombre */
+		: sprintf( __( 'Contacto desde el sitio: %s', 'asp' ), $nombre );
 	$cuerpo = sprintf( "%s\n\n%s\n\n—\n%s <%s>", $mensaje, __( 'Respondé a este mail para contestarle.', 'asp' ), $nombre, $email );
 	/* Nombre sin comillas ni saltos: va dentro de una cabecera. */
 	$nombre_cabecera = trim( str_replace( [ '"', "\r", "\n", '<', '>' ], '', $nombre ) );
@@ -153,6 +159,29 @@ function asp_contacto_enviar(): void {
 }
 add_action( 'admin_post_nopriv_asp_contacto', 'asp_contacto_enviar' );
 add_action( 'admin_post_asp_contacto', 'asp_contacto_enviar' );
+
+/**
+ * Motivos que pueden llegar precargados desde otra página con ?motivo=.
+ * El motivo va como asunto del mail.
+ *
+ * @return array<string,string> clave => asunto.
+ */
+function asp_contacto_motivos(): array {
+	return [
+		'taller' => __( 'Quiero recibir un taller en mi iglesia', 'asp' ),
+	];
+}
+
+/**
+ * Motivo precargado en la dirección, o cadena vacía.
+ *
+ * @return string
+ */
+function asp_contacto_motivo(): string {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$motivo = isset( $_GET['motivo'] ) ? sanitize_key( (string) wp_unslash( $_GET['motivo'] ) ) : '';
+	return isset( asp_contacto_motivos()[ $motivo ] ) ? $motivo : '';
+}
 
 /**
  * Foto de la portada de Contacto: la propia de Personalizar o, si no hay,

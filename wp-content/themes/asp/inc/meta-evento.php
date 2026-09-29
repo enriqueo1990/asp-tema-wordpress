@@ -78,6 +78,8 @@ function asp_render_evento_opcional( WP_Post $post ): void {
 		<?php asp_campo_texto( 'evento_sede_nombre', __( 'Sede', 'asp' ), (string) get_post_meta( $id, 'evento_sede_nombre', true ), '', false, __( 'Ej. Iglesia Gracia Soberana', 'asp' ) ); ?>
 		<?php asp_campo_textarea( 'evento_sede_direccion', __( 'Dirección de la sede', 'asp' ), (string) get_post_meta( $id, 'evento_sede_direccion', true ), __( 'Ej. 8300 Helgerman Ct, Gaithersburg, MD', 'asp' ), 2 ); ?>
 		<?php asp_campo_texto( 'evento_precio', __( 'Precio', 'asp' ), (string) get_post_meta( $id, 'evento_precio', true ), __( 'Texto libre, ej. «Entrada libre» o «USD 25 · ARS 15.000».', 'asp' ) ); ?>
+		<?php asp_campo_texto( 'evento_cupo', __( 'Cupo', 'asp' ), (string) get_post_meta( $id, 'evento_cupo', true ), __( 'Opcional. Texto libre, ej. «40 lugares». Si lo dejás vacío, no se muestra nada.', 'asp' ) ); ?>
+		<?php asp_campo_url_archivo( 'evento_kit', __( 'Kit de medios', 'asp' ), (string) get_post_meta( $id, 'evento_kit', true ), __( 'Opcional. Las piezas para que otros compartan el evento: subí un PDF o un .zip, o pegá el link a una carpeta. En el inicio aparece como «Invitá a otros». Al duplicar el evento no se copia.', 'asp' ), 'application' ); ?>
 		<?php asp_campo_checkbox( 'evento_destacado', __( 'Mostrar como evento principal en el inicio', 'asp' ), (bool) get_post_meta( $id, 'evento_destacado', true ), __( 'Si ninguno está marcado, el inicio muestra el próximo por fecha.', 'asp' ) ); ?>
 	</div>
 	<?php asp_campo_checkboxes_posts( 'evento_oradores', __( 'Oradores', 'asp' ), $oradores, array_map( 'absint', (array) get_post_meta( $id, 'evento_oradores', false ) ), __( 'Aparecen los oradores y los pastores del consejo. Si falta alguien, pedile a quien administra el sitio que lo agregue.', 'asp' ), __( 'Todavía no hay oradores cargados. Pedile a quien administra el sitio que los agregue.', 'asp' ) ); ?>
@@ -117,6 +119,8 @@ function asp_guardar_evento( int $post_id ): void {
 	asp_guardar_meta( $post_id, 'evento_sede_nombre', sanitize_text_field( asp_post_texto( 'evento_sede_nombre' ) ) );
 	asp_guardar_meta( $post_id, 'evento_sede_direccion', sanitize_textarea_field( asp_post_texto( 'evento_sede_direccion' ) ) );
 	asp_guardar_meta( $post_id, 'evento_precio', sanitize_text_field( asp_post_texto( 'evento_precio' ) ) );
+	asp_guardar_meta( $post_id, 'evento_cupo', sanitize_text_field( asp_post_texto( 'evento_cupo' ) ) );
+	asp_guardar_meta( $post_id, 'evento_kit', esc_url_raw( asp_post_texto( 'evento_kit' ) ) );
 	asp_guardar_meta( $post_id, 'evento_destacado', '' !== asp_post_texto( 'evento_destacado' ) ? '1' : '' );
 	asp_guardar_meta_multiple( $post_id, 'evento_oradores', asp_post_ids( 'evento_oradores' ) );
 	asp_guardar_meta_multiple( $post_id, 'evento_aliados', asp_post_ids( 'evento_aliados' ) );

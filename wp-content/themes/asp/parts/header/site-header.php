@@ -12,9 +12,14 @@ defined( 'ABSPATH' ) || exit;
 $asp_proximo = asp_evento_destacado();
 $asp_fecha   = $asp_proximo ? asp_evento_fecha_display( $asp_proximo->ID ) : null;
 $asp_donar   = asp_url_donar();
+/* Con el inicio nuevo (inc/inicio.php) el aviso «Próximo evento» deja lugar
+   al botón «Inscribirse», que solo existe mientras haya un evento con la
+   inscripción abierta. Con el inicio de antes, la cabecera sigue igual. */
+$asp_nuevo     = asp_inicio_nuevo_activo();
+$asp_inscribir = $asp_nuevo ? asp_evento_hero() : null;
 ?>
 <a class="asp-skip" href="#contenido"><?php esc_html_e( 'Ir al contenido', 'asp' ); ?></a>
-<header class="asp-header" data-asp-header>
+<header class="asp-header<?php echo $asp_inscribir ? ' asp-header--inscribir' : ''; ?>" data-asp-header>
 	<div class="asp-container asp-header__inner">
 		<?php asp_logo(); ?>
 
@@ -29,10 +34,15 @@ $asp_donar   = asp_url_donar();
 					<?php endif; ?>
 				</a>
 			<?php endif; ?>
+			<?php if ( $asp_inscribir && $asp_donar ) : ?>
+				<a class="asp-nav__donar" href="<?php echo esc_url( $asp_donar ); ?>"><?php esc_html_e( 'Donar', 'asp' ); ?></a>
+			<?php endif; ?>
 		</nav>
 
 		<div class="asp-header__derecha">
-			<?php if ( $asp_proximo ) : ?>
+			<?php if ( $asp_inscribir ) : ?>
+				<a class="asp-header__inscribir" href="<?php echo esc_url( asp_evento_url_registro( $asp_inscribir->ID ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Inscribirse', 'asp' ); ?><span class="visually-hidden"><?php echo esc_html( ' · ' . get_the_title( $asp_inscribir ) ); ?></span><?php echo asp_aviso_pestana(); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
+			<?php elseif ( $asp_proximo && ! $asp_nuevo ) : ?>
 				<a class="asp-header__cta" href="<?php echo esc_url( get_permalink( $asp_proximo ) ); ?>">
 					<span class="asp-header__cta-label"><?php esc_html_e( 'Próximo evento', 'asp' ); ?></span>
 					<?php if ( $asp_fecha && $asp_fecha['dias'] ) : ?>

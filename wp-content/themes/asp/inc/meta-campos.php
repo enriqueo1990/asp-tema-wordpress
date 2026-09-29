@@ -151,6 +151,8 @@ function asp_registrar_meta(): void {
 	register_post_meta( 'evento', 'evento_programa', [ 'type' => 'array', 'single' => true, 'sanitize_callback' => 'asp_sanitizar_programa', 'show_in_rest' => false ] );
 	register_post_meta( 'evento', 'evento_aliados', $ids );
 	register_post_meta( 'evento', 'evento_precio', $texto );
+	register_post_meta( 'evento', 'evento_cupo', $texto );
+	register_post_meta( 'evento', 'evento_kit', $url );
 	register_post_meta( 'evento', 'evento_destacado', $bool );
 
 	/* Evento — archivo (fase 2, se declaran para que el modelo no cambie) */

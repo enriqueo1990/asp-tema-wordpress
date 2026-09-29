@@ -108,6 +108,8 @@ agotado  => Sin cupo
 | `evento_aliados` | relación múltiple → `aliado` | Simeon Trust, Cross Connections, TeoLibros |
 | `evento_precio` | texto | Texto libre, no número: los precios cambian por país |
 | `evento_destacado` | booleano | Marca el evento del hero |
+| `evento_cupo` | texto | Opcional, texto libre («40 lugares»). Solo lo muestra el inicio nuevo, en el hero. Se copia al duplicar |
+| `evento_kit` | url | Opcional. Kit de medios (PDF, .zip o link a una carpeta) para la tarjeta «Invitá a otros» del inicio nuevo. **No** se copia al duplicar |
 
 El repetidor lleva `dia` porque las conferencias duran dos días y un programa sin
 día no se puede leer. `orador` es texto libre y no relación: en el programa
@@ -292,3 +294,28 @@ Camino recomendado:
 
 Guardar el mapa de redirects como CSV versionado en `docs/redirects.csv`, no
 escrito a mano en el `.htaccess`.
+
+---
+
+## Inicio nuevo (28-9-2026)
+
+Rediseño del inicio armado en paralelo al de siempre: plantilla
+`templates/page-inicio.php`, lógica en `inc/inicio.php`, partes en
+`parts/inicio/` y estilos en `assets/css/inicio.css`. `front-page.php` no se
+tocó.
+
+- **Activar:** Ajustes → Lectura → página de inicio = la página que usa la
+  plantilla «Inicio nuevo» (`tools/crear-inicio-nuevo.php` la crea en
+  `/inicio-nuevo/`). El filtro `frontpage_template` la carga en lugar de
+  `front-page.php` y la cabecera cambia «Próximo evento» por «Inscribirse».
+- **Volver atrás:** elegir de nuevo la página «Inicio». Nada del inicio nuevo
+  corre fuera de esos dos casos. Mientras no es la portada, `/inicio-nuevo/`
+  lleva `noindex`.
+- El hero muestra solo un evento con **inscripción abierta**
+  (`asp_evento_hero()`); `asp_evento_destacado()` sigue igual para el resto.
+- Personalizar → **Inicio**: `asp_identidad`, `asp_cifra_{1,2,3}_numero` y
+  `_texto`, `asp_suscripcion_url`, `asp_oracion_{1,2}`. En Personalizar →
+  Ante Su Palabra: `asp_red_whatsapp` (también en el pie).
+- Contacto acepta `?motivo=taller`: el motivo va como asunto del mail.
+- Lo que falta cargar se muestra como aviso solo a quien tiene
+  `edit_theme_options`; para quien visita, el bloque no existe.

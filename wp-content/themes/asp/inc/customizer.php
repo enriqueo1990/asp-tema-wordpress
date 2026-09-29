@@ -144,6 +144,16 @@ function asp_customizer( WP_Customize_Manager $wp_customize ): void {
 		$wp_customize->add_setting( $clave, [ 'sanitize_callback' => 'esc_url_raw', 'default' => $default ] );
 		$wp_customize->add_control( $clave, [ 'label' => $nombre, 'section' => 'asp_sitio', 'type' => 'url' ] );
 	}
+	$wp_customize->add_setting( 'asp_red_whatsapp', [ 'sanitize_callback' => 'esc_url_raw', 'default' => '' ] );
+	$wp_customize->add_control(
+		'asp_red_whatsapp',
+		[
+			'label'       => __( 'Canal de WhatsApp', 'asp' ),
+			'description' => __( 'El link de invitación al canal (empieza con https://whatsapp.com/channel/). Aparece en el pie y en el inicio nuevo; vacío, no aparece.', 'asp' ),
+			'section'     => 'asp_sitio',
+			'type'        => 'url',
+		]
+	);
 
 	$wp_customize->add_setting( 'asp_afirmaciones_pdf', [ 'sanitize_callback' => 'esc_url_raw', 'default' => '' ] );
 	$wp_customize->add_control(
@@ -157,8 +167,90 @@ function asp_customizer( WP_Customize_Manager $wp_customize ): void {
 			]
 		)
 	);
+
+	asp_customizer_inicio( $wp_customize );
 }
 add_action( 'customize_register', 'asp_customizer' );
+
+/**
+ * Sección «Inicio»: lo que usa el inicio nuevo (templates/page-inicio.php).
+ * Todo es opcional: lo que queda vacío no se muestra.
+ *
+ * @param WP_Customize_Manager $wp_customize Manager.
+ * @return void
+ */
+function asp_customizer_inicio( WP_Customize_Manager $wp_customize ): void {
+	$wp_customize->add_section(
+		'asp_inicio',
+		[
+			'title'       => __( 'Inicio', 'asp' ),
+			'description' => __( 'Textos y datos del inicio. Lo que dejes vacío no aparece en el sitio.', 'asp' ),
+			'priority'    => 21,
+		]
+	);
+
+	$wp_customize->add_setting( 'asp_identidad', [ 'sanitize_callback' => 'sanitize_text_field', 'default' => '' ] );
+	$wp_customize->add_control(
+		'asp_identidad',
+		[
+			'label'       => __( 'Quiénes somos, en una línea', 'asp' ),
+			'description' => __( 'Es el titular del inicio cuando no hay un evento con inscripción abierta; con evento, no se ve pero la leen los buscadores. Si la dejás vacía, se usa la descripción del sitio (Ajustes → Generales).', 'asp' ),
+			'section'     => 'asp_inicio',
+			'type'        => 'text',
+		]
+	);
+
+	/* TODO: los números los aporta el ministerio (años de ministerio,
+	   eventos realizados, países). No cargar valores estimados. */
+	foreach ( [ 1, 2, 3 ] as $n ) {
+		$wp_customize->add_setting( "asp_cifra_{$n}_numero", [ 'sanitize_callback' => 'sanitize_text_field', 'default' => '' ] );
+		$wp_customize->add_control(
+			"asp_cifra_{$n}_numero",
+			[
+				/* translators: %d: número de dato */
+				'label'       => sprintf( __( 'Dato %d: número', 'asp' ), $n ),
+				'description' => 1 === $n ? __( 'Hasta tres datos de trayectoria, ej. «12» y «años de ministerio». Hacen falta el número y el texto; si falta uno, ese dato no aparece.', 'asp' ) : '',
+				'section'     => 'asp_inicio',
+				'type'        => 'text',
+			]
+		);
+		$wp_customize->add_setting( "asp_cifra_{$n}_texto", [ 'sanitize_callback' => 'sanitize_text_field', 'default' => '' ] );
+		$wp_customize->add_control(
+			"asp_cifra_{$n}_texto",
+			[
+				/* translators: %d: número de dato */
+				'label'   => sprintf( __( 'Dato %d: qué cuenta', 'asp' ), $n ),
+				'section' => 'asp_inicio',
+				'type'    => 'text',
+			]
+		);
+	}
+
+	$wp_customize->add_setting( 'asp_suscripcion_url', [ 'sanitize_callback' => 'esc_url_raw', 'default' => '' ] );
+	$wp_customize->add_control(
+		'asp_suscripcion_url',
+		[
+			'label'       => __( 'Link para suscribirse por mail', 'asp' ),
+			'description' => __( 'La página de suscripción que da el servicio de mails que use el ministerio (MailerLite, Mailchimp, Brevo u otro). Vacío, el botón no aparece.', 'asp' ),
+			'section'     => 'asp_inicio',
+			'type'        => 'url',
+		]
+	);
+
+	foreach ( [ 1, 2 ] as $n ) {
+		$wp_customize->add_setting( "asp_oracion_{$n}", [ 'sanitize_callback' => 'sanitize_textarea_field', 'default' => '' ] );
+		$wp_customize->add_control(
+			"asp_oracion_{$n}",
+			[
+				/* translators: %d: número de motivo */
+				'label'       => sprintf( __( 'Motivo de oración %d', 'asp' ), $n ),
+				'description' => 1 === $n ? __( 'Una o dos oraciones cortas. Sin ninguno cargado, la tarjeta «Orá por el ministerio» no aparece.', 'asp' ) : '',
+				'section'     => 'asp_inicio',
+				'type'        => 'textarea',
+			]
+		);
+	}
+}
 
 /**
  * Imagen del Customizer como <img> con clase, o cadena vacía.
