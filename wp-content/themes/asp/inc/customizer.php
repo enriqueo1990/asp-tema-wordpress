@@ -155,6 +155,17 @@ function asp_customizer( WP_Customize_Manager $wp_customize ): void {
 		]
 	);
 
+	$wp_customize->add_setting( 'asp_cf_analytics_token', [ 'sanitize_callback' => 'asp_sanitizar_token_analytics', 'default' => '' ] );
+	$wp_customize->add_control(
+		'asp_cf_analytics_token',
+		[
+			'label'       => __( 'Estadísticas: token de Cloudflare Web Analytics', 'asp' ),
+			'description' => __( 'El token que da Cloudflare en Web Analytics (32 letras y números); también se puede pegar el fragmento entero. Sin cookies. Vacío, no se mide nada. No cuenta las visitas de quien está logueado.', 'asp' ),
+			'section'     => 'asp_sitio',
+			'type'        => 'text',
+		]
+	);
+
 	$wp_customize->add_setting( 'asp_afirmaciones_pdf', [ 'sanitize_callback' => 'esc_url_raw', 'default' => '' ] );
 	$wp_customize->add_control(
 		new WP_Customize_Upload_Control(
