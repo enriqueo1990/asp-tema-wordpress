@@ -48,6 +48,43 @@ function asp_seo_imagen_adjunto( int $id ): ?array {
 }
 
 /**
+ * Miniatura de un video de YouTube para compartir. La grande (1280×720) no
+ * existe en todos los videos, así que se consulta una vez por video y se
+ * guarda; si no está, la chica (480×360, con franjas negras).
+ *
+ * @param string $yt_id Id del video.
+ * @return array{url:string,ancho:int,alto:int}
+ */
+function asp_seo_miniatura_youtube( string $yt_id ): array {
+	$base  = 'https://i.ytimg.com/vi/' . rawurlencode( $yt_id ) . '/';
+	$chica = [ 'url' => $base . 'hqdefault.jpg', 'ancho' => 480, 'alto' => 360 ];
+	$clave = 'asp_yt_miniatura_' . $yt_id;
+	$cache = get_transient( $clave );
+	if ( false === $cache ) {
+		$respuesta = wp_safe_remote_head( $base . 'maxresdefault.jpg', [ 'timeout' => 5, 'redirection' => 0 ] );
+		if ( is_wp_error( $respuesta ) ) {
+			/* YouTube no respondió: la chica por ahora y se reintenta pronto. */
+			set_transient( $clave, 'chica', 10 * MINUTE_IN_SECONDS );
+			return $chica;
+		}
+		$cache = 200 === (int) wp_remote_retrieve_response_code( $respuesta ) ? 'grande' : 'chica';
+		set_transient( $clave, $cache, MONTH_IN_SECONDS );
+	}
+	return 'grande' === $cache ? [ 'url' => $base . 'maxresdefault.jpg', 'ancho' => 1280, 'alto' => 720 ] : $chica;
+}
+
+/**
+ * Saca el nombre del sitio y la bajada de las partes del título.
+ *
+ * @param array<string,string> $partes Partes del título.
+ * @return array<string,string>
+ */
+function asp_seo_titulo_sin_sitio( array $partes ): array {
+	unset( $partes['site'], $partes['tagline'] );
+	return $partes;
+}
+
+/**
  * Título, descripción, imagen y tipo de la página actual.
  *
  * @return array{titulo:string,descripcion:string,imagen:?array,tipo:string,url:string}
@@ -59,11 +96,13 @@ function asp_seo_datos(): array {
 	}
 
 	/* Título para compartir: el de la pestaña sin " – Ante Su Palabra",
-	   que ya va en og:site_name. */
-	$titulo = wp_get_document_title();
-	if ( ! is_front_page() && ( is_singular() || is_home() ) ) {
-		$partes = apply_filters( 'document_title_parts', [ 'title' => single_post_title( '', false ) ] );
-		$titulo = (string) ( $partes['title'] ?? $titulo );
+	   que ya va en og:site_name. En el inicio queda entero. */
+	if ( is_front_page() ) {
+		$titulo = wp_get_document_title();
+	} else {
+		add_filter( 'document_title_parts', 'asp_seo_titulo_sin_sitio', 99 );
+		$titulo = wp_get_document_title();
+		remove_filter( 'document_title_parts', 'asp_seo_titulo_sin_sitio', 99 );
 	}
 	$descripcion = '';
 	$imagen      = null;
@@ -101,7 +140,7 @@ function asp_seo_datos(): array {
 				);
 				$yt = asp_youtube_id( (string) get_post_meta( $id, 'predicacion_video_url', true ) );
 				if ( '' !== $yt ) {
-					$imagen = [ 'url' => 'https://i.ytimg.com/vi/' . rawurlencode( $yt ) . '/hqdefault.jpg', 'ancho' => 480, 'alto' => 360 ];
+					$imagen = asp_seo_miniatura_youtube( $yt );
 				}
 				break;
 			case 'persona':
