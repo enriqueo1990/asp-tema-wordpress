@@ -626,7 +626,7 @@ function asp_evento_schema( int $post_id ): array {
 	$schema = [
 		'@context'            => 'https://schema.org',
 		'@type'               => 'Event',
-		'name'                => get_the_title( $post_id ),
+		'name'                => asp_seo_titulo_plano( $post_id ),
 		'url'                 => get_permalink( $post_id ),
 		'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
 		'eventStatus'         => 'https://schema.org/EventScheduled',
@@ -666,7 +666,7 @@ function asp_evento_schema( int $post_id ): array {
 	$oradores = asp_evento_relacionados( $post_id, 'evento_oradores', 'persona' );
 	if ( $oradores ) {
 		$schema['performer'] = array_map(
-			static fn( WP_Post $p ) => [ '@type' => 'Person', 'name' => get_the_title( $p ) ],
+			static fn( WP_Post $p ) => [ '@type' => 'Person', 'name' => asp_seo_titulo_plano( $p ) ],
 			$oradores
 		);
 	}

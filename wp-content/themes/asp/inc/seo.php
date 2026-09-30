@@ -304,35 +304,82 @@ add_filter( 'document_title_parts', 'asp_seo_titulo' );
    --------------------------------------------------------------------- */
 
 /**
- * Organization en el inicio y Article en cada artículo.
+ * Título de una entrada como texto plano para JSON-LD: get_the_title()
+ * devuelve HTML con entidades (&#8211;) que en JSON quedan literales.
+ *
+ * @param int|WP_Post $post Entrada.
+ * @return string
+ */
+function asp_seo_titulo_plano( $post ): string {
+	return html_entity_decode( wp_strip_all_tags( get_the_title( $post ) ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+}
+
+/**
+ * Organization y WebSite en el inicio, Article en cada artículo y
+ * VideoObject en cada predicación con video.
  *
  * @return void
  */
 function asp_seo_schema(): void {
 	$schema = null;
 	if ( is_front_page() ) {
+		/* WebSite es lo que Google usa para el nombre del sitio en los
+		   resultados; Organization, para el logo y los perfiles. */
 		$schema = [
 			'@context' => 'https://schema.org',
-			'@type'    => 'Organization',
-			'name'     => get_bloginfo( 'name' ),
-			'url'      => home_url( '/' ),
-			'email'    => asp_email(),
-			'sameAs'   => array_values( asp_redes() ),
+			'@graph'   => [
+				[
+					'@type' => 'WebSite',
+					'@id'   => home_url( '/#sitio' ),
+					'name'  => get_bloginfo( 'name' ),
+					'url'   => home_url( '/' ),
+				],
+				[
+					'@type'  => 'Organization',
+					'@id'    => home_url( '/#organizacion' ),
+					'name'   => get_bloginfo( 'name' ),
+					'url'    => home_url( '/' ),
+					'logo'   => asp_asset_url( 'assets/img/logo-cuadrado.png' ),
+					'email'  => asp_email(),
+					'sameAs' => array_values( asp_redes() ),
+				],
+			],
 		];
+	} elseif ( is_singular( 'predicacion' ) ) {
+		$id = (int) get_queried_object_id();
+		$yt = asp_youtube_id( (string) get_post_meta( $id, 'predicacion_video_url', true ) );
+		if ( '' !== $yt ) {
+			/* uploadDate: el día que se predicó (propio o del evento), que es
+			   lo más cercano a la publicación que el sitio sabe. */
+			$fecha  = asp_fecha_iso( asp_predicacion_fecha_ymd( $id ) );
+			$datos  = asp_seo_datos();
+			$schema = [
+				'@context'     => 'https://schema.org',
+				'@type'        => 'VideoObject',
+				'name'         => asp_seo_titulo_plano( $id ),
+				'description'  => html_entity_decode( '' !== $datos['descripcion'] ? $datos['descripcion'] : asp_seo_titulo_plano( $id ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
+				'thumbnailUrl' => asp_seo_miniatura_youtube( $yt )['url'],
+				'embedUrl'     => 'https://www.youtube-nocookie.com/embed/' . $yt,
+				'url'          => get_permalink( $id ),
+			];
+			if ( '' !== $fecha ) {
+				$schema['uploadDate'] = ( new DateTimeImmutable( $fecha, wp_timezone() ) )->format( 'c' );
+			}
+		}
 	} elseif ( is_singular( 'post' ) ) {
 		$id     = (int) get_queried_object_id();
 		$autor  = asp_persona_de_usuario( (int) get_post_field( 'post_author', $id ) );
 		$schema = [
 			'@context'         => 'https://schema.org',
 			'@type'            => 'Article',
-			'headline'         => get_the_title( $id ),
+			'headline'         => asp_seo_titulo_plano( $id ),
 			'datePublished'    => get_the_date( 'c', $id ),
 			'dateModified'     => get_the_modified_date( 'c', $id ),
 			'mainEntityOfPage' => get_permalink( $id ),
 			'publisher'        => [ '@type' => 'Organization', 'name' => get_bloginfo( 'name' ), 'url' => home_url( '/' ) ],
 		];
 		if ( $autor ) {
-			$schema['author'] = [ '@type' => 'Person', 'name' => get_the_title( $autor ), 'url' => get_permalink( $autor ) ];
+			$schema['author'] = [ '@type' => 'Person', 'name' => asp_seo_titulo_plano( $autor ), 'url' => get_permalink( $autor ) ];
 		}
 		$imagen = get_the_post_thumbnail_url( $id, 'large' );
 		if ( $imagen ) {
