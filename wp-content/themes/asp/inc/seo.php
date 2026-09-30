@@ -509,6 +509,27 @@ function asp_seo_sin_pingback( array $cabeceras ): array {
 add_filter( 'wp_headers', 'asp_seo_sin_pingback' );
 
 /**
+ * 410 para las páginas de spam que dejó el hackeo del hosting viejo: Google
+ * tenía indexadas unas 108.000 fichas de productos en la raíz, del estilo
+ * /Candado-Antirrobo-Para-Bicicleta-Y-Patinete-Cable-De-Acero-478646/.
+ * Con 410 Google las saca del índice antes que con 404. WordPress nunca
+ * arma slugs con mayúsculas, así que el patrón no alcanza contenido real;
+ * igual solo actúa sobre lo que ya es 404, después de las redirecciones.
+ *
+ * @return void
+ */
+function asp_seo_spam_viejo(): void {
+	if ( ! is_404() ) {
+		return;
+	}
+	$ruta = (string) wp_parse_url( (string) ( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH );
+	if ( preg_match( '#^/[A-Za-z0-9-]*[A-Z][A-Za-z0-9-]*-\d{5,7}/?$#', $ruta ) ) {
+		status_header( 410 );
+	}
+}
+add_action( 'template_redirect', 'asp_seo_spam_viejo', 2 );
+
+/**
  * Páginas que responden sin tener contenido propio:
  * - /eventos/page/2/, /iniciativas/page/2/, /recursos/predicaciones/page/2/:
  *   esos archivos no se paginan y repetían la primera página.
