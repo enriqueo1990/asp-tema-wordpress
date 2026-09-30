@@ -101,15 +101,17 @@ $eventos = [
 		'sede'       => 'Denton Bible Church',
 		'direccion'  => '2300 E University Dr, Denton, TX 76209',
 		'iniciativa' => 'Taller de Predicación Expositiva',
-		// Bios tal como están en la página del evento. Sin fotos.
+		// Bios tal como están en la página del evento; fotos que pasó el usuario el 30-9-2026.
 		'oradores'   => [
 			'Mateo Bixby'      => [
+				'foto'    => 'fotos-personas/mateo-bixby.jpg',
 				'iglesia' => 'Iglesia Bautista La Gracia',
 				'ciudad'  => 'Juárez, Nuevo León',
 				'pais'    => 'México',
 				'bio'     => 'Matthew Bixby nació en España, de padres estadounidenses misioneros. Reside en Guadalupe, Nuevo León, México, desde el año 2002. Fue director de la Facultad de Teología de una universidad cristiana hasta el año 2024. Ahora, se enfoca en servir en Iglesia Bautista La Gracia en Juárez, Nuevo León, México, la cual fundó en el año 2012, y en ayudar a pastores y futuros pastores para servir a Dios con lealtad a las Escrituras.',
 			],
 			'Emmanuel Alfonzo' => [
+				'foto'    => 'fotos-personas/emmanuel-alfonzo.jpg',
 				'cargo'   => 'Pastor',
 				'iglesia' => 'Vida Abundante Bajío',
 				'ciudad'  => 'Moroleón, Guanajuato',
