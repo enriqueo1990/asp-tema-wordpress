@@ -32,12 +32,17 @@ origen,destino
 /go/conferencia-bottom/,/eventos/
 /go/pre-conferencia-top/,/eventos/
 /go/pre-conferencia-bottom/,/eventos/
-# TODO: el ministerio define el destino de estas páginas y entradas del
-# institucional (sin evento equivalente cargado). Hasta entonces dan 404.
-# Las dos entradas se pueden migrar verbatim o redirigir a /recursos/.
-#   /conferencia-2023-denton/
-#   /retiro-de-pastores-2023/
-#   /retiro-de-pastores-2023-audios/
-#   /preguntas-frecuentes-denton2022/
-#   /6-cosas-que-miembros-deben-evitar-en-tiempos-de-pandemia/ (y -2, -3, -4)
-#   /lidiando-con-la-ansiedad-en-el-ministerio/
+# Páginas y entradas del institucional sin evento equivalente cargado
+# (30-9-2026, al pasar el dominio). Van al lugar más cercano que existe; no
+# se migró su texto. El sitio viejo quedó respaldado entero (ver
+# docs/produccion.md): si el ministerio decide migrar alguna entrada verbatim,
+# se carga como artículo con el mismo slug y se borra su fila de acá.
+/conferencia-2023-denton/,/iniciativas/conferencia-ante-su-palabra-en-estados-unidos/
+/preguntas-frecuentes-denton2022/,/iniciativas/conferencia-ante-su-palabra-en-estados-unidos/
+/retiro-de-pastores-2023/,/eventos/
+/retiro-de-pastores-2023-audios/,/eventos/
+/6-cosas-que-miembros-deben-evitar-en-tiempos-de-pandemia/,/recursos/
+/6-cosas-que-miembros-deben-evitar-en-tiempos-de-pandemia-2/,/recursos/
+/6-cosas-que-miembros-deben-evitar-en-tiempos-de-pandemia-3/,/recursos/
+/6-cosas-que-miembros-deben-evitar-en-tiempos-de-pandemia-4/,/recursos/
+/lidiando-con-la-ansiedad-en-el-ministerio/,/recursos/
