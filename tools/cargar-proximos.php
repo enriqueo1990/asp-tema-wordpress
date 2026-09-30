@@ -88,6 +88,48 @@ $eventos = [
 		'descripcion' => '<p>¿Cómo predicar Hebreos? Taller de predicación expositiva para pastores y predicadores.</p>',
 		'flyer'      => 'flyers-facebook/hebreos-2027.webp',
 	],
+	// Página del evento en Entrada27 (entrada27.com.ar/e/simeontrust2027), 30-9-2026.
+	// Sin flyer: la única imagen es el logo de Simeon Trust, que ya sale por el aliado.
+	// Texto en tuteo neutro, como las piezas para EE.UU.
+	[
+		'titulo'     => '1 Samuel',
+		'slug'       => '1-samuel-denton',
+		'inicio'     => '20270210',
+		'fin'        => '20270211',
+		'ciudad'     => 'Denton',
+		'pais'       => 'estados-unidos',
+		'sede'       => 'Denton Bible Church',
+		'direccion'  => '2300 E University Dr, Denton, TX 76209',
+		'iniciativa' => 'Taller de Predicación Expositiva',
+		// Bios tal como están en la página del evento. Sin fotos.
+		'oradores'   => [
+			'Mateo Bixby'      => [
+				'iglesia' => 'Iglesia Bautista La Gracia',
+				'ciudad'  => 'Juárez, Nuevo León',
+				'pais'    => 'México',
+				'bio'     => 'Matthew Bixby nació en España, de padres estadounidenses misioneros. Reside en Guadalupe, Nuevo León, México, desde el año 2002. Fue director de la Facultad de Teología de una universidad cristiana hasta el año 2024. Ahora, se enfoca en servir en Iglesia Bautista La Gracia en Juárez, Nuevo León, México, la cual fundó en el año 2012, y en ayudar a pastores y futuros pastores para servir a Dios con lealtad a las Escrituras.',
+			],
+			'Emmanuel Alfonzo' => [
+				'cargo'   => 'Pastor',
+				'iglesia' => 'Vida Abundante Bajío',
+				'ciudad'  => 'Moroleón, Guanajuato',
+				'pais'    => 'México',
+				'bio'     => "Emmanuel Alfonzo es pastor en la iglesia Vida Abundante Bajío en Moroleón, Guanajuato, México y también es micro-empresario en el rubro textil.\n\nEmmanuel estudió una Licenciatura en Educación Musical en C.C.D.M.A.C. y diplomados básicos en Teología—así como eclesiología— en el Curso 222, que es un programa extendido de 9Marks.\n\nActualmente está realizando estudios como candidato para una posible ordenación pastoral por parte de la denominación Sovereign Grace (Gracia Soberana en LATAM).",
+			],
+		],
+		'aliados'    => [ 'The Charles Simeon Trust' ],
+		'estado'     => 'abierta',
+		'url'        => 'https://www.entrada27.com.ar/e/simeontrust2027',
+		'precio'     => 'USD 79 · USD 149 con la Conferencia Ante Su Palabra 2027',
+		'descripcion' => '<p>Taller de predicación expositiva sobre el libro de 1 Samuel. Dos días para animar y equipar a pastores en las habilidades necesarias para leer, entender y proclamar la Palabra de Dios.</p>'
+			. '<p><strong>¿Quién debería asistir?</strong> Principalmente los varones que enseñan y predican con regularidad en su iglesia local, pero también los hermanos bivocacionales y los que se están formando para el ministerio pastoral. Solo mayores de 18 años.</p>'
+			. '<p><strong>¿Cómo prepararte?</strong> Lo más importante del taller son los grupos pequeños: cada participante llega listo para presentar dos pasajes, y eso requiere estudio previo. El pasaje y las tareas llegan por correo, así que revisa el tuyo con frecuencia.</p>'
+			. '<p><strong>Horario:</strong> miércoles 10 y jueves 11 de febrero, de 8:00 a 17:30.</p>'
+			. '<p><strong>Entradas:</strong> USD 79 el taller, con desayuno y almuerzo los dos días. USD 149 el taller más la Conferencia Ante Su Palabra 2027 (viernes 12 y sábado 13 de febrero), con la cena del viernes y el almuerzo del sábado.</p>'
+			. '<p><strong>Para confirmar tu lugar completa los dos pasos:</strong> compra tu entrada en Entrada27 y llena el <a href="https://docs.google.com/forms/d/e/1FAIpQLSdD-SadFU6w_f7RW7PzKz14jixnvfkcVnKRd-BsL98rFPcV5g/viewform">formulario de inscripción</a>. La inscripción cierra el 10 de enero.</p>'
+			. '<p>Dudas: <a href="mailto:eeuu@antesupalabra.com">eeuu@antesupalabra.com</a></p>',
+		'flyer'      => '',
+	],
 ];
 
 $extensiones = [ 'image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp' ];
