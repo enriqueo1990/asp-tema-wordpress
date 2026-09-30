@@ -33,14 +33,15 @@ function asp_seo_recortar( string $texto, int $palabras = 32 ): string {
 /**
  * Imagen para compartir a partir de un adjunto.
  *
- * @param int $id Adjunto.
+ * @param int    $id     Adjunto.
+ * @param string $tamano Tamaño registrado.
  * @return array{url:string,ancho:int,alto:int}|null
  */
-function asp_seo_imagen_adjunto( int $id ): ?array {
+function asp_seo_imagen_adjunto( int $id, string $tamano = 'large' ): ?array {
 	if ( ! $id ) {
 		return null;
 	}
-	$src = wp_get_attachment_image_src( $id, 'large' );
+	$src = wp_get_attachment_image_src( $id, $tamano );
 	if ( ! $src ) {
 		return null;
 	}
@@ -111,7 +112,10 @@ function asp_seo_datos(): array {
 
 	if ( is_front_page() ) {
 		$descripcion = asp_seo_recortar( (string) get_theme_mod( 'asp_mision_texto', asp_mision_default() ) );
-		$imagen      = asp_seo_imagen_adjunto( asp_portada_foto_id() );
+		/* Imagen armada para compartir, con logo y lema: la de Personalizar
+		   o la que viene con el tema (assets/img/og-inicio.jpg). */
+		$imagen      = asp_seo_imagen_adjunto( absint( get_theme_mod( 'asp_compartir_imagen', 0 ) ), 'full' )
+			?? [ 'url' => asp_asset_url( 'assets/img/og-inicio.jpg' ), 'ancho' => 1200, 'alto' => 630 ];
 		$url         = home_url( '/' );
 	} elseif ( is_singular() ) {
 		$id  = (int) get_queried_object_id();
