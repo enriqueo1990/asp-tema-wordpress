@@ -325,42 +325,54 @@ function asp_inicio_proximos( int $cantidad = 4 ): array {
 }
 
 /**
- * Miniatura de un evento para su fila del inicio: la foto del evento, si no
- * tiene la de su iniciativa y, como último recurso, el flyer. El flyer va
- * entero sobre la banda tonal, sin recortar (trae el texto incrustado;
- * regla 5). Sin ninguna, cadena vacía: la plantilla pone el placeholder de
- * marca.
+ * Datos de un evento para su cartel en «Próximos eventos», ya priorizados
+ * (1-10-2026). El orden de lectura repite el del hero: tipo y título como
+ * una sola pieza, después la línea que decide (cuándo y dónde) y, solo si
+ * pide hacer algo o avisa algo, el estado. «Reservá la fecha» no se
+ * muestra: es lo esperable de un evento futuro y en el inicio solo sumaba
+ * un rótulo más; sigue en Eventos y en la ficha.
+ *
+ * La imagen es el flyer (lo que la gente ya vio en Instagram), entero y sin
+ * recortar sobre la banda tonal (regla 5); si no hay flyer, la foto del
+ * evento. Sin ninguna de las dos, el cartel lleva la fecha grande sobre la
+ * misma banda, como en Eventos: un dato real, no un placeholder.
  *
  * @param int $id Evento.
- * @return string
+ * @return array{tipo:string,titulo:string,url:string,fecha:string,iso:string,lugar:string,estado:string,imagen:string,clase:string,dias:string,mes:string}
  */
-function asp_inicio_evento_foto( int $id ): string {
-	$foto = absint( get_post_meta( $id, 'evento_foto', true ) );
-	if ( ! $foto ) {
-		$iniciativa = asp_evento_iniciativa( $id );
-		$foto       = $iniciativa ? absint( get_post_meta( $iniciativa->ID, 'iniciativa_imagen', true ) ) : 0;
+function asp_inicio_agenda_datos( int $id ): array {
+	$iniciativa = asp_evento_iniciativa( $id );
+	$estado     = asp_evento_estado( $id );
+	$flyer      = absint( get_post_meta( $id, 'evento_flyer', true ) );
+	$foto       = absint( get_post_meta( $id, 'evento_foto', true ) );
+	$imagen     = '';
+	$clase      = 'fecha';
+	if ( $flyer ) {
+		$imagen = (string) wp_get_attachment_image( $flyer, 'asp-flyer-card', false, [ 'loading' => 'lazy', 'alt' => '', 'class' => 'asp-inicio-agenda__img' ] );
+		$clase  = 'flyer';
 	}
-	if ( $foto ) {
-		return (string) wp_get_attachment_image( $foto, 'asp-tarjeta', false, [ 'loading' => 'lazy', 'alt' => '', 'class' => 'asp-inicio-agenda__foto' ] );
+	if ( '' === $imagen && $foto ) {
+		$imagen = (string) wp_get_attachment_image( $foto, 'asp-tarjeta', false, [ 'loading' => 'lazy', 'alt' => '', 'class' => 'asp-inicio-agenda__img' ] );
+		$clase  = 'foto';
 	}
-	$flyer = absint( get_post_meta( $id, 'evento_flyer', true ) );
-	return $flyer ? (string) wp_get_attachment_image( $flyer, 'asp-flyer-card', false, [ 'loading' => 'lazy', 'alt' => '', 'class' => 'asp-inicio-agenda__foto asp-inicio-agenda__foto--flyer' ] ) : '';
-}
-
-/**
- * La cruz del logo (assets/img/icono.svg) en línea y con currentColor, para
- * los placeholders: el color lo pone el CSS. Decorativa.
- *
- * @return string
- */
-function asp_inicio_marca(): string {
-	static $svg = null;
-	if ( null === $svg ) {
-		$svg = (string) file_get_contents( ASP_THEME_DIR . '/assets/img/icono.svg' );
-		$svg = (string) preg_replace( '#<style>.*?</style>#s', '', $svg );
-		$svg = str_replace( '<svg ', '<svg fill="currentColor" aria-hidden="true" focusable="false" ', $svg );
+	if ( '' === $imagen ) {
+		$clase = 'fecha';
 	}
-	return $svg;
+	$grande = asp_evento_fecha_grande( $id );
+	return [
+		'tipo'   => $iniciativa ? get_the_title( $iniciativa ) : '',
+		'titulo' => get_the_title( $id ),
+		'url'    => (string) get_permalink( $id ),
+		/* El año solo si no es el actual, como en el hero. */
+		'fecha'  => asp_evento_fecha_texto( $id, asp_evento_anio( $id ) !== (int) current_time( 'Y' ) ),
+		'iso'    => asp_fecha_iso( (string) get_post_meta( $id, 'evento_fecha_inicio', true ) ),
+		'lugar'  => implode( ', ', array_filter( [ asp_evento_ciudad( $id ), asp_evento_pais( $id ) ] ) ),
+		'estado' => 'reserva' === $estado ? '' : $estado,
+		'imagen' => $imagen,
+		'clase'  => $clase,
+		'dias'   => $grande['dias'],
+		'mes'    => $grande['mes'],
+	];
 }
 
 /* ------------------------------------------------------------------------

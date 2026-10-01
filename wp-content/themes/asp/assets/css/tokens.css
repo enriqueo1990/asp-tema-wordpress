@@ -106,17 +106,13 @@
   /* --- Inicio nuevo (templates/page-inicio.php, assets/css/inicio.css) - */
   --inicio-avatar: 56px;              /* quienes enseñan, en el hero */
   --inicio-orador-min: 10rem;         /* columna mínima de cada orador en el teléfono */
-  --inicio-fecha-col: 4.75rem;        /* bloque de fecha de la agenda */
-  --inicio-fecha-col-desktop: 8.5rem;
-  --inicio-foto-col: 12rem;           /* miniatura de la agenda, desde tableta */
-  --inicio-agenda-mini: 7.5rem;       /* miniatura de la agenda en el teléfono */
   --inicio-miniatura-w: 7.5rem;       /* miniatura de predicación en el inicio */
   --inicio-miniatura-w-desktop: 10rem;
   --inicio-cifra-min: 6rem;           /* datos de trayectoria en el teléfono */
   --inicio-tarjeta-min: 14rem;        /* ancho mínimo de «Formas de participar» */
   --inicio-buscador-w: 26rem;
   --inicio-ratio-foto: 3 / 2;
-  --inicio-ratio-agenda: 16 / 9;      /* miniatura de la agenda: la forma habitual de los flyers */
+  --inicio-ratio-agenda: 16 / 9;      /* carteles de la agenda: la forma habitual de los flyers */
   --border-marca: 3px;                /* filete del aviso de dato faltante */
 
   /* --- Logos (templates/logos.php, assets/css/logos.css) ------------- */

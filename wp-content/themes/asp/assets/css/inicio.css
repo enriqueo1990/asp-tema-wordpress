@@ -526,8 +526,11 @@
 }
 
 /* ---------------------------------------------------------------------
-   4. Próximos eventos (fondo blanco, filas iguales)
+   4. Próximos eventos (fondo blanco, carteles)
    --------------------------------------------------------------------- */
+/* El bloque de imagen del inicio: viene entre dos listas (Cómo servimos y
+   las filas con miniatura de Predicaciones), así que cada evento es un
+   cartel con el flyer grande. Sin cajas ni filetes: imagen, aire y texto. */
 .asp-inicio-agenda {
   padding-block: var(--sp-home);
 }
@@ -539,76 +542,94 @@
   margin-bottom: var(--sp-6);
 }
 
-.asp-inicio-agenda__lista {
+.asp-inicio-agenda__grilla {
+  display: grid;
+  gap: var(--sp-7);
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: var(--border-hairline) solid var(--c-border-strong);
 }
 
-.asp-inicio-agenda__item {
+.asp-inicio-agenda__evento {
   position: relative;
-  display: grid;
-  /* Teléfono: miniatura a la izquierda; la fecha en una línea sobre el título */
-  grid-template-columns: var(--inicio-agenda-mini) minmax(0, 1fr);
-  grid-template-areas:
-    "visual fecha"
-    "visual cuerpo";
-  grid-template-rows: auto 1fr;
-  column-gap: var(--sp-4);
-  row-gap: var(--sp-1);
-  align-items: start;
-  padding-block: var(--sp-5);
-  border-bottom: var(--border-hairline) solid var(--c-border);
-}
-
-.asp-inicio-agenda__fecha {
-  grid-area: fecha;
-  margin: 0;
-}
-
-.asp-inicio-agenda__fecha time {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--sp-1) var(--sp-2);
+  flex-direction: column;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+
+/* La imagen: siempre 16:9 (la forma habitual de los flyers), así los
+   carteles de una misma fila miden lo mismo y los textos arrancan a la par. */
+.asp-inicio-agenda__visual {
+  position: relative;
+  display: block;
+  aspect-ratio: var(--inicio-ratio-agenda);
+  overflow: hidden;
+  background: var(--c-flyer-band);
+}
+
+.asp-inicio-agenda__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* El flyer no se recorta (regla 5): un 4:5 o un cuadrado entra entero
+   sobre la banda tonal. */
+.asp-inicio-agenda__visual--flyer .asp-inicio-agenda__img {
+  object-fit: contain;
+}
+
+/* Sin flyer ni foto: la fecha grande sobre la misma banda, como en Eventos.
+   Es lo único seguro de un evento que recién se anuncia. */
+.asp-inicio-agenda__visual--fecha {
+  display: grid;
+  place-content: center;
+  gap: var(--sp-2);
+  text-align: center;
 }
 
 .asp-inicio-agenda__dias {
   font-family: var(--font-numeral);
-  font-size: var(--fs-lg);
-  font-weight: var(--fw-medium);
-  line-height: 1;
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-display);
   white-space: nowrap;   /* «12–13» nunca en dos renglones */
   color: var(--c-accent);
 }
 
 .asp-inicio-agenda__mes {
-  font-family: var(--font-numeral);
-  font-size: var(--fs-sm);
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
   font-style: italic;
-  line-height: var(--lh-heading);
-  color: var(--c-text-muted);
+  color: var(--c-flyer-band-ink);
 }
 
-.asp-inicio-agenda__cuerpo {
-  grid-area: cuerpo;
+.asp-inicio-agenda__texto {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--sp-1);
+  gap: var(--sp-3);
   min-width: 0;
 }
 
+/* Tipo y título son una sola pieza, como en el hero: el tipo en itálica
+   chica arriba, el nombre grande abajo. */
 .asp-inicio-agenda__titulo {
-  font-size: var(--fs-lg);
-  font-weight: var(--fw-medium);
-  line-height: var(--lh-heading);
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
 }
 
 .asp-inicio-agenda__enlace {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
   color: var(--c-text);
-  transition: color var(--dur) var(--ease);
 }
 
 .asp-inicio-agenda__enlace::after {
@@ -617,48 +638,42 @@
   inset: 0;
 }
 
-.asp-inicio-agenda__item:hover .asp-inicio-agenda__enlace {
-  color: var(--c-accent);
-}
-
-.asp-inicio-agenda__lugar {
-  margin: 0;
-  font-family: var(--font-ui);
-  font-size: var(--fs-sm);
+.asp-inicio-agenda__tipo {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-style: italic;
+  line-height: var(--lh-heading);
   color: var(--c-text-muted);
 }
 
-/* Miniatura: la foto, el flyer entero o, sin ninguno, la cruz del logo
-   sobre la banda tonal. Siempre el mismo tamaño, así las filas no cambian. */
-.asp-inicio-agenda__visual {
-  grid-area: visual;
-  display: block;
-  aspect-ratio: var(--inicio-ratio-agenda);
-  overflow: hidden;
-  background: var(--c-surface-2);
+.asp-inicio-agenda__nombre {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tracking-display);
+  transition: color var(--dur) var(--ease);
 }
 
-.asp-inicio-agenda__foto {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.asp-inicio-agenda__evento:hover .asp-inicio-agenda__nombre {
+  color: var(--c-accent);
 }
 
-/* El flyer no se recorta (regla 5): entra completo sobre la banda tonal */
-.asp-inicio-agenda__foto--flyer {
-  object-fit: contain;
+/* Cuándo y dónde, uno debajo del otro: en una sola línea, «Estados Unidos»
+   se partía en la columna angosta. La fecha con más peso que el lugar. */
+.asp-inicio-agenda__datos {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
 }
 
-.asp-inicio-agenda__visual--sin-foto {
-  display: grid;
-  place-items: center;
-  color: var(--c-border-strong);
-}
-
-.asp-inicio-agenda__visual--sin-foto svg {
-  width: 36%;
-  height: auto;
+.asp-inicio-agenda__datos time {
+  font-weight: var(--fw-semibold);
+  color: var(--c-text);
 }
 
 @media (min-width: 768px) {
@@ -666,28 +681,65 @@
     flex-direction: row;
     align-items: baseline;
     justify-content: space-between;
+    margin-bottom: var(--sp-7);
   }
 
-  /* Tableta y escritorio: fecha, texto y la miniatura a la derecha */
-  .asp-inicio-agenda__item {
-    grid-template-columns: var(--inicio-fecha-col-desktop) minmax(0, 1fr) var(--inicio-foto-col);
-    grid-template-areas: "fecha cuerpo visual";
-    grid-template-rows: auto;
-    column-gap: var(--sp-6);
-    padding-block: var(--sp-6);
+  .asp-inicio-agenda__grilla {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-7) var(--sp-6);
   }
 
-  .asp-inicio-agenda__fecha time {
-    flex-direction: column;
-    align-items: flex-start;
+  .asp-inicio-agenda__grilla--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--sp-5);
   }
 
-  .asp-inicio-agenda__dias {
+  /* Un solo evento: el cartel se acuesta, imagen a la izquierda */
+  .asp-inicio-agenda__grilla--1 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .asp-inicio-agenda__grilla--1 .asp-inicio-agenda__evento {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: center;
+    gap: var(--sp-7);
+  }
+
+  .asp-inicio-agenda__grilla--1 .asp-inicio-agenda__tipo {
+    font-size: var(--fs-lg);
+  }
+
+  .asp-inicio-agenda__grilla--1 .asp-inicio-agenda__nombre {
     font-size: var(--fs-2xl);
   }
 
-  .asp-inicio-agenda__titulo {
+  .asp-inicio-agenda__grilla--1 .asp-inicio-agenda__datos {
+    font-size: var(--fs-base);
+  }
+
+  .asp-inicio-agenda__grilla--3 .asp-inicio-agenda__nombre {
+    font-size: var(--fs-lg);
+  }
+
+  .asp-inicio-agenda__grilla--3 .asp-inicio-agenda__dias {
+    font-size: var(--fs-2xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .asp-inicio-agenda__grilla--3 {
+    column-gap: var(--sp-6);
+  }
+
+  .asp-inicio-agenda__grilla--3 .asp-inicio-agenda__nombre {
     font-size: var(--fs-xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asp-inicio-agenda__nombre {
+    transition: none;
   }
 }
 
