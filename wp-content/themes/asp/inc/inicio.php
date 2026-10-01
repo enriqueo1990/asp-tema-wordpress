@@ -325,10 +325,11 @@ function asp_inicio_proximos( int $cantidad = 4 ): array {
 }
 
 /**
- * Miniatura de un evento para su fila del inicio: la foto del evento y, si
- * no tiene, la de su iniciativa. Nunca el flyer (trae el texto incrustado y
- * recortado se pierde; regla 5). Sin ninguna, cadena vacía: la plantilla
- * pone el placeholder de marca.
+ * Miniatura de un evento para su fila del inicio: la foto del evento, si no
+ * tiene la de su iniciativa y, como último recurso, el flyer. El flyer va
+ * entero sobre la banda tonal, sin recortar (trae el texto incrustado;
+ * regla 5). Sin ninguna, cadena vacía: la plantilla pone el placeholder de
+ * marca.
  *
  * @param int $id Evento.
  * @return string
@@ -339,7 +340,11 @@ function asp_inicio_evento_foto( int $id ): string {
 		$iniciativa = asp_evento_iniciativa( $id );
 		$foto       = $iniciativa ? absint( get_post_meta( $iniciativa->ID, 'iniciativa_imagen', true ) ) : 0;
 	}
-	return $foto ? (string) wp_get_attachment_image( $foto, 'asp-tarjeta', false, [ 'loading' => 'lazy', 'alt' => '', 'class' => 'asp-inicio-agenda__foto' ] ) : '';
+	if ( $foto ) {
+		return (string) wp_get_attachment_image( $foto, 'asp-tarjeta', false, [ 'loading' => 'lazy', 'alt' => '', 'class' => 'asp-inicio-agenda__foto' ] );
+	}
+	$flyer = absint( get_post_meta( $id, 'evento_flyer', true ) );
+	return $flyer ? (string) wp_get_attachment_image( $flyer, 'asp-flyer-card', false, [ 'loading' => 'lazy', 'alt' => '', 'class' => 'asp-inicio-agenda__foto asp-inicio-agenda__foto--flyer' ] ) : '';
 }
 
 /**

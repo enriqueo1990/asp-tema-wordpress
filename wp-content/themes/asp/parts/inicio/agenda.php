@@ -2,9 +2,9 @@
 /**
  * Próximos eventos, sin el que ya está en el hero. Todas las filas con la
  * misma forma: bloque de fecha, tipo, título, ciudad y país, estado y una
- * miniatura (la foto del evento o de su iniciativa; nunca el flyer, que trae
- * el texto incrustado). Sin foto, un placeholder con la marca, así todas
- * las filas miden lo mismo. Sin eventos para mostrar, no hay sección.
+ * miniatura (la foto del evento, la de su iniciativa o el flyer entero, sin
+ * recortar). Sin ninguna, un placeholder con la marca, así todas las filas
+ * miden lo mismo. Sin eventos para mostrar, no hay sección.
  *
  * @package asp
  */
