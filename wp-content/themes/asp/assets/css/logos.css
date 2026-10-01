@@ -1,0 +1,178 @@
+/* logos.css — Página oculta de logos (/logos-asp/, templates/logos.php).
+   Solo se carga en esa página. Sin valores literales: todo de tokens.css. */
+
+.asp-logos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+}
+
+.asp-logos__cabecera {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  max-width: var(--logos-intro-w);
+}
+
+.asp-logos__intro {
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+  margin: 0;
+}
+
+.asp-logos__peso-btn {
+  font-weight: var(--fw-regular);
+  opacity: 0.8;
+}
+
+.asp-logos__uso {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--c-text-faint);
+  margin: 0;
+  padding-top: var(--sp-4);
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+/* Cada pieza: título y para qué sirve, después sus colores */
+.asp-logos__grupo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.asp-logos__grupo-cabecera {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  max-width: var(--logos-intro-w);
+}
+
+.asp-logos__grupo-titulo {
+  font-size: var(--fs-xl);
+  line-height: var(--lh-heading);
+  margin: 0;
+}
+
+.asp-logos__grupo-texto {
+  color: var(--c-text-muted);
+  margin: 0;
+}
+
+.asp-logos__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--logos-col-min), 1fr));
+  gap: var(--sp-6) var(--sp-5);
+}
+
+.asp-logos__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* La muestra: el logo sobre el fondo en el que se usa */
+.asp-logos__muestra {
+  height: var(--logos-muestra-h);
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-4);
+  overflow: hidden;
+}
+
+.asp-logos__muestra--claro {
+  background: var(--c-surface);
+  border: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-logos__muestra--oscuro {
+  background: var(--c-dark-bg);
+}
+
+.asp-logos__muestra img {
+  max-width: var(--logos-pieza-w);
+  max-height: var(--logos-pieza-h);
+  width: auto;
+  height: auto;
+}
+
+/* La foto de perfil ya trae su fondo: ocupa la muestra entera, cuadrada */
+.asp-logos__muestra--imagen {
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+
+.asp-logos__muestra--imagen img {
+  max-width: none;
+  max-height: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.asp-logos__pie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.asp-logos__nombre {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  margin: 0;
+}
+
+.asp-logos__descargas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.asp-logos__descarga {
+  min-height: var(--control-h);
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 var(--sp-3);
+  border: var(--border-hairline) solid var(--c-border-strong);
+  border-radius: var(--radius-3);
+  color: var(--c-accent);
+  text-decoration: none;
+  line-height: var(--lh-heading);
+  transition: background var(--dur) var(--ease);
+}
+
+.asp-logos__descarga:hover {
+  background: var(--c-surface-2);
+  color: var(--c-accent);
+}
+
+.asp-logos__formato {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+}
+
+.asp-logos__detalle {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  color: var(--c-text-faint);
+}
+
+@media (min-width: 1024px) {
+  .asp-logos__muestra {
+    height: var(--logos-muestra-h-desktop);
+  }
+}

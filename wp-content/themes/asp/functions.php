@@ -32,6 +32,7 @@ $asp_modulos = [
 	'seo',
 	'analytics',
 	'busqueda',
+	'logos',
 	'meta-helpers',
 	'meta-evento',
 	'evento-predicaciones',

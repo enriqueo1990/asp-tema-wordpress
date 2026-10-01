@@ -118,6 +118,14 @@
   --inicio-ratio-foto: 3 / 2;
   --border-marca: 3px;                /* filete del aviso de dato faltante */
 
+  /* --- Logos (templates/logos.php, assets/css/logos.css) ------------- */
+  --logos-col-min: 15rem;             /* ancho mínimo de cada muestra en la grilla */
+  --logos-muestra-h: 11rem;           /* alto de la muestra: el logo entra entero */
+  --logos-muestra-h-desktop: 13rem;
+  --logos-pieza-h: 46%;               /* alto del logo dentro de la muestra */
+  --logos-pieza-w: 78%;
+  --logos-intro-w: 40rem;
+
   /* --- Proporción de la banda del flyer ----------------------------- */
   /* Nunca 16:9. Un flyer 4:5 al 84% de la altura de una banda 1:1 de
      390 px mide 262 px de ancho; en la banda 16:9 mediría 153 px. */
