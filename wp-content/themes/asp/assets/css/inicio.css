@@ -542,20 +542,97 @@
   margin-bottom: var(--sp-6);
 }
 
+.asp-inicio-agenda__acciones {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+}
+
+/* Flechas del carril, desde tableta: en el teléfono se desliza con el dedo
+   y el cartel que asoma ya avisa que hay más. app.js las muestra solo si
+   hay más carteles de los que entran. */
+.asp-inicio-agenda__flechas {
+  display: none;
+  gap: var(--sp-2);
+}
+
+.asp-inicio-agenda__flecha {
+  display: inline-grid;
+  place-items: center;
+  width: var(--control-h);
+  height: var(--control-h);
+  padding: 0;
+  border: var(--border-hairline) solid var(--c-border-control);
+  border-radius: var(--radius-3);
+  background: transparent;
+  font-family: var(--font-ui);
+  font-size: var(--fs-md);
+  color: var(--c-text);
+  cursor: pointer;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.asp-inicio-agenda__flecha:hover:not(:disabled) {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+
+.asp-inicio-agenda__flecha:disabled {
+  border-color: var(--c-border);
+  color: var(--c-border-strong);
+  cursor: default;
+}
+
+/* El carril se desplaza de costado y llega hasta el borde de la pantalla:
+   en el teléfono asoma el cartel siguiente, que es lo que avisa que hay
+   más. Cada cartel encaja al inicio al soltar. */
+.asp-inicio-agenda__carril {
+  margin-inline: calc(-1 * var(--w-gutter));
+  padding-inline: var(--w-gutter);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--w-gutter);
+  scrollbar-width: none;
+}
+
+.asp-inicio-agenda__carril::-webkit-scrollbar {
+  display: none;
+}
+
+.asp-inicio-agenda__carril:focus-visible {
+  outline: 2px solid var(--c-focus-ring);
+  outline-offset: var(--sp-2);
+}
+
 .asp-inicio-agenda__grilla {
-  display: grid;
-  gap: var(--sp-7);
+  --carril-gap: var(--sp-5);
+  display: flex;
+  gap: var(--carril-gap);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+/* El margen del final: el relleno del carril no siempre cuenta al
+   desplazar, así que el último cartel no quedaría pegado al borde. */
+.asp-inicio-agenda__grilla::after {
+  content: "";
+  flex: 0 0 calc(var(--w-gutter) - var(--carril-gap));
+}
+
 .asp-inicio-agenda__evento {
   position: relative;
   display: flex;
+  flex: 0 0 var(--inicio-carril-movil);
   flex-direction: column;
   gap: var(--sp-4);
   min-width: 0;
+  scroll-snap-align: start;
+}
+
+.asp-inicio-agenda__grilla--1 .asp-inicio-agenda__evento {
+  flex-basis: 100%;
 }
 
 /* La imagen: siempre 16:9 (la forma habitual de los flyers), así los
@@ -684,21 +761,20 @@
     margin-bottom: var(--sp-7);
   }
 
-  .asp-inicio-agenda__grilla {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--sp-7) var(--sp-6);
+  .asp-inicio-agenda__flechas:not([hidden]) {
+    display: flex;
   }
 
-  .asp-inicio-agenda__grilla--3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: var(--sp-5);
+  .asp-inicio-agenda__grilla {
+    --carril-gap: var(--sp-6);
+  }
+
+  /* Tableta: dos carteles a la vista */
+  .asp-inicio-agenda__evento {
+    flex-basis: calc((100% - (var(--inicio-carril-tableta) - 1) * var(--carril-gap)) / var(--inicio-carril-tableta));
   }
 
   /* Un solo evento: el cartel se acuesta, imagen a la izquierda */
-  .asp-inicio-agenda__grilla--1 {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
   .asp-inicio-agenda__grilla--1 .asp-inicio-agenda__evento {
     display: grid;
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
@@ -718,27 +794,21 @@
     font-size: var(--fs-base);
   }
 
-  .asp-inicio-agenda__grilla--3 .asp-inicio-agenda__nombre {
-    font-size: var(--fs-lg);
-  }
-
-  .asp-inicio-agenda__grilla--3 .asp-inicio-agenda__dias {
+  .asp-inicio-agenda__dias {
     font-size: var(--fs-2xl);
   }
 }
 
+/* Escritorio: tres a la vista */
 @media (min-width: 1024px) {
-  .asp-inicio-agenda__grilla--3 {
-    column-gap: var(--sp-6);
-  }
-
-  .asp-inicio-agenda__grilla--3 .asp-inicio-agenda__nombre {
-    font-size: var(--fs-xl);
+  .asp-inicio-agenda__evento {
+    flex-basis: calc((100% - (var(--inicio-carril-escritorio) - 1) * var(--carril-gap)) / var(--inicio-carril-escritorio));
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .asp-inicio-agenda__nombre {
+  .asp-inicio-agenda__nombre,
+  .asp-inicio-agenda__flecha {
     transition: none;
   }
 }

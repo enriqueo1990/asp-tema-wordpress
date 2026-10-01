@@ -310,18 +310,14 @@ function asp_inicio_iniciativa( int $id ): array {
    --------------------------------------------------------------------- */
 
 /**
- * Próximos eventos sin el del hero.
+ * Próximos eventos por fecha, incluido el del hero (1-10-2026: la agenda
+ * es el calendario completo; el hero solo destaca uno).
  *
  * @param int $cantidad Máximo.
  * @return WP_Post[]
  */
-function asp_inicio_proximos( int $cantidad = 4 ): array {
-	$hero = asp_evento_hero();
-	$lista = array_filter(
-		asp_eventos_proximos()->posts,
-		static fn( WP_Post $p ): bool => ! $hero || $p->ID !== $hero->ID
-	);
-	return array_slice( array_values( $lista ), 0, $cantidad );
+function asp_inicio_proximos( int $cantidad = 6 ): array {
+	return asp_eventos_proximos( $cantidad )->posts;
 }
 
 /**

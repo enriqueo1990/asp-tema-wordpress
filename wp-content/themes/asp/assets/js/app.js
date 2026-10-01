@@ -118,3 +118,41 @@
 	abrir();
 })();
 
+
+/* ---- Carril de próximos eventos (inicio): flechas para quien usa mouse ---- */
+/* Sin JavaScript el carril igual se desplaza con el dedo, el trackpad o el
+   teclado; las flechas solo aparecen si hay más carteles de los que entran. */
+(function () {
+	'use strict';
+
+	var carril = document.querySelector('[data-asp-carril]');
+	var flechas = document.querySelector('[data-asp-carril-flechas]');
+	if (!carril || !flechas) {
+		return;
+	}
+	var botones = flechas.querySelectorAll('[data-asp-carril-ir]');
+	var quieto = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+	function actualizar() {
+		var max = carril.scrollWidth - carril.clientWidth;
+		flechas.hidden = max <= 1;
+		botones[0].disabled = carril.scrollLeft <= 1;
+		botones[1].disabled = carril.scrollLeft >= max - 1;
+	}
+
+	botones.forEach(function (boton) {
+		boton.addEventListener('click', function () {
+			var cartel = carril.querySelector('li');
+			var paso = cartel ? cartel.getBoundingClientRect().width : carril.clientWidth;
+			var gap = parseFloat(window.getComputedStyle(cartel.parentNode).columnGap) || 0;
+			carril.scrollBy({
+				left: Number(boton.getAttribute('data-asp-carril-ir')) * (paso + gap),
+				behavior: quieto.matches ? 'auto' : 'smooth'
+			});
+		});
+	});
+
+	carril.addEventListener('scroll', actualizar, { passive: true });
+	window.addEventListener('resize', actualizar);
+	actualizar();
+})();
