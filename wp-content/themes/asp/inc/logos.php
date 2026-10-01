@@ -131,7 +131,7 @@ add_filter( 'wp_robots', 'asp_logos_robots', 20 );
  */
 function asp_logos_titulo( array $partes ): array {
 	if ( asp_es_logos() ) {
-		$partes['title'] = __( 'Logos', 'asp' );
+		$partes['title'] = __( 'Logos para descargar', 'asp' );
 	}
 	return $partes;
 }

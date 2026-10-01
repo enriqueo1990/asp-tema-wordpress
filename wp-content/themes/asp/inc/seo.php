@@ -117,6 +117,12 @@ function asp_seo_datos(): array {
 		$imagen      = asp_seo_imagen_adjunto( absint( get_theme_mod( 'asp_compartir_imagen', 0 ) ), 'full' )
 			?? [ 'url' => asp_asset_url( 'assets/img/og-inicio.jpg' ), 'ancho' => 1200, 'alto' => 630 ];
 		$url         = home_url( '/' );
+	} elseif ( asp_es_logos() ) {
+		/* Página oculta de logos (inc/logos.php): se comparte por WhatsApp,
+		   así que lleva su propia imagen (la genera tools/generar-logos.php). */
+		$descripcion = __( 'El logo y la cruz en negro, azul y blanco, en PNG y SVG, para flyers, presentaciones y redes.', 'asp' );
+		$imagen      = [ 'url' => asp_asset_url( 'assets/img/og-logos.jpg' ), 'ancho' => 1200, 'alto' => 630 ];
+		$url         = home_url( user_trailingslashit( ASP_LOGOS_RUTA ) );
 	} elseif ( is_singular() ) {
 		$id  = (int) get_queried_object_id();
 		$url = (string) get_permalink( $id );

@@ -2,7 +2,8 @@
 /**
  * Genera los logos descargables de la página oculta /logos-asp/ (ver
  * inc/logos.php): el logo completo y la cruz en cada color, en SVG y PNG
- * transparente, la imagen de perfil para redes y un ZIP con todo.
+ * transparente, la imagen de perfil para redes y un ZIP con todo. También
+ * la imagen para compartir el link (assets/img/og-logos.jpg).
  *
  * Sale de los dos vectoriales del tema (assets/img/logo-asp.svg e
  * icono.svg), así que no se redibuja nada: solo se pinta. Los PNG los
@@ -108,6 +109,57 @@ $zip = $salida . '/ante-su-palabra-logos.zip';
 exec( sprintf( 'cd %s && zip -q -X %s *.svg *.png', escapeshellarg( $salida ), escapeshellarg( basename( $zip ) ) ), $out, $codigo );
 if ( 0 !== $codigo ) {
 	fwrite( STDERR, "No se pudo armar el ZIP.\n" );
+	exit( 1 );
+}
+
+// Imagen para compartir el link de la página (assets/img/og-logos.jpg).
+// Fuera de la carpeta de descargas: no entra al ZIP. Mismo lenguaje que
+// og-inicio.jpg: azul noche, logo blanco, título en Newsreader y rótulo en
+// Archivo; a la derecha el logo en negro y en azul, como se ve en la página.
+$inline = static fn( array $pieza, string $color ): string => sprintf(
+	'<svg xmlns="http://www.w3.org/2000/svg" viewBox="%1$s"><g fill="%2$s">%3$s</g></svg>',
+	$pieza['viewbox'],
+	$color,
+	$pieza['trazos']
+);
+$fuentes = $tema . '/assets/fonts';
+$og_html = $tmp . '/og-logos.html';
+file_put_contents(
+	$og_html,
+	'<!doctype html><html><head><meta charset="utf-8"><style>'
+	. '@font-face{font-family:Newsreader;font-weight:400 600;src:url("file://' . $fuentes . '/newsreader-latin.woff2")}'
+	. '@font-face{font-family:Archivo;font-weight:400 600;src:url("file://' . $fuentes . '/archivo-latin.woff2")}'
+	. 'html,body{margin:0}'
+	. 'body{width:1200px;height:630px;display:grid;grid-template-columns:620px 580px;grid-template-rows:1fr 1fr}'
+	. '.oscuro{grid-row:1/3;background:' . $azul_noche . ';color:#fff;padding:0 80px;display:flex;flex-direction:column;justify-content:center}'
+	. '.oscuro svg{width:186px;display:block}'
+	. 'h1{font:400 84px/1.02 Newsreader,serif;letter-spacing:-.015em;margin:44px 0 50px}'
+	. '.rotulo{font:500 15px Archivo,sans-serif;letter-spacing:.14em;color:#AEB5C6;display:flex;align-items:center;gap:18px}'
+	. '.rotulo i{width:24px;height:1px;background:#AEB5C6}.rotulo b{font-weight:500;width:1px;height:16px;background:rgba(255,255,255,.3)}'
+	. '.muestra{display:grid;place-items:center}.muestra svg{width:330px}'
+	. '.claro{background:#F5F6FA}.blanco{background:#fff;border-top:1px solid #E2E5EE}'
+	. '</style></head><body>'
+	. '<div class="oscuro">' . $inline( $logo, '#FFFFFF' )
+	. '<h1>Logos para<br>descargar</h1>'
+	. '<div class="rotulo"><i></i>PNG <b></b> SVG <b></b> NEGRO, AZUL Y BLANCO</div></div>'
+	. '<div class="muestra claro">' . $inline( $logo, $colores['negro'] ) . '</div>'
+	. '<div class="muestra blanco">' . $inline( $logo, $colores['azul'] ) . '</div>'
+	. '</body></html>'
+);
+$og_png = $tmp . '/og-logos.png';
+exec(
+	sprintf(
+		'%s --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --virtual-time-budget=2000 --window-size=1200,630 --screenshot=%s %s 2>/dev/null',
+		escapeshellarg( $chrome ),
+		escapeshellarg( $og_png ),
+		escapeshellarg( 'file://' . $og_html )
+	),
+	$out,
+	$codigo
+);
+exec( sprintf( 'sips -s format jpeg -s formatOptions 88 %s --out %s >/dev/null', escapeshellarg( $og_png ), escapeshellarg( $tema . '/assets/img/og-logos.jpg' ) ), $out, $codigo_jpg );
+if ( 0 !== $codigo || 0 !== $codigo_jpg ) {
+	fwrite( STDERR, "No se pudo generar og-logos.jpg.\n" );
 	exit( 1 );
 }
 
