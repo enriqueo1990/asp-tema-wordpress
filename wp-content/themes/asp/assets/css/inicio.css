@@ -633,7 +633,7 @@
 .asp-inicio-agenda__visual {
   grid-area: visual;
   display: block;
-  aspect-ratio: var(--inicio-ratio-foto);
+  aspect-ratio: var(--inicio-ratio-agenda);
   overflow: hidden;
   background: var(--c-surface-2);
 }
