@@ -2,7 +2,28 @@
    Cabecera: menú móvil a pantalla completa y estado "scrolled".
    Los desplegables de bio usan <details> nativo. */
 
-/* ---- Copiar enlace (artículo): sin portapapeles el botón no aparece ---- */
+/* ---- Menú de compartir del sistema (ficha de evento): solo donde existe ---- */
+(function () {
+	'use strict';
+
+	if (!navigator.share) {
+		return;
+	}
+	document.querySelectorAll('[data-asp-compartir]').forEach(function (boton) {
+		boton.hidden = false;
+		boton.addEventListener('click', function () {
+			navigator.share({
+				title: boton.getAttribute('data-titulo'),
+				text: boton.getAttribute('data-texto'),
+				url: boton.getAttribute('data-url')
+			}).catch(function () {
+				/* Cancelado por quien comparte: no hay nada que avisar. */
+			});
+		});
+	});
+})();
+
+/* ---- Copiar enlace (artículo y evento): sin portapapeles el botón no aparece ---- */
 (function () {
 	'use strict';
 

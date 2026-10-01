@@ -35,7 +35,7 @@ while ( have_posts() ) :
 
 			<?php /* ---- Cabecera: en escritorio va arriba de la grilla; en móvil el flyer va primero ---- */ ?>
 			<div class="asp-solo-movil">
-				<?php get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_id, 'loading' => 'eager' ] ); ?>
+				<?php get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_id, 'clase' => 'asp-flyer--natural', 'loading' => 'eager' ] ); ?>
 			</div>
 
 			<header class="asp-ficha__cabecera">
@@ -84,17 +84,15 @@ while ( have_posts() ) :
 						<?php endif; ?>
 					</div>
 				<?php endif; ?>
+				<div class="asp-bloque"><?php get_template_part( 'parts/evento/compartir', null, [ 'post_id' => $asp_id ] ); ?></div>
 			</div>
 
 			<?php /* ---- Cuerpo: grilla 7/4 en escritorio ---- */ ?>
 			<?php
-			/* Sin cuerpo a la izquierda y sin datos para la columna lateral, la grilla no existe en escritorio.
-			   Sin cuerpo pero con columna lateral, esta ocupa el ancho de lectura. */
-			$asp_aside_vacio = $asp_vacia && ! $asp_hay_cta && ! $asp_precio && ! $asp_sede && ! $asp_agenda;
-			$asp_grid_clase  = 'asp-grid-ficha';
-			if ( $asp_izq_vacia && $asp_aside_vacio ) {
-				$asp_grid_clase .= ' asp-solo-movil';
-			} elseif ( $asp_izq_vacia ) {
+			/* Sin cuerpo a la izquierda, la columna lateral ocupa el ancho de
+			   lectura. Nunca está vacía: Compartir va siempre. */
+			$asp_grid_clase = 'asp-grid-ficha';
+			if ( $asp_izq_vacia ) {
 				$asp_grid_clase .= ' asp-grid-ficha--solo-aside';
 			}
 			if ( ! $asp_vacia ) {
@@ -104,7 +102,7 @@ while ( have_posts() ) :
 			<div class="<?php echo esc_attr( $asp_grid_clase ); ?>">
 				<div class="asp-stack asp-stack--6">
 					<div class="asp-solo-escritorio">
-						<?php get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_id, 'clase' => 'asp-flyer--desktop-wide', 'loading' => 'eager' ] ); ?>
+						<?php get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_id, 'clase' => 'asp-flyer--natural', 'loading' => 'eager' ] ); ?>
 					</div>
 					<?php if ( $asp_desc ) : ?>
 						<div class="asp-bloque asp-bloque--sin-filete">
@@ -139,31 +137,34 @@ while ( have_posts() ) :
 					<?php endif; ?>
 				</div>
 
-				<?php if ( $asp_hay_cta || $asp_precio || $asp_sede || $asp_agenda || ! $asp_vacia ) : ?>
-					<aside class="asp-ficha-aside asp-solo-escritorio asp-sticky" aria-label="<?php esc_attr_e( 'Datos del evento', 'asp' ); ?>">
-						<?php if ( $asp_hay_cta || $asp_precio ) : ?>
-							<div class="asp-ficha-aside__cta">
-								<?php if ( $asp_precio ) : ?>
-									<div class="asp-ficha-aside__precio"><h2 class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></h2><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
-								<?php endif; ?>
-								<?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_id, 'con_plataforma' => true, 'bloque' => true ] ); ?>
-							</div>
-						<?php endif; ?>
-						<div class="asp-ficha-aside__bloque">
-							<div class="asp-stack">
-								<h2 class="asp-label"><?php esc_html_e( 'Fechas', 'asp' ); ?></h2>
-								<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id ] ); ?>
-								<?php get_template_part( 'parts/evento/agenda', null, [ 'post_id' => $asp_id ] ); ?>
-							</div>
+				<?php /* Compartir va siempre: con eso solo, la columna ya tiene sentido. */ ?>
+				<aside class="asp-ficha-aside asp-solo-escritorio asp-sticky" aria-label="<?php esc_attr_e( 'Datos del evento', 'asp' ); ?>">
+					<?php if ( $asp_hay_cta || $asp_precio ) : ?>
+						<div class="asp-ficha-aside__cta">
+							<?php if ( $asp_precio ) : ?>
+								<div class="asp-ficha-aside__precio"><h2 class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></h2><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
+							<?php endif; ?>
+							<?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_id, 'con_plataforma' => true, 'bloque' => true ] ); ?>
 						</div>
-						<?php if ( $asp_sede ) : ?>
-							<div class="asp-ficha-aside__bloque">
-								<?php echo asp_icono_ubicacion(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-								<div class="asp-stack"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id, 'con_pais' => true ] ); ?></div>
-							</div>
-						<?php endif; ?>
+					<?php endif; ?>
+					<?php /* Fecha, ciudad y país ya están en la cabecera, a la vista (1-10-2026):
+					   la columna lateral no los repite. Queda lo que la cabecera no dice
+					   (la sede y la dirección) y la acción de agendar. */ ?>
+					<?php if ( $asp_sede ) : ?>
+						<div class="asp-ficha-aside__bloque">
+							<?php echo asp_icono_ubicacion(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+							<div class="asp-stack"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id ] ); ?></div>
+						</div>
+					<?php endif; ?>
+					<?php if ( $asp_agenda ) : ?>
+						<div class="asp-ficha-aside__bloque">
+							<?php get_template_part( 'parts/evento/agenda', null, [ 'post_id' => $asp_id ] ); ?>
+						</div>
+					<?php endif; ?>
+					<div class="asp-ficha-aside__bloque">
+						<?php get_template_part( 'parts/evento/compartir', null, [ 'post_id' => $asp_id ] ); ?>
+					</div>
 					</aside>
-				<?php endif; ?>
 			</div>
 		</div>
 	</article>

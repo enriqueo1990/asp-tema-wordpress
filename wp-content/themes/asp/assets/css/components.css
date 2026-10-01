@@ -225,6 +225,25 @@
   max-width: var(--w-flyer-column);
 }
 
+/* Ficha del evento (1-10-2026): el flyer a todo el ancho de su columna, en
+   su proporción y sin banda. Tampoco se recorta: el alto sale de la imagen.
+   Un flyer vertical se frena en un alto máximo para no ocupar varias
+   pantallas, y achica el ancho en lugar de cortarse. */
+.asp-flyer--natural {
+  aspect-ratio: auto;
+  background: none;
+  border-radius: var(--radius-0);
+}
+
+.asp-flyer--natural img {
+  position: static;
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: var(--flyer-natural-max-h);
+}
+
 @media (min-width: 1024px) {
   .asp-flyer--desktop-wide {
     aspect-ratio: var(--band-ratio-desktop);
@@ -1340,9 +1359,11 @@
   line-height: var(--lh-body);
 }
 
+/* A 32 px de alto, un logo con texto (Simeon Trust) no se leía */
 .asp-aliados img {
-  height: var(--sp-6);
+  height: var(--sp-8);
   width: auto;
+  max-width: 100%;
 }
 
 /* ---------------------------------------------------------------------
@@ -4345,6 +4366,32 @@ section:has(> .asp-anio-plegable:not([open])) {
 
 .asp-compartir__boton[hidden] {
   display: none;
+}
+
+/* Ficha del evento: el rótulo arriba y los botones en dos columnas, que en
+   la columna lateral (y en el teléfono) entran sin quedar un botón suelto
+   por renglón. */
+.asp-compartir--evento {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--sp-3);
+  width: 100%;
+}
+
+.asp-compartir--evento .asp-label {
+  margin: 0;
+}
+
+.asp-compartir__botones {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-2);
+}
+
+.asp-compartir--evento .asp-compartir__boton {
+  justify-content: center;
+  padding-inline: var(--sp-3);
+  text-align: center;
 }
 
 .asp-autor-pie {

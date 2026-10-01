@@ -138,6 +138,9 @@
      entran enteros sin que ninguno quede como una tira. */
   --band-ratio-tile: 4 / 3;
   --band-flyer-h-tile: 90%;
+  /* Ficha del evento: flyer sin banda, en su proporción. Un vertical
+     no pasa de este alto (achica el ancho, no se recorta). */
+  --flyer-natural-max-h: 80vh;
 
   /* --- Transiciones ------------------------------------------------- */
   --ease: cubic-bezier(0.2, 0, 0.13, 1);
