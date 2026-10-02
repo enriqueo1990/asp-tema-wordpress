@@ -522,6 +522,7 @@
 
 .asp-destacado {
   background: var(--c-dark-bg);
+  background-image: var(--grad-dark);
   color: var(--c-dark-fg);
   padding-block: var(--sp-7);
 }
@@ -624,6 +625,7 @@
   aspect-ratio: var(--poster-ratio-sin-flyer);
   padding: var(--sp-5);
   background: var(--c-tile-4);
+  background-image: var(--grad-dark);
   color: var(--c-tile-ink);
 }
 
@@ -2471,6 +2473,7 @@ section:not(.asp-eventos__archivo):has(> .asp-anio-plegable:not([open])) {
 /* Predicaciones sobre banda oscura: es el bloque con más color del inicio */
 .asp-banda-oscura {
   background: var(--c-dark-bg);
+  background-image: var(--grad-dark);
   color: var(--c-dark-fg);
 }
 
@@ -3051,6 +3054,7 @@ section:not(.asp-eventos__archivo):has(> .asp-anio-plegable:not([open])) {
 .asp-cierre {
   position: relative;
   background: var(--c-dark-bg);
+  background-image: var(--grad-dark);
   color: var(--c-photo-text);
   isolation: isolate;
   overflow: hidden;

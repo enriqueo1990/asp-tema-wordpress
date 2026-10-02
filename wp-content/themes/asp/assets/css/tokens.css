@@ -259,6 +259,11 @@
   --c-dark-rule:  rgba(255, 255, 255, 0.18);
   --c-dark-surface: rgba(255, 255, 255, 0.08);   /* campos y huecos sobre el pie o la banda oscura */
   --c-dark-border:  rgba(255, 255, 255, 0.32);
+  /* Degradado de la banda oscura: azul a azul, nunca violeta (anti-
+     referencia). El tono más claro no pasa del azul de marca: con
+     --c-dark-muted encima da 5,4:1; un azul más claro ya no llega a AA. */
+  --c-dark-grad-medio: #172452;
+  --grad-dark: linear-gradient(135deg, var(--c-dark-bg) 0%, var(--c-dark-grad-medio) 55%, var(--c-accent) 100%);
 
   --c-btn-invertido-bg:   #FFFFFF;
   --c-btn-invertido-fg:   #1E3A6E;

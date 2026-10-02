@@ -61,6 +61,8 @@ $pares = [
 	[ '--c-flyer-band-ink', '--c-flyer-band', 'texto sobre la banda del flyer', 4.5 ],
 	[ '--c-dark-fg', '--c-dark-bg', 'pie', 4.5 ],
 	[ '--c-dark-muted', '--c-dark-bg', 'apagado del pie', 4.5 ],
+	[ '--c-dark-fg', '--c-accent', 'texto sobre el tono más claro del degradado oscuro', 4.5 ],
+	[ '--c-dark-muted', '--c-accent', 'apagado sobre el tono más claro del degradado oscuro', 4.5 ],
 	[ '--c-btn-invertido-fg', '--c-btn-invertido-bg', 'botón invertido', 4.5 ],
 	[ '--c-todo-fg', '--c-todo-bg', 'aviso de dato faltante', 4.5 ],
 	[ '--c-tile-ink', '--c-tile-1', 'tarjeta de iniciativa, azul', 4.5 ],
