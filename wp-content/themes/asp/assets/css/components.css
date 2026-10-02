@@ -5041,3 +5041,75 @@ section:has(> .asp-anio-plegable:not([open])) {
   border-color: var(--c-text);
   border-width: 2px;
 }
+
+/* ---------------------------------------------------------------------
+   Franja de aliados (antes del pie, en el inicio y en Nosotros)
+   --------------------------------------------------------------------- */
+/* Un filete a todo el ancho, el rótulo y los logos en fila: cierra la
+   página sin competir con el contenido. Todos los logos pesan parecido: el
+   alto se corrige por la raíz de la proporción de cada uno (sin sqrt() en
+   el navegador, quedan todos al mismo alto). */
+.asp-aliados-franja {
+  padding-block: var(--sp-7);
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+.asp-aliados-franja__fila {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.asp-aliados-franja .asp-label {
+  margin: 0;
+}
+
+.asp-aliados-franja__lista {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-6) var(--sp-7);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.asp-aliados-franja__enlace {
+  display: block;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.asp-aliados-franja__enlace:hover {
+  opacity: 0.7;
+}
+
+.asp-aliados-franja__logo {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: var(--aliado-franja-h);
+  height: calc(var(--aliado-franja-h) * sqrt(var(--aliado-franja-proporcion) / var(--logo-proporcion, var(--aliado-franja-proporcion))));
+}
+
+@media (min-width: 768px) {
+  .asp-aliados-franja__fila {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--sp-8);
+  }
+
+  .asp-aliados-franja__lista {
+    column-gap: var(--sp-8);
+  }
+
+  .asp-aliados-franja__logo {
+    height: var(--aliado-franja-h-desktop);
+    height: calc(var(--aliado-franja-h-desktop) * sqrt(var(--aliado-franja-proporcion) / var(--logo-proporcion, var(--aliado-franja-proporcion))));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asp-aliados-franja__enlace {
+    transition: none;
+  }
+}

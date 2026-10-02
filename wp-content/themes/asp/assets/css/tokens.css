@@ -102,6 +102,9 @@
   --rule-short: 24px;
   --sep-h: 14px;
   --sep-h-lg: 22px;
+  --aliado-franja-h: 2.75rem;         /* alto de cada logo de la franja de aliados */
+  --aliado-franja-h-desktop: 3.5rem;
+  --aliado-franja-proporcion: 3;      /* logo de referencia (3:1): los demás se ajustan a su superficie */
 
   /* --- Inicio nuevo (templates/page-inicio.php, assets/css/inicio.css) - */
   --inicio-avatar: 56px;              /* quienes enseñan, en el hero */
@@ -116,9 +119,6 @@
   --inicio-carril-movil: 85%;         /* cartel de la agenda en el teléfono: asoma el siguiente */
   --inicio-carril-tableta: 2;         /* carteles a la vista en tableta */
   --inicio-carril-escritorio: 3;      /* carteles a la vista en escritorio */
-  --inicio-aliado-h: 2.75rem;         /* alto de cada logo de la franja de aliados */
-  --inicio-aliado-h-desktop: 3.5rem;
-  --inicio-aliado-proporcion: 3;      /* logo de referencia (3:1): los demás se ajustan a su superficie */
   --border-marca: 3px;                /* filete del aviso de dato faltante */
 
   /* --- Logos (templates/logos.php, assets/css/logos.css) ------------- */

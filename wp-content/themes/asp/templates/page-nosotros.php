@@ -138,6 +138,8 @@ while ( have_posts() ) :
 		</div></div>
 	</section>
 
+	<?php get_template_part( 'parts/aliados-franja' ); ?>
+
 <?php
 endwhile;
 get_footer();

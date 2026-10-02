@@ -27,6 +27,7 @@ $asp_modulos = [
 	'recursos',
 	'customizer',
 	'inicio',
+	'aliados',
 	'contacto',
 	'correo',
 	'redirects',
