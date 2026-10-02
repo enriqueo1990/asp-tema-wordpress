@@ -50,12 +50,14 @@ wp-content/themes/asp/
 │   ├── header/site-footer.php   logo, nav, redes, email
 │   ├── evento/hero.php          Hero del inicio: foto con velo, versículo o eslogan, último evento
 │   ├── evento/card.php          Tarjeta de evento (listado); variante ancha en escritorio
+│   ├── evento/destacado.php     El próximo en /eventos/: banda azul noche a sangre, flyer grande y botón
+│   ├── evento/poster.php        Los demás próximos en /eventos/: flyer entero, fecha, título, ciudad
 │   ├── evento/archivo-item.php  Fila de evento pasado (búsqueda, iniciativa, persona, Recursos)
 │   ├── evento/tarjeta-archivo.php Tarjeta de la grilla del archivo en /eventos/: flyer entero en banda 4:3
 │   ├── evento/badge.php         Badge de estado
 │   ├── evento/fecha.php         Fecha: inline, xl o grande entre filetes
 │   ├── evento/lugar.php         Ciudad y país, tipográfico, sin banderas
-│   ├── evento/flyer.php         Banda tonal con el flyer contenido; nada si no hay flyer
+│   ├── evento/flyer.php         Banda tonal con el flyer contenido (o sin banda, natural); nada si no hay flyer
 │   ├── evento/cta.php           Botón según estado; nada en reserva/realizado
 │   ├── evento/programa.php      Filas por día; se autooculta
 │   ├── evento/menu-calendario.php  Menú «Guardar en el calendario» (details) de la ficha
@@ -134,8 +136,12 @@ como enlaces subrayados, Recursos con rótulo a la izquierda y cuerpo a la
 derecha, y heros de página con velo en degradado solo abajo.
 
 **`archive-evento.php`** — Cabecera con el título y un índice de años que
-salta a `#archivo-AAAA`. Próximos ascendentes como tarjetas anchas, sin
-filtros. Archivo agrupado por año descendente, cada año con su cantidad y una
+salta a `#archivo-AAAA`. Próximos ascendentes, sin filtros: el siguiente
+sobre una banda azul noche a sangre, con el flyer grande en su proporción y el
+botón invertido; los demás debajo, sobre blanco, en grilla de carteles (1
+columna en móvil, 2 en tableta, 3 en escritorio) con el flyer entero sin
+banda. Sin flyer, el destacado es solo texto y el cartel muestra la fecha en
+numerales sobre azul noche. Archivo agrupado por año descendente, cada año con su cantidad y una
 grilla de flyers (2 columnas en móvil, 3 en tableta, 4 en escritorio): el
 flyer va entero sobre una banda tonal 4:3 —casi todos los históricos son
 banners 16:9 y los nuevos 4:5— y debajo iniciativa, título, fecha sin año y

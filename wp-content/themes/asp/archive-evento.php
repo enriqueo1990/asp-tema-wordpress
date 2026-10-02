@@ -1,10 +1,11 @@
 <?php
 /**
  * /eventos/ — dos partes con forma distinta:
- * - Próximos, sobre una banda de color: el siguiente en tarjeta grande con
- *   su flyer y el resto en filas con el flyer en miniatura y el botón. Los
- *   flyers van sin banda tonal, en su proporción (2-10-2026): la caja gris
- *   alrededor de cada uno sumaba ruido sobre la banda de la sección.
+ * - Próximos: el siguiente sobre una banda azul noche a sangre, con el
+ *   flyer grande y el botón; el resto debajo, sobre blanco, en grilla de
+ *   carteles (flyer entero, fecha, título, ciudad). Rehecha el 2-10-2026: la
+ *   banda gris de la sección y las cajas grises detrás de cada flyer se
+ *   leían sucias, y la fila con miniatura achicaba los flyers a estampillas.
  * - Archivo, en lista tipográfica por año (sin flyers): el año más reciente
  *   abierto y los demás plegados, con el índice de años en su cabecera.
  *
@@ -35,19 +36,18 @@ $asp_desde    = $asp_por_anio ? min( array_keys( $asp_por_anio ) ) : 0;
 </div>
 
 <?php if ( $asp_primero ) : ?>
-	<section class="asp-eventos__proximos" aria-labelledby="eventos-proximos">
-		<div class="asp-container asp-eventos__proximos-inner">
+	<section class="asp-eventos__prox" aria-labelledby="eventos-proximos">
+		<div class="asp-container">
 			<h2 class="asp-seccion__titulo" id="eventos-proximos"><?php esc_html_e( 'Próximos', 'asp' ); ?></h2>
-			<?php /* El siguiente, grande: se ve apenas abre la página, sin carga diferida. */ ?>
-			<?php get_template_part( 'parts/evento/card', null, [ 'post_id' => $asp_primero->ID, 'ancha' => true, 'loading' => 'eager', 'nivel' => 'h3', 'sede' => false, 'natural' => true ] ); ?>
-			<?php if ( $asp_resto ) : ?>
-				<div class="asp-proximos-lista">
-					<?php foreach ( $asp_resto as $asp_post ) : ?>
-						<?php get_template_part( 'parts/evento/proximo-fila', null, [ 'post_id' => $asp_post->ID ] ); ?>
-					<?php endforeach; ?>
-				</div>
-			<?php endif; ?>
 		</div>
+		<?php get_template_part( 'parts/evento/destacado', null, [ 'post_id' => $asp_primero->ID ] ); ?>
+		<?php if ( $asp_resto ) : ?>
+			<div class="asp-container asp-eventos__grilla">
+				<?php foreach ( $asp_resto as $asp_post ) : ?>
+					<?php get_template_part( 'parts/evento/poster', null, [ 'post_id' => $asp_post->ID ] ); ?>
+				<?php endforeach; ?>
+			</div>
+		<?php endif; ?>
 	</section>
 <?php endif; ?>
 

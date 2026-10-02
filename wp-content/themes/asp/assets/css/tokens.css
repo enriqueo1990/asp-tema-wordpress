@@ -194,6 +194,9 @@
   /* Ficha del evento: flyer sin banda, en su proporción. Un vertical
      no pasa de este alto (achica el ancho, no se recorta). */
   --flyer-natural-max-h: 80vh;
+  /* Cartel de /eventos/ sin flyer: la fecha en la forma de los flyers
+     de al lado, que casi todos vienen en 16:9. */
+  --poster-ratio-sin-flyer: 16 / 9;
 
   /* --- Transiciones ------------------------------------------------- */
   --ease: cubic-bezier(0.2, 0, 0.13, 1);

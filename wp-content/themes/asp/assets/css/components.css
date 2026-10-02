@@ -491,12 +491,6 @@
   padding-block: var(--sp-7);
 }
 
-.asp-eventos__proximos-inner {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-6);
-}
-
 .asp-eventos__proximos .asp-card-evento {
   padding-top: 0;
   border-top: 0;
@@ -505,7 +499,7 @@
 /* Próximos y Archivo son subtítulos de la página: con el tamaño de
    titular de sección pesaban lo mismo que «Eventos» y se leían como tres
    portadas seguidas. */
-.asp-eventos__proximos .asp-seccion__titulo,
+.asp-eventos__prox .asp-seccion__titulo,
 .asp-eventos__archivo .asp-seccion__titulo {
   font-size: var(--fs-xl);
 }
@@ -520,47 +514,93 @@
   font-size: var(--fs-md);
 }
 
-.asp-proximos-lista {
+/* Próximos (2-10-2026): sin banda gris. El siguiente sobre azul noche a
+   sangre, con el flyer grande; el resto en grilla de carteles sobre blanco. */
+.asp-eventos__prox .asp-seccion__titulo {
+  padding-bottom: var(--sp-6);
+}
+
+.asp-destacado {
+  background: var(--c-dark-bg);
+  color: var(--c-dark-fg);
+  padding-block: var(--sp-7);
+}
+
+.asp-destacado__inner {
   display: grid;
   gap: var(--sp-6);
-  margin-top: var(--sp-5);
 }
 
-.asp-proximo-fila {
-  display: grid;
-  grid-template-columns: var(--w-flyer-mini) minmax(0, 1fr);
-  gap: var(--sp-4);
-  align-items: start;
-  padding-top: var(--sp-6);
-  border-top: var(--border-hairline) solid var(--c-border-strong);
-}
-
-.asp-proximo-fila__visual {
+.asp-destacado__visual {
   display: block;
 }
 
-/* Sin flyer, la fecha en numerales y sin caja, como los flyers de al lado. */
-.asp-proximo-fila__fecha {
+.asp-destacado__cuerpo {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-1);
-  color: var(--c-text);
+  align-items: flex-start;
+  gap: var(--sp-3);
+  min-width: 0;
 }
 
-.asp-proximo-fila__dias {
-  font-family: var(--font-numeral);
-  font-size: var(--fs-xl);
-  line-height: 1;
-}
-
-.asp-proximo-fila__mes {
+.asp-destacado__rotulo {
   font-family: var(--font-ui);
-  font-size: var(--fs-xs);
-  line-height: var(--lh-heading);
-  color: var(--c-text-muted);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-dark-muted);
 }
 
-.asp-proximo-fila__cuerpo {
+.asp-destacado__titulo {
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+
+.asp-destacado__titulo a,
+.asp-destacado__titulo a:hover {
+  color: var(--c-dark-fg);
+}
+
+.asp-destacado__titulo a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.12em;
+}
+
+.asp-destacado .asp-fecha {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-regular);
+}
+
+.asp-destacado__lugar {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-dark-muted);
+}
+
+.asp-destacado__btn {
+  margin-top: var(--sp-4);
+}
+
+.asp-destacado .asp-badge {
+  margin-top: var(--sp-3);
+  color: var(--c-dark-fg);
+}
+
+.asp-destacado a:focus-visible {
+  outline-color: var(--c-focus-ring-inverso);
+}
+
+.asp-eventos__grilla {
+  display: grid;
+  gap: var(--sp-8);
+  padding-top: var(--sp-7);
+}
+
+.asp-poster {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -568,32 +608,93 @@
   min-width: 0;
 }
 
-.asp-proximo-fila__titulo {
-  margin-top: var(--sp-1);
-  font-size: var(--fs-lg);
-  line-height: var(--lh-heading);
+.asp-poster__visual {
+  display: block;
+  align-self: stretch;
+  margin-bottom: var(--sp-3);
 }
 
-.asp-proximo-fila__titulo a {
-  color: var(--c-text);
+/* Sin flyer: la fecha en numerales sobre azul noche, en la forma de los
+   flyers de al lado. Es un dato, no un relleno. */
+.asp-poster__fecha {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+  aspect-ratio: var(--poster-ratio-sin-flyer);
+  padding: var(--sp-5);
+  background: var(--c-tile-4);
+  color: var(--c-tile-ink);
 }
 
-.asp-proximo-fila__titulo a:hover {
+.asp-poster__dias {
+  font-family: var(--font-numeral);
+  font-size: var(--fs-3xl);
+  line-height: 1;
+}
+
+.asp-poster__mes {
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-dark-muted);
+}
+
+.asp-poster .asp-fecha {
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
   color: var(--c-accent);
 }
 
-.asp-proximo-fila .asp-btn {
-  margin-top: var(--sp-2);
+.asp-poster__titulo {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-heading);
 }
 
-.asp-proximo-fila .asp-fecha {
-  font-size: var(--fs-md);
+.asp-poster__titulo a {
+  color: var(--c-text);
 }
 
-.asp-proximo-fila__lugar {
+.asp-poster__titulo a:hover {
+  color: var(--c-accent);
+}
+
+.asp-poster__lugar {
   font-family: var(--font-ui);
   font-size: var(--fs-sm);
   color: var(--c-text-muted);
+}
+
+.asp-poster__accion {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-height: var(--control-h);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+/* Subrayado solo en el texto, no en la flecha. */
+.asp-poster__accion-texto {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.4em;
+}
+
+.asp-poster .asp-badge {
+  margin-top: var(--sp-3);
+}
+
+.asp-eventos__prox {
+  padding-bottom: var(--sp-6);
 }
 
 .asp-eventos__archivo {
@@ -649,7 +750,7 @@
     padding-block: var(--sp-8);
   }
 
-  .asp-eventos__proximos .asp-seccion__titulo,
+  .asp-eventos__prox .asp-seccion__titulo,
   .asp-eventos__archivo .asp-seccion__titulo {
     font-size: var(--fs-2xl);
   }
@@ -658,20 +759,23 @@
     font-size: var(--fs-xl);
   }
 
-  .asp-proximos-lista {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--sp-8);
-    margin-top: var(--sp-6);
+  .asp-destacado {
+    padding-block: var(--sp-8);
+  }
+
+  .asp-destacado__inner {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--sp-8);
+    align-items: center;
+  }
+
+  .asp-destacado--sin-flyer .asp-destacado__inner {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .asp-eventos__lista .asp-archivo-item__fecha {
     font-family: var(--font-numeral);
     font-size: var(--fs-md);
-  }
-
-  .asp-proximo-fila {
-    grid-template-columns: var(--w-flyer-mini-desktop) minmax(0, 1fr);
-    gap: var(--sp-5);
   }
 
   .asp-eventos__archivo {
@@ -687,6 +791,24 @@
 
   .asp-eventos__archivo-cab .asp-indice-anios {
     justify-content: flex-end;
+  }
+}
+
+@media (min-width: 768px) {
+  .asp-eventos__grilla {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-8) var(--sp-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .asp-eventos__grilla {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-top: var(--sp-8);
+  }
+
+  .asp-eventos__prox {
+    padding-bottom: var(--sp-8);
   }
 }
 
