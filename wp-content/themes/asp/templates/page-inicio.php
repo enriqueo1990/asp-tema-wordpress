@@ -9,7 +9,7 @@
  * elegir de nuevo la página «Inicio». Ver inc/inicio.php.
  *
  * Orden: hero con el evento abierto, quiénes somos con la franja de
- * confianza, cómo servimos, próximos eventos (sin el del hero), predicaciones
+ * confianza, cómo servimos, próximos eventos, aliados, predicaciones
  * por conferencia, artículos y formas de participar. Cada bloque tiene su
  * forma y su fondo; el que no tiene datos no se imprime.
  *
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 
-foreach ( [ 'hero', 'somos', 'servir', 'agenda', 'predicaciones', 'articulos', 'participar' ] as $asp_parte ) {
+foreach ( [ 'hero', 'somos', 'servir', 'agenda', 'aliados', 'predicaciones', 'articulos', 'participar' ] as $asp_parte ) {
 	get_template_part( 'parts/inicio/' . $asp_parte );
 }
 
