@@ -499,7 +499,6 @@
 /* Próximos y Archivo son subtítulos de la página: con el tamaño de
    titular de sección pesaban lo mismo que «Eventos» y se leían como tres
    portadas seguidas. */
-.asp-eventos__prox .asp-seccion__titulo,
 .asp-eventos__archivo .asp-seccion__titulo {
   font-size: var(--fs-xl);
 }
@@ -515,9 +514,16 @@
 }
 
 /* Próximos (2-10-2026): sin banda gris. El siguiente sobre azul noche a
-   sangre, con el flyer grande; el resto en grilla de carteles sobre blanco. */
-.asp-eventos__prox .asp-seccion__titulo {
-  padding-bottom: var(--sp-6);
+   sangre, pegado a la cabecera y con su rótulo adentro; el resto en grilla
+   de carteles sobre blanco. */
+.asp-destacado__antetitulo {
+  margin-bottom: var(--sp-5);
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-dark-fg);
 }
 
 .asp-destacado {
@@ -752,7 +758,6 @@
     padding-block: var(--sp-8);
   }
 
-  .asp-eventos__prox .asp-seccion__titulo,
   .asp-eventos__archivo .asp-seccion__titulo {
     font-size: var(--fs-2xl);
   }

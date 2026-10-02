@@ -1,8 +1,8 @@
 <?php
 /**
  * /eventos/ — dos partes con forma distinta:
- * - Próximos: el siguiente sobre una banda azul noche a sangre, con el
- *   flyer grande y el botón; el resto debajo, sobre blanco, en grilla de
+ * - Próximos: el siguiente sobre una banda azul noche a sangre pegada a la
+ *   cabecera, con el rótulo «Próximo evento», el flyer grande y el botón; el resto debajo, sobre blanco, en grilla de
  *   carteles (flyer entero, fecha, título, ciudad). Rehecha el 2-10-2026: la
  *   banda gris de la sección y las cajas grises detrás de cada flyer se
  *   leían sucias, y la fila con miniatura achicaba los flyers a estampillas.
@@ -29,19 +29,22 @@ $asp_resto    = array_slice( $asp_proximos, 1 );
 $asp_total    = array_sum( array_map( 'count', $asp_por_anio ) );
 $asp_desde    = $asp_por_anio ? min( array_keys( $asp_por_anio ) ) : 0;
 ?>
-<div class="asp-container">
-	<header class="asp-eventos__cab">
-		<h1 class="asp-pagina__titulo"><?php echo esc_html( post_type_archive_title( '', false ) ); ?></h1>
-	</header>
-</div>
+<?php if ( $asp_primero ) : ?>
+	<?php /* Con próximos, la banda arranca pegada a la cabecera y «Eventos» queda solo para lectores de pantalla y buscadores: en el teléfono, «Eventos» y «Próximos» apilados empujaban el evento fuera de la pantalla. */ ?>
+	<h1 class="screen-reader-text"><?php echo esc_html( post_type_archive_title( '', false ) ); ?></h1>
+<?php else : ?>
+	<div class="asp-container">
+		<header class="asp-eventos__cab">
+			<h1 class="asp-pagina__titulo"><?php echo esc_html( post_type_archive_title( '', false ) ); ?></h1>
+		</header>
+	</div>
+<?php endif; ?>
 
 <?php if ( $asp_primero ) : ?>
 	<section class="asp-eventos__prox" aria-labelledby="eventos-proximos">
-		<div class="asp-container">
-			<h2 class="asp-seccion__titulo" id="eventos-proximos"><?php esc_html_e( 'Próximos', 'asp' ); ?></h2>
-		</div>
-		<?php get_template_part( 'parts/evento/destacado', null, [ 'post_id' => $asp_primero->ID ] ); ?>
+		<?php get_template_part( 'parts/evento/destacado', null, [ 'post_id' => $asp_primero->ID, 'antetitulo_id' => 'eventos-proximos' ] ); ?>
 		<?php if ( $asp_resto ) : ?>
+			<h2 class="screen-reader-text"><?php esc_html_e( 'Más adelante', 'asp' ); ?></h2>
 			<div class="asp-container asp-eventos__grilla">
 				<?php foreach ( $asp_resto as $asp_post ) : ?>
 					<?php get_template_part( 'parts/evento/poster', null, [ 'post_id' => $asp_post->ID ] ); ?>

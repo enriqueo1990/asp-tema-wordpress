@@ -3,7 +3,8 @@
  * El próximo evento en /eventos/: banda azul noche a sangre, el flyer
  * grande en su proporción y al lado iniciativa, título, fecha, ciudad y el
  * botón si la inscripción está abierta (si no, el estado). Sin flyer, solo
- * el texto. Args: post_id.
+ * el texto. Arriba, el rótulo «Próximo evento» como título de la sección.
+ * Args: post_id, antetitulo_id (id del rótulo, para aria-labelledby).
  *
  * @package asp
  */
@@ -17,6 +18,9 @@ $asp_url   = get_permalink( $asp_id );
 $asp_lugar = implode( ', ', array_filter( [ asp_evento_ciudad( $asp_id ), asp_evento_pais( $asp_id ) ] ) );
 ?>
 <article class="asp-destacado<?php echo $asp_flyer ? '' : ' asp-destacado--sin-flyer'; ?>">
+	<div class="asp-container">
+		<h2 class="asp-destacado__antetitulo" id="<?php echo esc_attr( (string) ( $args['antetitulo_id'] ?? 'proximo-evento' ) ); ?>"><?php esc_html_e( 'Próximo evento', 'asp' ); ?></h2>
+	</div>
 	<div class="asp-container asp-destacado__inner">
 		<?php if ( $asp_flyer ) : ?>
 			<a class="asp-destacado__visual" href="<?php echo esc_url( $asp_url ); ?>" tabindex="-1" aria-hidden="true">
