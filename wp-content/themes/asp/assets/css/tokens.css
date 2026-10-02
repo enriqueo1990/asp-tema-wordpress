@@ -126,6 +126,57 @@
   --inicio-carril-escritorio: 3;      /* carteles a la vista en escritorio */
   --border-marca: 3px;                /* filete del aviso de dato faltante */
 
+  /* --- Ficha del evento (single-evento.php, assets/css/ficha.css) ------ */
+  /* Handoff de Claude Design (2-10-2026). Teléfono primero; escritorio
+     desde 900 px. Los colores salen de la paleta de abajo. */
+  --ev-radius: 6px;                    /* la ficha usa esquinas de 6 px (decisión del handoff) */
+  --ev-ancho: 1120px;                  /* contenido máximo del flyer y del panel */
+  --ev-titulo: 2.75rem;                /* 44 px */
+  --ev-titulo-desktop: 4.5rem;         /* 72 px */
+  --ev-titulo-tracking: -0.025em;
+  --ev-titulo-tracking-desktop: -0.03em;
+  --ev-fecha: 1.75rem;                 /* 28 px */
+  --ev-fecha-desktop: 2.25rem;         /* 36 px */
+  --ev-dato: 1.5rem;                   /* 24 px: lugar y monto */
+  --ev-dato-desktop: 2rem;             /* 32 px */
+  --ev-dato-sub: 1.0625rem;            /* 17 px */
+  --ev-dato-sub-desktop: 1.125rem;     /* 18 px */
+  --ev-link: 0.9375rem;                /* 15 px */
+  --ev-ico: 22px;
+  --ev-ico-desktop: 26px;
+  --ev-ico-sm: 18px;
+  --ev-ico-xs: 16px;
+  --ev-bandera-h: 18px;
+  --ev-bandera-h-desktop: 22px;
+  --ev-bandera-borde: rgba(20, 22, 28, 0.12);
+  --ev-orador-foto: 72px;
+  --ev-orador-foto-desktop: 104px;
+  --ev-orador-nombre: 1.375rem;        /* 22 px */
+  --ev-orador-nombre-desktop: 1.75rem; /* 28 px */
+  --ev-orador-cargo: 0.875rem;         /* 14 px */
+  --ev-orador-cargo-desktop: 0.9375rem;
+  --ev-desc: 1.3125rem;                /* 21 px */
+  --ev-desc-desktop: 1.875rem;         /* 30 px, el primer párrafo */
+  --ev-desc-resto-desktop: 1.5rem;     /* 24 px, los siguientes */
+  --ev-desc-ancho: 820px;
+  --ev-aliado-h: 56px;
+  --ev-aliado-h-desktop: 72px;
+  --ev-estado: 0.75rem;                /* 12 px */
+  --ev-btn-h: 56px;
+  --ev-btn-h-sec: 48px;
+  --ev-btn-h-desktop: 60px;
+  --ev-btn-primario-w: 260px;
+  --ev-btn-borde: rgba(30, 58, 110, 0.4);
+  --ev-btn-tracking: 0.08em;
+  --ev-menu-sombra: 0 12px 32px rgba(18, 23, 42, 0.28);
+  --ev-menu-w: 220px;
+  --ev-aire-desktop: 5.5rem;           /* 88 px entre bloques en escritorio */
+  --ev-aire-medio: 3.5rem;             /* 56 px */
+  --ev-panel-pad-desktop: 2.75rem;     /* 44 px */
+  --ev-menu-item-pad: 11px 18px;
+  --ev-orador-gap-desktop: 20px;
+  --ev-btn-pad-desktop: 22px;
+
   /* --- Logos (templates/logos.php, assets/css/logos.css) ------------- */
   --logos-col-min: 15rem;             /* ancho mínimo de cada muestra en la grilla */
   --logos-muestra-h: 11rem;           /* alto de la muestra: el logo entra entero */

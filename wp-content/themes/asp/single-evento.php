@@ -1,7 +1,13 @@
 <?php
 /**
- * Ficha de evento. Cada bloque se renderiza solo si tiene contenido.
- * Sin flyer, la fecha grande ocupa su lugar. Emite schema.org/Event.
+ * Ficha de evento (rediseño del handoff de Claude Design, 2-10-2026).
+ *
+ * Orden: flyer, título, datos clave (fecha, lugar, costo) en un panel,
+ * oradores, descripción, programa y predicaciones si existen, aliados y la
+ * banda de acción. Sin rótulos de sección salvo el estado y sin filetes:
+ * la única caja es el panel de datos. Cada bloque se imprime solo si tiene
+ * contenido; los datos ya llegan decididos según el estado
+ * (asp_ficha_datos(), en inc/ficha-evento.php). Emite schema.org/Event.
  *
  * @package asp
  */
@@ -12,161 +18,179 @@ get_header();
 
 while ( have_posts() ) :
 	the_post();
-	$asp_id      = get_the_ID();
-	$asp_estado  = asp_evento_estado( $asp_id );
-	$asp_flyer   = absint( get_post_meta( $asp_id, 'evento_flyer', true ) );
-	$asp_inic    = asp_evento_iniciativa( $asp_id );
-	$asp_precio  = (string) get_post_meta( $asp_id, 'evento_precio', true );
-	$asp_desc    = (string) get_post_meta( $asp_id, 'evento_descripcion', true );
-	$asp_sede    = (string) get_post_meta( $asp_id, 'evento_sede_nombre', true ) . (string) get_post_meta( $asp_id, 'evento_sede_direccion', true );
-	$asp_anio    = asp_evento_anio( $asp_id );
-	$asp_vacia   = ! $asp_flyer;
-	$asp_ciudad  = asp_evento_ciudad( $asp_id );
-	$asp_pais    = asp_evento_pais( $asp_id );
-	$asp_hay_cta = asp_evento_tiene_boton( $asp_id ) || in_array( $asp_estado, [ 'cerrada', 'agotado' ], true );
-	$asp_agenda  = asp_evento_agendable( $asp_id );
-	$asp_predic    = asp_predicaciones_de_evento( $asp_id );
-	$asp_izq_vacia = $asp_vacia && ! $asp_desc && empty( asp_evento_programa( $asp_id ) ) && empty( asp_evento_relacionados( $asp_id, 'evento_oradores', 'persona' ) ) && empty( asp_evento_relacionados( $asp_id, 'evento_aliados', 'aliado' ) ) && empty( $asp_predic ) && 'realizado' !== $asp_estado;
+	$asp_id     = get_the_ID();
+	$asp_d      = asp_ficha_datos( $asp_id );
+	$asp_predic = asp_predicaciones_de_evento( $asp_id );
+	$asp_anio   = asp_evento_anio( $asp_id );
 	?>
 	<script type="application/ld+json"><?php echo wp_json_encode( asp_evento_schema( $asp_id ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ); ?></script>
 
-	<article class="asp-container">
-		<div class="asp-ficha<?php echo $asp_vacia ? ' asp-ficha--vacia' : ''; ?>">
+	<article class="ev">
 
-			<?php /* ---- Cabecera: en escritorio va arriba de la grilla; en móvil el flyer va primero ---- */ ?>
-			<div class="asp-solo-movil">
-				<?php get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_id, 'clase' => 'asp-flyer--natural', 'loading' => 'eager' ] ); ?>
-			</div>
+		<?php /* 1. Flyer: a sangre en el teléfono, al ancho del contenedor en escritorio. Nunca recortado. */ ?>
+		<?php if ( $asp_d['flyer'] ) : ?>
+			<figure class="ev-flyer"><?php echo $asp_d['flyer']; // phpcs:ignore WordPress.Security.EscapeOutput ?></figure>
+		<?php endif; ?>
 
-			<?php /* Arriba solo el título y la fecha (2-10-2026): el estado, el tipo,
-			   el lugar y el resto de los datos van a la columna lateral (en el
-			   teléfono, al bloque de datos de abajo). */ ?>
-			<header class="asp-ficha__cabecera">
-				<?php /* El título manda también con flyer: en compacto (24 px) la ficha se veía más débil que sin flyer. */ ?>
-				<h1 class="asp-ficha__titulo"><?php the_title(); ?></h1>
+		<?php /* 2. Título */ ?>
+		<header class="ev-head ev-wrap">
+			<h1 class="ev-title"><?php the_title(); ?></h1>
+		</header>
 
-				<div class="asp-solo-escritorio asp-ficha__linea">
-					<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id, 'variante' => 'xl' ] ); ?>
+		<?php /* 3. Datos clave: la única caja de la página */ ?>
+		<section class="ev-facts" aria-label="<?php esc_attr_e( 'Datos del evento', 'asp' ); ?>">
+			<?php if ( $asp_d['fecha'] ) : ?>
+				<div class="ev-fact ev-fact--date">
+					<?php echo asp_ficha_icono( 'calendar' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					<div class="ev-fact__body">
+						<p class="ev-fact__main"><time datetime="<?php echo esc_attr( $asp_d['iso'] ); ?>"><?php echo esc_html( $asp_d['fecha'] ); ?></time></p>
+						<?php get_template_part( 'parts/evento/menu-calendario', null, [ 'agenda' => $asp_d['agenda'], 'variante' => 'link' ] ); ?>
+					</div>
 				</div>
-			</header>
+			<?php endif; ?>
 
-			<?php /* ---- Móvil: la fecha, grande si no hay flyer; después el estado y el botón ---- */ ?>
-			<div class="asp-solo-movil asp-stack asp-stack--5">
-				<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id, 'variante' => $asp_vacia ? 'grande' : '' ] ); ?>
+			<?php if ( $asp_d['lugar'] || $asp_d['sede'] || $asp_d['direccion'] ) : ?>
+				<div class="ev-fact">
+					<?php echo asp_ficha_icono( 'map-pin' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					<div class="ev-fact__body">
+						<?php if ( $asp_d['lugar'] ) : ?>
+							<?php /* La bandera va en línea: si el renglón corta, baja con la última palabra. */ ?>
+							<?php if ( $asp_d['bandera'] ) :
+								$asp_corte = (int) strrpos( $asp_d['lugar'], ' ' );
+								?>
+								<p class="ev-fact__main"><?php echo esc_html( substr( $asp_d['lugar'], 0, $asp_corte ) ); ?> <span class="ev-fact__ultima"><?php echo esc_html( ltrim( substr( $asp_d['lugar'], $asp_corte ) ) ); ?><img class="ev-flag" src="<?php echo esc_url( $asp_d['bandera']['src'] ); ?>" alt="<?php echo esc_attr( $asp_d['bandera']['alt'] ); ?>" width="33" height="22"></span></p>
+							<?php else : ?>
+								<p class="ev-fact__main"><?php echo esc_html( $asp_d['lugar'] ); ?></p>
+							<?php endif; ?>
+						<?php endif; ?>
+						<?php if ( $asp_d['sede'] ) : ?>
+							<p class="ev-fact__sub ev-fact__sub--fuerte"><?php echo esc_html( $asp_d['sede'] ); ?></p>
+						<?php endif; ?>
+						<?php if ( $asp_d['direccion'] ) : ?>
+							<p class="ev-fact__sub"><?php echo nl2br( esc_html( $asp_d['direccion'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
+						<?php endif; ?>
+						<?php if ( $asp_d['mapa'] ) : ?>
+							<a class="ev-link" href="<?php echo esc_url( $asp_d['mapa'] ); ?>" target="_blank" rel="noopener"><span class="ev-u"><?php esc_html_e( 'Cómo llegar', 'asp' ); ?></span><?php echo asp_ficha_icono( 'arrow', 'ev-ico--xs' ); // phpcs:ignore WordPress.Security.EscapeOutput ?><span class="screen-reader-text"> <?php esc_html_e( '(abre Google Maps)', 'asp' ); ?></span></a>
+						<?php endif; ?>
+					</div>
+				</div>
+			<?php endif; ?>
+
+			<?php /* Costo: solo con inscripción abierta y si hay precio cargado. */ ?>
+			<?php if ( $asp_d['monto'] ) : ?>
+				<div class="ev-fact">
+					<?php echo asp_ficha_icono( 'ticket' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					<div class="ev-fact__body">
+						<p class="ev-fact__main"><span class="screen-reader-text"><?php esc_html_e( 'Costo:', 'asp' ); ?> </span><?php echo esc_html( $asp_d['monto'] ); ?></p>
+						<?php if ( $asp_d['detalle'] ) : ?>
+							<p class="ev-fact__sub"><?php echo esc_html( $asp_d['detalle'] ); ?></p>
+						<?php endif; ?>
+					</div>
+				</div>
+			<?php endif; ?>
+		</section>
+
+		<?php /* 4. Oradores, sin rótulo. La bio, si hay, se despliega debajo del cargo. */ ?>
+		<?php if ( ! empty( $asp_d['oradores'] ) ) : ?>
+			<section class="ev-speakers ev-wrap" aria-label="<?php echo esc_attr( _n( 'Orador', 'Oradores', count( $asp_d['oradores'] ), 'asp' ) ); ?>">
+				<?php foreach ( $asp_d['oradores'] as $asp_o ) :
+					$asp_p     = $asp_o['persona'];
+					$asp_linea = $asp_p ? asp_persona_cargo_iglesia( $asp_p->ID ) : '';
+					$asp_bio   = $asp_p ? (string) get_post_meta( $asp_p->ID, 'persona_bio', true ) : '';
+					?>
+					<div class="ev-speaker">
+						<?php if ( $asp_p ) : ?>
+							<?php echo asp_persona_foto( $asp_p->ID, 'ev-speaker__foto' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+						<?php endif; ?>
+						<div class="ev-speaker__texto">
+							<p class="ev-speaker__name"><?php echo esc_html( $asp_o['nombre'] ); ?></p>
+							<?php if ( $asp_linea ) : ?>
+								<p class="ev-speaker__role"><?php echo esc_html( $asp_linea ); ?></p>
+							<?php endif; ?>
+							<?php if ( $asp_bio ) : ?>
+								<details class="ev-bio">
+									<summary><span class="ev-u"><?php esc_html_e( 'Ver bio', 'asp' ); ?></span></summary>
+									<div class="ev-bio__texto">
+										<?php echo wp_kses_post( wpautop( $asp_bio ) ); ?>
+										<a href="<?php echo esc_url( get_permalink( $asp_p ) ); ?>"><?php esc_html_e( 'Ver ficha', 'asp' ); ?></a>
+									</div>
+								</details>
+							<?php endif; ?>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			</section>
+		<?php endif; ?>
+
+		<?php /* 5. Descripción */ ?>
+		<?php if ( $asp_d['descripcion'] ) : ?>
+			<section class="ev-desc ev-wrap" aria-label="<?php esc_attr_e( 'Descripción', 'asp' ); ?>">
+				<?php echo wp_kses_post( wpautop( $asp_d['descripcion'] ) ); ?>
+			</section>
+		<?php endif; ?>
+
+		<?php /* Programa y predicaciones: no están en el handoff, pero son datos
+		   reales del evento y no se pierden. Van con sus piezas de siempre. */ ?>
+		<?php if ( asp_evento_programa( $asp_id ) ) : ?>
+			<div class="ev-extra ev-wrap"><?php get_template_part( 'parts/evento/programa', null, [ 'post_id' => $asp_id ] ); ?></div>
+		<?php endif; ?>
+		<?php if ( ! empty( $asp_predic ) ) : ?>
+			<div class="ev-extra ev-wrap">
 				<div class="asp-bloque">
-					<?php get_template_part( 'parts/evento/badge', null, [ 'post_id' => $asp_id ] ); ?>
-					<?php if ( $asp_hay_cta ) : ?>
-						<?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_id, 'con_plataforma' => true, 'bloque' => true ] ); ?>
-					<?php endif; ?>
+					<h2 class="asp-label"><?php esc_html_e( 'Predicaciones de este evento', 'asp' ); ?></h2>
+					<div>
+						<?php foreach ( $asp_predic as $asp_pr ) : ?>
+							<?php get_template_part( 'parts/predicacion/fila', null, [ 'post_id' => $asp_pr->ID, 'sin_evento' => true ] ); ?>
+						<?php endforeach; ?>
+					</div>
 				</div>
-				<?php /* Tipo, precio, lugar y calendario en un solo bloque de datos:
-				   bloques con filete seguidos se leían como un formulario. */ ?>
-				<div class="asp-bloque asp-bloque--datos">
-					<?php if ( $asp_inic ) : ?>
-						<div class="asp-bloque__dato"><h2 class="asp-label"><?php esc_html_e( 'Tipo de evento', 'asp' ); ?></h2><a class="asp-sede__nombre asp-ficha__tipo" href="<?php echo esc_url( get_permalink( $asp_inic ) ); ?>"><?php echo esc_html( get_the_title( $asp_inic ) ); ?></a></div>
-					<?php endif; ?>
-					<?php if ( $asp_precio ) : ?>
-						<div class="asp-bloque__dato"><h2 class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></h2><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
-					<?php endif; ?>
-					<?php if ( $asp_sede || $asp_ciudad || $asp_pais ) : ?>
-						<div class="asp-bloque__dato"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id, 'con_lugar' => true ] ); ?></div>
-					<?php endif; ?>
-					<?php if ( $asp_agenda ) : ?>
-						<div class="asp-bloque__dato"><?php get_template_part( 'parts/evento/agenda', null, [ 'post_id' => $asp_id ] ); ?></div>
-					<?php endif; ?>
-				</div>
-				<div class="asp-bloque"><?php get_template_part( 'parts/evento/compartir', null, [ 'post_id' => $asp_id ] ); ?></div>
 			</div>
+		<?php endif; ?>
 
-			<?php /* ---- Cuerpo: grilla 7/4 en escritorio ---- */ ?>
-			<?php
-			/* Sin cuerpo a la izquierda, la columna lateral ocupa el ancho de
-			   lectura. Nunca está vacía: Compartir va siempre. */
-			$asp_grid_clase = 'asp-grid-ficha';
-			if ( $asp_izq_vacia ) {
-				$asp_grid_clase .= ' asp-grid-ficha--solo-aside';
-			}
-			if ( ! $asp_vacia ) {
-				$asp_grid_clase .= ' asp-grid-ficha--rule';
-			}
-			?>
-			<div class="<?php echo esc_attr( $asp_grid_clase ); ?>">
-				<div class="asp-stack asp-stack--6">
-					<div class="asp-solo-escritorio">
-						<?php get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_id, 'clase' => 'asp-flyer--natural', 'loading' => 'eager' ] ); ?>
-					</div>
-					<?php if ( $asp_desc ) : ?>
-						<div class="asp-bloque asp-bloque--sin-filete">
-							<h2 class="asp-label"><?php esc_html_e( 'Descripción', 'asp' ); ?></h2>
-							<div class="asp-prose"><?php echo wp_kses_post( wpautop( $asp_desc ) ); ?></div>
-						</div>
+		<?php /* 6. Aliados: solo logos con link; sin logo, el nombre. */ ?>
+		<?php if ( ! empty( $asp_d['aliados'] ) ) : ?>
+			<section class="ev-allies ev-wrap" aria-label="<?php esc_attr_e( 'Aliados', 'asp' ); ?>">
+				<?php foreach ( $asp_d['aliados'] as $asp_a ) :
+					$asp_url  = (string) get_post_meta( $asp_a->ID, 'aliado_url', true );
+					$asp_logo = absint( get_post_meta( $asp_a->ID, 'aliado_logo', true ) );
+					$asp_html = $asp_logo ? wp_get_attachment_image( $asp_logo, 'medium', false, [ 'alt' => get_the_title( $asp_a ), 'loading' => 'lazy' ] ) : '';
+					if ( ! $asp_html ) {
+						$asp_html = '<span class="ev-allies__nombre">' . esc_html( get_the_title( $asp_a ) ) . '</span>';
+					}
+					?>
+					<?php if ( $asp_url ) : ?>
+						<a href="<?php echo esc_url( $asp_url ); ?>" target="_blank" rel="noopener"><?php echo $asp_html; // phpcs:ignore WordPress.Security.EscapeOutput ?><?php echo asp_aviso_pestana(); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
+					<?php else : ?>
+						<?php echo $asp_html; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					<?php endif; ?>
-					<?php if ( ! empty( $asp_predic ) ) : ?>
-						<div class="asp-bloque">
-							<h2 class="asp-label"><?php esc_html_e( 'Predicaciones de este evento', 'asp' ); ?></h2>
-							<div>
-								<?php foreach ( $asp_predic as $asp_p ) : ?>
-									<?php get_template_part( 'parts/predicacion/fila', null, [ 'post_id' => $asp_p->ID, 'sin_evento' => true ] ); ?>
-								<?php endforeach; ?>
-							</div>
-						</div>
+				<?php endforeach; ?>
+			</section>
+		<?php endif; ?>
+
+		<?php /* 7. Banda de acción */ ?>
+		<section class="ev-cta" aria-label="<?php esc_attr_e( 'Inscripción', 'asp' ); ?>">
+			<div class="ev-cta__inner ev-wrap">
+				<p class="ev-status"><?php echo esc_html( $asp_d['etiqueta'] ); ?></p>
+				<div class="ev-cta__actions<?php echo ( ! $asp_d['registro'] && ! ( 'reserva' === $asp_d['estado'] && $asp_d['agenda'] ) ) ? ' ev-cta__actions--sin-primario' : ''; ?>">
+					<?php if ( $asp_d['registro'] ) : ?>
+						<a class="ev-btn ev-btn--primary" href="<?php echo esc_url( $asp_d['registro'] ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Inscribirse', 'asp' ); ?><?php echo asp_ficha_icono( 'arrow', 'ev-ico--sm' ); // phpcs:ignore WordPress.Security.EscapeOutput ?><?php echo asp_aviso_pestana(); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
+						<?php get_template_part( 'parts/evento/menu-calendario', null, [ 'agenda' => $asp_d['agenda'], 'variante' => 'secundario' ] ); ?>
+					<?php elseif ( 'reserva' === $asp_d['estado'] ) : ?>
+						<?php get_template_part( 'parts/evento/menu-calendario', null, [ 'agenda' => $asp_d['agenda'], 'variante' => 'primario' ] ); ?>
+					<?php else : ?>
+						<?php get_template_part( 'parts/evento/menu-calendario', null, [ 'agenda' => $asp_d['agenda'], 'variante' => 'secundario' ] ); ?>
 					<?php endif; ?>
-					<?php get_template_part( 'parts/evento/programa', null, [ 'post_id' => $asp_id ] ); ?>
-					<?php get_template_part( 'parts/evento/oradores', null, [ 'post_id' => $asp_id, 'grid' => true ] ); ?>
-					<?php get_template_part( 'parts/evento/aliados', null, [ 'post_id' => $asp_id ] ); ?>
-					<?php /* La ficha es larga en móvil y el botón queda arriba de todo: se repite al final. En escritorio la columna lateral es pegajosa y no hace falta. */ ?>
-					<?php if ( asp_evento_tiene_boton( $asp_id ) && ! $asp_izq_vacia ) : ?>
-						<div class="asp-solo-movil asp-bloque">
-							<?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_id, 'con_plataforma' => true, 'bloque' => true ] ); ?>
-						</div>
-					<?php endif; ?>
-					<?php if ( 'realizado' === $asp_estado && $asp_anio ) : ?>
-						<a class="asp-link-archivo" href="<?php echo esc_url( asp_url_eventos() . '#archivo-' . $asp_anio ); ?>"><?php
-							/* translators: %d: año */
-							echo esc_html( sprintf( __( 'Ver el archivo %d', 'asp' ), $asp_anio ) );
-						?></a>
-					<?php endif; ?>
+					<?php get_template_part( 'parts/evento/menu-compartir', null, [ 'compartir' => $asp_d['compartir'], 'titulo' => html_entity_decode( get_the_title(), ENT_QUOTES, 'UTF-8' ) ] ); ?>
 				</div>
-
-				<?php /* Compartir va siempre: con eso solo, la columna ya tiene sentido. */ ?>
-				<aside class="asp-ficha-aside asp-solo-escritorio asp-sticky" aria-label="<?php esc_attr_e( 'Datos del evento', 'asp' ); ?>">
-					<?php /* Todos los datos del evento menos el título y la fecha, que van
-					   arriba (2-10-2026): estado, precio y botón; tipo; lugar y sede;
-					   calendario y compartir. */ ?>
-					<div class="asp-ficha-aside__cta">
-						<?php get_template_part( 'parts/evento/badge', null, [ 'post_id' => $asp_id ] ); ?>
-						<?php if ( $asp_precio ) : ?>
-							<div class="asp-ficha-aside__precio"><h2 class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></h2><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
-						<?php endif; ?>
-						<?php if ( $asp_hay_cta ) : ?>
-							<?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_id, 'con_plataforma' => true, 'bloque' => true ] ); ?>
-						<?php endif; ?>
-					</div>
-					<?php if ( $asp_inic ) : ?>
-						<div class="asp-ficha-aside__bloque">
-							<div class="asp-stack">
-								<h2 class="asp-label"><?php esc_html_e( 'Tipo de evento', 'asp' ); ?></h2>
-								<a class="asp-sede__nombre asp-ficha__tipo" href="<?php echo esc_url( get_permalink( $asp_inic ) ); ?>"><?php echo esc_html( get_the_title( $asp_inic ) ); ?></a>
-							</div>
-						</div>
-					<?php endif; ?>
-					<?php if ( $asp_sede || $asp_ciudad || $asp_pais ) : ?>
-						<div class="asp-ficha-aside__bloque">
-							<?php echo asp_icono_ubicacion(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-							<div class="asp-stack"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id, 'con_lugar' => true ] ); ?></div>
-						</div>
-					<?php endif; ?>
-					<?php if ( $asp_agenda ) : ?>
-						<div class="asp-ficha-aside__bloque">
-							<?php get_template_part( 'parts/evento/agenda', null, [ 'post_id' => $asp_id ] ); ?>
-						</div>
-					<?php endif; ?>
-					<div class="asp-ficha-aside__bloque">
-						<?php get_template_part( 'parts/evento/compartir', null, [ 'post_id' => $asp_id ] ); ?>
-					</div>
-					</aside>
+				<?php if ( 'realizado' === $asp_d['estado'] && $asp_anio ) : ?>
+					<a class="ev-link ev-cta__archivo" href="<?php echo esc_url( asp_url_eventos() . '#archivo-' . $asp_anio ); ?>"><span class="ev-u"><?php
+						/* translators: %d: año */
+						echo esc_html( sprintf( __( 'Ver el archivo %d', 'asp' ), $asp_anio ) );
+					?></span></a>
+				<?php endif; ?>
 			</div>
-		</div>
+		</section>
+
 	</article>
 <?php
 endwhile;

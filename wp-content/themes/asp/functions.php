@@ -20,6 +20,7 @@ $asp_modulos = [
 	'evento-queries',
 	'evento-agenda',
 	'evento-compartir',
+	'ficha-evento',
 	'predicaciones',
 	'afirmaciones',
 	'template-tags',

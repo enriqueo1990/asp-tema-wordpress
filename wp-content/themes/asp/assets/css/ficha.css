@@ -1,0 +1,691 @@
+/* =========================================================================
+   Ficha del evento — handoff de Claude Design (2-10-2026)
+   Teléfono primero (diseñado a 390 px); escritorio desde 900 px (diseñado
+   a 1280). Se carga solo en la ficha (inc/ficha-evento.php). Los valores
+   salen de tokens.css (--ev-* y la paleta del sitio).
+
+   Una diferencia deliberada con el handoff: el ancho y los márgenes
+   laterales son los del resto del sitio (--w-page y --w-gutter), para que
+   la ficha quede alineada con la cabecera y el pie.
+   ========================================================================= */
+
+.ev {
+  font-family: var(--font-display);
+  color: var(--c-text);
+  background: var(--c-bg);
+}
+
+.ev p {
+  margin: 0;
+}
+
+.ev .ev-u {
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-hairline);
+  text-underline-offset: var(--sp-1);
+}
+
+/* Contenedor común, alineado con la cabecera del sitio */
+.ev-wrap {
+  width: 100%;
+  max-width: var(--w-page);
+  margin-inline: auto;
+  padding-inline: var(--w-gutter);
+}
+
+/* Íconos (Lucide, trazo 1,75) */
+.ev-ico {
+  display: block;
+  flex: none;
+  width: var(--ev-ico);
+  height: var(--ev-ico);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ev-ico--sm {
+  width: var(--ev-ico-sm);
+  height: var(--ev-ico-sm);
+}
+
+.ev-ico--xs {
+  width: var(--ev-ico-xs);
+  height: var(--ev-ico-xs);
+}
+
+/* 1. Flyer: a sangre en el teléfono. Nunca recortado, sin fondo detrás. */
+.ev-flyer {
+  margin: 0;
+}
+
+.ev-flyer__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Un flyer vertical (4:5) a todo el ancho de escritorio mediría casi 1500
+   px de alto: se frena en el alto máximo y achica el ancho, sin recortarse */
+@media (min-width: 900px) {
+  .ev-flyer__img {
+    width: auto;
+    max-width: 100%;
+    max-height: var(--flyer-natural-max-h);
+  }
+}
+
+/* 2. Título */
+.ev-head {
+  padding-top: var(--sp-7);
+  padding-bottom: var(--sp-2);
+}
+
+.ev-title {
+  margin: 0;
+  font-size: var(--ev-titulo);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  letter-spacing: var(--ev-titulo-tracking);
+  text-wrap: balance;
+}
+
+/* 3. Datos clave: la única caja de la página */
+.ev-facts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  width: calc(min(100%, var(--w-page)) - 2 * var(--w-gutter));
+  margin: var(--sp-5) auto 0;
+  padding: var(--sp-5) var(--sp-5);
+  background: var(--c-surface);
+  border-radius: var(--ev-radius);
+}
+
+.ev-fact {
+  display: grid;
+  grid-template-columns: var(--ev-ico) minmax(0, 1fr);
+  gap: var(--sp-3);
+  align-items: start;
+}
+
+.ev-fact > .ev-ico {
+  margin-top: var(--sp-1);
+  color: var(--c-accent);
+}
+
+.ev-fact__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+.ev-fact__main {
+  font-size: var(--ev-dato);
+  line-height: 1.2;
+}
+
+.ev-fact--date .ev-fact__main {
+  font-size: var(--ev-fecha);
+  font-weight: var(--fw-medium);
+  line-height: 1.1;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+
+.ev-fact__sub {
+  font-size: var(--ev-dato-sub);
+  line-height: 1.4;
+  color: var(--c-text-muted);
+  text-wrap: pretty;
+}
+
+.ev-fact__sub--fuerte {
+  color: var(--c-text);
+}
+
+/* Bandera en línea, al final de «Ciudad, País»: va pegada a la última
+   palabra, así si el renglón corta bajan juntas */
+.ev-fact__ultima {
+  white-space: nowrap;
+}
+
+/* Bandera en línea, al final de «Ciudad, País» */
+.ev-flag {
+  display: inline-block;
+  width: auto;
+  height: var(--ev-bandera-h);
+  margin-left: 0.35em;
+  vertical-align: -0.08em;
+  border-radius: var(--radius-2);
+  box-shadow: 0 0 0 1px var(--ev-bandera-borde);
+}
+
+.ev-link,
+.ev-menu--link > summary {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-ui);
+  font-size: var(--ev-link);
+  font-weight: var(--fw-medium);
+  color: var(--c-accent);
+  text-decoration: none;
+}
+
+.ev-link:hover,
+.ev-menu--link > summary:hover {
+  color: var(--c-text);
+}
+
+.ev-link {
+  margin-top: var(--sp-1);
+}
+
+.ev-menu--link {
+  align-self: flex-start;
+  margin-top: var(--sp-2);
+}
+
+.ev-menu--link > summary {
+  min-height: var(--sp-6);
+}
+
+/* 4. Oradores, sin rótulo */
+.ev-speakers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding-top: var(--sp-7);
+}
+
+.ev-speaker {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+
+.ev-speaker__foto {
+  display: block;
+  flex: none;
+  width: var(--ev-orador-foto);
+  height: var(--ev-orador-foto);
+  object-fit: cover;
+  border-radius: var(--ev-radius);
+}
+
+/* Sin foto, las iniciales (asp_persona_foto) en el mismo cuadrado */
+.ev-speaker__foto.asp-iniciales {
+  display: grid;
+  place-items: center;
+  background: var(--c-surface-2);
+  font-family: var(--font-display);
+  font-size: var(--ev-orador-nombre);
+  color: var(--c-accent);
+}
+
+.ev-speaker__texto {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+.ev-speaker__name {
+  font-size: var(--ev-orador-nombre);
+  line-height: var(--lh-heading);
+}
+
+.ev-speaker__role {
+  font-family: var(--font-ui);
+  font-size: var(--ev-orador-cargo);
+  color: var(--c-text-muted);
+}
+
+.ev-bio > summary {
+  display: inline-block;
+  margin-top: var(--sp-1);
+  list-style: none;
+  font-family: var(--font-ui);
+  font-size: var(--ev-orador-cargo);
+  font-weight: var(--fw-medium);
+  color: var(--c-accent);
+  cursor: pointer;
+}
+
+.ev-bio > summary::-webkit-details-marker {
+  display: none;
+}
+
+.ev-bio__texto {
+  max-width: var(--w-prose);
+  margin-top: var(--sp-2);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+}
+
+.ev-bio__texto p + p {
+  margin-top: var(--sp-3);
+}
+
+.ev-bio__texto a {
+  font-family: var(--font-ui);
+  font-size: var(--ev-orador-cargo);
+  color: var(--c-accent);
+}
+
+/* 5. Descripción */
+.ev-desc {
+  padding-top: var(--sp-7);
+}
+
+.ev-desc p {
+  font-size: var(--ev-desc);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.ev-desc p + p {
+  margin-top: var(--sp-5);
+}
+
+/* Programa y predicaciones, con sus piezas de siempre */
+.ev-extra {
+  padding-top: var(--sp-7);
+}
+
+.ev-extra .asp-bloque {
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* 6. Aliados: solo logos */
+.ev-allies {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-5) var(--sp-6);
+  padding-top: var(--sp-7);
+}
+
+.ev-allies img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: var(--ev-aliado-h);
+}
+
+.ev-allies a {
+  display: block;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.ev-allies a:hover {
+  opacity: 0.7;
+}
+
+.ev-allies__nombre {
+  font-size: var(--fs-md);
+  color: var(--c-text);
+}
+
+/* 7. Banda de acción, a todo el ancho */
+.ev-cta {
+  margin-top: var(--sp-7);
+  background: var(--c-surface-2);
+}
+
+.ev-cta__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-top: var(--sp-7);
+  padding-bottom: var(--sp-7);
+}
+
+.ev-status {
+  font-family: var(--font-ui);
+  font-size: var(--ev-estado);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--c-accent);
+}
+
+.ev-cta__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-2);
+}
+
+/* El principal (Inscribirse, o el calendario si es «Reservá la fecha") a
+   todo el ancho; un secundario solo, también. */
+.ev-cta__actions > .ev-btn--primary,
+.ev-cta__actions > .ev-menu--primario,
+.ev-cta__actions > :only-child,
+.ev-cta__actions > .ev-menu--primario + .ev-menu:last-child {
+  grid-column: 1 / -1;
+}
+
+.ev-cta__archivo {
+  margin-top: var(--sp-2);
+}
+
+.ev-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  font-family: var(--font-ui);
+  font-weight: var(--fw-semibold);
+  border-radius: var(--ev-radius);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.ev-btn--primary {
+  height: var(--ev-btn-h);
+  padding-inline: var(--sp-4);
+  background: var(--c-accent);
+  font-size: var(--ev-link);
+  letter-spacing: var(--ev-btn-tracking);
+  text-transform: uppercase;
+  color: var(--c-accent-ink);
+}
+
+.ev-btn--primary:hover {
+  background: var(--c-dark-bg);
+  color: var(--c-accent-ink);
+}
+
+.ev-btn--secondary {
+  height: var(--ev-btn-h-sec);
+  padding: 0 var(--sp-2);
+  border: var(--border-hairline) solid var(--ev-btn-borde);
+  background: var(--c-bg);
+  font-size: var(--fs-sm);
+  color: var(--c-accent);
+}
+
+.ev-btn--secondary:hover {
+  border-color: var(--c-accent);
+}
+
+.ev-only-d {
+  display: none;
+}
+
+/* Menús desplegables: details/summary; app.js solo los cierra al tocar afuera */
+.ev-menu {
+  position: relative;
+}
+
+.ev-menu > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.ev-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.ev-menu__list {
+  position: absolute;
+  z-index: 3;
+  top: calc(100% + var(--sp-2));
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: var(--ev-menu-w);
+  padding: var(--sp-2) 0;
+  background: var(--c-bg);
+  border-radius: var(--ev-radius);
+  box-shadow: var(--ev-menu-sombra);
+  font-family: var(--font-ui);
+  font-size: var(--ev-link);
+  font-weight: var(--fw-medium);
+}
+
+.ev-menu--up .ev-menu__list {
+  top: auto;
+  bottom: calc(100% + var(--sp-2));
+}
+
+.ev-menu__list a,
+.ev-menu__list button {
+  padding: var(--ev-menu-item-pad);
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  color: var(--c-accent);
+  cursor: pointer;
+}
+
+.ev-menu__list a:hover,
+.ev-menu__list button:hover {
+  background: var(--c-surface);
+  color: var(--c-text);
+}
+
+.ev-menu__list [hidden] {
+  display: none;
+}
+
+.ev-btn:focus-visible,
+.ev-menu > summary:focus-visible,
+.ev-bio > summary:focus-visible,
+.ev a:focus-visible,
+.ev-menu__list button:focus-visible {
+  outline: 2px solid var(--c-focus-ring);
+  outline-offset: var(--sp-1);
+}
+
+/* ---------------------------------------------------------------------
+   Escritorio
+   --------------------------------------------------------------------- */
+@media (min-width: 900px) {
+  .ev-flyer {
+    max-width: var(--w-page);
+    margin: var(--sp-5) auto 0;
+    padding-inline: var(--w-gutter);
+  }
+
+  .ev-head {
+    padding-top: var(--sp-8);
+    padding-bottom: var(--sp-4);
+  }
+
+  .ev-title {
+    font-size: var(--ev-titulo-desktop);
+    letter-spacing: var(--ev-titulo-tracking-desktop);
+  }
+
+  .ev-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    gap: var(--sp-7);
+    margin-top: var(--sp-6);
+    padding: var(--ev-panel-pad-desktop) var(--sp-7);
+  }
+
+  .ev-fact {
+    grid-template-columns: var(--ev-ico-desktop) minmax(0, 1fr);
+    gap: var(--sp-4);
+  }
+
+  .ev-fact > .ev-ico {
+    width: var(--ev-ico-desktop);
+    height: var(--ev-ico-desktop);
+    margin-top: var(--sp-2);
+  }
+
+  .ev-fact__body {
+    gap: var(--sp-2);
+  }
+
+  .ev-fact__main {
+    font-size: var(--ev-dato-desktop);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  .ev-fact--date .ev-fact__main {
+    font-size: var(--ev-fecha-desktop);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .ev-fact__sub {
+    margin-top: var(--sp-1);
+    font-size: var(--ev-dato-sub-desktop);
+  }
+
+  .ev-flag {
+    height: var(--ev-bandera-h-desktop);
+  }
+
+  .ev-speakers {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: var(--sp-6) var(--sp-8);
+    padding-top: var(--ev-aire-desktop);
+  }
+
+  .ev-speaker {
+    gap: var(--ev-orador-gap-desktop);
+  }
+
+  .ev-speaker__foto {
+    width: var(--ev-orador-foto-desktop);
+    height: var(--ev-orador-foto-desktop);
+  }
+
+  .ev-speaker__texto {
+    gap: var(--sp-1);
+  }
+
+  .ev-speaker__name {
+    font-size: var(--ev-orador-nombre-desktop);
+  }
+
+  .ev-speaker__role,
+  .ev-bio > summary {
+    font-size: var(--ev-orador-cargo-desktop);
+  }
+
+  .ev-desc {
+    padding-top: var(--ev-aire-desktop);
+  }
+
+  .ev-desc p {
+    max-width: var(--ev-desc-ancho);
+    font-size: var(--ev-desc-desktop);
+    line-height: 1.42;
+    letter-spacing: -0.005em;
+  }
+
+  /* Desde el segundo párrafo, un paso menor */
+  .ev-desc p + p {
+    margin-top: var(--sp-5);
+    font-size: var(--ev-desc-resto-desktop);
+    line-height: 1.5;
+  }
+
+  .ev-extra {
+    padding-top: var(--ev-aire-desktop);
+  }
+
+  .ev-allies {
+    gap: var(--sp-5) var(--sp-7);
+    padding-top: var(--ev-aire-medio);
+  }
+
+  .ev-allies img {
+    height: var(--ev-aliado-h-desktop);
+  }
+
+  .ev-cta {
+    margin-top: var(--ev-aire-desktop);
+  }
+
+  .ev-cta__inner {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-4);
+    padding-top: var(--ev-aire-medio);
+    padding-bottom: var(--ev-aire-medio);
+  }
+
+  .ev-status {
+    flex: 1;
+  }
+
+  .ev-cta__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+  }
+
+  /* Orden en escritorio: Compartir, calendario y, al final, el principal */
+  .ev-cta__actions > .ev-btn--primary,
+  .ev-cta__actions > .ev-menu--primario {
+    order: 3;
+  }
+
+  .ev-cta__actions > .ev-btn--primary,
+  .ev-menu--primario > .ev-btn--primary {
+    width: var(--ev-btn-primario-w);
+    height: var(--ev-btn-h-desktop);
+  }
+
+  /* Compartir es siempre el último del marcado: en escritorio va primero */
+  .ev-cta__actions > .ev-menu:not(.ev-menu--primario):not(:last-child) {
+    order: 2;
+  }
+
+  .ev-cta__actions > .ev-menu:last-child {
+    order: 1;
+  }
+
+  .ev-btn--secondary {
+    height: var(--ev-btn-h-desktop);
+    padding: 0 var(--ev-btn-pad-desktop);
+    font-size: var(--ev-link);
+  }
+
+  .ev-only-m {
+    display: none;
+  }
+
+  .ev-only-d {
+    display: inline;
+  }
+
+  .ev-cta__archivo {
+    flex-basis: 100%;
+  }
+
+  /* En escritorio, el menú del último botón abre hacia la izquierda */
+  .ev-cta__actions .ev-menu__list {
+    right: 0;
+    left: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ev-btn,
+  .ev-allies a {
+    transition: none;
+  }
+}

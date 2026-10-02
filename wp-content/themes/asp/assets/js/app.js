@@ -177,3 +177,45 @@
 	window.addEventListener('resize', actualizar);
 	actualizar();
 })();
+
+/* ---- Menús desplegables de la ficha (calendario, compartir) ---- */
+/* Son <details>: abren y cierran solos. Esto solo los cierra al tocar
+   afuera, al abrir otro o con Escape. */
+(function () {
+	'use strict';
+
+	var menus = document.querySelectorAll('details[data-asp-menu]');
+	if (!menus.length) {
+		return;
+	}
+	function cerrar(excepto) {
+		menus.forEach(function (m) {
+			if (m !== excepto) {
+				m.removeAttribute('open');
+			}
+		});
+	}
+	menus.forEach(function (m) {
+		m.addEventListener('toggle', function () {
+			if (m.open) {
+				cerrar(m);
+			}
+		});
+	});
+	document.addEventListener('click', function (e) {
+		menus.forEach(function (m) {
+			if (m.open && !m.contains(e.target)) {
+				m.removeAttribute('open');
+			}
+		});
+	});
+	document.addEventListener('keydown', function (e) {
+		if ('Escape' === e.key) {
+			var abierto = document.querySelector('details[data-asp-menu][open]');
+			if (abierto) {
+				abierto.removeAttribute('open');
+				abierto.querySelector('summary').focus();
+			}
+		}
+	});
+})();
