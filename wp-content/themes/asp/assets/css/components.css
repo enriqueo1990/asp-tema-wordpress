@@ -5069,33 +5069,43 @@ section:has(> .asp-anio-plegable:not([open])) {
 /* ---------------------------------------------------------------------
    Franja de aliados (antes del pie, en el inicio y en Nosotros)
    --------------------------------------------------------------------- */
-/* Un filete a todo el ancho, el rótulo y los logos en fila: cierra la
-   página sin competir con el contenido. Todos los logos pesan parecido: el
-   alto se corrige por la raíz de la proporción de cada uno (sin sqrt() en
-   el navegador, quedan todos al mismo alto). */
+/* Un filete a todo el ancho, el rótulo arriba y los logos centrados debajo:
+   cierra la página sin competir con el contenido. Centrados, una fila que
+   no llega a completarse queda pareja en vez de colgar a la izquierda.
+   Todos los logos pesan parecido: el alto se corrige por la raíz de la
+   proporción de cada uno (sin sqrt() en el navegador, quedan todos al
+   mismo alto). */
 .asp-aliados-franja {
-  padding-block: var(--sp-7);
+  padding-block: var(--sp-8);
   border-top: var(--border-hairline) solid var(--c-border);
 }
 
 .asp-aliados-franja__fila {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-5);
+  align-items: center;
+  gap: var(--sp-6);
 }
 
 .asp-aliados-franja .asp-label {
   margin: 0;
+  text-align: center;
 }
 
 .asp-aliados-franja__lista {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   gap: var(--sp-6) var(--sp-7);
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.asp-aliados-franja__lista > li {
+  display: flex;
+  align-items: center;
 }
 
 .asp-aliados-franja__enlace {
@@ -5116,10 +5126,12 @@ section:has(> .asp-anio-plegable:not([open])) {
 }
 
 @media (min-width: 768px) {
+  .asp-aliados-franja {
+    padding-block: var(--sp-9);
+  }
+
   .asp-aliados-franja__fila {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--sp-8);
+    gap: var(--sp-7);
   }
 
   .asp-aliados-franja__lista {

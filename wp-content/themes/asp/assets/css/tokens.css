@@ -107,8 +107,8 @@
   --rule-short: 24px;
   --sep-h: 14px;
   --sep-h-lg: 22px;
-  --aliado-franja-h: 2.75rem;         /* alto de cada logo de la franja de aliados */
-  --aliado-franja-h-desktop: 3.5rem;
+  --aliado-franja-h: 2.25rem;         /* alto de cada logo de la franja de aliados */
+  --aliado-franja-h-desktop: 2.75rem;
   --aliado-franja-proporcion: 3;      /* logo de referencia (3:1): los demás se ajustan a su superficie */
 
   /* --- Inicio nuevo (templates/page-inicio.php, assets/css/inicio.css) - */
