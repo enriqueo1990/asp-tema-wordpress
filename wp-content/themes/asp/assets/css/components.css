@@ -1403,6 +1403,20 @@
   min-height: var(--hero-nosotros-min-h);
 }
 
+.asp-hero--nosotros .asp-hero__foto {
+  object-position: var(--hero-nosotros-foco);
+}
+
+.asp-hero--nosotros .asp-hero__texto {
+  max-width: var(--hero-nosotros-texto-w);
+}
+
+@media (min-width: 1024px) {
+  .asp-hero--nosotros .asp-hero__velo {
+    min-height: var(--hero-nosotros-min-h-desktop);
+  }
+}
+
 .asp-hero__titulo {
   font-size: var(--fs-2xl);
   line-height: var(--lh-tight);

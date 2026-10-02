@@ -96,7 +96,12 @@
   --play-md: 64px;
   --hero-min-h: 520px;
   --hero-min-h-desktop: 620px;
-  --hero-nosotros-min-h: 480px;
+  /* Nosotros (2-10-2026): más alto para que la foto respire y el texto,
+     abajo, no tape las caras. En escritorio, casi toda la pantalla. */
+  --hero-nosotros-min-h: 640px;
+  --hero-nosotros-min-h-desktop: min(92svh, 56rem);
+  --hero-nosotros-foco: 50% 30%;        /* la foto se recorta más abajo que arriba: las caras quedan altas */
+  --hero-nosotros-texto-w: 56ch;        /* párrafo más ancho, menos renglones, el texto queda más abajo */
   --icon-loc: 15px;
   --icon-loc-lg: 17px;
   --rule-short: 24px;
