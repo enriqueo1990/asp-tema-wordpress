@@ -25,9 +25,9 @@
 }
 
 /* ---------------------------------------------------------------------
-   Cabecera: «Inscribirse» mientras haya un evento abierto
+   Cabecera: «Próximo evento», hacia la ficha (no donde ya está a la vista)
    --------------------------------------------------------------------- */
-.asp-header__inscribir {
+.asp-header__evento {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -45,18 +45,18 @@
 }
 
 /* Área táctil de 44 px, como el botón Donar */
-.asp-header__inscribir::before {
+.asp-header__evento::before {
   content: "";
   position: absolute;
   inset: calc((var(--control-h) - 100%) / -2) 0;
 }
 
-.asp-header__inscribir:hover {
+.asp-header__evento:hover {
   background: var(--c-text);
   color: var(--c-accent-ink);
 }
 
-.asp-con-portada .asp-header:not(.is-scrolled):not(.is-menu-open) .asp-header__inscribir {
+.asp-con-portada .asp-header:not(.is-scrolled):not(.is-menu-open) .asp-header__evento {
   background: var(--c-btn-invertido-bg);
   color: var(--c-btn-invertido-fg);
 }
@@ -68,11 +68,11 @@
 }
 
 @media (max-width: 479.98px) {
-  .asp-header--inscribir .asp-header__donar {
+  .asp-header--evento .asp-header__donar {
     display: none;
   }
 
-  .asp-header--inscribir .asp-nav__donar {
+  .asp-header--evento .asp-nav__donar {
     display: inline-flex;
     align-items: center;
     min-height: var(--control-h);

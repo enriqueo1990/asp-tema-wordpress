@@ -12,14 +12,15 @@ defined( 'ABSPATH' ) || exit;
 $asp_proximo = asp_evento_destacado();
 $asp_fecha   = $asp_proximo ? asp_evento_fecha_display( $asp_proximo->ID ) : null;
 $asp_donar   = asp_url_donar();
-/* Con el inicio nuevo (inc/inicio.php) el aviso «Próximo evento» deja lugar
-   al botón «Inscribirse», que solo existe mientras haya un evento con la
-   inscripción abierta. Con el inicio de antes, la cabecera sigue igual. */
-$asp_nuevo     = asp_inicio_nuevo_activo();
-$asp_inscribir = $asp_nuevo ? asp_evento_hero() : null;
+/* Con el inicio nuevo (inc/inicio.php) la cabecera lleva un botón «Próximo
+   evento» hacia la ficha, salvo donde ese evento ya está a la vista. Antes
+   decía «Inscribirse» e iba directo a Eventbrite sin decir a qué evento.
+   Con el inicio de antes, la cabecera sigue igual. */
+$asp_nuevo        = asp_inicio_nuevo_activo();
+$asp_boton_evento = $asp_nuevo ? asp_cabecera_evento() : null;
 ?>
 <a class="asp-skip" href="#contenido"><?php esc_html_e( 'Ir al contenido', 'asp' ); ?></a>
-<header class="asp-header<?php echo $asp_inscribir ? ' asp-header--inscribir' : ''; ?>" data-asp-header>
+<header class="asp-header<?php echo $asp_boton_evento ? ' asp-header--evento' : ''; ?>" data-asp-header>
 	<div class="asp-container asp-header__inner">
 		<?php asp_logo(); ?>
 
@@ -34,14 +35,14 @@ $asp_inscribir = $asp_nuevo ? asp_evento_hero() : null;
 					<?php endif; ?>
 				</a>
 			<?php endif; ?>
-			<?php if ( $asp_inscribir && $asp_donar ) : ?>
+			<?php if ( $asp_boton_evento && $asp_donar ) : ?>
 				<a class="asp-nav__donar" href="<?php echo esc_url( $asp_donar ); ?>"><?php esc_html_e( 'Donar', 'asp' ); ?></a>
 			<?php endif; ?>
 		</nav>
 
 		<div class="asp-header__derecha">
-			<?php if ( $asp_inscribir ) : ?>
-				<a class="asp-header__inscribir" href="<?php echo esc_url( asp_evento_url_registro( $asp_inscribir->ID ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Inscribirse', 'asp' ); ?><span class="visually-hidden"><?php echo esc_html( ' · ' . get_the_title( $asp_inscribir ) ); ?></span><?php echo asp_aviso_pestana(); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
+			<?php if ( $asp_boton_evento ) : ?>
+				<a class="asp-header__evento" href="<?php echo esc_url( get_permalink( $asp_boton_evento ) ); ?>"><?php esc_html_e( 'Próximo evento', 'asp' ); ?><span class="visually-hidden"><?php echo esc_html( ': ' . get_the_title( $asp_boton_evento ) ); ?></span></a>
 			<?php elseif ( $asp_proximo && ! $asp_nuevo ) : ?>
 				<a class="asp-header__cta" href="<?php echo esc_url( get_permalink( $asp_proximo ) ); ?>">
 					<span class="asp-header__cta-label"><?php esc_html_e( 'Próximo evento', 'asp' ); ?></span>

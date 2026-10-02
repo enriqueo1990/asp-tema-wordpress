@@ -186,6 +186,21 @@ function asp_evento_hero(): ?WP_Post {
 }
 
 /**
+ * Evento del botón «Próximo evento» de la cabecera (inicio nuevo): el del
+ * hero si hay uno con la inscripción abierta; si no, el próximo. Null donde
+ * ese evento ya está a la vista (inicio, /eventos/ y su propia ficha): ahí
+ * el botón repetía al de la página y no decía a qué llevaba (2-10-2026).
+ * Lleva a la ficha, no directo a la plataforma de inscripción.
+ */
+function asp_cabecera_evento(): ?WP_Post {
+	$evento = asp_evento_hero() ?? ( asp_eventos_proximos()->posts[0] ?? null );
+	if ( ! $evento || is_front_page() || is_post_type_archive( 'evento' ) || is_single( $evento->ID ) ) {
+		return null;
+	}
+	return $evento;
+}
+
+/**
  * Línea de identidad del ministerio: la de Personalizar → Inicio y, si está
  * vacía, la descripción del sitio (Ajustes → Generales).
  *
