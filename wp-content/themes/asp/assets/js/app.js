@@ -219,3 +219,33 @@
 		}
 	});
 })();
+
+/* ---- Bio del orador en una ventana (ficha del evento) ---- */
+/* Sin <dialog> o sin JavaScript, «Ver bio» lleva a la ficha de la persona. */
+(function () {
+	'use strict';
+
+	var abridores = document.querySelectorAll('[data-asp-dialogo]');
+	if (!abridores.length || 'function' !== typeof HTMLDialogElement) {
+		return;
+	}
+	abridores.forEach(function (a) {
+		var dialogo = document.getElementById(a.getAttribute('data-asp-dialogo'));
+		if (!dialogo) {
+			return;
+		}
+		a.addEventListener('click', function (e) {
+			e.preventDefault();
+			dialogo.showModal();
+		});
+		dialogo.querySelector('[data-asp-cerrar]').addEventListener('click', function () {
+			dialogo.close();
+		});
+		/* Tocar el fondo oscuro, fuera de la ventana, la cierra */
+		dialogo.addEventListener('click', function (e) {
+			if (e.target === dialogo) {
+				dialogo.close();
+			}
+		});
+	});
+})();

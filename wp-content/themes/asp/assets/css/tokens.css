@@ -170,6 +170,8 @@
   --ev-btn-tracking: 0.08em;
   --ev-menu-sombra: 0 12px 32px rgba(18, 23, 42, 0.28);
   --ev-menu-w: 220px;
+  --ev-dialogo-w: 36rem;               /* ventana de la bio del orador */
+  --ev-dialogo-fondo: rgba(18, 23, 42, 0.6);
   --ev-aire-desktop: 5.5rem;           /* 88 px entre bloques en escritorio */
   --ev-aire-medio: 3.5rem;             /* 56 px */
   --ev-panel-pad-desktop: 2.75rem;     /* 44 px */

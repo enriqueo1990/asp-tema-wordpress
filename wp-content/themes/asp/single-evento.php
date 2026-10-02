@@ -90,7 +90,9 @@ while ( have_posts() ) :
 			<?php endif; ?>
 		</section>
 
-		<?php /* 4. Oradores, sin rótulo. La bio, si hay, se despliega debajo del cargo. */ ?>
+		<?php /* 4. Oradores, sin rótulo. La bio se abre en una ventana encima de la
+		   página (1-10-2026: desplegada en el lugar corría al otro orador y se
+		   leía apretada). Sin JavaScript, «Ver bio» lleva a la ficha de la persona. */ ?>
 		<?php if ( ! empty( $asp_d['oradores'] ) ) : ?>
 			<section class="ev-speakers ev-wrap" aria-label="<?php echo esc_attr( _n( 'Orador', 'Oradores', count( $asp_d['oradores'] ), 'asp' ) ); ?>">
 				<?php foreach ( $asp_d['oradores'] as $asp_o ) :
@@ -108,18 +110,36 @@ while ( have_posts() ) :
 								<p class="ev-speaker__role"><?php echo esc_html( $asp_linea ); ?></p>
 							<?php endif; ?>
 							<?php if ( $asp_bio ) : ?>
-								<details class="ev-bio">
-									<summary><span class="ev-u"><?php esc_html_e( 'Ver bio', 'asp' ); ?></span></summary>
-									<div class="ev-bio__texto">
-										<?php echo wp_kses_post( wpautop( $asp_bio ) ); ?>
-										<a href="<?php echo esc_url( get_permalink( $asp_p ) ); ?>"><?php esc_html_e( 'Ver ficha', 'asp' ); ?></a>
-									</div>
-								</details>
+								<a class="ev-bio-abrir" href="<?php echo esc_url( get_permalink( $asp_p ) ); ?>" data-asp-dialogo="bio-<?php echo (int) $asp_p->ID; ?>" aria-haspopup="dialog"><span class="ev-u"><?php esc_html_e( 'Ver bio', 'asp' ); ?></span></a>
 							<?php endif; ?>
 						</div>
 					</div>
 				<?php endforeach; ?>
 			</section>
+
+			<?php foreach ( $asp_d['oradores'] as $asp_o ) :
+				$asp_p   = $asp_o['persona'];
+				$asp_bio = $asp_p ? (string) get_post_meta( $asp_p->ID, 'persona_bio', true ) : '';
+				if ( ! $asp_bio ) {
+					continue;
+				}
+				$asp_linea = asp_persona_cargo_iglesia( $asp_p->ID );
+				?>
+				<dialog class="ev-dialogo" id="bio-<?php echo (int) $asp_p->ID; ?>" aria-labelledby="bio-<?php echo (int) $asp_p->ID; ?>-nombre">
+					<div class="ev-dialogo__cab">
+						<?php echo asp_persona_foto( $asp_p->ID, 'ev-speaker__foto' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+						<div class="ev-speaker__texto">
+							<h2 class="ev-speaker__name" id="bio-<?php echo (int) $asp_p->ID; ?>-nombre"><?php echo esc_html( $asp_o['nombre'] ); ?></h2>
+							<?php if ( $asp_linea ) : ?>
+								<p class="ev-speaker__role"><?php echo esc_html( $asp_linea ); ?></p>
+							<?php endif; ?>
+						</div>
+						<button type="button" class="ev-dialogo__cerrar" data-asp-cerrar aria-label="<?php esc_attr_e( 'Cerrar', 'asp' ); ?>"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="ev-dialogo__texto"><?php echo wp_kses_post( wpautop( $asp_bio ) ); ?></div>
+					<a class="ev-link" href="<?php echo esc_url( get_permalink( $asp_p ) ); ?>"><span class="ev-u"><?php esc_html_e( 'Ver ficha completa', 'asp' ); ?></span><?php echo asp_ficha_icono( 'arrow', 'ev-ico--xs' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
+				</dialog>
+			<?php endforeach; ?>
 		<?php endif; ?>
 
 		<?php /* 5. Descripción */ ?>

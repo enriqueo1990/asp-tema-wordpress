@@ -247,37 +247,83 @@
   color: var(--c-text-muted);
 }
 
-.ev-bio > summary {
-  display: inline-block;
+.ev-bio-abrir {
+  align-self: flex-start;
   margin-top: var(--sp-1);
-  list-style: none;
   font-family: var(--font-ui);
   font-size: var(--ev-orador-cargo);
   font-weight: var(--fw-medium);
   color: var(--c-accent);
+  text-decoration: none;
+}
+
+.ev-bio-abrir:hover {
+  color: var(--c-text);
+}
+
+/* Ventana de la bio: encima de la página, centrada; en el teléfono ocupa
+   casi todo el ancho y se desplaza por dentro si la bio es larga */
+.ev-dialogo {
+  width: calc(100% - 2 * var(--w-gutter));
+  max-width: var(--ev-dialogo-w);
+  max-height: 85vh;
+  padding: var(--sp-6) var(--sp-5);
+  border: 0;
+  border-radius: var(--ev-radius);
+  background: var(--c-bg);
+  color: var(--c-text);
+  box-shadow: var(--ev-menu-sombra);
+  overflow: auto;
+}
+
+.ev-dialogo::backdrop {
+  background: var(--ev-dialogo-fondo);
+}
+
+.ev-dialogo__cab {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding-right: var(--sp-6);
+}
+
+.ev-dialogo__cab .ev-speaker__name {
+  margin: 0;
+  font-weight: var(--fw-regular);
+}
+
+.ev-dialogo__cerrar {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
+  display: grid;
+  place-items: center;
+  width: var(--control-h);
+  height: var(--control-h);
+  padding: 0;
+  border: 0;
+  border-radius: var(--ev-radius);
+  background: none;
+  font-family: var(--font-ui);
+  font-size: var(--fs-xl);
+  line-height: 1;
+  color: var(--c-text-muted);
   cursor: pointer;
 }
 
-.ev-bio > summary::-webkit-details-marker {
-  display: none;
+.ev-dialogo__cerrar:hover {
+  background: var(--c-surface);
+  color: var(--c-text);
 }
 
-.ev-bio__texto {
-  max-width: var(--w-prose);
-  margin-top: var(--sp-2);
-  font-size: var(--fs-base);
+.ev-dialogo__texto {
+  margin: var(--sp-5) 0 var(--sp-4);
+  font-size: var(--fs-md);
   line-height: var(--lh-body);
-  color: var(--c-text-muted);
 }
 
-.ev-bio__texto p + p {
+.ev-dialogo__texto p + p {
   margin-top: var(--sp-3);
-}
-
-.ev-bio__texto a {
-  font-family: var(--font-ui);
-  font-size: var(--ev-orador-cargo);
-  color: var(--c-accent);
 }
 
 /* 5. Descripción */
@@ -482,7 +528,7 @@
 
 .ev-btn:focus-visible,
 .ev-menu > summary:focus-visible,
-.ev-bio > summary:focus-visible,
+.ev-dialogo__cerrar:focus-visible,
 .ev a:focus-visible,
 .ev-menu__list button:focus-visible {
   outline: 2px solid var(--c-focus-ring);
@@ -574,12 +620,16 @@
     gap: var(--sp-1);
   }
 
+  .ev-dialogo {
+    padding: var(--sp-7);
+  }
+
   .ev-speaker__name {
     font-size: var(--ev-orador-nombre-desktop);
   }
 
   .ev-speaker__role,
-  .ev-bio > summary {
+  .ev-bio-abrir {
     font-size: var(--ev-orador-cargo-desktop);
   }
 
