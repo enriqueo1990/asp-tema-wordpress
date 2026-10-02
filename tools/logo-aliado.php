@@ -7,7 +7,9 @@
  * Los logos van en tools/logos-aliados/, recortados al borde del dibujo y
  * con fondo transparente: el sitio los muestra a una altura fija.
  *
- * Uso: php tools/logo-aliado.php "Nombre del aliado" ruta/al/logo.png [https://sitio]
+ * Con --crear, si el aliado no existe lo crea (publicado) con ese nombre.
+ *
+ * Uso: php tools/logo-aliado.php "Nombre del aliado" ruta/al/logo.png [https://sitio] [--crear]
  */
 
 declare(strict_types=1);
@@ -17,17 +19,28 @@ require_once ABSPATH . 'wp-admin/includes/file.php';
 require_once ABSPATH . 'wp-admin/includes/media.php';
 require_once ABSPATH . 'wp-admin/includes/image.php';
 
-$nombre  = (string) ( $argv[1] ?? '' );
-$archivo = (string) ( $argv[2] ?? '' );
-$sitio   = (string) ( $argv[3] ?? '' );
+$crear   = in_array( '--crear', $argv, true );
+$args    = array_values( array_diff( array_slice( $argv, 1 ), [ '--crear' ] ) );
+$nombre  = (string) ( $args[0] ?? '' );
+$archivo = (string) ( $args[1] ?? '' );
+$sitio   = (string) ( $args[2] ?? '' );
 if ( '' === $nombre || ! is_readable( $archivo ) ) {
-	fwrite( STDERR, "Uso: php tools/logo-aliado.php \"Nombre\" archivo [https://sitio]\n" );
+	fwrite( STDERR, "Uso: php tools/logo-aliado.php \"Nombre\" archivo [https://sitio] [--crear]\n" );
 	exit( 1 );
 }
 
 $aliado = get_posts( [ 'post_type' => 'aliado', 'title' => $nombre, 'post_status' => 'any', 'posts_per_page' => 1 ] );
+if ( ! $aliado && $crear ) {
+	$nuevo = wp_insert_post( [ 'post_type' => 'aliado', 'post_title' => $nombre, 'post_status' => 'publish' ], true );
+	if ( is_wp_error( $nuevo ) ) {
+		fwrite( STDERR, $nuevo->get_error_message() . "\n" );
+		exit( 1 );
+	}
+	echo "Aliado «{$nombre}» creado ({$nuevo}).\n";
+	$aliado = [ get_post( $nuevo ) ];
+}
 if ( ! $aliado ) {
-	fwrite( STDERR, "No existe el aliado «{$nombre}».\n" );
+	fwrite( STDERR, "No existe el aliado «{$nombre}». Para crearlo, agregá --crear.\n" );
 	exit( 1 );
 }
 $aid      = $aliado[0]->ID;
