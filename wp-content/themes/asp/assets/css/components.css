@@ -187,6 +187,22 @@
   max-width: var(--w-flyer-column);
 }
 
+/* Sin banda: el flyer en su proporción, sin caja detrás (Próximos en
+   /eventos/, como en la ficha). Entero igual, nunca recortado (regla 5).
+   Doble clase para ganarle a --desktop-wide, que fija el tamaño de la img. */
+.asp-flyer.asp-flyer--natural {
+  aspect-ratio: auto;
+  background: none;
+  overflow: visible;
+}
+
+.asp-flyer.asp-flyer--natural img {
+  position: static;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 @media (min-width: 1024px) {
   .asp-flyer--desktop-wide {
     aspect-ratio: var(--band-ratio-desktop);
@@ -196,6 +212,14 @@
     left: calc((100% - var(--band-flyer-h-desktop)) / 2);
     width: var(--band-flyer-h-desktop);
     height: var(--band-flyer-h-desktop);
+  }
+
+  /* Un vertical a todo el ancho de la columna pasaría la pantalla: se frena
+     en el alto y achica el ancho. */
+  .asp-flyer.asp-flyer--natural img {
+    width: auto;
+    max-width: 100%;
+    max-height: var(--flyer-natural-max-h);
   }
 }
 
@@ -515,18 +539,12 @@
   display: block;
 }
 
+/* Sin flyer, la fecha en numerales y sin caja, como los flyers de al lado. */
 .asp-proximo-fila__fecha {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   gap: var(--sp-1);
-  aspect-ratio: 1 / 1;
-  padding: var(--sp-2);
-  border-radius: var(--radius-4);
-  background: var(--c-flyer-band);
   color: var(--c-text);
-  text-align: center;
 }
 
 .asp-proximo-fila__dias {
@@ -539,7 +557,7 @@
   font-family: var(--font-ui);
   font-size: var(--fs-xs);
   line-height: var(--lh-heading);
-  color: var(--c-flyer-band-ink);
+  color: var(--c-text-muted);
 }
 
 .asp-proximo-fila__cuerpo {

@@ -2,7 +2,8 @@
 /**
  * Tarjeta de evento para listados. Args: post_id, ancha (bool), loading
  * ('lazy' por defecto; 'eager' para la primera que se ve al abrir), nivel
- * ('h2' o 'h3' para el título), sede (bool, por defecto true).
+ * ('h2' o 'h3' para el título), sede (bool, por defecto true), natural (bool:
+ * el flyer sin banda, en su proporción).
  *
  * @package asp
  */
@@ -18,7 +19,7 @@ $asp_flyer  = absint( get_post_meta( $asp_id, 'evento_flyer', true ) );
 ?>
 <article class="asp-card-evento<?php echo $asp_ancha ? ' asp-card-evento--ancha' : ''; ?><?php echo $asp_flyer ? '' : ' asp-card-evento--sin-flyer'; ?>">
 	<?php
-	get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_id, 'clase' => $asp_ancha ? 'asp-flyer--desktop-wide' : '', 'tamano' => 'asp-flyer-card', 'loading' => (string) ( $args['loading'] ?? 'lazy' ) ] );
+	get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_id, 'clase' => $asp_ancha ? 'asp-flyer--desktop-wide' : '', 'tamano' => 'asp-flyer-card', 'loading' => (string) ( $args['loading'] ?? 'lazy' ), 'natural' => ! empty( $args['natural'] ) ] );
 	?>
 	<div class="asp-card-evento__cuerpo">
 		<div class="asp-row">

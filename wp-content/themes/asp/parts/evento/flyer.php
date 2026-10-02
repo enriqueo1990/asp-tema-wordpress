@@ -1,7 +1,8 @@
 <?php
 /**
  * Flyer contenido sobre la banda tonal, nunca recortado.
- * Args: post_id, clase (extra), tamano, loading, sizes, alt.
+ * Args: post_id, clase (extra), tamano, loading, sizes, alt, natural (bool:
+ * sin banda, en la proporción del flyer, como en la ficha).
  * alt vacío cuando el título del evento está al lado dentro del mismo enlace.
  * No imprime nada si el evento no tiene flyer.
  *
@@ -35,8 +36,9 @@ if ( ! $asp_img ) {
 /* Flyer apaisado (los de talleres vienen 16:9): la banda pasa a 4:3 para que
    no quede chico dentro de un cuadrado. Nunca se recorta. */
 $asp_meta     = wp_get_attachment_metadata( $asp_flyer );
-$asp_apaisado = is_array( $asp_meta ) && ! empty( $asp_meta['width'] ) && ! empty( $asp_meta['height'] ) && $asp_meta['width'] > $asp_meta['height'] * 1.2;
+$asp_natural  = ! empty( $args['natural'] );
+$asp_apaisado = ! $asp_natural && is_array( $asp_meta ) && ! empty( $asp_meta['width'] ) && ! empty( $asp_meta['height'] ) && $asp_meta['width'] > $asp_meta['height'] * 1.2;
 ?>
-<div class="asp-flyer<?php echo $asp_apaisado ? ' asp-flyer--apaisado' : ''; ?> <?php echo esc_attr( (string) ( $args['clase'] ?? '' ) ); ?>">
+<div class="asp-flyer<?php echo $asp_natural ? ' asp-flyer--natural' : ''; ?><?php echo $asp_apaisado ? ' asp-flyer--apaisado' : ''; ?> <?php echo esc_attr( (string) ( $args['clase'] ?? '' ) ); ?>">
 	<?php echo $asp_img; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 </div>

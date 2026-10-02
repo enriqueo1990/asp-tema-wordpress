@@ -2,7 +2,9 @@
 /**
  * /eventos/ — dos partes con forma distinta:
  * - Próximos, sobre una banda de color: el siguiente en tarjeta grande con
- *   su flyer y el resto en filas con el flyer en miniatura y el botón.
+ *   su flyer y el resto en filas con el flyer en miniatura y el botón. Los
+ *   flyers van sin banda tonal, en su proporción (2-10-2026): la caja gris
+ *   alrededor de cada uno sumaba ruido sobre la banda de la sección.
  * - Archivo, en lista tipográfica por año (sin flyers): el año más reciente
  *   abierto y los demás plegados, con el índice de años en su cabecera.
  *
@@ -37,7 +39,7 @@ $asp_desde    = $asp_por_anio ? min( array_keys( $asp_por_anio ) ) : 0;
 		<div class="asp-container asp-eventos__proximos-inner">
 			<h2 class="asp-seccion__titulo" id="eventos-proximos"><?php esc_html_e( 'Próximos', 'asp' ); ?></h2>
 			<?php /* El siguiente, grande: se ve apenas abre la página, sin carga diferida. */ ?>
-			<?php get_template_part( 'parts/evento/card', null, [ 'post_id' => $asp_primero->ID, 'ancha' => true, 'loading' => 'eager', 'nivel' => 'h3', 'sede' => false ] ); ?>
+			<?php get_template_part( 'parts/evento/card', null, [ 'post_id' => $asp_primero->ID, 'ancha' => true, 'loading' => 'eager', 'nivel' => 'h3', 'sede' => false, 'natural' => true ] ); ?>
 			<?php if ( $asp_resto ) : ?>
 				<div class="asp-proximos-lista">
 					<?php foreach ( $asp_resto as $asp_post ) : ?>

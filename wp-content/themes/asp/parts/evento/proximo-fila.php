@@ -1,7 +1,7 @@
 <?php
 /**
  * Próximo evento en fila, para /eventos/ después del primero: flyer en
- * miniatura (entero sobre la banda tonal) o, sin flyer, la fecha en
+ * miniatura (entero, en su proporción y sin banda) o, sin flyer, la fecha en
  * numerales; al lado estado, iniciativa, título, fecha y ciudad, y el
  * botón de inscripción si está abierta. Args: post_id.
  *
@@ -19,7 +19,7 @@ $asp_url    = get_permalink( $asp_id );
 <article class="asp-proximo-fila">
 	<a class="asp-proximo-fila__visual" href="<?php echo esc_url( $asp_url ); ?>" tabindex="-1" aria-hidden="true">
 		<?php if ( $asp_flyer ) : ?>
-			<?php get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_id, 'tamano' => 'asp-flyer-card', 'alt' => '', 'sizes' => '(min-width: 1024px) 176px, 112px' ] ); ?>
+			<?php get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_id, 'tamano' => 'asp-flyer-card', 'alt' => '', 'natural' => true, 'sizes' => '(min-width: 1024px) 176px, 112px' ] ); ?>
 		<?php elseif ( '' !== ( $asp_grande['dias'] ?? '' ) ) : ?>
 			<span class="asp-proximo-fila__fecha">
 				<span class="asp-proximo-fila__dias"><?php echo esc_html( $asp_grande['dias'] ); ?></span>
