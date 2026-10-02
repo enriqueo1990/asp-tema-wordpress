@@ -1,6 +1,8 @@
 <?php
 /**
- * Fila del archivo por año. Args: post_id, ancho (bool: grilla de cuatro columnas en escritorio).
+ * Fila del archivo por año. Args: post_id, ancho (bool: grilla de cuatro
+ * columnas en escritorio), sin_anio (bool: la fecha sin el año, debajo de
+ * un encabezado de año que ya lo dice).
  *
  * @package asp
  */
@@ -19,7 +21,7 @@ $asp_extra    = array_filter(
 );
 ?>
 <a class="asp-archivo-item<?php echo ! empty( $args['ancho'] ) ? ' asp-archivo-item--ancho' : ''; ?>" href="<?php echo esc_url( get_permalink( $asp_id ) ); ?>">
-	<span class="asp-archivo-item__fecha"><?php echo esc_html( asp_evento_fecha_texto( $asp_id ) ); ?></span>
+	<span class="asp-archivo-item__fecha"><?php echo esc_html( asp_evento_fecha_texto( $asp_id, empty( $args['sin_anio'] ) ) ); ?></span>
 	<span class="asp-archivo-item__principal">
 		<?php /* El título es el tema ("Amós", "Efesios"): sin la iniciativa no se sabe qué fue. */ ?>
 		<?php if ( $asp_inic ) : ?><span class="asp-archivo-item__iniciativa"><?php echo esc_html( get_the_title( $asp_inic ) ); ?></span><?php endif; ?>

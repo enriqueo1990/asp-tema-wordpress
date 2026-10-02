@@ -80,7 +80,7 @@ $asp_desde    = $asp_por_anio ? min( array_keys( $asp_por_anio ) ) : 0;
 				</summary>
 				<div class="asp-eventos__lista">
 					<?php foreach ( $asp_eventos as $asp_post ) : ?>
-						<?php get_template_part( 'parts/evento/archivo-item', null, [ 'post_id' => $asp_post->ID, 'ancho' => true ] ); ?>
+						<?php get_template_part( 'parts/evento/archivo-item', null, [ 'post_id' => $asp_post->ID, 'ancho' => true, 'sin_anio' => true ] ); ?>
 					<?php endforeach; ?>
 				</div>
 			</details>

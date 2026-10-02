@@ -512,8 +512,8 @@
 
   .asp-archivo-item--ancho {
     display: grid;
-    grid-template-columns: 210px minmax(0, 1fr) 260px 160px;
-    gap: var(--sp-5);
+    grid-template-columns: 12rem minmax(0, 1fr) 18rem auto;
+    gap: var(--sp-6);
     align-items: center;
     padding: var(--sp-5) 0;
   }
@@ -547,9 +547,28 @@
   border-top: 0;
 }
 
+/* Próximos y Archivo son subtítulos de la página: con el tamaño de
+   titular de sección pesaban lo mismo que «Eventos» y se leían como tres
+   portadas seguidas. */
+.asp-eventos__proximos .asp-seccion__titulo,
+.asp-eventos__archivo .asp-seccion__titulo {
+  font-size: var(--fs-xl);
+}
+
+/* El siguiente evento: título por encima de la fecha, no al revés. */
+.asp-eventos__proximos .asp-card-evento__titulo {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+}
+
+.asp-eventos__proximos .asp-card-evento .asp-fecha {
+  font-size: var(--fs-md);
+}
+
 .asp-proximos-lista {
   display: grid;
-  gap: var(--sp-5);
+  gap: var(--sp-6);
+  margin-top: var(--sp-5);
 }
 
 .asp-proximo-fila {
@@ -557,7 +576,7 @@
   grid-template-columns: var(--w-flyer-mini) minmax(0, 1fr);
   gap: var(--sp-4);
   align-items: start;
-  padding-top: var(--sp-5);
+  padding-top: var(--sp-6);
   border-top: var(--border-hairline) solid var(--c-border-strong);
 }
 
@@ -601,6 +620,7 @@
 }
 
 .asp-proximo-fila__titulo {
+  margin-top: var(--sp-1);
   font-size: var(--fs-lg);
   line-height: var(--lh-heading);
 }
@@ -637,7 +657,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--sp-4);
-  padding-bottom: var(--sp-5);
+  padding-bottom: var(--sp-6);
 }
 
 .asp-eventos__archivo-cuenta {
@@ -647,12 +667,28 @@
 }
 
 .asp-eventos__anio {
-  padding-block: var(--sp-3);
+  padding-block: var(--sp-4);
   border-top: var(--border-hairline) solid var(--c-border);
 }
 
 .asp-eventos__lista {
-  padding-bottom: var(--sp-4);
+  padding-bottom: var(--sp-5);
+}
+
+/* Filas del archivo: en el teléfono la fecha es un dato, no un segundo
+   título; manda el nombre del evento. */
+.asp-eventos__lista .asp-archivo-item {
+  gap: var(--sp-2);
+  padding-block: var(--sp-5);
+}
+
+.asp-eventos__lista .asp-archivo-item__fecha {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+}
+
+.asp-eventos__lista .asp-archivo-item__titulo {
+  font-size: var(--fs-lg);
 }
 
 @media (min-width: 1024px) {
@@ -664,9 +700,24 @@
     padding-block: var(--sp-8);
   }
 
+  .asp-eventos__proximos .asp-seccion__titulo,
+  .asp-eventos__archivo .asp-seccion__titulo {
+    font-size: var(--fs-2xl);
+  }
+
+  .asp-eventos__proximos .asp-card-evento .asp-fecha {
+    font-size: var(--fs-xl);
+  }
+
   .asp-proximos-lista {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--sp-7);
+    column-gap: var(--sp-8);
+    margin-top: var(--sp-6);
+  }
+
+  .asp-eventos__lista .asp-archivo-item__fecha {
+    font-family: var(--font-numeral);
+    font-size: var(--fs-md);
   }
 
   .asp-proximo-fila {
@@ -3052,7 +3103,7 @@ a:hover .asp-imagen img {
   margin-bottom: 0;
 }
 
-section:has(> .asp-anio-plegable:not([open])) {
+section:not(.asp-eventos__archivo):has(> .asp-anio-plegable:not([open])) {
   padding-block: var(--sp-3);
 }
 
