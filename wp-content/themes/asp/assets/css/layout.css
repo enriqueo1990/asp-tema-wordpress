@@ -31,18 +31,6 @@
   background: var(--c-surface-2);
 }
 
-/* Banda a sangre: envuelve una sección para darle fondo propio y cortar el
-   hueso continuo. El contenedor sigue adentro, así que no hay truco de 100vw
-   ni riesgo de scroll horizontal. */
-.asp-banda {
-  background: var(--c-surface);
-  border-block: var(--border-hairline) solid var(--c-border);
-}
-
-.asp-banda > .asp-section--rule {
-  border-top: 0;
-}
-
 .asp-section__inner {
   display: flex;
   flex-direction: column;
@@ -58,7 +46,6 @@
 .asp-stack--2 { gap: var(--sp-2); }
 .asp-stack--3 { gap: var(--sp-3); }
 .asp-stack--5 { gap: var(--sp-5); }
-.asp-stack--6 { gap: var(--sp-6); }
 
 .asp-row {
   display: flex;
@@ -451,11 +438,7 @@
 }
 
 /* Grillas de dos columnas que colapsan en móvil */
-.asp-grid-2,
-.asp-grid-ficha,
-.asp-grid-listado,
-.asp-grid-articulo,
-.asp-grid-home-media {
+.asp-grid-articulo {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--sp-7);
@@ -467,38 +450,9 @@
   gap: var(--sp-4);
 }
 
-.asp-grid-galeria {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--sp-4);
-}
-
-.asp-grid-galeria > :first-child {
-  grid-column: 1 / -1;
-}
-
 @media (min-width: 1024px) {
-  .asp-grid-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--sp-8);
-  }
-
-  .asp-grid-ficha {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
-  }
-
-  .asp-grid-listado {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    align-items: start;
-  }
-
   .asp-grid-articulo {
     grid-template-columns: minmax(0, 1fr) var(--w-aside);
-    gap: var(--sp-8);
-  }
-
-  .asp-grid-home-media {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     gap: var(--sp-8);
   }
 
@@ -511,23 +465,6 @@
     top: var(--sp-5);
     align-self: start;
   }
-}
-
-.asp-section--rule-bottom {
-  border-bottom: var(--border-hairline) solid var(--c-border);
-}
-
-.asp-grid-ficha--rule {
-  padding-top: var(--sp-5);
-  border-top: var(--border-hairline) solid var(--c-border);
-}
-
-/* Secciones editoriales de la home: rótulo a la izquierda, cuerpo a la derecha */
-.asp-editorial {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-5);
-  padding-block: var(--sp-8);
 }
 
 .asp-editorial__cab {
@@ -556,14 +493,6 @@
 }
 
 @media (min-width: 1024px) {
-  .asp-editorial {
-    display: grid;
-    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
-    gap: var(--sp-8);
-    padding-block: var(--sp-9);
-  }
-
-  .asp-editorial > .asp-label,
   .asp-editorial__cab {
     grid-column: 1;
     align-self: start;
@@ -574,18 +503,12 @@
     gap: var(--sp-3);
   }
 
-  .asp-editorial__cuerpo,
-  .asp-lista-numerada,
-  .asp-retratos {
+  .asp-editorial__cuerpo {
     grid-column: 2;
   }
 
   .asp-editorial__cuerpo {
     max-width: var(--w-column);
-  }
-
-  .asp-editorial__cuerpo--ancho {
-    max-width: none;
   }
 
   .asp-footer__inner {
@@ -601,35 +524,3 @@
   }
 }
 
-/* Ficha sin cuerpo a la izquierda: la columna lateral ocupa el ancho de lectura */
-@media (min-width: 1024px) {
-  .asp-grid-ficha--solo-aside {
-    grid-template-columns: minmax(0, 480px);
-  }
-  .asp-grid-ficha--solo-aside > :first-child {
-    display: none;
-  }
-}
-
-/* Columna de lectura alineada a la izquierda (cabeceras de listados) */
-.asp-column--izq {
-  margin-inline: 0;
-}
-
-/* Secciones editoriales dentro de una página que ya tiene aire propio */
-.asp-editorial--sin-aire {
-  padding-block: var(--sp-6) 0;
-}
-
-@media (min-width: 1024px) {
-  .asp-editorial--sin-aire {
-    padding-block: var(--sp-7) 0;
-  }
-}
-
-/* Cabecera de sección con filtros: rótulo arriba, filtros debajo, en móvil */
-.asp-editorial__cab:has(.asp-filtros) {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--sp-3);
-}

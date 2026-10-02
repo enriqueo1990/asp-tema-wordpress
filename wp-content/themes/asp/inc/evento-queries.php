@@ -126,16 +126,6 @@ function asp_iniciativas_portada( int $cantidad = 4 ): array {
 }
 
 /**
- * Último evento realizado.
- *
- * @return WP_Post|null
- */
-function asp_ultimo_evento_realizado(): ?WP_Post {
-	$pasados = asp_eventos_pasados( null, 1 )->posts;
-	return $pasados[0] ?? null;
-}
-
-/**
  * Eventos de una iniciativa, próximos o pasados.
  *
  * @param int  $iniciativa_id ID de la iniciativa.

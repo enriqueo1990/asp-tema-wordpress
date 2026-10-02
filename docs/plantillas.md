@@ -18,6 +18,9 @@ wp-content/themes/asp/
 │   ├── evento-estado.php        asp_evento_estado(), fechas en castellano, helpers de render
 │   ├── evento-queries.php       proximos, pasados por año, destacado, inversas, personas, series
 │   ├── evento-agenda.php        Link a Google Maps, Google Calendar y .ics (?calendario=ics)
+│   ├── evento-compartir.php     Enlaces para compartir un evento (WhatsApp, Facebook, correo)
+│   ├── ficha-evento.php         Ficha del evento: datos ya decididos por estado, íconos, bandera, ficha.css
+│   ├── aliados.php              Aliados con logo para la franja antes del pie
 │   ├── predicaciones.php        consultas, fecha efectiva, formato y reproductor de predicaciones
 │   ├── template-tags.php        logo, menú con fallback, ícono de lugar, foto de persona, schema.org
 │   ├── customizer.php           fotos de heros y galería, eslogan, misión, redes, email, PDF
@@ -46,27 +49,21 @@ wp-content/themes/asp/
 │   │                            transparente sobre la portada con foto y sólida al hacer scroll (app.js)
 │   ├── header/site-footer.php   logo, nav, redes, email
 │   ├── evento/hero.php          Hero del inicio: foto con velo, versículo o eslogan, último evento
-│   ├── evento/franja.php        Franja "Próximo evento" bajo el hero
 │   ├── evento/card.php          Tarjeta de evento (listado); variante ancha en escritorio
 │   ├── evento/archivo-item.php  Fila de evento pasado (búsqueda, iniciativa, persona, Recursos)
 │   ├── evento/tarjeta-archivo.php Tarjeta de la grilla del archivo en /eventos/: flyer entero en banda 4:3
-│   ├── evento/fila.php          Fila compacta (home)
 │   ├── evento/badge.php         Badge de estado
 │   ├── evento/fecha.php         Fecha: inline, xl o grande entre filetes
 │   ├── evento/lugar.php         Ciudad y país, tipográfico, sin banderas
 │   ├── evento/flyer.php         Banda tonal con el flyer contenido; nada si no hay flyer
-│   ├── evento/agenda.php        Agregar al calendario; solo con fechas y si no pasó
 │   ├── evento/cta.php           Botón según estado; nada en reserva/realizado
-│   ├── evento/sede.php          Se autooculta si está vacío; "Cómo llegar" con dirección
-│   ├── evento/oradores.php      Lista densa con bio en <details>; sin oradores cargados, salen de las predicaciones; se autooculta
 │   ├── evento/programa.php      Filas por día; se autooculta
-│   ├── evento/aliados.php       Se autooculta
+│   ├── evento/menu-calendario.php  Menú «Guardar en el calendario» (details) de la ficha
+│   ├── evento/menu-compartir.php   Menú «Compartir» (details) de la ficha
+│   ├── aliados-franja.php       Franja de logos de aliados antes del pie (inicio y Nosotros)
 │   ├── articulo/card.php        Fila de artículo
-│   ├── articulo/serie.php       Caja de serie con artículos numerados
 │   ├── persona/card.php         Box del consejo pastoral
-│   ├── persona/retrato.php      Retrato 4:5 para filas (home)
 │   ├── predicacion/fila.php     Fila de predicación: formato, título, orador, pasaje, evento, fecha
-│   ├── iniciativa/card.php
 │   ├── iniciativa/caja.php      Caja de color del inicio (numeral romano, próxima o en curso)
 │   └── iniciativa/fila.php      Bloque de /iniciativas/: texto y flyer de la próxima o última edición
 │
@@ -74,7 +71,9 @@ wp-content/themes/asp/
 │   ├── css/tokens.css           Custom properties. Único lugar con valores. Dirección del canvas
 │   ├── css/base.css             Reset, tipografía, rótulos, prosa
 │   ├── css/layout.css           Contenedores, cabecera, pie, grillas
-│   ├── css/components.css       Badges, botones, flyer, tarjetas, ficha, hero, personas, afirmaciones…
+│   ├── css/components.css       Badges, botones, flyer, tarjetas, hero, personas, afirmaciones…
+│   ├── css/ficha.css            Ficha del evento (handoff de Claude Design, 2-10-2026); solo en la ficha
+│   ├── img/banderas/            ar.svg y us.svg para el lugar de la ficha
 │   ├── js/app.js                Menú móvil y estado scrolled de la cabecera. Nada más
 │   ├── js/admin.js              Selector de imagen y repetidor del programa (vanilla)
 │   ├── css/admin.css            Formulario partido del panel
@@ -82,7 +81,7 @@ wp-content/themes/asp/
 │
 ├── front-page.php               Inicio
 ├── archive-evento.php           /eventos/ — próximos arriba, archivo por año abajo (#archivo-2026)
-├── single-evento.php            Ficha de evento + JSON-LD schema.org/Event
+├── single-evento.php            Ficha de evento (flyer, título, panel de datos, oradores, banda de acción) + JSON-LD
 ├── archive-iniciativa.php       /iniciativas/ — un bloque por iniciativa, mismo orden y numeral que el inicio
 ├── single-iniciativa.php        Ficha de iniciativa: próximos y ediciones anteriores en grilla de flyers
 ├── single-persona.php           Ficha de persona: bio, predicaciones, eventos, artículos

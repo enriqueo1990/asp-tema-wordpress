@@ -67,8 +67,6 @@
   --w-gutter-desktop: var(--sp-7);
 
   /* --- Radios, bordes ----------------------------------------------- */
-  --radius-0: 0;
-  --radius-1: 2px;
   --radius-2: 3px;
   --radius-3: 2px;      /* botones, chips, flyer */
   --radius-4: 2px;      /* tarjetas, banda del flyer, columna lateral */
@@ -88,12 +86,8 @@
   --header-h: 64px;
   --header-h-desktop: 80px;
   --logo-h-footer: 30px;   /* a 18 px el logo casi no se leía */
-  --avatar-sm: 44px;
   --avatar-md: 48px;
   --avatar-lg: 96px;
-  --avatar-xl: 120px;
-  --play-sm: 44px;
-  --play-md: 64px;
   --hero-min-h: 520px;
   --hero-min-h-desktop: 620px;
   /* Nosotros (2-10-2026): más alto para que la foto respire y el texto,
@@ -106,7 +100,6 @@
   --icon-loc-lg: 17px;
   --rule-short: 24px;
   --sep-h: 14px;
-  --sep-h-lg: 22px;
   --aliado-franja-h: 2.25rem;         /* alto de cada logo de la franja de aliados */
   --aliado-franja-h-desktop: 2.75rem;
   --aliado-franja-proporcion: 3;      /* logo de referencia (3:1): los demás se ajustan a su superficie */
@@ -130,7 +123,6 @@
   /* Handoff de Claude Design (2-10-2026). Teléfono primero; escritorio
      desde 900 px. Los colores salen de la paleta de abajo. */
   --ev-radius: 6px;                    /* la ficha usa esquinas de 6 px (decisión del handoff) */
-  --ev-ancho: 1120px;                  /* contenido máximo del flyer y del panel */
   --ev-titulo: 2.75rem;                /* 44 px */
   --ev-titulo-desktop: 4.5rem;         /* 72 px */
   --ev-titulo-tracking: -0.025em;
@@ -235,13 +227,7 @@
   --c-border-strong: #C2C7D6;
   --c-border-control: #80879A;   /* borde de campos: 3:1 sobre bg y surface (WCAG 1.4.11) */
 
-  --c-state-reserva-bg:   transparent;
   --c-state-reserva-fg:   #3A3F4B;
-  --c-state-abierta-bg:   #1E3A6E;
-  --c-state-abierta-fg:   #FFFFFF;
-  --c-state-cerrada-bg:   #EAEDF5;
-  --c-state-cerrada-fg:   #4F5564;
-  --c-state-realizado-bg: transparent;
   --c-state-realizado-fg: #545A68;
 
   /* Banda tonal sobre la que se apoya el flyer sin recortarse */
@@ -260,7 +246,6 @@
      tools/contraste.php lo verifica compuesto sobre blanco puro. */
   --c-photo-scrim-text: rgba(10, 12, 18, 0.62);
   --c-photo-text:  #FFFFFF;
-  --c-photo-placeholder-a: #1D2230;
   --c-photo-placeholder-b: #141821;
   --c-photo-rule: rgba(255, 255, 255, 0.30);
 
@@ -272,17 +257,11 @@
   --c-dark-surface: rgba(255, 255, 255, 0.08);   /* campos y huecos sobre el pie o la banda oscura */
   --c-dark-border:  rgba(255, 255, 255, 0.32);
 
-  /* Franja "Próximo evento" */
-  --c-franja-bg:          #1E3A6E;
-  --c-franja-fg:          #FFFFFF;
-  --c-franja-rule:        rgba(255, 255, 255, 0.35);
-  --c-franja-rule-strong: rgba(255, 255, 255, 0.45);
   --c-btn-invertido-bg:   #FFFFFF;
   --c-btn-invertido-fg:   #1E3A6E;
 
   --c-focus-ring: #1E3A6E;
   --c-focus-ring-inverso: #FFFFFF;   /* foco sobre pie, bandas oscuras y fotos */
-  --c-logo-plate: #FFFFFF;
 
   /* Placeholder rayado de foto de persona sin cargar */
   --c-avatar-stripe-a: #EAEDF5;

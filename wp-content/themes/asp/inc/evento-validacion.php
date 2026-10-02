@@ -109,16 +109,6 @@ function asp_evento_valores_guardados( int $post_id, string $titulo ): array {
 }
 
 /**
- * Compatibilidad: errores según el POST actual.
- *
- * @param string $titulo Título que entra.
- * @return string[]
- */
-function asp_evento_errores_publicacion( string $titulo ): array {
-	return asp_evento_errores( asp_evento_valores_post( $titulo ) );
-}
-
-/**
  * Registro, dentro del pedido, de eventos publicados cuyo formulario llegó
  * incompleto: se guarda lo opcional pero no se tocan los datos mínimos.
  *

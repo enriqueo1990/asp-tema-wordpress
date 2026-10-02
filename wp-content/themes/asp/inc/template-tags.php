@@ -303,23 +303,6 @@ function asp_autor_articulo( int $post_id ): array {
 }
 
 /**
- * Primera línea de la descripción de una iniciativa, para las cajas del
- * inicio. Sale del texto real del ministerio; si no hay descripción, no se
- * imprime nada.
- *
- * @param int $post_id  ID de la iniciativa.
- * @param int $palabras Máximo de palabras.
- * @return string
- */
-function asp_iniciativa_resumen( int $post_id, int $palabras = 18 ): string {
-	$bajada = (string) get_post_meta( $post_id, 'iniciativa_bajada', true );
-	if ( '' === trim( $bajada ) ) {
-		$bajada = (string) get_post_meta( $post_id, 'iniciativa_descripcion', true );
-	}
-	return wp_trim_words( wp_strip_all_tags( $bajada ), $palabras, '…' );
-}
-
-/**
  * Días que faltan para que empiece un evento, o null si no tiene fecha o ya
  * empezó. Hoy es 0.
  *

@@ -75,7 +75,6 @@ button {
 
 /* Sobre fondos oscuros y fotos el anillo azul no se veía (1,0:1 sobre la
    franja): ahí va blanco. */
-:is(.asp-footer, .asp-banda-oscura, .asp-franja, .asp-portada, .asp-cierre, .asp-contacto-portada) :focus-visible,
 .asp-con-portada .asp-header:not(.is-scrolled):not(.is-menu-open) :focus-visible {
   outline-color: var(--c-focus-ring-inverso);
 }
@@ -143,11 +142,6 @@ summary::-webkit-details-marker {
 .asp-label--strong {
   font-weight: var(--fw-semibold);
   color: inherit;
-}
-
-.asp-numeral {
-  font-family: var(--font-numeral);
-  line-height: var(--lh-heading);
 }
 
 .asp-muted {

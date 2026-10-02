@@ -58,15 +58,11 @@ $pares = [
 	[ '--c-accent-alt', '--c-surface', 'rótulos sobre banda', 4.5 ],
 	[ '--c-text-faint', '--c-surface-2', 'tenue sobre superficie', 4.5 ],
 	[ '--c-accent-ink', '--c-accent', 'texto del botón principal', 4.5 ],
-	[ '--c-state-abierta-fg', '--c-state-abierta-bg', 'badge de inscripción abierta', 4.5 ],
-	[ '--c-state-cerrada-fg', '--c-state-cerrada-bg', 'badge de inscripción cerrada', 4.5 ],
 	[ '--c-flyer-band-ink', '--c-flyer-band', 'texto sobre la banda del flyer', 4.5 ],
 	[ '--c-dark-fg', '--c-dark-bg', 'pie', 4.5 ],
 	[ '--c-dark-muted', '--c-dark-bg', 'apagado del pie', 4.5 ],
-	[ '--c-franja-fg', '--c-franja-bg', 'franja de próximo evento', 4.5 ],
 	[ '--c-btn-invertido-fg', '--c-btn-invertido-bg', 'botón invertido', 4.5 ],
 	[ '--c-todo-fg', '--c-todo-bg', 'aviso de dato faltante', 4.5 ],
-	[ '--c-photo-text', '--c-photo-placeholder-a', 'texto sobre foto sin cargar', 4.5 ],
 	[ '--c-tile-ink', '--c-tile-1', 'tarjeta de iniciativa, azul', 4.5 ],
 	[ '--c-tile-ink', '--c-tile-2', 'tarjeta de iniciativa, azul medio', 4.5 ],
 	[ '--c-tile-ink', '--c-tile-3', 'tarjeta de iniciativa, índigo', 4.5 ],
@@ -77,7 +73,6 @@ $pares = [
 	[ '--c-focus-ring', '--c-bg', 'anillo de foco', 3.0 ],
 	[ '--c-focus-ring', '--c-surface', 'anillo de foco sobre banda', 3.0 ],
 	[ '--c-focus-ring-inverso', '--c-dark-bg', 'anillo de foco en el pie y la banda oscura', 3.0 ],
-	[ '--c-focus-ring-inverso', '--c-franja-bg', 'anillo de foco en la franja', 3.0 ],
 	[ '--c-focus-ring-inverso', '--c-photo-scrim-text@blanco', 'anillo de foco sobre foto', 3.0 ],
 ];
 

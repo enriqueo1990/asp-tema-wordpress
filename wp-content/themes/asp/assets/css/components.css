@@ -58,39 +58,6 @@
   font-weight: var(--fw-semibold);
 }
 
-/* Filtros de Recursos: píldoras de 44 px */
-.asp-filtros {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-2);
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.asp-filtros {
-  gap: var(--sp-5);
-}
-
-.asp-filtros a {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--control-h);
-  font-family: var(--font-ui);
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-medium);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--c-text-muted);
-  box-shadow: inset 0 -1px 0 transparent;
-}
-
-.asp-filtros .is-active a,
-.asp-filtros a:hover {
-  color: var(--c-text);
-  box-shadow: inset 0 -1px 0 var(--c-accent);
-}
-
 /* ---------------------------------------------------------------------
    Botones y enlaces de acción
    --------------------------------------------------------------------- */
@@ -183,11 +150,6 @@
   color: var(--c-text-faint);
 }
 
-.asp-cta__motivo {
-  font-size: var(--fs-sm);
-  color: var(--c-text-muted);
-}
-
 /* ---------------------------------------------------------------------
    Banda del flyer: contenido, nunca recortado
    --------------------------------------------------------------------- */
@@ -223,25 +185,6 @@
 
 .asp-flyer--column {
   max-width: var(--w-flyer-column);
-}
-
-/* Ficha del evento (1-10-2026): el flyer a todo el ancho de su columna, en
-   su proporción y sin banda. Tampoco se recorta: el alto sale de la imagen.
-   Un flyer vertical se frena en un alto máximo para no ocupar varias
-   pantallas, y achica el ancho en lugar de cortarse. */
-.asp-flyer--natural {
-  aspect-ratio: auto;
-  background: none;
-  border-radius: var(--radius-0);
-}
-
-.asp-flyer--natural img {
-  position: static;
-  display: block;
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  max-height: var(--flyer-natural-max-h);
 }
 
 @media (min-width: 1024px) {
@@ -435,11 +378,6 @@
 /* ---------------------------------------------------------------------
    Fila del archivo por año
    --------------------------------------------------------------------- */
-.asp-anio {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-4);
-}
 
 .asp-anio__num {
   font-family: var(--font-numeral);
@@ -447,13 +385,6 @@
   font-weight: var(--fw-semibold);
   color: var(--c-accent);
   line-height: 1;
-}
-
-.asp-anio::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--c-border);
 }
 
 .asp-archivo-item {
@@ -1014,39 +945,6 @@
   padding-top: var(--sp-6);
 }
 
-/* Fila compacta de evento en la home */
-.asp-evento-fila {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  padding: var(--sp-5) 0;
-  border-top: var(--border-hairline) solid var(--c-border);
-  color: var(--c-text);
-}
-
-.asp-evento-fila:hover {
-  color: var(--c-text);
-}
-
-.asp-evento-fila__meta {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-}
-
-.asp-evento-fila__fecha {
-  font-family: var(--font-numeral);
-  font-size: var(--fs-sm);
-  color: var(--c-text-muted);
-}
-
-.asp-evento-fila__titulo {
-  font-family: var(--font-display);
-  font-size: var(--fs-md);
-  font-weight: var(--fw-semibold);
-  line-height: var(--lh-heading);
-}
-
 /* ---------------------------------------------------------------------
    Ficha de evento
    --------------------------------------------------------------------- */
@@ -1057,48 +955,12 @@
   padding-block: var(--sp-6) var(--sp-8);
 }
 
-.asp-ficha--vacia {
-  gap: var(--sp-6);
-  padding-block: var(--sp-7) var(--sp-9);
-}
-
-.asp-ficha__titulo {
-  font-size: var(--fs-2xl);
-  line-height: var(--lh-tight);
-}
-
-.asp-ficha__titulo--compacto {
-  font-size: var(--fs-xl);
-  line-height: var(--lh-heading);
-}
-
-.asp-ficha__cabecera {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-}
-
 .asp-bloque {
   display: flex;
   flex-direction: column;
   gap: var(--sp-2);
   padding-top: var(--sp-5);
   border-top: var(--border-hairline) solid var(--c-border);
-}
-
-.asp-bloque--datos {
-  gap: var(--sp-5);
-}
-
-.asp-bloque__dato {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-2);
-}
-
-.asp-bloque--sin-filete {
-  padding-top: 0;
-  border-top: 0;
 }
 
 .asp-bloque__valor {
@@ -1112,254 +974,15 @@
   color: var(--c-text-muted);
 }
 
-.asp-sede__nombre {
-  font-family: var(--font-display);
-  font-size: var(--fs-md);
-  font-weight: var(--fw-semibold);
-  line-height: var(--lh-heading);
-}
-
-/* Tipo de evento en los datos de la ficha: lleva a la iniciativa */
-.asp-ficha__tipo {
-  color: var(--c-text);
-  transition: color var(--dur) var(--ease);
-}
-
-.asp-ficha__tipo:hover {
-  color: var(--c-accent);
-}
-
-/* Cómo llegar y agregar al calendario: enlaces secundarios, con alto táctil */
-.asp-link-accion {
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-start;
-  min-height: var(--control-h);
-  font-family: var(--font-ui);
-  font-size: var(--fs-sm);
-  letter-spacing: 0.02em;
-  color: var(--c-accent);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.3em;
-}
-
-.asp-link-accion:hover {
-  text-decoration-thickness: 2px;
-}
-
-.asp-agenda {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-1);
-}
-
-.asp-agenda__links {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: var(--sp-5);
-}
-
-.asp-ficha-aside .asp-agenda {
-  margin-top: var(--sp-4);
-}
-
-/* Columna lateral de la ficha en escritorio */
-.asp-ficha-aside {
-  display: none;
-}
-
 @media (min-width: 1024px) {
   .asp-ficha {
     padding-block: var(--sp-7) var(--sp-8);
-  }
-
-  .asp-ficha__titulo,
-  .asp-ficha__titulo--compacto {
-    font-size: var(--fs-3xl);
-    line-height: var(--lh-tight);
-  }
-
-  .asp-ficha__linea {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--sp-4);
-    font-family: var(--font-numeral);
-    font-size: var(--fs-xl);
-  }
-
-  .asp-ficha__linea .asp-lugar__sep {
-    height: var(--sep-h-lg);
-  }
-
-  .asp-ficha-aside {
-    display: flex;
-    flex-direction: column;
-    border-top: var(--border-hairline) solid var(--c-border);
-    background: var(--c-bg);
-  }
-
-  .asp-ficha-aside__cta {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-4);
-    padding: var(--sp-5) 0;
-  }
-
-  .asp-ficha-aside__precio {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--sp-4);
-  }
-
-  .asp-ficha-aside__bloque {
-    display: flex;
-    gap: var(--sp-3);
-    padding: var(--sp-5) 0;
-    border-top: var(--border-hairline) solid var(--c-border);
-  }
-
-  .asp-ficha-aside__bloque > .asp-lugar__icono {
-    color: var(--c-text-muted);
-    margin-top: 3px;
-  }
-
-  .asp-ficha-aside__bloque .asp-stack {
-    gap: var(--sp-1);
-    min-width: 0;
-  }
-
-  .asp-ficha-aside .asp-lugar-grande__pais {
-    margin-top: var(--sp-1);
-  }
-
-  /* En escritorio, los bloques móviles duplicados en la columna lateral se ocultan */
-  .asp-solo-movil {
-    display: none !important;
-  }
-}
-
-@media (max-width: 1023.98px) {
-  .asp-solo-escritorio {
-    display: none !important;
   }
 }
 
 /* ---------------------------------------------------------------------
    Oradores: lista densa con bio desplegable
    --------------------------------------------------------------------- */
-.asp-oradores {
-  display: flex;
-  flex-direction: column;
-}
-
-.asp-orador {
-  border-top: var(--border-hairline) solid var(--c-border);
-}
-
-.asp-orador:first-child {
-  border-top: 0;
-}
-
-.asp-orador__fila {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-4);
-  padding: var(--sp-3) 0;
-}
-
-.asp-orador summary.asp-orador__fila {
-  cursor: pointer;
-}
-
-.asp-orador__foto {
-  flex: none;
-  width: var(--avatar-sm);
-  height: var(--avatar-sm);
-  border-radius: 0;
-  object-fit: cover;
-  filter: grayscale(1);
-  background: repeating-linear-gradient(135deg, var(--c-avatar-stripe-a) 0 var(--avatar-stripe), var(--c-avatar-stripe-b) var(--avatar-stripe) calc(var(--avatar-stripe) * 2));
-}
-
-.asp-orador__nombre {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.asp-orador__nombre strong {
-  font-family: var(--font-display);
-  font-size: var(--fs-md);
-  font-weight: var(--fw-semibold);
-  line-height: var(--lh-heading);
-}
-
-.asp-orador__nombre span {
-  font-family: var(--font-ui);
-  font-size: var(--fs-xs);
-  letter-spacing: 0.04em;
-  color: var(--c-text-muted);
-}
-
-.asp-orador__toggle {
-  flex: none;
-  width: var(--control-h);
-  height: var(--control-h);
-  display: grid;
-  place-items: center;
-  border: 0;
-  background: none;
-  font-family: var(--font-ui);
-  font-size: var(--fs-lg);
-  line-height: 1;
-  color: var(--c-accent);
-}
-
-.asp-orador__toggle::before {
-  content: "+";
-}
-
-.asp-orador[open] .asp-orador__toggle::before {
-  content: "–";
-}
-
-.asp-orador__bio {
-  margin: 0 0 var(--sp-4) calc(var(--avatar-sm) + var(--sp-4));
-  padding: 0;
-  font-size: var(--fs-sm);
-  line-height: var(--lh-body);
-  color: var(--c-text-muted);
-}
-
-.asp-orador__bio a {
-  box-shadow: inset 0 -1px 0 var(--c-accent);
-}
-
-@media (min-width: 1024px) {
-  .asp-oradores--grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--sp-6);
-  }
-
-  .asp-oradores--grid .asp-orador:nth-child(2) {
-    border-top: 0;
-  }
-
-  .asp-oradores--grid .asp-orador__foto {
-    width: var(--avatar-md);
-    height: var(--avatar-md);
-  }
-
-  .asp-oradores--grid .asp-orador__bio {
-    margin-left: calc(var(--avatar-md) + var(--sp-4));
-  }
-}
 
 /* ---------------------------------------------------------------------
    Programa
@@ -1410,23 +1033,6 @@
   color: var(--c-text-faint);
 }
 
-/* Aliados: texto separado por puntos medios, o logos si existen */
-.asp-aliados {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--sp-4);
-  font-size: var(--fs-md);
-  line-height: var(--lh-body);
-}
-
-/* A 32 px de alto, un logo con texto (Simeon Trust) no se leía */
-.asp-aliados img {
-  height: var(--sp-8);
-  width: auto;
-  max-width: 100%;
-}
-
 /* ---------------------------------------------------------------------
    Hero: fotografía documental con velo
    --------------------------------------------------------------------- */
@@ -1456,10 +1062,6 @@
   background: linear-gradient(to top, var(--c-photo-scrim-strong) 0%, var(--c-photo-scrim) 55%, var(--c-photo-scrim-none) 100%);
 }
 
-.asp-hero__velo--centrado {
-  align-items: stretch;
-}
-
 .asp-hero--nosotros .asp-hero__velo {
   min-height: var(--hero-nosotros-min-h);
 }
@@ -1484,50 +1086,14 @@
   max-width: 22ch;
 }
 
-.asp-hero__cita {
-  font-family: var(--font-display);
-  font-size: var(--fs-lg);
-  line-height: var(--lh-heading);
-  font-weight: var(--fw-regular);
-}
-
 .asp-hero__texto {
   font-size: var(--fs-md);
   line-height: var(--lh-body);
   max-width: 38ch;
 }
 
-.asp-hero__texto--ancho {
-  max-width: 60ch;
-}
-
 .asp-hero .asp-label {
   color: var(--c-photo-text);
-}
-
-.asp-hero__filete {
-  height: 1px;
-  background: var(--c-photo-rule);
-}
-
-.asp-hero__ultimo {
-  align-self: flex-start;
-  display: flex;
-  align-items: center;
-  gap: var(--sp-4);
-  color: var(--c-photo-text);
-}
-
-.asp-hero__ultimo:hover {
-  color: var(--c-photo-text);
-}
-
-.asp-hero__ultimo-texto {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-family: var(--font-ui);
-  font-size: var(--fs-sm);
 }
 
 .asp-hero__sep {
@@ -1549,50 +1115,6 @@
   .asp-hero__texto {
     font-size: var(--fs-lg);
   }
-}
-
-/* Hero con evento destacado (sin fotografía): columna de texto */
-.asp-hero-evento {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-6);
-  padding-block: var(--sp-7) var(--sp-8);
-}
-
-.asp-hero-evento__titulo {
-  font-size: var(--fs-2xl);
-  line-height: var(--lh-tight);
-}
-
-/* Misión sobre fotografía */
-.asp-mision .asp-hero__velo {
-  min-height: 0;
-  justify-content: flex-start;
-  padding-block: var(--sp-8);
-}
-
-@media (min-width: 1024px) {
-  .asp-mision .asp-hero__velo {
-    padding-block: var(--sp-9);
-  }
-}
-
-/* Galería de la home */
-.asp-galeria__item {
-  position: relative;
-  border-radius: var(--radius-4);
-  overflow: hidden;
-  aspect-ratio: 1 / 1;
-}
-
-.asp-grid-galeria > :first-child.asp-galeria__item {
-  aspect-ratio: 3 / 2;
-}
-
-.asp-galeria__item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 /* ---------------------------------------------------------------------
@@ -1688,7 +1210,6 @@
   border-bottom: var(--border-hairline) solid var(--c-border);
 }
 
-.asp-caja--surface,
 .asp-caja--suave {
   padding: var(--sp-5);
   background: var(--c-surface);
@@ -1799,7 +1320,7 @@
 }
 
 @media print {
-  .asp-header, .asp-footer, .asp-indice, .asp-franja, .asp-section--proximo {
+  .asp-header, .asp-footer, .asp-indice, .asp-section--proximo {
     display: none !important;
   }
   .asp-articulo-af {
@@ -1939,28 +1460,6 @@
 /* ---------------------------------------------------------------------
    Iniciativas
    --------------------------------------------------------------------- */
-.asp-iniciativa-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  padding: var(--sp-5) 0;
-  border-top: var(--border-hairline) solid var(--c-border);
-  color: var(--c-text);
-}
-
-.asp-iniciativa-card:hover {
-  color: var(--c-accent);
-}
-
-.asp-iniciativa-card__titulo {
-  font-size: var(--fs-lg);
-}
-
-.asp-iniciativa-card__bajada {
-  font-size: var(--fs-md);
-  line-height: var(--lh-body);
-  color: var(--c-text-muted);
-}
 
 /* ---------------------------------------------------------------------
    Formularios (búsqueda, contacto)
@@ -2069,84 +1568,10 @@
   }
 }
 
-/* Ficha sin columna izquierda: la lateral ocupa el ancho de lectura */
-@media (min-width: 1024px) {
-  .asp-grid-ficha--solo-aside {
-    grid-template-columns: minmax(0, 520px);
-  }
-}
-
 /* ---------------------------------------------------------------------
    Franja "Próximo evento": bloque a sangre de color pleno bajo el hero.
    Único fondo saturado de la página. Texto a opacidad completa.
    --------------------------------------------------------------------- */
-.asp-franja {
-  background: var(--c-franja-bg);
-  color: var(--c-franja-fg);
-}
-
-.asp-franja a {
-  color: var(--c-franja-fg);
-}
-
-.asp-franja a:hover {
-  color: var(--c-franja-fg);
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
-
-.asp-franja__inner {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-5);
-  padding-block: var(--sp-7);
-}
-
-.asp-franja__cabecera {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-  flex-wrap: wrap;
-}
-
-.asp-franja__cabecera .asp-label {
-  color: var(--c-franja-fg);
-  font-weight: var(--fw-medium);
-}
-
-.asp-franja__sep {
-  width: 1px;
-  height: var(--sep-h);
-  background: var(--c-franja-rule-strong);
-}
-
-.asp-franja__fecha {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-2);
-}
-
-.asp-franja__dias {
-  font-family: var(--font-numeral);
-  font-size: var(--fs-3xl);
-  font-weight: var(--fw-semibold);
-  line-height: var(--lh-tight);
-  letter-spacing: var(--tracking-display);
-}
-
-.asp-franja__mes {
-  font-family: var(--font-numeral);
-  font-size: var(--fs-lg);
-  font-weight: var(--fw-medium);
-  line-height: var(--lh-heading);
-}
-
-.asp-franja__datos {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-4);
-  min-width: 0;
-}
 
 .asp-franja__titulo {
   font-family: var(--font-display);
@@ -2162,23 +1587,6 @@
   min-height: var(--control-h);
 }
 
-.asp-franja .asp-lugar,
-.asp-franja .asp-lugar__pais {
-  color: var(--c-franja-fg);
-}
-
-.asp-franja .asp-lugar__sep {
-  background: var(--c-franja-rule);
-}
-
-.asp-franja__estado {
-  font-family: var(--font-ui);
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-}
-
 .asp-btn--invertido {
   background: var(--c-btn-invertido-bg);
   color: var(--c-btn-invertido-fg);
@@ -2191,59 +1599,10 @@
   text-underline-offset: 0.15em;
 }
 
-.asp-franja__btn-largo {
-  display: none;
-}
-
 @media (min-width: 769px) {
-  .asp-franja__inner {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
-    gap: var(--sp-8);
-  }
-
-  .asp-franja__datos {
-    gap: var(--sp-4);
-    padding-left: var(--sp-8);
-    border-left: var(--border-hairline) solid var(--c-franja-rule);
-  }
-
   .asp-franja__titulo {
     font-size: var(--fs-2xl);
   }
-
-  .asp-franja .asp-btn--block {
-    display: inline-flex;
-    width: auto;
-  }
-
-  .asp-franja__btn-corto {
-    display: none;
-  }
-
-  .asp-franja__btn-largo {
-    display: inline;
-  }
-}
-
-/* Franja en móvil: etiqueta y estado primero, después la fecha, el título,
-   el lugar y el botón. Los hijos de "datos" pasan al nivel del contenedor. */
-@media (max-width: 768px) {
-  .asp-franja__datos {
-    display: contents;
-  }
-  .asp-franja__cabecera { order: 1; }
-  .asp-franja__fecha    { order: 2; }
-  .asp-franja .asp-franja__titulo { order: 3; }
-  .asp-franja .asp-lugar { order: 4; }
-  .asp-franja .asp-btn  { order: 5; }
-}
-
-/* El botón invertido gana a la regla genérica de enlaces de la franja */
-.asp-franja .asp-btn--invertido,
-.asp-franja .asp-btn--invertido:hover {
-  color: var(--c-btn-invertido-fg);
 }
 
 /* ---------------------------------------------------------------------
@@ -2432,163 +1791,6 @@
   margin-left: var(--sp-2);
 }
 
-/* Lista numerada con filetes (iniciativas) */
-.asp-lista-numerada {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: var(--border-hairline) solid var(--c-border);
-}
-
-.asp-lista-numerada__item {
-  display: grid;
-  grid-template-columns: 3.5rem minmax(0, 1fr);
-  gap: var(--sp-4);
-  align-items: baseline;
-  padding: var(--sp-5) 0;
-  border-bottom: var(--border-hairline) solid var(--c-border);
-  color: var(--c-text);
-}
-
-.asp-lista-numerada__item:hover {
-  color: var(--c-accent);
-}
-
-.asp-lista-numerada__num {
-  font-family: var(--font-numeral);
-  font-size: var(--fs-xl);
-  font-weight: var(--fw-regular);
-  color: var(--c-accent);
-  line-height: 1;
-}
-
-.asp-lista-numerada__cuerpo {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-1);
-}
-
-.asp-lista-numerada__titulo {
-  font-family: var(--font-display);
-  font-size: var(--fs-lg);
-  line-height: var(--lh-heading);
-}
-
-.asp-lista-numerada__bajada {
-  font-size: var(--fs-md);
-  color: var(--c-text-muted);
-}
-
-@media (min-width: 1024px) {
-  .asp-lista-numerada__item {
-    grid-template-columns: 5rem minmax(0, 1fr);
-    padding: var(--sp-6) 0;
-  }
-  .asp-lista-numerada__titulo {
-    font-size: var(--fs-xl);
-  }
-}
-
-/* Fotografía: una a sangre y una tira de tres */
-.asp-fotos {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-4);
-  padding-bottom: var(--sp-8);
-}
-
-.asp-fotos__principal {
-  aspect-ratio: 16 / 10;
-  background: var(--c-surface-2);
-  overflow: hidden;
-}
-
-.asp-fotos__principal img,
-.asp-fotos__tira img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.asp-fotos__tira {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--sp-3);
-}
-
-.asp-fotos__tira figure {
-  aspect-ratio: 4 / 3;
-  background: var(--c-surface-2);
-  overflow: hidden;
-}
-
-@media (min-width: 1024px) {
-  .asp-fotos__principal {
-    aspect-ratio: 21 / 9;
-  }
-  .asp-fotos__tira {
-    gap: var(--sp-4);
-  }
-}
-
-/* Retratos del consejo: cuadrados 4:5, sin círculos */
-.asp-retratos {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--sp-5) var(--sp-4);
-}
-
-.asp-retrato {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-2);
-  color: var(--c-text);
-}
-
-.asp-retrato:hover {
-  color: var(--c-accent);
-}
-
-.asp-retrato__foto {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  background: repeating-linear-gradient(135deg, var(--c-avatar-stripe-a) 0 var(--avatar-stripe), var(--c-avatar-stripe-b) var(--avatar-stripe) calc(var(--avatar-stripe) * 2));
-  filter: grayscale(1) contrast(1.05);
-  transition: filter var(--dur) var(--ease);
-}
-
-.asp-retrato:hover .asp-retrato__foto {
-  filter: none;
-}
-
-.asp-retrato__nombre {
-  font-family: var(--font-display);
-  font-size: var(--fs-md);
-  line-height: var(--lh-heading);
-  margin-top: var(--sp-1);
-}
-
-.asp-retrato__iglesia {
-  font-family: var(--font-ui);
-  font-size: var(--fs-xs);
-  line-height: var(--lh-body);
-  color: var(--c-text-muted);
-}
-
-@media (min-width: 768px) {
-  .asp-retratos {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-  .asp-retratos {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-}
-
 /* Pie oscuro */
 .asp-footer__marca {
   display: flex;
@@ -2684,10 +1886,6 @@
   box-shadow: inset 0 -1px 0 var(--c-accent);
 }
 
-.asp-filtros--columna {
-  gap: var(--sp-2) var(--sp-5);
-}
-
 .asp-articulo-destacado {
   display: flex;
   flex-direction: column;
@@ -2721,15 +1919,6 @@
     align-items: flex-end;
     justify-content: space-between;
     padding-block: var(--sp-8) var(--sp-7);
-  }
-
-  .asp-filtros--columna {
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .asp-filtros--columna a {
-    min-height: var(--sp-6);
   }
 
   .asp-articulo-destacado__titulo {
@@ -3434,9 +2623,6 @@ section:not(.asp-eventos__archivo):has(> .asp-anio-plegable:not([open])) {
 /* ---------------------------------------------------------------------
    Cierre: "Sumate" sobre la foto de la galería
    --------------------------------------------------------------------- */
-.asp-fotos__tira--cierre {
-  padding-block: var(--sp-6) var(--sp-4);
-}
 
 /* ---------------------------------------------------------------------
    Contacto: portada con foto, vías directas y el formulario en su panel
@@ -3807,7 +2993,6 @@ section:not(.asp-eventos__archivo):has(> .asp-anio-plegable:not([open])) {
   }
 }
 
-
 /* ---------------------------------------------------------------------
    Ajustes de la revisión de diseño del 23-9-2026
    --------------------------------------------------------------------- */
@@ -3825,8 +3010,7 @@ section:not(.asp-eventos__archivo):has(> .asp-anio-plegable:not([open])) {
 }
 
 /* Un solo ritmo vertical entre los bloques del inicio */
-.asp-home-bloque,
-.asp-editorial.asp-home-bloque {
+.asp-home-bloque {
   padding-block: var(--sp-home);
 }
 
@@ -3874,10 +3058,6 @@ section:not(.asp-eventos__archivo):has(> .asp-anio-plegable:not([open])) {
   background-repeat: no-repeat;
   background-position: center top;
   background-size: calc(100% - 2 * var(--w-gutter)) var(--border-hairline);
-}
-
-.asp-banda > .asp-section--rule {
-  background-image: none;
 }
 
 /* Pie */
@@ -4441,32 +3621,6 @@ section:not(.asp-eventos__archivo):has(> .asp-anio-plegable:not([open])) {
 
 .asp-compartir__boton[hidden] {
   display: none;
-}
-
-/* Ficha del evento: el rótulo arriba y los botones en dos columnas, que en
-   la columna lateral (y en el teléfono) entran sin quedar un botón suelto
-   por renglón. */
-.asp-compartir--evento {
-  flex-direction: column;
-  align-items: stretch;
-  gap: var(--sp-3);
-  width: 100%;
-}
-
-.asp-compartir--evento .asp-label {
-  margin: 0;
-}
-
-.asp-compartir__botones {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--sp-2);
-}
-
-.asp-compartir--evento .asp-compartir__boton {
-  justify-content: center;
-  padding-inline: var(--sp-3);
-  text-align: center;
 }
 
 .asp-autor-pie {
