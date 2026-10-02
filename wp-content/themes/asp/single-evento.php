@@ -38,52 +38,43 @@ while ( have_posts() ) :
 				<?php get_template_part( 'parts/evento/flyer', null, [ 'post_id' => $asp_id, 'clase' => 'asp-flyer--natural', 'loading' => 'eager' ] ); ?>
 			</div>
 
+			<?php /* Arriba solo el título y la fecha (2-10-2026): el estado, el tipo,
+			   el lugar y el resto de los datos van a la columna lateral (en el
+			   teléfono, al bloque de datos de abajo). */ ?>
 			<header class="asp-ficha__cabecera">
-				<div class="asp-row">
-					<?php get_template_part( 'parts/evento/badge', null, [ 'post_id' => $asp_id ] ); ?>
-					<?php if ( $asp_inic ) : ?>
-						<a class="asp-label" href="<?php echo esc_url( get_permalink( $asp_inic ) ); ?>"><?php echo esc_html( get_the_title( $asp_inic ) ); ?></a>
-					<?php endif; ?>
-				</div>
 				<?php /* El título manda también con flyer: en compacto (24 px) la ficha se veía más débil que sin flyer. */ ?>
 				<h1 class="asp-ficha__titulo"><?php the_title(); ?></h1>
 
 				<div class="asp-solo-escritorio asp-ficha__linea">
 					<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id, 'variante' => 'xl' ] ); ?>
-					<?php if ( $asp_ciudad || $asp_pais ) : ?>
-						<span class="asp-lugar__sep" aria-hidden="true"></span>
-						<?php get_template_part( 'parts/evento/lugar', null, [ 'post_id' => $asp_id, 'variante' => 'md' ] ); ?>
-					<?php endif; ?>
 				</div>
 			</header>
 
-			<?php /* ---- Móvil: fecha y lugar, grandes si no hay flyer ---- */ ?>
+			<?php /* ---- Móvil: la fecha, grande si no hay flyer; después el estado y el botón ---- */ ?>
 			<div class="asp-solo-movil asp-stack asp-stack--5">
-				<?php if ( $asp_vacia ) : ?>
-					<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id, 'variante' => 'grande' ] ); ?>
-					<?php get_template_part( 'parts/evento/lugar', null, [ 'post_id' => $asp_id, 'variante' => 'grande' ] ); ?>
-				<?php else : ?>
-					<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id ] ); ?>
-					<?php get_template_part( 'parts/evento/lugar', null, [ 'post_id' => $asp_id ] ); ?>
-				<?php endif; ?>
-				<?php if ( $asp_hay_cta ) : ?>
-					<div class="asp-bloque"><?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_id, 'con_plataforma' => true, 'bloque' => true ] ); ?></div>
-				<?php endif; ?>
-				<?php /* Precio, sede y calendario en un solo bloque de datos: tres
+				<?php get_template_part( 'parts/evento/fecha', null, [ 'post_id' => $asp_id, 'variante' => $asp_vacia ? 'grande' : '' ] ); ?>
+				<div class="asp-bloque">
+					<?php get_template_part( 'parts/evento/badge', null, [ 'post_id' => $asp_id ] ); ?>
+					<?php if ( $asp_hay_cta ) : ?>
+						<?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_id, 'con_plataforma' => true, 'bloque' => true ] ); ?>
+					<?php endif; ?>
+				</div>
+				<?php /* Tipo, precio, lugar y calendario en un solo bloque de datos:
 				   bloques con filete seguidos se leían como un formulario. */ ?>
-				<?php if ( $asp_precio || $asp_sede || $asp_agenda ) : ?>
-					<div class="asp-bloque asp-bloque--datos">
-						<?php if ( $asp_precio ) : ?>
-							<div class="asp-bloque__dato"><h2 class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></h2><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
-						<?php endif; ?>
-						<?php if ( $asp_sede ) : ?>
-							<div class="asp-bloque__dato"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id ] ); ?></div>
-						<?php endif; ?>
-						<?php if ( $asp_agenda ) : ?>
-							<div class="asp-bloque__dato"><?php get_template_part( 'parts/evento/agenda', null, [ 'post_id' => $asp_id ] ); ?></div>
-						<?php endif; ?>
-					</div>
-				<?php endif; ?>
+				<div class="asp-bloque asp-bloque--datos">
+					<?php if ( $asp_inic ) : ?>
+						<div class="asp-bloque__dato"><h2 class="asp-label"><?php esc_html_e( 'Tipo de evento', 'asp' ); ?></h2><a class="asp-sede__nombre asp-ficha__tipo" href="<?php echo esc_url( get_permalink( $asp_inic ) ); ?>"><?php echo esc_html( get_the_title( $asp_inic ) ); ?></a></div>
+					<?php endif; ?>
+					<?php if ( $asp_precio ) : ?>
+						<div class="asp-bloque__dato"><h2 class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></h2><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
+					<?php endif; ?>
+					<?php if ( $asp_sede || $asp_ciudad || $asp_pais ) : ?>
+						<div class="asp-bloque__dato"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id, 'con_lugar' => true ] ); ?></div>
+					<?php endif; ?>
+					<?php if ( $asp_agenda ) : ?>
+						<div class="asp-bloque__dato"><?php get_template_part( 'parts/evento/agenda', null, [ 'post_id' => $asp_id ] ); ?></div>
+					<?php endif; ?>
+				</div>
 				<div class="asp-bloque"><?php get_template_part( 'parts/evento/compartir', null, [ 'post_id' => $asp_id ] ); ?></div>
 			</div>
 
@@ -139,21 +130,30 @@ while ( have_posts() ) :
 
 				<?php /* Compartir va siempre: con eso solo, la columna ya tiene sentido. */ ?>
 				<aside class="asp-ficha-aside asp-solo-escritorio asp-sticky" aria-label="<?php esc_attr_e( 'Datos del evento', 'asp' ); ?>">
-					<?php if ( $asp_hay_cta || $asp_precio ) : ?>
-						<div class="asp-ficha-aside__cta">
-							<?php if ( $asp_precio ) : ?>
-								<div class="asp-ficha-aside__precio"><h2 class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></h2><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
-							<?php endif; ?>
+					<?php /* Todos los datos del evento menos el título y la fecha, que van
+					   arriba (2-10-2026): estado, precio y botón; tipo; lugar y sede;
+					   calendario y compartir. */ ?>
+					<div class="asp-ficha-aside__cta">
+						<?php get_template_part( 'parts/evento/badge', null, [ 'post_id' => $asp_id ] ); ?>
+						<?php if ( $asp_precio ) : ?>
+							<div class="asp-ficha-aside__precio"><h2 class="asp-label"><?php esc_html_e( 'Precio', 'asp' ); ?></h2><span class="asp-bloque__valor"><?php echo esc_html( $asp_precio ); ?></span></div>
+						<?php endif; ?>
+						<?php if ( $asp_hay_cta ) : ?>
 							<?php get_template_part( 'parts/evento/cta', null, [ 'post_id' => $asp_id, 'con_plataforma' => true, 'bloque' => true ] ); ?>
+						<?php endif; ?>
+					</div>
+					<?php if ( $asp_inic ) : ?>
+						<div class="asp-ficha-aside__bloque">
+							<div class="asp-stack">
+								<h2 class="asp-label"><?php esc_html_e( 'Tipo de evento', 'asp' ); ?></h2>
+								<a class="asp-sede__nombre asp-ficha__tipo" href="<?php echo esc_url( get_permalink( $asp_inic ) ); ?>"><?php echo esc_html( get_the_title( $asp_inic ) ); ?></a>
+							</div>
 						</div>
 					<?php endif; ?>
-					<?php /* Fecha, ciudad y país ya están en la cabecera, a la vista (1-10-2026):
-					   la columna lateral no los repite. Queda lo que la cabecera no dice
-					   (la sede y la dirección) y la acción de agendar. */ ?>
-					<?php if ( $asp_sede ) : ?>
+					<?php if ( $asp_sede || $asp_ciudad || $asp_pais ) : ?>
 						<div class="asp-ficha-aside__bloque">
 							<?php echo asp_icono_ubicacion(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-							<div class="asp-stack"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id ] ); ?></div>
+							<div class="asp-stack"><?php get_template_part( 'parts/evento/sede', null, [ 'post_id' => $asp_id, 'con_lugar' => true ] ); ?></div>
 						</div>
 					<?php endif; ?>
 					<?php if ( $asp_agenda ) : ?>
