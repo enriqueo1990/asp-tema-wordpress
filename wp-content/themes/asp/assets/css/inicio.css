@@ -142,9 +142,11 @@
   gap: var(--sp-4);
 }
 
+/* Un escalón menos que antes (2-10-2026): con títulos largos como
+   «¿Cómo predicar 1 Samuel?» quedaban tres renglones gigantes. */
 .asp-inicio-hero__titulo {
   max-width: 20ch;
-  font-size: var(--fs-3xl);
+  font-size: var(--fs-2xl);
   font-weight: var(--fw-medium);
   line-height: var(--lh-tight);
   letter-spacing: var(--tracking-display);
@@ -309,8 +311,8 @@
 
 @media (min-width: 1024px) {
   .asp-inicio-hero__titulo {
-    font-size: var(--fs-4xl);
-    max-width: 16ch;
+    font-size: var(--fs-3xl);
+    max-width: 18ch;
   }
 
   .asp-inicio-hero__tipo {

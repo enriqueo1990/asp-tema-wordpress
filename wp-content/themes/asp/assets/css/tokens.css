@@ -123,8 +123,8 @@
   /* Handoff de Claude Design (2-10-2026). Teléfono primero; escritorio
      desde 900 px. Los colores salen de la paleta de abajo. */
   --ev-radius: 6px;                    /* la ficha usa esquinas de 6 px (decisión del handoff) */
-  --ev-titulo: 2.75rem;                /* 44 px */
-  --ev-titulo-desktop: 4.5rem;         /* 72 px */
+  --ev-titulo: 2.25rem;                /* 36 px; con 44 un título largo iba en tres renglones */
+  --ev-titulo-desktop: 3.5rem;         /* 56 px */
   --ev-titulo-tracking: -0.025em;
   --ev-titulo-tracking-desktop: -0.03em;
   --ev-fecha: 1.75rem;                 /* 28 px */
