@@ -50,7 +50,10 @@ $oradores_datos = [
 		'bio'     => 'Dr. Joel R. Beeke es el presidente y profesor de teología sistemática y homilética en el Puritan Reformed Theological Seminary y un pastor en Heritage Netherlands Reformed Congregation en Grand Rapids, Mich.',
 	],
 	'Joselo Mercado' => [],
-	'Greg Travis'    => [],
+	// Bio tal como la pasó el usuario, 9-10-2026.
+	'Greg Travis'    => [
+		'bio' => 'Greg Travis es miembro del concilio de Coalición por el Evangelio. Actualmente sirve como misionero de SERVE y es plantador y pastor de la Iglesia Bíblica Reformada Denton, Texas (Estados Unidos). Tiene una maestría del Dallas Theological Seminary, y su pasión es ayudar a pastores, plantadores e iglesias locales a ser más saludables. Está casado con Carolina, y juntos tienen tres hijos: Alaina, Wendy y Thiago.',
+	],
 ];
 
 $taller = get_page_by_path( '1-samuel-denton', OBJECT, 'evento' );
