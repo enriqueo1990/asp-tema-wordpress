@@ -49,7 +49,10 @@ $oradores_datos = [
 		'pais'    => 'Estados Unidos',
 		'bio'     => 'Dr. Joel R. Beeke es el presidente y profesor de teología sistemática y homilética en el Puritan Reformed Theological Seminary y un pastor en Heritage Netherlands Reformed Congregation en Grand Rapids, Mich.',
 	],
-	'Joselo Mercado' => [],
+	// Bio tal como la pasó el usuario, 9-10-2026 (solo se corrigió «teologícos»).
+	'Joselo Mercado' => [
+		'bio' => 'José (Joselo) Mercado es miembro del concilio de Coalición por el Evangelio. Oriundo de Puerto Rico, renuncia a su carrera de consultoría en el año 2006 para ingresar al colegio de pastores de Sovereign Grace Ministries. Es el pastor principal de la Iglesia Gracia Soberana en Gaithersburg, Maryland. Joselo completó su Maestría en Artes en estudios teológicos en SBTS, y está casado con Kathy Mercado y es padre de Joey y Janelle.',
+	],
 	// Bio tal como la pasó el usuario, 9-10-2026.
 	'Greg Travis'    => [
 		'bio' => 'Greg Travis es miembro del concilio de Coalición por el Evangelio. Actualmente sirve como misionero de SERVE y es plantador y pastor de la Iglesia Bíblica Reformada Denton, Texas (Estados Unidos). Tiene una maestría del Dallas Theological Seminary, y su pasión es ayudar a pastores, plantadores e iglesias locales a ser más saludables. Está casado con Carolina, y juntos tienen tres hijos: Alaina, Wendy y Thiago.',
