@@ -38,9 +38,20 @@ const ASP_ENCARGA_INICIO = '20270212';
 
 $titulos_viejos = [ 'De generación en generación', 'Encarga' ];
 
-// Oradores que nombra Entrada27 («y más…»). Sin foto ni bio: el ministerio no las pasó.
-// TODO: fotos y bios de Joel Beeke, Joselo Mercado y Greg Travis.
-$nombres_oradores = [ 'Joel Beeke', 'Joselo Mercado', 'Greg Travis' ];
+// Oradores que nombra Entrada27 («y más…»). Joselo Mercado y Greg Travis ya
+// están cargados. Bio de Joel Beeke tal como la pasó el usuario, 9-10-2026.
+$oradores_datos = [
+	'Joel Beeke'     => [
+		'foto'    => 'fotos-personas/joel-beeke.jpg',
+		'cargo'   => 'Pastor',
+		'iglesia' => 'Heritage Netherlands Reformed Congregation',
+		'ciudad'  => 'Grand Rapids, Michigan',
+		'pais'    => 'Estados Unidos',
+		'bio'     => 'Dr. Joel R. Beeke es el presidente y profesor de teología sistemática y homilética en el Puritan Reformed Theological Seminary y un pastor en Heritage Netherlands Reformed Congregation en Grand Rapids, Mich.',
+	],
+	'Joselo Mercado' => [],
+	'Greg Travis'    => [],
+];
 
 $taller = get_page_by_path( '1-samuel-denton', OBJECT, 'evento' );
 $taller = $taller
@@ -88,8 +99,10 @@ foreach ( $titulos_viejos as $titulo ) {
 
 // Oradores: el que ya existe se reusa (por nombre exacto o, si hay uno solo, por apellido).
 $oradores = $id ? array_map( 'strval', (array) get_post_meta( $id, 'evento_oradores', false ) ) : [];
-foreach ( $nombres_oradores as $nombre ) {
-	$pid = $por_titulo( 'persona', $nombre );
+foreach ( $oradores_datos as $nombre => $datos ) {
+	$foto   = $datos['foto'] ?? '';
+	$campos = array_diff_key( $datos, [ 'foto' => 1 ] );
+	$pid    = $por_titulo( 'persona', $nombre );
 	if ( ! $pid ) {
 		$apellido = (string) substr( $nombre, (int) strrpos( $nombre, ' ' ) + 1 );
 		$parecidos = get_posts( [ 'post_type' => 'persona', 'post_status' => 'any', 's' => $apellido, 'numberposts' => 2, 'search_columns' => [ 'post_title' ] ] );
@@ -113,6 +126,26 @@ foreach ( $nombres_oradores as $nombre ) {
 	} elseif ( ! in_array( 'orador', (array) get_post_meta( $pid, 'persona_roles', false ), true ) ) {
 		add_post_meta( $pid, 'persona_roles', 'orador' );
 		echo "Persona #{$pid} {$nombre}: + rol Orador\n";
+	}
+	// Solo se completan los campos vacíos; a quien ya tiene foto no se le cambia.
+	foreach ( $campos as $campo => $valor ) {
+		if ( '' === (string) get_post_meta( $pid, 'persona_' . $campo, true ) ) {
+			update_post_meta( $pid, 'persona_' . $campo, 'bio' === $campo ? sanitize_textarea_field( $valor ) : sanitize_text_field( $valor ) );
+			echo "Persona #{$pid} {$nombre}: {$campo}\n";
+		}
+	}
+	if ( $foto && is_readable( __DIR__ . '/' . $foto ) && ! absint( get_post_meta( $pid, 'persona_foto', true ) ) ) {
+		$tmp = wp_tempnam( basename( $foto ) );
+		copy( __DIR__ . '/' . $foto, $tmp );
+		$adj = media_handle_sideload( [ 'name' => basename( $foto ), 'tmp_name' => $tmp ], $pid, $nombre );
+		if ( is_wp_error( $adj ) ) {
+			wp_delete_file( $tmp );
+			echo "Persona #{$pid} {$nombre}: {$adj->get_error_message()}\n";
+		} else {
+			update_post_meta( $adj, '_wp_attachment_image_alt', $nombre );
+			update_post_meta( $pid, 'persona_foto', $adj );
+			echo "Persona #{$pid} {$nombre}: foto #{$adj}\n";
+		}
 	}
 	$oradores[] = (string) $pid;
 }
