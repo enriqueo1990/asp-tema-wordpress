@@ -91,7 +91,7 @@ function asp_duplicar_evento(): void {
 		wp_die( esc_html( $nuevo_id->get_error_message() ) );
 	}
 
-	$no_copiar = [ 'evento_fecha_inicio', 'evento_fecha_fin', 'evento_url_registro', 'evento_destacado', 'evento_galeria', 'evento_videos', 'evento_flyer', 'evento_kit' ];
+	$no_copiar = [ 'evento_fecha_inicio', 'evento_fecha_fin', 'evento_url_registro', 'evento_destacado', 'evento_galeria', 'evento_videos', 'evento_flyer', 'evento_flyer_ancho', 'evento_kit' ];
 	foreach ( get_post_meta( $origen_id ) as $clave => $valores ) {
 		if ( str_starts_with( $clave, '_' ) || in_array( $clave, $no_copiar, true ) ) {
 			continue;

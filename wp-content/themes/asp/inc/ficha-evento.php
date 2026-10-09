@@ -100,7 +100,6 @@ function asp_ficha_datos( int $id ): array {
 	}
 	$sede   = trim( (string) get_post_meta( $id, 'evento_sede_nombre', true ) );
 	$dir    = trim( (string) get_post_meta( $id, 'evento_sede_direccion', true ) );
-	$flyer  = absint( get_post_meta( $id, 'evento_flyer', true ) );
 	$agenda = asp_evento_agendable( $id );
 
 	$cargados = asp_evento_relacionados( $id, 'evento_oradores', 'persona' );
@@ -111,7 +110,7 @@ function asp_ficha_datos( int $id ): array {
 	return [
 		'estado'      => $estado,
 		'etiqueta'    => asp_evento_estado_etiqueta( $estado, $id ),
-		'flyer'       => $flyer ? (string) wp_get_attachment_image( $flyer, 'full', false, [ 'alt' => sprintf( /* translators: %s: título del evento */ __( 'Flyer de %s', 'asp' ), get_the_title( $id ) ), 'loading' => 'eager', 'fetchpriority' => 'high', 'class' => 'ev-flyer__img' ] ) : '',
+		'flyer'       => asp_ficha_flyer( $id ),
 		'fecha'       => asp_evento_fecha_texto( $id ),
 		'iso'         => asp_fecha_iso( (string) get_post_meta( $id, 'evento_fecha_inicio', true ) ),
 		'lugar'       => implode( ', ', array_filter( [ asp_evento_ciudad( $id ), asp_evento_pais( $id ) ] ) ),
@@ -132,4 +131,47 @@ function asp_ficha_datos( int $id ): array {
 		'compartir'   => asp_evento_compartir( $id ),
 		'eeuu'        => has_term( 'estados-unidos', 'pais', $id ),
 	];
+}
+
+/**
+ * Flyer de la ficha, entero y sin recortar (regla 5). Con versión apaisada
+ * cargada, la computadora muestra esa y el teléfono el flyer de siempre
+ * (4:5 o cuadrado), que ocupa la pantalla mejor. Sin flyer de siempre, la
+ * apaisada va en los dos.
+ *
+ * @param int $id Evento.
+ * @return string HTML.
+ */
+function asp_ficha_flyer( int $id ): string {
+	$flyer = absint( get_post_meta( $id, 'evento_flyer', true ) );
+	$ancho = absint( get_post_meta( $id, 'evento_flyer_ancho', true ) );
+	$img   = $flyer ?: $ancho;
+	if ( ! $img ) {
+		return '';
+	}
+	$html = (string) wp_get_attachment_image(
+		$img,
+		'full',
+		false,
+		[
+			/* translators: %s: título del evento */
+			'alt'           => sprintf( __( 'Flyer de %s', 'asp' ), get_the_title( $id ) ),
+			'loading'       => 'eager',
+			'fetchpriority' => 'high',
+			'class'         => 'ev-flyer__img',
+		]
+	);
+	$datos = ( $flyer && $ancho && $flyer !== $ancho ) ? wp_get_attachment_image_src( $ancho, 'full' ) : false;
+	if ( '' === $html || ! $datos ) {
+		return $html;
+	}
+	$srcset = (string) wp_get_attachment_image_srcset( $ancho, 'full' );
+	/* Mismo corte que ficha.css, donde el flyer deja de ir a sangre. */
+	$source = sprintf(
+		'<source media="(min-width: 900px)" srcset="%s" sizes="(min-width: 900px) min(100vw, 1280px), 100vw" width="%d" height="%d">',
+		esc_attr( $srcset ? $srcset : $datos[0] ),
+		(int) $datos[1],
+		(int) $datos[2]
+	);
+	return '<picture>' . $source . $html . '</picture>';
 }

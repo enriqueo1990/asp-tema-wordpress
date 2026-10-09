@@ -61,6 +61,11 @@
   margin: 0;
 }
 
+/* Con versión apaisada el flyer llega dentro de un <picture> */
+.ev-flyer picture {
+  display: block;
+}
+
 .ev-flyer__img {
   display: block;
   width: 100%;

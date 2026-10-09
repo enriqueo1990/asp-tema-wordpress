@@ -73,6 +73,7 @@ function asp_render_evento_opcional( WP_Post $post ): void {
 	?>
 	<div class="asp-grid-campos">
 		<?php asp_campo_imagen( 'evento_flyer', __( 'Flyer', 'asp' ), absint( get_post_meta( $id, 'evento_flyer', true ) ), __( 'El mismo de Instagram, cuadrado o 4:5. Se muestra entero, nunca recortado.', 'asp' ) ); ?>
+		<?php asp_campo_imagen( 'evento_flyer_ancho', __( 'Flyer apaisado', 'asp' ), absint( get_post_meta( $id, 'evento_flyer_ancho', true ) ), __( 'Opcional. Si el flyer también tiene una versión horizontal (16:9), subila acá: en la computadora se muestra esta y en el teléfono la de arriba.', 'asp' ) ); ?>
 		<?php asp_campo_imagen( 'evento_foto', __( 'Foto para el inicio', 'asp' ), absint( get_post_meta( $id, 'evento_foto', true ) ), __( 'Opcional. Una foto del encuentro, sin texto encima (puede ser de la edición anterior). Va de fondo arriba de todo en el inicio mientras este sea el evento principal. Si la dejás vacía, se usa la foto general del sitio.', 'asp' ) ); ?>
 		<?php asp_campo_select_posts( 'evento_iniciativa', __( 'Iniciativa', 'asp' ), $iniciativas, absint( get_post_meta( $id, 'evento_iniciativa', true ) ), __( 'A qué iniciativa pertenece (Conferencia, Cánticos, Taller…).', 'asp' ) ); ?>
 		<?php asp_campo_texto( 'evento_sede_nombre', __( 'Sede', 'asp' ), (string) get_post_meta( $id, 'evento_sede_nombre', true ), '', false, __( 'Ej. Iglesia Gracia Soberana', 'asp' ) ); ?>
@@ -114,6 +115,7 @@ function asp_guardar_evento( int $post_id ): void {
 	}
 
 	asp_guardar_meta( $post_id, 'evento_flyer', absint( asp_post_texto( 'evento_flyer' ) ) );
+	asp_guardar_meta( $post_id, 'evento_flyer_ancho', absint( asp_post_texto( 'evento_flyer_ancho' ) ) );
 	asp_guardar_meta( $post_id, 'evento_foto', absint( asp_post_texto( 'evento_foto' ) ) );
 	asp_guardar_meta( $post_id, 'evento_iniciativa', absint( asp_post_texto( 'evento_iniciativa' ) ) );
 	asp_guardar_meta( $post_id, 'evento_sede_nombre', sanitize_text_field( asp_post_texto( 'evento_sede_nombre' ) ) );

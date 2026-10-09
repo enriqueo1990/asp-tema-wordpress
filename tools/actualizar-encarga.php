@@ -14,8 +14,8 @@
  * (una base local vieja), la crea. El slug viejo sigue redirigiendo a la
  * ficha (_wp_old_slug del core).
  *
- * Idempotente: el flyer se sube solo si la ficha no tiene uno, y un orador
- * que ya existe se reusa.
+ * Idempotente: cada flyer (4:5 y apaisado) se sube solo si la ficha no lo
+ * tiene, y un orador que ya existe se reusa sin pisarle lo cargado.
  *
  * Uso: php tools/actualizar-encarga.php
  */
@@ -151,13 +151,13 @@ foreach ( $oradores_datos as $nombre => $datos ) {
 }
 
 // Lo que la ficha ya tiene, en el formato del formulario, y encima lo nuevo.
-$ymd_input = static fn( string $f ): string => 8 === strlen( $f ) ? substr( $f, 0, 4 ) . '-' . substr( $f, 4, 2 ) . '-' . substr( $f, 6, 2 ) : '';
-$actual    = [];
+$actual = [];
 if ( $id ) {
 	$pais   = wp_get_object_terms( $id, 'pais', [ 'fields' => 'slugs' ] );
 	$actual = [
 		'evento_pais'        => is_array( $pais ) && $pais ? $pais[0] : '',
 		'evento_flyer'       => (string) get_post_meta( $id, 'evento_flyer', true ),
+		'evento_flyer_ancho' => (string) get_post_meta( $id, 'evento_flyer_ancho', true ),
 		'evento_foto'        => (string) get_post_meta( $id, 'evento_foto', true ),
 		'evento_iniciativa'  => (string) get_post_meta( $id, 'evento_iniciativa', true ),
 		'evento_cupo'        => (string) get_post_meta( $id, 'evento_cupo', true ),
@@ -198,16 +198,41 @@ if ( is_wp_error( $id ) ) {
 echo $antes ? "Evento #{$id} «{$antes}» → «Encarga»" : "Evento #{$id} Encarga: creado";
 echo ', ' . get_post_status( $id ) . ', ' . get_permalink( $id ) . "\n";
 
-if ( ! absint( get_post_meta( $id, 'evento_flyer', true ) ) ) {
-	$tmp = wp_tempnam( 'encarga-2027.jpg' );
-	copy( __DIR__ . '/flyers-facebook/encarga-2027.jpg', $tmp );
-	$adj = media_handle_sideload( [ 'name' => 'flyer-encarga-2027.jpg', 'tmp_name' => $tmp ], $id, 'Flyer · Encarga' );
+/* Flyer: el 4:5 de Instagram para el teléfono y el 16:9 para la computadora.
+   La primera corrida subió el 16:9 como flyer de siempre: pasa a apaisado. */
+$subir_flyer = static function ( int $id, string $archivo, string $nombre ): int {
+	$tmp = wp_tempnam( $archivo );
+	copy( __DIR__ . '/flyers-facebook/' . $archivo, $tmp );
+	$adj = media_handle_sideload( [ 'name' => $nombre, 'tmp_name' => $tmp ], $id, 'Flyer · Encarga' );
 	if ( is_wp_error( $adj ) ) {
 		wp_delete_file( $tmp );
-		echo "Flyer: {$adj->get_error_message()}\n";
+		echo "{$archivo}: {$adj->get_error_message()}\n";
+		return 0;
+	}
+	update_post_meta( $adj, '_wp_attachment_image_alt', 'Flyer de Encarga, Conferencia Nacional 2027 de Ante Su Palabra: 12 y 13 de febrero de 2027 en Denton, Texas' );
+	return $adj;
+};
+
+$flyer = absint( get_post_meta( $id, 'evento_flyer', true ) );
+$ancho = absint( get_post_meta( $id, 'evento_flyer_ancho', true ) );
+if ( ! $ancho ) {
+	$medidas = $flyer ? wp_get_attachment_image_src( $flyer, 'full' ) : false;
+	if ( $medidas && $medidas[1] > $medidas[2] ) {
+		$ancho = $flyer;
+		$flyer = 0;
+		delete_post_meta( $id, 'evento_flyer' );
 	} else {
-		update_post_meta( $adj, '_wp_attachment_image_alt', 'Flyer de Encarga, Conferencia Nacional 2027 de Ante Su Palabra: 12 y 13 de febrero de 2027 en Denton, Texas' );
-		update_post_meta( $id, 'evento_flyer', $adj );
-		echo "Evento #{$id}: flyer #{$adj}\n";
+		$ancho = $subir_flyer( $id, 'encarga-2027.jpg', 'flyer-encarga-2027.jpg' );
+	}
+	if ( $ancho ) {
+		update_post_meta( $id, 'evento_flyer_ancho', $ancho );
+		echo "Evento #{$id}: flyer apaisado #{$ancho}\n";
+	}
+}
+if ( ! $flyer ) {
+	$flyer = $subir_flyer( $id, 'encarga-2027-4x5.jpg', 'flyer-encarga-2027-4x5.jpg' );
+	if ( $flyer ) {
+		update_post_meta( $id, 'evento_flyer', $flyer );
+		echo "Evento #{$id}: flyer #{$flyer}\n";
 	}
 }

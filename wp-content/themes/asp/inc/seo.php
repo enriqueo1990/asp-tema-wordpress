@@ -132,7 +132,9 @@ function asp_seo_datos(): array {
 				$cabeza      = implode( ' · ', array_filter( [ asp_evento_fecha_texto( $id ), $lugar ] ) );
 				$cuerpo      = asp_seo_recortar( (string) get_post_meta( $id, 'evento_descripcion', true ), 24 );
 				$descripcion = trim( ( $cabeza ? $cabeza . '. ' : '' ) . $cuerpo );
-				$imagen      = asp_seo_imagen_adjunto( absint( get_post_meta( $id, 'evento_flyer', true ) ) )
+				/* El flyer apaisado, si hay, encaja mejor en la vista previa de WhatsApp y Facebook. */
+				$imagen      = asp_seo_imagen_adjunto( absint( get_post_meta( $id, 'evento_flyer_ancho', true ) ) )
+					?? asp_seo_imagen_adjunto( absint( get_post_meta( $id, 'evento_flyer', true ) ) )
 					?? asp_seo_imagen_adjunto( absint( get_post_meta( $id, 'evento_foto', true ) ) );
 				break;
 			case 'predicacion':
