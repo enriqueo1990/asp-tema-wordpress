@@ -41,7 +41,8 @@ $consejo = [
 	],
 	'Ricardo Daglio'     => [
 		'web' => 'https://www.instagram.com/iglesiabiblicavillaregina/',
-		'bio' => 'Ricardo Daglio es pastor de la Iglesia Bíblica de Villa Regina (UCB), en la Patagonia argentina, desde 2008. Antes pastoreó durante dieciséis años en Salto, Uruguay. Desde 2021 vive en General Roca, donde trabaja en la plantación de una iglesia en el valle de Río Negro, y como misionero de SERVE sirve a pastores y líderes de la región con capacitación y conferencias. Está casado con Silvina y tienen tres hijos: Carolina, Lucas y Micaela.',
+		'bio' => 'Ricardo Daglio es pastor de la Iglesia Bíblica de Villa Regina (UCB), en la Patagonia argentina, desde 2008. Antes pastoreó durante dieciséis años en Salto, Uruguay. Desde 2021 vive en General Roca, donde trabaja en la plantación de una iglesia en el valle de Río Negro, y como misionero de SERVE sirve a pastores y líderes de la región con capacitación y conferencias. Escribe en su blog personal, https://ricardodaglio.org. Está casado con Silvina y tienen tres hijos: Carolina, Lucas y Micaela.',
+		'forzar' => true, // blog agregado el 16-10-2026 a pedido del usuario
 	],
 	'Joselo Mercado'     => [
 		'web' => 'https://graciasob.org/',
