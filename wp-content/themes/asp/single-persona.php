@@ -12,7 +12,7 @@ get_header();
 while ( have_posts() ) :
 	the_post();
 	$asp_id        = get_the_ID();
-	$asp_linea     = asp_persona_cargo_iglesia( $asp_id );
+	$asp_linea     = asp_persona_cargo_iglesia_html( $asp_id );
 	$asp_ciudad    = (string) get_post_meta( $asp_id, 'persona_ciudad', true );
 	$asp_pais      = (string) get_post_meta( $asp_id, 'persona_pais', true );
 	$asp_bio       = (string) get_post_meta( $asp_id, 'persona_bio', true );
@@ -25,7 +25,7 @@ while ( have_posts() ) :
 			<header class="asp-stack">
 				<?php echo asp_persona_foto( $asp_id, 'asp-persona-ficha__foto', 'asp-persona', 'eager' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 				<h1 class="asp-pagina__titulo"><?php the_title(); ?></h1>
-				<?php if ( $asp_linea ) : ?><p class="asp-persona-box__iglesia"><?php echo esc_html( $asp_linea ); ?></p><?php endif; ?>
+				<?php if ( $asp_linea ) : ?><p class="asp-persona-box__iglesia"><?php echo $asp_linea; // phpcs:ignore WordPress.Security.EscapeOutput ?></p><?php endif; ?>
 				<?php if ( $asp_ciudad || $asp_pais ) : ?>
 					<div class="asp-lugar">
 						<?php if ( $asp_ciudad ) : ?><?php echo asp_icono_ubicacion(); // phpcs:ignore WordPress.Security.EscapeOutput ?><span><?php echo esc_html( $asp_ciudad ); ?></span><?php endif; ?>

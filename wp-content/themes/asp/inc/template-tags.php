@@ -753,3 +753,20 @@ function asp_body_class_portada( array $clases ): array {
 	return $clases;
 }
 add_filter( 'body_class', 'asp_body_class_portada' );
+
+/**
+ * Cargo e iglesia para la ficha: igual que asp_persona_cargo_iglesia(), pero
+ * si la persona tiene cargada la web de su iglesia, el nombre enlaza ahí.
+ * Devuelve HTML ya escapado; vacío si no hay cargo ni iglesia.
+ */
+function asp_persona_cargo_iglesia_html( int $persona_id ): string {
+	$cargo   = (string) get_post_meta( $persona_id, 'persona_cargo', true );
+	$iglesia = (string) get_post_meta( $persona_id, 'persona_iglesia', true );
+	$web     = (string) get_post_meta( $persona_id, 'persona_web', true );
+	if ( '' !== $iglesia && '' !== $web ) {
+		$iglesia = '<a href="' . esc_url( $web ) . '" target="_blank" rel="noopener">' . esc_html( $iglesia ) . asp_aviso_pestana() . '</a>';
+	} else {
+		$iglesia = esc_html( $iglesia );
+	}
+	return implode( ' · ', array_filter( [ esc_html( $cargo ), $iglesia ] ) );
+}

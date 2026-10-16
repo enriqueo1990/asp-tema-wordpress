@@ -72,6 +72,7 @@ function asp_render_persona( WP_Post $post ): void {
 		<?php asp_campo_texto( 'persona_iglesia', __( 'Iglesia', 'asp' ), (string) get_post_meta( $id, 'persona_iglesia', true ) ); ?>
 		<?php asp_campo_texto( 'persona_ciudad', __( 'Ciudad', 'asp' ), (string) get_post_meta( $id, 'persona_ciudad', true ) ); ?>
 		<?php asp_campo_texto( 'persona_pais', __( 'País', 'asp' ), (string) get_post_meta( $id, 'persona_pais', true ), __( 'Ej. Argentina, Estados Unidos.', 'asp' ) ); ?>
+		<?php asp_campo_url( 'persona_web', __( 'Web de la iglesia', 'asp' ), (string) get_post_meta( $id, 'persona_web', true ), __( 'Sitio o red social de su iglesia (Instagram, YouTube). En la ficha, el nombre de la iglesia enlaza ahí.', 'asp' ) ); ?>
 		<?php asp_campo_select( 'persona_usuario', __( 'Usuario de WordPress', 'asp' ), (string) absint( get_post_meta( $id, 'persona_usuario', true ) ), $opciones, __( 'Solo para quienes escriben artículos: vincula la ficha con su usuario.', 'asp' ) ); ?>
 	</div>
 	<?php asp_campo_textarea( 'persona_bio', __( 'Bio', 'asp' ), (string) get_post_meta( $id, 'persona_bio', true ), __( 'Dos o tres líneas. Se muestra desplegada en la ficha del evento.', 'asp' ), 4 ); ?>
@@ -92,6 +93,7 @@ function asp_guardar_persona( int $post_id ): void {
 	asp_guardar_meta( $post_id, 'persona_iglesia', sanitize_text_field( asp_post_texto( 'persona_iglesia' ) ) );
 	asp_guardar_meta( $post_id, 'persona_ciudad', sanitize_text_field( asp_post_texto( 'persona_ciudad' ) ) );
 	asp_guardar_meta( $post_id, 'persona_pais', sanitize_text_field( asp_post_texto( 'persona_pais' ) ) );
+	asp_guardar_meta( $post_id, 'persona_web', esc_url_raw( asp_post_texto( 'persona_web' ) ) );
 	asp_guardar_meta( $post_id, 'persona_usuario', absint( asp_post_texto( 'persona_usuario' ) ) );
 	asp_guardar_meta( $post_id, 'persona_bio', sanitize_textarea_field( asp_post_texto( 'persona_bio' ) ) );
 }

@@ -171,6 +171,7 @@ function asp_registrar_meta(): void {
 	register_post_meta( 'persona', 'persona_cargo', $texto );
 	register_post_meta( 'persona', 'persona_ciudad', $texto );
 	register_post_meta( 'persona', 'persona_pais', $texto );
+	register_post_meta( 'persona', 'persona_web', $url );
 	register_post_meta( 'persona', 'persona_bio', $textarea );
 	register_post_meta( 'persona', 'persona_foto', $id );
 	register_post_meta( 'persona', 'persona_roles', [ 'type' => 'string', 'single' => false, 'sanitize_callback' => 'sanitize_key', 'show_in_rest' => false ] );

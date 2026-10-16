@@ -252,7 +252,8 @@ Consultas inversas, gracias a las relaciones guardadas como filas separadas:
 traen por consulta inversa sobre `evento_iniciativa`, no con un campo espejo.
 
 **Persona** (meta box `asp_persona_datos`): `persona_iglesia` (texto),
-`persona_ciudad` (texto), `persona_bio` (textarea), `persona_foto` (imagen),
+`persona_ciudad` (texto), `persona_web` (url de la iglesia; en la ficha el nombre de la
+iglesia enlaza ahí), `persona_bio` (textarea), `persona_foto` (imagen),
 `persona_roles` (relación múltiple de valores fijos `consejo`, `orador`, `autor`,
 una fila por rol), `persona_usuario` (id de usuario, select opcional — vincula la
 ficha con el autor de WordPress para los artículos migrados). El orden del
