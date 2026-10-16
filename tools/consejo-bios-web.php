@@ -7,9 +7,9 @@
  * de Leandi, Daglio y Oriolo se redactaron a partir de fuentes públicas:
  * fichas de autor de Coalición por el Evangelio, bios de la conferencia 2019
  * en 9Marcas, endos.network, fichas de misioneros de SERVE (Denton Bible
- * Church) y la página de liderazgo de ibdelagracia.com. Harris y Palomares
- * no tienen bio: en ninguna fuente aparece más que «pastor de tal iglesia»
- * (regla 7: no inventar).
+ * Church) y las páginas de liderazgo de ibdelagracia.com e ibciudaddedios.com.
+ * Harris no tiene bio: en ninguna fuente aparece más que «pastor de tal
+ * iglesia» (regla 7: no inventar).
  *
  * Idempotente: solo completa lo que está vacío, salvo las entradas con
  * 'forzar' (texto dado por el usuario, que pisa lo que haya). Para cambiar
@@ -36,8 +36,11 @@ $consejo = [
 	'Ernesto Harris'     => [
 		'web' => 'https://www.ibmcampana.com.ar/',
 	],
+	// Web y bio del 16-10-2026, de la página de pastores de su iglesia (ibciudaddedios.com/liderazgo), que pasó el usuario.
 	'Cristian Palomares' => [
-		'web' => 'https://www.youtube.com/c/VidaParaDarVidaRosario',
+		'web'    => 'https://www.ibciudaddedios.com/',
+		'forzar' => true, // antes apuntaba al canal de YouTube, único rastro que había
+		'bio'    => 'Cristian Palomares es pastor de la Iglesia Bíblica Ciudad de Dios, en Rosario, con veinte años de trayectoria en el ministerio pastoral. Preside ABRA e integra el consejo pastoral de Ante Su Palabra. Tiene un bachiller en Teología y Ministerio Pastoral del SBF y una diplomatura en Consejería Bíblica del Seminario Bíblico William Carey, donde cursa una Maestría en Estudios Teológicos. Está casado con Miriam y tienen tres hijos.',
 	],
 	'Ricardo Daglio'     => [
 		'web' => 'https://www.instagram.com/iglesiabiblicavillaregina/',
