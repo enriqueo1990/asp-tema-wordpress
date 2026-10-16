@@ -11,8 +11,11 @@
  * no tienen bio: en ninguna fuente aparece más que «pastor de tal iglesia»
  * (regla 7: no inventar).
  *
- * Idempotente: solo completa lo que está vacío. Para reemplazar una bio o un
- * link, editarlo desde el panel.
+ * Idempotente: solo completa lo que está vacío, salvo las entradas con
+ * 'forzar' (texto dado por el usuario, que pisa lo que haya). Para cambiar
+ * otra bio o un link, editarlo desde el panel.
+ *
+ * Las URL dentro de una bio se vuelven links en la ficha (asp_persona_bio_html).
  *
  * Uso: php tools/consejo-bios-web.php
  */
@@ -44,9 +47,15 @@ $consejo = [
 		'web' => 'https://graciasob.org/',
 		'bio' => 'José (Joselo) Mercado es miembro del concilio de Coalición por el Evangelio. Oriundo de Puerto Rico, renuncia a su carrera de consultoría en el año 2006 para ingresar al colegio de pastores de Sovereign Grace Ministries. Es el pastor principal de la Iglesia Gracia Soberana en Gaithersburg, Maryland. Joselo completó su Maestría en Artes en estudios teológicos en SBTS, y está casado con Kathy Mercado y es padre de Joey y Janelle.',
 	],
+	// Bio tal como la pasó el usuario, 16-10-2026 (reemplaza la redactada de fuentes).
 	'Enrique Oriolo'     => [
-		'web' => 'https://ibdelagracia.com/',
-		'bio' => 'Enrique Oriolo es pastor plantador de la Iglesia Bíblica de la Gracia, en Lanús Oeste, y misionero de SERVE, la agencia misionera de Denton Bible Church. Fue ordenado al ministerio pastoral en 2018 en la Iglesia Bíblica de City Bell, donde sirvió como pastor durante cinco años, y en 2022 plantó con un grupo de esa iglesia la Iglesia Bíblica de Avellaneda, hoy Iglesia Bíblica de la Gracia. Coordina los Centros de Capacitación Bíblica para Pastores y Líderes en Argentina y Sudamérica, y continúa sus estudios en el Seminario Bíblico William Carey. Está casado con Tamara y tienen cuatro hijas: Luz, Paz, Sarah y Alma.',
+		'web'    => 'https://ibdelagracia.com/',
+		'forzar' => true,
+		'bio'    => "Enrique Oriolo es misionero de SERVE, la agencia misionera de Denton Bible Church, en Denton, Texas (EEUU). Trabaja en el entrenamiento de pastores, plantadores y líderes cristianos. Fue ordenado al ministerio pastoral el 16 de diciembre de 2018 en la Iglesia Bíblica de City Bell, donde sirvió por cinco años como pastor. Actualmente, es pastor de la Iglesia Bíblica de la Gracia, fundada en 2022. Es parte del consejo pastoral del ministerio Ante Su Palabra, cuyo fin es ayudar a las iglesias a ser más saludables.
+
+Graduado del Centro de Capacitación Bíblica para Pastores dictado en su iglesia local, posee un Diplomado en Estudios Teológicos del Instituto Integridad y Sabiduría. Ama servir en la capacitación de nuevos pastores y líderes, anhelando el establecimiento de nuevas iglesias bíblicas. Escribe en su blog personal, https://enriqueoriolo.com.
+
+Enrique está casado con Tamara y tienen cuatro hijas: Luz, Paz, Sarah y Sophie.",
 	],
 ];
 
@@ -61,7 +70,7 @@ foreach ( $consejo as $nombre => $datos ) {
 		if ( empty( $datos[ $campo ] ) ) {
 			continue;
 		}
-		if ( '' !== (string) get_post_meta( $pid, 'persona_' . $campo, true ) ) {
+		if ( empty( $datos['forzar'] ) && '' !== (string) get_post_meta( $pid, 'persona_' . $campo, true ) ) {
 			echo "= {$nombre}: {$campo} ya cargada\n";
 			continue;
 		}

@@ -770,3 +770,17 @@ function asp_persona_cargo_iglesia_html( int $persona_id ): string {
 	}
 	return implode( ' · ', array_filter( [ esc_html( $cargo ), $iglesia ] ) );
 }
+
+/**
+ * Bio de una persona lista para imprimir: párrafos y, si escribió una URL
+ * (su blog, por ejemplo), un link con el dominio como texto, en otra pestaña.
+ */
+function asp_persona_bio_html( string $bio ): string {
+	$html = make_clickable( wpautop( $bio ) );
+	$html = preg_replace_callback(
+		'#<a href="(https?://[^"]+)"[^>]*>https?://(?:www\.)?([^<]+?)/?</a>#',
+		static fn( array $m ): string => '<a href="' . esc_url( $m[1] ) . '" target="_blank" rel="noopener">' . esc_html( $m[2] ) . asp_aviso_pestana() . '</a>',
+		$html
+	);
+	return wp_kses_post( $html ?? '' );
+}

@@ -35,7 +35,7 @@ while ( have_posts() ) :
 				<?php endif; ?>
 			</header>
 			<?php if ( $asp_bio ) : ?>
-				<div class="asp-prose"><?php echo wp_kses_post( wpautop( $asp_bio ) ); ?></div>
+				<div class="asp-prose"><?php echo asp_persona_bio_html( $asp_bio ); // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
 			<?php endif; ?>
 			<?php if ( ! empty( $asp_predic ) ) : ?>
 				<section class="asp-stack" aria-label="<?php esc_attr_e( 'Predicaciones', 'asp' ); ?>">
