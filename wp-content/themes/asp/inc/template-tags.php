@@ -598,6 +598,13 @@ function asp_fecha_articulo( int $post_id ): string {
 /**
  * Datos JSON-LD schema.org/Event de un evento, para single-evento.php.
  *
+ * Search Console pide description, performer y offers aunque no sean
+ * obligatorios. Los tres salen de lo cargado, nunca de texto inventado:
+ * la descripción se compone con iniciativa, fecha, sede y oradores cuando
+ * no hay texto propio; los oradores son los de la ficha (cargados o
+ * deducidos de las predicaciones); la oferta lleva precio y moneda si el
+ * campo Precio trae un monto reconocible.
+ *
  * @param int $post_id ID del evento.
  * @return array<string, mixed>
  */
@@ -642,28 +649,151 @@ function asp_evento_schema( int $post_id ): array {
 	if ( $flyer_id ) {
 		$schema['image'] = wp_get_attachment_image_url( $flyer_id, 'full' );
 	}
-	$descripcion = wp_strip_all_tags( (string) get_post_meta( $post_id, 'evento_descripcion', true ) );
-	if ( $descripcion ) {
+
+	$oradores    = asp_evento_oradores( $post_id );
+	$descripcion = asp_evento_schema_descripcion( $post_id, $oradores );
+	if ( '' !== $descripcion ) {
 		$schema['description'] = $descripcion;
 	}
-	$oradores = asp_evento_relacionados( $post_id, 'evento_oradores', 'persona' );
 	if ( $oradores ) {
 		$schema['performer'] = array_map(
-			static fn( WP_Post $p ) => [ '@type' => 'Person', 'name' => asp_seo_titulo_plano( $p ) ],
+			static function ( array $o ): array {
+				$persona = [ '@type' => 'Person', 'name' => $o['nombre'] ];
+				if ( $o['persona'] instanceof WP_Post ) {
+					$persona['url'] = get_permalink( $o['persona'] );
+				}
+				return $persona;
+			},
 			$oradores
 		);
 	}
-	if ( 'abierta' === $estado && asp_evento_url_registro( $post_id ) ) {
-		$schema['offers'] = [
-			'@type'        => 'Offer',
-			'url'          => asp_evento_url_registro( $post_id ),
-			'availability' => 'https://schema.org/InStock',
-		];
-	} elseif ( 'agotado' === $estado ) {
-		$schema['offers'] = [ '@type' => 'Offer', 'availability' => 'https://schema.org/SoldOut' ];
+	$oferta = asp_evento_schema_oferta( $post_id, $estado );
+	if ( $oferta ) {
+		$schema['offers'] = $oferta;
 	}
 	$schema['organizer'] = [ '@type' => 'Organization', 'name' => get_bloginfo( 'name' ), 'url' => home_url( '/' ) ];
 	return $schema;
+}
+
+/**
+ * Descripción del evento para el schema: el texto cargado, en plano; si no
+ * hay, una oración armada solo con datos cargados: «Taller de Predicación
+ * Expositiva: Amós. 17 y 18 de enero de 2024, en Iglesia X, Córdoba,
+ * Argentina. Con Juan Pérez y Pedro Gómez.»
+ *
+ * @param int                                               $post_id  ID del evento.
+ * @param array<int, array{persona: ?WP_Post, nombre: string}> $oradores Oradores de la ficha.
+ * @return string
+ */
+function asp_evento_schema_descripcion( int $post_id, array $oradores ): string {
+	/* Un espacio donde cerraba cada párrafo, ítem o salto, para que el texto
+	   plano no pegue una oración con la siguiente. */
+	$html   = preg_replace( '/<\/(p|li|h[1-6]|div|blockquote)>|<br\s*\/?>/i', ' ', (string) get_post_meta( $post_id, 'evento_descripcion', true ) );
+	$propia = trim( preg_replace( '/\s+/u', ' ', wp_strip_all_tags( (string) $html ) ) );
+	if ( '' !== $propia ) {
+		return html_entity_decode( $propia, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+	}
+
+	$titulo     = asp_seo_titulo_plano( $post_id );
+	$iniciativa = asp_evento_iniciativa( $post_id );
+	$nombre_ini = $iniciativa ? asp_seo_titulo_plano( $iniciativa ) : '';
+	/* Si el título ya empieza con la iniciativa («Conferencia Ante Su
+	   Palabra 2015»), no se repite. */
+	$cabeza = ( '' !== $nombre_ini && 0 !== mb_stripos( $titulo, $nombre_ini ) ) ? $nombre_ini . ': ' . $titulo : $titulo;
+
+	$fecha = asp_evento_fecha_texto( $post_id );
+	$lugar = implode( ', ', array_filter( [ trim( (string) get_post_meta( $post_id, 'evento_sede_nombre', true ) ), asp_evento_ciudad( $post_id ), asp_evento_pais( $post_id ) ] ) );
+	$cuando = $fecha;
+	if ( '' !== $lugar ) {
+		/* translators: 1: fecha, 2: lugar */
+		$cuando = '' !== $fecha ? sprintf( __( '%1$s, en %2$s', 'asp' ), $fecha, $lugar ) : sprintf( __( 'En %s', 'asp' ), $lugar );
+	}
+
+	$nombres = array_values( array_filter( array_column( $oradores, 'nombre' ) ) );
+	$con     = '';
+	if ( $nombres ) {
+		$ultimo = array_pop( $nombres );
+		/* translators: 1: lista de oradores separada por comas, 2: último orador */
+		$lista = $nombres ? sprintf( __( '%1$s y %2$s', 'asp' ), implode( ', ', $nombres ), $ultimo ) : $ultimo;
+		/* translators: %s: oradores */
+		$con = sprintf( __( 'Con %s', 'asp' ), $lista );
+	}
+
+	$oraciones = array_filter( [ $cabeza, $cuando, $con ] );
+	return implode( '. ', $oraciones ) . '.';
+}
+
+/**
+ * Oferta del evento para el schema. Con inscripción abierta lleva el link;
+ * sin cupo, SoldOut. El precio y la moneda se leen del campo Precio cuando
+ * traen un monto claro («USD 79», «$120.000», «ARS 15.000») o dicen que es
+ * libre o gratuito (precio 0). Si no se reconoce, la oferta va sin precio.
+ *
+ * @param int    $post_id ID del evento.
+ * @param string $estado  Estado efectivo.
+ * @return array<string, mixed>|null
+ */
+function asp_evento_schema_oferta( int $post_id, string $estado ): ?array {
+	$url = asp_evento_url_registro( $post_id );
+	if ( 'abierta' === $estado && '' !== $url ) {
+		$oferta = [ '@type' => 'Offer', 'url' => $url, 'availability' => 'https://schema.org/InStock' ];
+	} elseif ( 'agotado' === $estado ) {
+		$oferta = [ '@type' => 'Offer', 'availability' => 'https://schema.org/SoldOut' ];
+		if ( '' !== $url ) {
+			$oferta['url'] = $url;
+		}
+	} else {
+		return null;
+	}
+
+	$precio = asp_evento_precio_monto( $post_id );
+	if ( $precio ) {
+		$oferta['price']         = $precio['monto'];
+		$oferta['priceCurrency'] = $precio['moneda'];
+	}
+	return $oferta;
+}
+
+/**
+ * Monto y moneda del campo Precio (texto libre), si se reconocen. Se mira
+ * solo lo que va antes del « · » (lo de después es el detalle).
+ *
+ * @param int $post_id ID del evento.
+ * @return array{monto: string, moneda: string}|null
+ */
+function asp_evento_precio_monto( int $post_id ): ?array {
+	$texto = trim( (string) get_post_meta( $post_id, 'evento_precio', true ) );
+	if ( '' === $texto ) {
+		return null;
+	}
+	$monto  = trim( explode( ' · ', $texto, 2 )[0] );
+	$moneda = has_term( 'estados-unidos', 'pais', $post_id ) ? 'USD' : 'ARS';
+
+	if ( preg_match( '/\b(libre|gratis|gratuit[ao]|sin costo|sin cargo)\b/iu', $monto ) ) {
+		return [ 'monto' => '0', 'moneda' => $moneda ];
+	}
+	if ( ! preg_match( '/(USD|US\$|U\$S|ARS|AR\$|\$)\s*([\d.,]+)/iu', $monto, $m ) ) {
+		return null;
+	}
+	$simbolo = strtoupper( $m[1] );
+	if ( in_array( $simbolo, [ 'USD', 'US$', 'U$S' ], true ) ) {
+		$moneda = 'USD';
+	} elseif ( in_array( $simbolo, [ 'ARS', 'AR$' ], true ) ) {
+		$moneda = 'ARS';
+	}
+	/* «15.000» y «1,500» son miles; «25,50» o «25.50», decimales. */
+	$numero = $m[2];
+	if ( preg_match( '/^\d{1,3}(\.\d{3})+$/', $numero ) ) {
+		$numero = str_replace( '.', '', $numero );
+	} elseif ( preg_match( '/^\d{1,3}(,\d{3})+$/', $numero ) ) {
+		$numero = str_replace( ',', '', $numero );
+	} else {
+		$numero = str_replace( ',', '.', $numero );
+	}
+	if ( ! is_numeric( $numero ) ) {
+		return null;
+	}
+	return [ 'monto' => (string) ( 0 + $numero ), 'moneda' => $moneda ];
 }
 
 /**

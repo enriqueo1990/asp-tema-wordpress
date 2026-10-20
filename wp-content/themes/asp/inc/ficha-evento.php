@@ -102,10 +102,7 @@ function asp_ficha_datos( int $id ): array {
 	$dir    = trim( (string) get_post_meta( $id, 'evento_sede_direccion', true ) );
 	$agenda = asp_evento_agendable( $id );
 
-	$cargados = asp_evento_relacionados( $id, 'evento_oradores', 'persona' );
-	$oradores = ! empty( $cargados )
-		? array_map( static fn( WP_Post $p ): array => [ 'persona' => $p, 'nombre' => get_the_title( $p ) ], $cargados )
-		: asp_evento_oradores_de_predicaciones( $id );
+	$oradores = asp_evento_oradores( $id );
 
 	return [
 		'estado'      => $estado,

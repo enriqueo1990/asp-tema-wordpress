@@ -335,6 +335,21 @@ function asp_evento_relacionados( int $post_id, string $clave, string $post_type
 }
 
 /**
+ * Oradores del evento tal como los muestra la ficha: los cargados a mano
+ * y, si no hay, los deducidos de las predicaciones vinculadas.
+ *
+ * @param int $post_id ID del evento.
+ * @return array<int, array{persona: ?WP_Post, nombre: string}>
+ */
+function asp_evento_oradores( int $post_id ): array {
+	$cargados = asp_evento_relacionados( $post_id, 'evento_oradores', 'persona' );
+	if ( ! empty( $cargados ) ) {
+		return array_map( static fn( WP_Post $p ): array => [ 'persona' => $p, 'nombre' => get_the_title( $p ) ], $cargados );
+	}
+	return asp_evento_oradores_de_predicaciones( $post_id );
+}
+
+/**
  * Iniciativa del evento, si tiene.
  *
  * @param int $post_id ID del evento.
