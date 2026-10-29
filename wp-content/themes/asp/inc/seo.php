@@ -466,6 +466,54 @@ function asp_seo_sitemap_taxonomias( array $taxonomias ): array {
 add_filter( 'wp_sitemaps_taxonomies', 'asp_seo_sitemap_taxonomias' );
 
 /**
+ * Páginas que existen solo como destino de un mail (ej. la de agradecimiento
+ * de la reconfirmación en Kit, 29-10-2026): fuera de Google y del sitemap.
+ */
+const ASP_PAGINAS_SIN_INDEXAR = [ 'gracias' ];
+
+/**
+ * Sin indexar ni seguir enlaces en esas páginas.
+ *
+ * @param array<string,bool|string> $robots Directivas.
+ * @return array<string,bool|string>
+ */
+function asp_seo_paginas_sin_indexar_robots( array $robots ): array {
+	if ( is_page( ASP_PAGINAS_SIN_INDEXAR ) ) {
+		$robots['noindex']  = true;
+		$robots['nofollow'] = true;
+		unset( $robots['follow'], $robots['max-image-preview'] );
+	}
+	return $robots;
+}
+add_filter( 'wp_robots', 'asp_seo_paginas_sin_indexar_robots', 20 );
+
+/**
+ * Esas páginas, fuera del sitemap.
+ *
+ * @param array<string,mixed> $args      Argumentos de la consulta.
+ * @param string              $post_type Tipo de contenido.
+ * @return array<string,mixed>
+ */
+function asp_seo_sitemap_sin_paginas_ocultas( array $args, string $post_type ): array {
+	if ( 'page' !== $post_type ) {
+		return $args;
+	}
+	$ids = get_posts(
+		[
+			'post_type'      => 'page',
+			'post_name__in'  => ASP_PAGINAS_SIN_INDEXAR,
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+		]
+	);
+	if ( $ids ) {
+		$args['post__not_in'] = array_merge( (array) ( $args['post__not_in'] ?? [] ), $ids );
+	}
+	return $args;
+}
+add_filter( 'wp_sitemaps_posts_query_args', 'asp_seo_sitemap_sin_paginas_ocultas', 10, 2 );
+
+/**
  * La lista de usuarios de la API REST, solo para quien está logueado.
  *
  * @param array<string,mixed> $rutas Rutas.
