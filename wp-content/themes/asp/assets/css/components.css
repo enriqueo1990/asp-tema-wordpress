@@ -1709,6 +1709,11 @@
   gap: var(--sp-3);
 }
 
+/* Después del envío app.js lo oculta con hidden, que el display de arriba pisaba */
+.asp-suscripcion__form[hidden] {
+  display: none;
+}
+
 /* 16 px de letra: con menos, Safari del iPhone agranda la página al tocar */
 .asp-suscripcion__campo {
   width: 100%;
