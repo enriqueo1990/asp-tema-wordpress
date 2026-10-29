@@ -1,6 +1,7 @@
 <?php
 /**
- * Pie del sitio: marca, navegación, contacto o redes, y una línea legal.
+ * Pie del sitio: suscripción por mail, marca, navegación, contacto o redes,
+ * y una línea legal.
  *
  * La bajada es la descripción del sitio (Ajustes → Generales), no la misión:
  * la misión ya está en el inicio y repetirla palabra por palabra en el pie
@@ -16,6 +17,9 @@ $asp_redes  = asp_redes();
 $asp_bajada = (string) get_bloginfo( 'description' );
 ?>
 <footer class="asp-footer">
+	<div class="asp-container asp-footer__suscripcion">
+		<?php get_template_part( 'parts/suscripcion', null, [ 'variante' => 'oscura' ] ); ?>
+	</div>
 	<div class="asp-container asp-footer__inner">
 		<div class="asp-footer__marca">
 			<?php asp_logo( 'asp-footer__logo' ); ?>

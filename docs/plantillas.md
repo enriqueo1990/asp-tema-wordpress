@@ -35,6 +35,7 @@ wp-content/themes/asp/
 │   ├── admin-duplicar.php       "Duplicar edición anterior"
 │   ├── admin-ayuda.php          página de ayuda dentro del panel
 │   ├── contacto.php             formulario de contacto sin plugin
+│   ├── suscripcion.php          endpoint de Kit y id únicos de la caja de suscripción
 │   ├── redirects.php            301 del blog e institucional viejos, lee redirects.csv
 │   └── seo.php                  descripción, Open Graph, títulos, schema, autores y ícono
 │
@@ -47,7 +48,8 @@ wp-content/themes/asp/
 ├── parts/
 │   ├── header/site-header.php   logo, nav, acceso al próximo evento, menú móvil a pantalla completa;
 │   │                            transparente sobre la portada con foto y sólida al hacer scroll (app.js)
-│   ├── header/site-footer.php   logo, nav, redes, email
+│   ├── header/site-footer.php   suscripción, logo, nav, redes, email
+│   ├── suscripcion.php          Caja de suscripción a Kit: oscura en el pie, clara bajo la agenda del inicio
 │   ├── evento/hero.php          Hero del inicio: foto con velo, versículo o eslogan, último evento
 │   ├── evento/card.php          Tarjeta de evento (listado); variante ancha en escritorio
 │   ├── evento/destacado.php     El próximo en /eventos/: banda azul noche a sangre, flyer grande y botón

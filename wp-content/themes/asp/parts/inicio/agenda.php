@@ -73,5 +73,7 @@ if ( empty( $asp_eventos ) ) {
 				<?php endforeach; ?>
 			</ol>
 		</div>
+		<?php /* Quien llegó a ver qué viene puede pedir que le avisen (29-10-2026). */ ?>
+		<?php get_template_part( 'parts/suscripcion', null, [ 'variante' => 'clara', 'nivel' => 3 ] ); ?>
 	</div>
 </section>

@@ -249,3 +249,68 @@
 		});
 	});
 })();
+
+/* ---- Suscripción por mail (Kit): manda sin recargar la página ---- */
+/* Sin fetch el formulario hace el POST común a Kit. Kit contesta 200
+   también cuando rechaza el email ({"status": "failed"}): lo que vale es
+   "status": "success" en el JSON. */
+(function () {
+	'use strict';
+
+	if (!window.fetch || !window.FormData) {
+		return;
+	}
+	document.querySelectorAll('[data-asp-suscripcion]').forEach(function (form) {
+		var mensaje = form.parentNode.querySelector('[data-asp-suscripcion-mensaje]');
+		var boton = form.querySelector('[type="submit"]');
+		var textoBoton = boton.textContent;
+
+		function avisar(texto, clase) {
+			mensaje.className = 'asp-suscripcion__mensaje ' + clase;
+			mensaje.textContent = texto;
+		}
+
+		/* El formulario se va; el foco pasa al aviso para no perderse. */
+		function listo() {
+			form.hidden = true;
+			avisar(form.getAttribute('data-exito'), 'is-exito');
+			mensaje.focus();
+		}
+
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+			if (boton.disabled) {
+				return;
+			}
+			var datos = new FormData(form);
+			/* Trampa: una persona no ve ese campo. A un robot no se le avisa. */
+			if (datos.get('asp_web')) {
+				listo();
+				return;
+			}
+			datos.delete('asp_web');
+			avisar('', '');
+			boton.disabled = true;
+			boton.textContent = form.getAttribute('data-enviando');
+
+			fetch(form.action, { method: 'POST', body: datos, headers: { Accept: 'application/json' } })
+				.then(function (respuesta) {
+					if (!respuesta.ok) {
+						throw new Error(String(respuesta.status));
+					}
+					return respuesta.json();
+				})
+				.then(function (json) {
+					if (!json || 'success' !== json.status) {
+						throw new Error('kit');
+					}
+					listo();
+				})
+				.catch(function () {
+					boton.disabled = false;
+					boton.textContent = textoBoton;
+					avisar(form.getAttribute('data-error'), 'is-error');
+				});
+		});
+	});
+})();

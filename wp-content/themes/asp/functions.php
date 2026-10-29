@@ -30,6 +30,7 @@ $asp_modulos = [
 	'inicio',
 	'aliados',
 	'contacto',
+	'suscripcion',
 	'correo',
 	'redirects',
 	'seo',

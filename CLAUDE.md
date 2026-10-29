@@ -121,6 +121,11 @@ Adelantado a fase 1 el 11-9-2026 por decisión del ministerio: el archivo de
 predicaciones de las conferencias en video (YouTube por oEmbed), audio o texto,
 como CPT `predicacion` dentro de Recursos.
 
+El newsletter en sí (armado y envío de mails) sigue afuera: lo maneja Kit. Desde
+el 29-10-2026 sí entra, por pedido del usuario, la caja de suscripción a Kit en
+el pie y bajo «Próximos eventos» del inicio (`parts/suscripcion.php`, sin el
+script de Kit), y la página `/gracias` de la reconfirmación, sin indexar.
+
 Si una tarea empieza a derivar hacia alguna de estas, pará y preguntá antes de
 seguir.
 

@@ -1673,6 +1673,164 @@
   min-width: 0;
 }
 
+/* ---------------------------------------------------------------------
+   Suscripción por mail (parts/suscripcion.php): oscura en el pie, clara
+   bajo «Próximos eventos» en el inicio. Teléfono: todo apilado y los
+   campos a lo ancho. Desde tablet: campos y botón en una fila; desde
+   escritorio, el texto a la izquierda y el formulario a la derecha.
+   --------------------------------------------------------------------- */
+.asp-suscripcion {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-5);
+}
+
+.asp-suscripcion__titulo {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+
+.asp-suscripcion__bajada {
+  margin: var(--sp-3) 0 0;
+  max-width: var(--suscripcion-bajada-w);
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+}
+
+.asp-suscripcion__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* 16 px de letra: con menos, Safari del iPhone agranda la página al tocar */
+.asp-suscripcion__campo {
+  width: 100%;
+  min-height: var(--control-h);
+  padding: var(--sp-2) var(--sp-4);
+  border: var(--border-hairline) solid var(--c-border-control);
+  border-radius: var(--radius-3);
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+}
+
+.asp-suscripcion__campo::placeholder {
+  color: var(--c-text-faint);
+  opacity: 1;
+}
+
+.asp-suscripcion__boton[disabled] {
+  cursor: progress;
+}
+
+/* Trampa para robots: fuera de la vista y del orden de tabulación */
+.asp-suscripcion__trampa {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.asp-suscripcion__mensaje {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+}
+
+/* Recibe el foco solo por código, al cambiar el formulario por el aviso */
+.asp-suscripcion__mensaje:focus {
+  outline: none;
+}
+
+.asp-suscripcion__mensaje.is-error {
+  margin-top: var(--sp-3);
+  font-weight: var(--fw-semibold);
+}
+
+.asp-suscripcion__mensaje.is-exito {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+}
+
+/* Variante clara: cierra la agenda del inicio, separada por un filete */
+.asp-suscripcion--clara {
+  margin-top: var(--sp-7);
+  padding-top: var(--sp-6);
+  border-top: var(--border-hairline) solid var(--c-border);
+}
+
+/* Variante oscura: el pie */
+.asp-suscripcion--oscura .asp-suscripcion__titulo {
+  color: var(--c-dark-fg);
+}
+
+.asp-suscripcion--oscura .asp-suscripcion__bajada,
+.asp-suscripcion--oscura .asp-suscripcion__campo::placeholder {
+  color: var(--c-dark-muted);
+}
+
+.asp-suscripcion--oscura .asp-suscripcion__campo {
+  border-color: var(--c-dark-muted);
+  background: var(--c-dark-surface);
+  color: var(--c-dark-fg);
+}
+
+.asp-suscripcion--oscura .asp-suscripcion__mensaje {
+  color: var(--c-dark-fg);
+}
+
+.asp-suscripcion--oscura :focus-visible {
+  outline-color: var(--c-focus-ring-inverso);
+}
+
+.asp-footer__suscripcion {
+  padding-block: var(--sp-8) var(--sp-7);
+  background-image: linear-gradient(var(--c-dark-rule), var(--c-dark-rule));
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: calc(100% - 2 * var(--w-gutter)) var(--border-hairline);
+}
+
+@media (min-width: 768px) {
+  .asp-suscripcion__form {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .asp-suscripcion__campo {
+    flex: 1 1 var(--suscripcion-campo-min);
+    width: auto;
+  }
+
+  .asp-suscripcion__boton {
+    flex: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .asp-suscripcion {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--sp-8);
+    align-items: end;
+  }
+
+  .asp-footer__suscripcion {
+    padding-block: var(--sp-9) var(--sp-8);
+  }
+}
+
 /* Página genérica y 404 */
 .asp-pagina__titulo {
   font-size: var(--fs-2xl);
