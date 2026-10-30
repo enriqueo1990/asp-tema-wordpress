@@ -122,6 +122,8 @@
   /* --- Suscripción por mail (parts/suscripcion.php) ------------------- */
   --suscripcion-bajada-w: 52ch;
   --suscripcion-campo-min: 12rem;     /* nombre y email comparten fila con el botón desde tablet */
+  --suscribite-w: 34rem;              /* columna de /suscribite/ */
+  --suscribite-logo-h: 40px;
 
   /* --- Ficha del evento (single-evento.php, assets/css/ficha.css) ------ */
   /* Handoff de Claude Design (2-10-2026). Teléfono primero; escritorio

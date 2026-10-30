@@ -43,13 +43,15 @@ wp-content/themes/asp/
 │
 ├── templates/
 │   ├── page-nosotros.php        Nosotros: hero, qué nos une, consejo, Afirmaciones y Negaciones, próximo evento
-│   └── page-contacto.php        Contacto: email, redes y formulario
+│   ├── page-contacto.php        Contacto: email, redes y formulario
+│   └── page-suscribite.php      /suscribite/: logo, título, bajada y el formulario de Kit (para redes)
 │
 ├── parts/
 │   ├── header/site-header.php   logo, nav, acceso al próximo evento, menú móvil a pantalla completa;
 │   │                            transparente sobre la portada con foto y sólida al hacer scroll (app.js)
 │   ├── header/site-footer.php   suscripción, logo, nav, redes, email
-│   ├── suscripcion.php          Caja de suscripción a Kit: oscura en el pie, clara bajo la agenda del inicio
+│   ├── suscripcion.php          Caja de suscripción a Kit: oscura en el pie, clara bajo la agenda del inicio,
+│   │                            solo el formulario en /suscribite/ (el pie ahí no la repite)
 │   ├── evento/hero.php          Hero del inicio: foto con velo, versículo o eslogan, último evento
 │   ├── evento/card.php          Tarjeta de evento (listado); variante ancha en escritorio
 │   ├── evento/destacado.php     El próximo en /eventos/: banda azul noche a sangre, flyer grande y botón

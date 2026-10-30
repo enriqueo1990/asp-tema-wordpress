@@ -17,9 +17,11 @@ $asp_redes  = asp_redes();
 $asp_bajada = (string) get_bloginfo( 'description' );
 ?>
 <footer class="asp-footer">
-	<div class="asp-container asp-footer__suscripcion">
-		<?php get_template_part( 'parts/suscripcion', null, [ 'variante' => 'oscura' ] ); ?>
-	</div>
+	<?php if ( asp_suscripcion_en_pie() ) : ?>
+		<div class="asp-container asp-footer__suscripcion">
+			<?php get_template_part( 'parts/suscripcion', null, [ 'variante' => 'oscura' ] ); ?>
+		</div>
+	<?php endif; ?>
 	<div class="asp-container asp-footer__inner">
 		<div class="asp-footer__marca">
 			<?php asp_logo( 'asp-footer__logo' ); ?>
