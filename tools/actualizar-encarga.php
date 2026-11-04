@@ -15,7 +15,8 @@
  * ficha (_wp_old_slug del core).
  *
  * Idempotente: cada flyer (4:5 y apaisado) se sube solo si la ficha no lo
- * tiene, y un orador que ya existe se reusa sin pisarle lo cargado.
+ * tiene, y un orador que ya existe se reusa sin pisarle lo cargado (salvo
+ * los que llevan 'forzar': foto y texto que dio el usuario).
  *
  * Uso: php tools/actualizar-encarga.php
  */
@@ -38,7 +39,7 @@ const ASP_ENCARGA_INICIO = '20270212';
 
 $titulos_viejos = [ 'De generación en generación', 'Encarga' ];
 
-// Oradores que nombra Entrada27 («y más…»), más Lucas Alemán (4-11-2026). Joselo Mercado y Greg Travis ya
+// Oradores que nombra Entrada27 («y más…»), más Lucas Alemán y Dardo Leandi (4-11-2026). Joselo Mercado y Greg Travis ya
 // están cargados. Bio de Joel Beeke tal como la pasó el usuario, 9-10-2026.
 $oradores_datos = [
 	'Joel Beeke'     => [
@@ -66,6 +67,14 @@ $oradores_datos = [
 		'ciudad'  => 'North Hollywood, California',
 		'pais'    => 'Estados Unidos',
 		'bio'     => 'Lucas Alemán es director de educación en español y profesor de Antiguo Testamento en The Master’s Seminary. Tiene una licenciatura summa cum laude en idiomas bíblicos (B.A.) por The Master’s University, dos maestrías summa cum laude (M.Div. y Th.M.) y un doctorado (Ph.D.) por The Master’s Seminary. Actualmente sirve no solo como director ejecutivo de la Sociedad Teológica Cristiana sino también como director de los ministerios en español de The Master’s Fellowship. Es anciano en la Iglesia Bíblica Berea en North Hollywood, California, y el editor general y uno de los autores de La hermenéutica de Cristo así como uno de los contribuidores de la serie En ti confiaré y El orgullo. Nacido en Buenos Aires, Argentina, Lucas emigró a los Estados Unidos en el 2008, donde conoció a su esposa Clara de origen brasileño. Juntos tienen tres hijos, Elias Agustín, Enoc Emanuel y Emet Gabriel.',
+	],
+	// Ya estaba cargado como miembro del consejo, con una bio redactada de
+	// fuentes públicas y la foto de 2019. Foto y bio tal como las pasó el
+	// usuario, 4-11-2026: 'forzar' las pone en lugar de las que tenga.
+	'Dardo Leandi'   => [
+		'forzar' => true,
+		'foto'   => 'fotos-personas/dardo-leandi.jpg',
+		'bio'    => 'Dardo Leandi es pastor de la Iglesia Bautista Misionera – Ciudad Autónoma de Buenos Aires (Argentina) y miembro del consejo de Ante Su Palabra, una alianza entre iglesias y hermanos de Argentina para promover la sana doctrina.',
 	],
 ];
 
@@ -117,7 +126,8 @@ foreach ( $titulos_viejos as $titulo ) {
 $oradores = $id ? array_map( 'strval', (array) get_post_meta( $id, 'evento_oradores', false ) ) : [];
 foreach ( $oradores_datos as $nombre => $datos ) {
 	$foto   = $datos['foto'] ?? '';
-	$campos = array_diff_key( $datos, [ 'foto' => 1 ] );
+	$forzar = ! empty( $datos['forzar'] );
+	$campos = array_diff_key( $datos, [ 'foto' => 1, 'forzar' => 1 ] );
 	$pid    = $por_titulo( 'persona', $nombre );
 	if ( ! $pid ) {
 		$apellido = (string) substr( $nombre, (int) strrpos( $nombre, ' ' ) + 1 );
@@ -143,14 +153,19 @@ foreach ( $oradores_datos as $nombre => $datos ) {
 		add_post_meta( $pid, 'persona_roles', 'orador' );
 		echo "Persona #{$pid} {$nombre}: + rol Orador\n";
 	}
-	// Solo se completan los campos vacíos; a quien ya tiene foto no se le cambia.
+	// Solo se completan los campos vacíos y a quien ya tiene foto no se le
+	// cambia, salvo con 'forzar' (foto o texto que dio el usuario).
 	foreach ( $campos as $campo => $valor ) {
-		if ( '' === (string) get_post_meta( $pid, 'persona_' . $campo, true ) ) {
-			update_post_meta( $pid, 'persona_' . $campo, 'bio' === $campo ? sanitize_textarea_field( $valor ) : sanitize_text_field( $valor ) );
+		$valor  = 'bio' === $campo ? sanitize_textarea_field( $valor ) : sanitize_text_field( $valor );
+		$actual = (string) get_post_meta( $pid, 'persona_' . $campo, true );
+		if ( '' === $actual || ( $forzar && $actual !== $valor ) ) {
+			update_post_meta( $pid, 'persona_' . $campo, $valor );
 			echo "Persona #{$pid} {$nombre}: {$campo}\n";
 		}
 	}
-	if ( $foto && is_readable( __DIR__ . '/' . $foto ) && ! absint( get_post_meta( $pid, 'persona_foto', true ) ) ) {
+	$foto_actual = absint( get_post_meta( $pid, 'persona_foto', true ) );
+	$foto_es_esa = $foto_actual && str_starts_with( basename( (string) get_attached_file( $foto_actual ) ), pathinfo( $foto, PATHINFO_FILENAME ) );
+	if ( $foto && is_readable( __DIR__ . '/' . $foto ) && ( ! $foto_actual || ( $forzar && ! $foto_es_esa ) ) ) {
 		$tmp = wp_tempnam( basename( $foto ) );
 		copy( __DIR__ . '/' . $foto, $tmp );
 		$adj = media_handle_sideload( [ 'name' => basename( $foto ), 'tmp_name' => $tmp ], $pid, $nombre );

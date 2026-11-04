@@ -4,7 +4,7 @@
  *
  * Bios de Travis y Mercado tal como las pasó el usuario el 9-10-2026 (ya en
  * producción vía actualizar-encarga.php; acá para que local las tenga). Las
- * de Leandi, Daglio y Oriolo se redactaron a partir de fuentes públicas:
+ * de Daglio y Oriolo (y la primera de Leandi) se redactaron a partir de fuentes públicas:
  * fichas de autor de Coalición por el Evangelio, bios de la conferencia 2019
  * en 9Marcas, endos.network, fichas de misioneros de SERVE (Denton Bible
  * Church) y las páginas de liderazgo de ibdelagracia.com e ibciudaddedios.com.
@@ -29,9 +29,11 @@ $consejo = [
 		'web' => 'https://iglesiabiblicareformada.com/',
 		'bio' => 'Greg Travis es miembro del concilio de Coalición por el Evangelio. Actualmente sirve como misionero de SERVE y es plantador y pastor de la Iglesia Bíblica Reformada Denton, Texas (Estados Unidos). Tiene una maestría del Dallas Theological Seminary, y su pasión es ayudar a pastores, plantadores e iglesias locales a ser más saludables. Está casado con Carolina, y juntos tienen tres hijos: Alaina, Wendy y Thiago.',
 	],
+	// Bio tal como la pasó el usuario el 4-11-2026 (reemplaza la redactada de fuentes públicas).
 	'Dardo Leandi'       => [
-		'web' => 'https://www.ibmdecaba.com.ar/',
-		'bio' => 'Dardo Leandi es pastor de la Iglesia Bautista Misionera de la Ciudad de Buenos Aires y cofundador de Ante Su Palabra. Pastorea desde 1998 y planta iglesias desde 2005: durante más de trece años pastoreó la Iglesia Bautista Misionera de Campana, y hoy trabaja en la revitalización y plantación de la iglesia en Buenos Aires. Cursa una maestría en Estudios Teológicos en el Seminario Bíblico William Carey. Está casado con Nancy y tienen dos hijos, Josías y Santiago.',
+		'web'    => 'https://www.ibmdecaba.com.ar/',
+		'bio'    => 'Dardo Leandi es pastor de la Iglesia Bautista Misionera – Ciudad Autónoma de Buenos Aires (Argentina) y miembro del consejo de Ante Su Palabra, una alianza entre iglesias y hermanos de Argentina para promover la sana doctrina.',
+		'forzar' => true,
 	],
 	'Ernesto Harris'     => [
 		'web' => 'https://www.ibmcampana.com.ar/',
