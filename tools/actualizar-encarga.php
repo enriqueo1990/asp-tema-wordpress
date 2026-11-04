@@ -38,7 +38,7 @@ const ASP_ENCARGA_INICIO = '20270212';
 
 $titulos_viejos = [ 'De generación en generación', 'Encarga' ];
 
-// Oradores que nombra Entrada27 («y más…»). Joselo Mercado y Greg Travis ya
+// Oradores que nombra Entrada27 («y más…»), más Lucas Alemán (4-11-2026). Joselo Mercado y Greg Travis ya
 // están cargados. Bio de Joel Beeke tal como la pasó el usuario, 9-10-2026.
 $oradores_datos = [
 	'Joel Beeke'     => [
@@ -56,6 +56,16 @@ $oradores_datos = [
 	// Bio tal como la pasó el usuario, 9-10-2026.
 	'Greg Travis'    => [
 		'bio' => 'Greg Travis es miembro del concilio de Coalición por el Evangelio. Actualmente sirve como misionero de SERVE y es plantador y pastor de la Iglesia Bíblica Reformada Denton, Texas (Estados Unidos). Tiene una maestría del Dallas Theological Seminary, y su pasión es ayudar a pastores, plantadores e iglesias locales a ser más saludables. Está casado con Carolina, y juntos tienen tres hijos: Alaina, Wendy y Thiago.',
+	],
+	// Foto y bio tal como las pasó el usuario, 4-11-2026. Cargo, iglesia y
+	// ciudad salen de la misma bio.
+	'Lucas Alemán'   => [
+		'foto'    => 'fotos-personas/lucas-aleman.jpg',
+		'cargo'   => 'Anciano',
+		'iglesia' => 'Iglesia Bíblica Berea',
+		'ciudad'  => 'North Hollywood, California',
+		'pais'    => 'Estados Unidos',
+		'bio'     => 'Lucas Alemán es director de educación en español y profesor de Antiguo Testamento en The Master’s Seminary. Tiene una licenciatura summa cum laude en idiomas bíblicos (B.A.) por The Master’s University, dos maestrías summa cum laude (M.Div. y Th.M.) y un doctorado (Ph.D.) por The Master’s Seminary. Actualmente sirve no solo como director ejecutivo de la Sociedad Teológica Cristiana sino también como director de los ministerios en español de The Master’s Fellowship. Es anciano en la Iglesia Bíblica Berea en North Hollywood, California, y el editor general y uno de los autores de La hermenéutica de Cristo así como uno de los contribuidores de la serie En ti confiaré y El orgullo. Nacido en Buenos Aires, Argentina, Lucas emigró a los Estados Unidos en el 2008, donde conoció a su esposa Clara de origen brasileño. Juntos tienen tres hijos, Elias Agustín, Enoc Emanuel y Emet Gabriel.',
 	],
 ];
 
