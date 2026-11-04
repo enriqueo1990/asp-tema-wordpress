@@ -164,7 +164,9 @@ foreach ( $oradores_datos as $nombre => $datos ) {
 		}
 	}
 	$foto_actual = absint( get_post_meta( $pid, 'persona_foto', true ) );
-	$foto_es_esa = $foto_actual && str_starts_with( basename( (string) get_attached_file( $foto_actual ) ), pathinfo( $foto, PATHINFO_FILENAME ) );
+	// La foto que subió este script lleva la huella del archivo: si es la misma, no se vuelve a subir.
+	$huella      = $foto && is_readable( __DIR__ . '/' . $foto ) ? (string) md5_file( __DIR__ . '/' . $foto ) : '';
+	$foto_es_esa = $foto_actual && $huella === (string) get_post_meta( $foto_actual, '_asp_foto_huella', true );
 	if ( $foto && is_readable( __DIR__ . '/' . $foto ) && ( ! $foto_actual || ( $forzar && ! $foto_es_esa ) ) ) {
 		$tmp = wp_tempnam( basename( $foto ) );
 		copy( __DIR__ . '/' . $foto, $tmp );
@@ -174,6 +176,7 @@ foreach ( $oradores_datos as $nombre => $datos ) {
 			echo "Persona #{$pid} {$nombre}: {$adj->get_error_message()}\n";
 		} else {
 			update_post_meta( $adj, '_wp_attachment_image_alt', $nombre );
+			update_post_meta( $adj, '_asp_foto_huella', $huella );
 			update_post_meta( $pid, 'persona_foto', $adj );
 			echo "Persona #{$pid} {$nombre}: foto #{$adj}\n";
 		}
