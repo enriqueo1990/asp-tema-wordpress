@@ -59,8 +59,10 @@ $oradores_datos = [
 		'bio' => 'Greg Travis es miembro del concilio de Coalición por el Evangelio. Actualmente sirve como misionero de SERVE y es plantador y pastor de la Iglesia Bíblica Reformada Denton, Texas (Estados Unidos). Tiene una maestría del Dallas Theological Seminary, y su pasión es ayudar a pastores, plantadores e iglesias locales a ser más saludables. Está casado con Carolina, y juntos tienen tres hijos: Alaina, Wendy y Thiago.',
 	],
 	// Foto y bio tal como las pasó el usuario, 4-11-2026. Cargo, iglesia y
-	// ciudad salen de la misma bio.
+	// ciudad salen de la misma bio. Foto nueva del usuario, 16-11-2026:
+	// 'forzar' la pone en lugar de la anterior.
 	'Lucas Alemán'   => [
+		'forzar'  => true,
 		'foto'    => 'fotos-personas/lucas-aleman.jpg',
 		'cargo'   => 'Anciano',
 		'iglesia' => 'Iglesia Bíblica Berea',
