@@ -866,7 +866,19 @@ function asp_portada_foto(): string {
 	if ( ! $id ) {
 		return '';
 	}
-	return (string) wp_get_attachment_image( $id, 'full', false, [ 'class' => 'asp-portada__foto', 'loading' => 'eager', 'fetchpriority' => 'high' ] );
+	return (string) wp_get_attachment_image( $id, 'full', false, [ 'class' => 'asp-portada__foto', 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => asp_portada_sizes() ] );
+}
+
+/**
+ * Atributo sizes de la foto de fondo del hero. Con la pantalla vertical la
+ * foto cubre el alto (object-fit: cover) y se ve mucho más ancha que la
+ * pantalla: con el «100vw» por defecto, el teléfono bajaba la versión de
+ * 800 px y la estiraba hasta pixelarla (16-11-2026).
+ *
+ * @return string
+ */
+function asp_portada_sizes(): string {
+	return '(max-aspect-ratio: 1/1) 200vh, 100vw';
 }
 
 /**

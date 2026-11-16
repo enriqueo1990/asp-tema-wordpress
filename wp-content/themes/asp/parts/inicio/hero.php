@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 $asp_evento = asp_evento_hero();
 $asp_ident  = asp_inicio_identidad();
 $asp_nombre = get_bloginfo( 'name' );
-$asp_foto   = asp_inicio_foto_id() ? (string) wp_get_attachment_image( asp_inicio_foto_id(), 'full', false, [ 'class' => 'asp-portada__foto', 'loading' => 'eager', 'fetchpriority' => 'high', 'alt' => '' ] ) : '';
+$asp_foto   = asp_inicio_foto_id() ? (string) wp_get_attachment_image( asp_inicio_foto_id(), 'full', false, [ 'class' => 'asp-portada__foto', 'loading' => 'eager', 'fetchpriority' => 'high', 'alt' => '', 'sizes' => asp_portada_sizes() ] ) : '';
 $asp_d      = $asp_evento ? asp_inicio_hero_datos( $asp_evento->ID ) : null;
 ?>
 <section class="asp-portada asp-inicio-hero<?php echo $asp_d ? ' asp-inicio-hero--evento' : ''; ?>" aria-labelledby="<?php echo $asp_d ? 'inicio-evento' : 'inicio-identidad'; ?>">
