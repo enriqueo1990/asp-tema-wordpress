@@ -272,3 +272,26 @@ if ( ! $flyer ) {
 		echo "Evento #{$id}: flyer #{$flyer}\n";
 	}
 }
+
+/* Foto de fondo del hero del inicio: Joel Beeke en el púlpito, con su
+   intérprete. La pasó el usuario el 16-11-2026, recortada más cerca de él.
+   Se reconoce por la huella del archivo, como las fotos de los oradores:
+   si cambia el archivo, la nueva reemplaza a la anterior. */
+$foto_inicio = __DIR__ . '/fotos-eventos/encarga-inicio.jpg';
+if ( is_readable( $foto_inicio ) ) {
+	$huella = (string) md5_file( $foto_inicio );
+	$actual = absint( get_post_meta( $id, 'evento_foto', true ) );
+	if ( ! $actual || get_post_meta( $actual, '_asp_foto_huella', true ) !== $huella ) {
+		$tmp = wp_tempnam( 'encarga-inicio.jpg' );
+		copy( $foto_inicio, $tmp );
+		$adj = media_handle_sideload( [ 'name' => 'encarga-inicio.jpg', 'tmp_name' => $tmp ], $id, 'Joel Beeke predicando · Encarga' );
+		if ( is_wp_error( $adj ) ) {
+			wp_delete_file( $tmp );
+			echo "encarga-inicio.jpg: {$adj->get_error_message()}\n";
+		} else {
+			update_post_meta( $adj, '_asp_foto_huella', $huella );
+			update_post_meta( $id, 'evento_foto', $adj );
+			echo "Evento #{$id}: foto del inicio #{$adj}\n";
+		}
+	}
+}
