@@ -39,7 +39,7 @@ const ASP_ENCARGA_INICIO = '20270212';
 
 $titulos_viejos = [ 'De generación en generación', 'Encarga' ];
 
-// Oradores que nombra Entrada27 («y más…»), más Lucas Alemán y Dardo Leandi (4-11-2026). Joselo Mercado y Greg Travis ya
+// Oradores que nombra Entrada27 («y más…»), más Lucas Alemán y Dardo Leandi (4-11-2026) y Ricardo Daglio (26-11-2026). Joselo Mercado y Greg Travis ya
 // están cargados. Bio de Joel Beeke tal como la pasó el usuario, 9-10-2026.
 $oradores_datos = [
 	'Joel Beeke'     => [
@@ -78,6 +78,9 @@ $oradores_datos = [
 		'foto'   => 'fotos-personas/dardo-leandi.jpg',
 		'bio'    => 'Dardo Leandi es pastor de la Iglesia Bautista Misionera – Ciudad Autónoma de Buenos Aires (Argentina) y miembro del consejo de Ante Su Palabra, una alianza entre iglesias y hermanos de Argentina para promover la sana doctrina.',
 	],
+	// Pedido del usuario, 26-11-2026. Ya está cargado como miembro del
+	// consejo, con foto y bio: se reusa tal cual, solo suma el rol Orador.
+	'Ricardo Daglio' => [],
 ];
 
 $taller = get_page_by_path( '1-samuel-denton', OBJECT, 'evento' );
